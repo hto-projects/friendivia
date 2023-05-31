@@ -23,7 +23,6 @@ export default function JoinForm(props: IJoinFormProps) {
 
   const joinInputs = (
     <>
-      <h1>Friendpardy</h1>
       <p>Enter your name to join the game:</p>
       <TextField
         id="name"

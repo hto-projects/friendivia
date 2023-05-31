@@ -7,6 +7,18 @@ import IPlayer from '../../back-end/interfaces/IPlayer';
 import Button from '@mui/material/Button';
 
 export default function App() {
+  React.useEffect(() => {
+    function onNext() {
+      window.location.reload();
+    }
+
+    socket.on('next', onNext);
+
+    return () => {
+      socket.off('next', onNext);
+    }
+  }, []);
+
   return (
     <>
       <BrowserRouter>

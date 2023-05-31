@@ -1,7 +1,8 @@
 import hostDb from '../db/host.ts';
 import playerDb from '../db/player.ts';
+import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
-export default (socket) => {
+export default (io, socket) => {
   const onHostStart = async () => {
     try {
       const newGameId = await hostDb.hostNewGame();
@@ -40,7 +41,18 @@ export default (socket) => {
     }
   };
 
+  const onHostGoToQuestionnaire = async (gameId) => {
+    try {
+      await hostDb.moveGameToQuestionnaire(gameId);
+      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire);
+      io.emit('next', gameId);
+    } catch (e) {
+      console.error(`Failed to go to questionnaire: ${e}`)
+    }
+  }
+
   socket.on('host-start', onHostStart);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
+  socket.on('host-go-to-questionnaire', onHostGoToQuestionnaire);
 }

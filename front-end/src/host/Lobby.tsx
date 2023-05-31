@@ -27,5 +27,5 @@ export default function Lobby(props: ILobbyProps) {
     }
   }, [players, setPlayers]);
 
-  return <LobbyView playerNames={players.map(p => p.name)} gameId={gameId} />;
+  return <LobbyView playerNames={players.map(p => p.name)} gameId={gameId} socket={socket} />;
 }

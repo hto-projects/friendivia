@@ -33,7 +33,7 @@ mongoose.connect(db, dbSettings)
 
 const onSocketConnect = socket => {
   registerPlayerHandlers(io, socket);
-  registerHostHandlers(socket);
+  registerHostHandlers(io, socket);
 }
 
 io.on('connection', onSocketConnect);

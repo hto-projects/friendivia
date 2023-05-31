@@ -1,6 +1,8 @@
 enum PlayerStates {
   Init = 'init',
-  JoinedWaiting = 'joined-waiting'
+  JoinedWaiting = 'joined-waiting',
+  FillingQuestionnaire = 'filling-questionnaire',
+  DoneWithQuestionnaireWaiting = 'done-with-questionnaire-waiting'
 }
 
 interface IPlayerState {

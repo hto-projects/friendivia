@@ -2,6 +2,7 @@ import React from 'react';
 import Lobby from './Lobby';
 import { Socket } from 'socket.io-client';
 import Start from './Start';
+import HostQuestionnaire from './HostQuestionnaire';
 
 interface IHostProps {
   socket: Socket
@@ -36,5 +37,20 @@ export default function HostApp(props: IHostProps) {
     }
   }, [gameId, setGameId, gameState, setGameState]);
 
-  return gameState === 'init' ? <Start socket={socket} /> : <Lobby socket={socket} gameId={gameId} />;
+  function getElementForState(state: string) {
+    if (state === 'lobby') {
+      return <Lobby socket={socket} gameId={gameId} />;
+    } else if (state === 'questionnaire') {
+      return <HostQuestionnaire socket={socket} />;
+    } else {
+      return <Start socket={socket} />;
+    }
+  }
+
+  return (
+    <>
+    <h1 style={{color: 'darkblue'}}>Friendpardy</h1>
+      {getElementForState(gameState)}
+    </>
+  );
 }

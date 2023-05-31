@@ -1,6 +1,7 @@
 enum GameStates {
   Init = 'init',
   Lobby = 'lobby',
+  Questionnaire = 'questionnaire',
   Inactive = 'inactive'
 }
 

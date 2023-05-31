@@ -47,6 +47,14 @@ const getPlayer = async (playerId): Promise<any> => {
   }
 }
 
+const updateAllPlayerStates = async (gameId: number, newState: PlayerStates): Promise<any> => {
+  try {
+    await Player.updateMany({gameId: gameId}, { $set: { 'playerState.state': newState } });
+  } catch (e) {
+    console.error(`Issue updating all player states: ${e}`);
+  }
+}
+
 const deleteAllPlayers = async (): Promise<any> => {
   try {
     await Player.deleteMany({});
@@ -55,4 +63,4 @@ const deleteAllPlayers = async (): Promise<any> => {
   }
 };
 
-export default { getPlayers, addPlayer, deleteAllPlayers, getPlayer };
+export default { getPlayers, addPlayer, deleteAllPlayers, getPlayer, updateAllPlayerStates };

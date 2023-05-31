@@ -45,6 +45,16 @@ const getGameData = async (gameId: number): Promise<IGame | null> => {
   }
 };
 
+const moveGameToQuestionnaire = async (gameId: number): Promise<any> => {
+  try {
+    await Game.updateOne({id: gameId}, {
+      $set: { 'gameState.state': 'questionnaire' }
+    });
+  } catch (e) {
+    console.error(`Issue moving game to questionnaire: ${e}`);
+  }
+}
+
 const deleteAllGames = async (): Promise<any> => {
   try {
     await Game.deleteMany({});
@@ -53,4 +63,4 @@ const deleteAllGames = async (): Promise<any> => {
   }
 };
 
-export default { getAllGameIds, hostNewGame, deleteAllGames, getGameData };
+export default { getAllGameIds, hostNewGame, deleteAllGames, getGameData, moveGameToQuestionnaire };
