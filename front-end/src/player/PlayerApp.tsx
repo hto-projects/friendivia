@@ -1,0 +1,32 @@
+import React from 'react';
+import Join from './Join';
+import { Socket } from 'socket.io-client';
+
+interface PlayerAppProps {
+  socket: Socket
+}
+
+export default function PlayerApp(props: PlayerAppProps) {
+  const playerIdFromStorage = localStorage.getItem('player-id') || '';
+  const [playerState, setPlayerState] = React.useState('');
+
+  const { socket } = props;
+
+  if (!playerState) {
+    socket.emit('player-load', playerIdFromStorage);
+  }
+
+  React.useEffect(() => {
+    function onLoadSuccess(data: any) {
+      setPlayerState(data.playerState.state);
+    }
+  
+    socket.on('player-load-success', onLoadSuccess);
+
+    return () => {
+      socket.off('player-load-success', onLoadSuccess);
+    }
+  }, [playerState, setPlayerState]);
+
+  return <Join socket={socket} playerState={playerState} />;
+}

@@ -1,0 +1,38 @@
+{
+  "name": "friendpardy-front-end",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.3",
+    "@types/react": "18.2.7",
+    "@types/react-dom": "18.2.4",
+    "axios": "^1.4.0",
+    "back-end": "file:../back-end",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "^6.11.2",
+    "socket.io-client": "^4.6.1",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start"
+  },
+  "proxy": "http://localhost:4000",
+  "devDependencies": {
+    "react-scripts": "^2.1.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
