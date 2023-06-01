@@ -1,6 +1,9 @@
 # Friendpardy!
 An online party game where participants have to answer questions about themselves, and then try to guess their friends' answers to the same questions.
 
+## Gameplay
+Check out the [experience page](Planning/Experience.md) for more information about how the game is played.
+
 ## Development Setup
 This repository is a [monorepo](https://en.wikipedia.org/wiki/Monorepo), meaning that it contains multiple software projects. In this case, there is both a **front-end** and a **back-end**. In order to run the entire application, it will be necessary to run both the front-end _and_ the back-end projects.
 
