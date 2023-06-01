@@ -41,3 +41,7 @@ io.on('connection', onSocketConnect);
 http.listen(4000, () => {
   console.log(`Server listening on 4000`);
 });
+
+app.get("/up-check", (req, res) => {
+  res.status(200).end();
+});
