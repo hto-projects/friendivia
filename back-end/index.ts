@@ -23,10 +23,9 @@ const db = process.env['MONGO_URI'] || '';
 const dbSettings = {
 	useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: "friendpardy-1"
-}
+  dbName: process.env['DB_NAME'] || "friendpardy-test"
+};
 
-// connect to mongodb
 mongoose.connect(db, dbSettings)
   .then(() => console.error("MongoDB successfully connected"))
   .catch(err => console.error(err));
