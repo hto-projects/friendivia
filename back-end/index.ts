@@ -42,6 +42,7 @@ http.listen(4000, () => {
   console.log(`Server listening on 4000`);
 });
 
-app.get("/up-check", (req, res) => {
+app.get("/up-check", (req: any, res: any) => {
+  res.send(req);
   res.status(200).end();
 });
