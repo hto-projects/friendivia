@@ -1,3 +1,9 @@
+declare var process : {
+  env: {
+    REACT_APP_BACK_END_URL: string
+  }
+}
+
 import { io } from 'socket.io-client';
-const URL = 'http://localhost:4000';
+const URL = process.env['REACT_APP_BACK_END_URL'] || "localhost:4000";
 export const socket = io(URL);
