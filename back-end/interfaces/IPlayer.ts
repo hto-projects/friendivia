@@ -7,5 +7,6 @@ export default interface IPlayer {
 	quizGuesses: number[],
   score: number,
 	gameId: number,
-	playerState: IPlayerState
+	playerState: IPlayerState,
+	playerSocketId: string
 }

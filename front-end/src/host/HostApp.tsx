@@ -30,10 +30,12 @@ export default function HostApp(props: IHostProps) {
   
     socket.on('host-start-success', onStartSuccess);
     socket.on('host-load-success', onLoadSuccess);
+    socket.on('host-next', onLoadSuccess);
 
     return () => {
       socket.off('host-start-success', onStartSuccess);
       socket.off('host-load-success', onLoadSuccess);
+      socket.off('host-next', onLoadSuccess);
     }
   }, [gameId, setGameId, gameState, setGameState]);
 

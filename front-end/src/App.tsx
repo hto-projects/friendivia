@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { socket } from './socket';
 import PlayerApp from './player/PlayerApp';
 import HostApp from './host/HostApp'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import IPlayer from '../../back-end/interfaces/IPlayer';
 import Button from '@mui/material/Button';
 
 export default function App() {
-  React.useEffect(() => {
-    function onNext() {
-      window.location.reload();
-    }
-
-    socket.on('next', onNext);
-
-    return () => {
-      socket.off('next', onNext);
-    }
-  }, []);
-
   return (
     <>
       <BrowserRouter>

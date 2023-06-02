@@ -8,7 +8,8 @@ const playerSchema = new Schema<IPlayer>({
 	quizGuesses: [{ type: Number }],
   score: { type: Number, required: true },
   gameId: { type: Number, required: true },
-  playerState: { type: Object, required: true }
+  playerState: { type: Object, required: true },
+  playerSocketId: { type: String, required: true }
 });
 
 const Player = model<IPlayer>('Player', playerSchema);

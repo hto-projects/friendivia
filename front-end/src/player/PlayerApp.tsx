@@ -23,9 +23,11 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   
     socket.on('player-load-success', onLoadSuccess);
+    socket.on('player-next', onLoadSuccess);
 
     return () => {
       socket.off('player-load-success', onLoadSuccess);
+      socket.off('player-next', onLoadSuccess);
     }
   }, [playerState, setPlayerState]);
 

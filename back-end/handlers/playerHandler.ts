@@ -1,6 +1,7 @@
+import { Socket } from 'socket.io';
 import playerDb from '../db/player.ts';
 
-export default (io, socket) => {
+export default (io, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
     try {
       const name = data.name;
@@ -9,7 +10,7 @@ export default (io, socket) => {
       if (playerWithNameAlreadyExists) {
         socket.emit('join-error', 'A player with that name has already joined.');
       } else {
-        const newPlayerId = await playerDb.addPlayer(name, gameId);
+        const newPlayerId = await playerDb.addPlayer(name, gameId, socket.id);
         const allPlayersInGame = await playerDb.getPlayers(gameId);
         io.emit('players-updated', {
           gameId: gameId,

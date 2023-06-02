@@ -13,7 +13,7 @@ const getPlayers = async (gameId: number): Promise<IPlayer[]> => {
   }
 };
 
-const addPlayer = async (playerName: string, gameId: number): Promise<string> => {
+const addPlayer = async (playerName: string, gameId: number, socketId: string): Promise<string> => {
   try {
     const playerId = `player_${uuid.v4()}`;
     const newPlayerObject: IPlayer = {
@@ -26,7 +26,8 @@ const addPlayer = async (playerName: string, gameId: number): Promise<string> =>
       playerState: {
         state: PlayerStates.JoinedWaiting,
         message: ""
-      }
+      },
+      playerSocketId: socketId
     }
     
     const newPlayer = new Player(newPlayerObject);
@@ -47,9 +48,13 @@ const getPlayer = async (playerId): Promise<any> => {
   }
 }
 
-const updateAllPlayerStates = async (gameId: number, newState: PlayerStates): Promise<any> => {
+const updateAllPlayerStates = async (gameId: number, newState: PlayerStates, io): Promise<any> => {
   try {
     await Player.updateMany({gameId: gameId}, { $set: { 'playerState.state': newState } });
+    const allPlayers = await Player.find({gameId: gameId});
+    for (const player of allPlayers) {
+      io.to(player.playerSocketId).emit('player-next', player);
+    }
   } catch (e) {
     console.error(`Issue updating all player states: ${e}`);
   }

@@ -12,7 +12,7 @@ const getAllGameIds = async (): Promise<number[]> => {
   }
 };
 
-const hostNewGame = async (): Promise<number> => {
+const hostNewGame = async (socketId: string): Promise<number> => {
   try {
     const allGameIds = await getAllGameIds();
     const maxId = allGameIds.length && Math.max(...allGameIds);
@@ -22,7 +22,8 @@ const hostNewGame = async (): Promise<number> => {
       gameState: {
         state: GameStates.Lobby,
         message: ''
-      }
+      },
+      hostSocketId: socketId
     };
 
     const newGame = new Game(newGameObject);
