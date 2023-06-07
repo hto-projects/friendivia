@@ -3,15 +3,15 @@ import '../style.css';
 import { Button } from '@mui/material';
 import { Socket } from 'socket.io-client';
 
-interface IStartProps {
+interface IOpenProps {
   socket: Socket
 }
 
-export default function Start(props: IStartProps) {
+export default function HostOpen(props: IOpenProps) {
   const { socket } = props;
 
   async function onHost() {
-    socket.emit('host-start');
+    socket.emit('host-open');
   }
 
   return (

@@ -12,8 +12,8 @@ interface ILobbyViewProps {
 export default function LobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
-  async function onGo() {
-    socket.emit('host-go-to-questionnaire', gameId);
+  async function onStart() {
+    socket.emit('host-start', gameId);
   }
 
   return (
@@ -25,7 +25,7 @@ export default function LobbyView(props: ILobbyViewProps) {
           <li>{name}</li>
         ))}
       </ul>
-      <Button onClick={onGo}>Go to Questionnaire</Button>
+      <Button onClick={onStart}>Start</Button>
     </>
   );
 }

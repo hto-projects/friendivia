@@ -1,7 +1,7 @@
 import React from 'react';
 import Lobby from './Lobby';
 import { Socket } from 'socket.io-client';
-import Start from './Start';
+import HostOpen from './Open';
 import HostQuestionnaire from './HostQuestionnaire';
 
 interface IHostProps {
@@ -22,18 +22,18 @@ export default function HostApp(props: IHostProps) {
       setGameState(data.gameState.state);
     }
 
-    function onStartSuccess(idFromServer: number) {
+    function onOpenSuccess(idFromServer: number) {
       setGameId(idFromServer);
       localStorage.setItem('game-id', `${idFromServer}`);
       setGameState('lobby');
     }
   
-    socket.on('host-start-success', onStartSuccess);
+    socket.on('host-open-success', onOpenSuccess);
     socket.on('host-load-success', onLoadSuccess);
     socket.on('host-next', onLoadSuccess);
 
     return () => {
-      socket.off('host-start-success', onStartSuccess);
+      socket.off('host-open-success', onOpenSuccess);
       socket.off('host-load-success', onLoadSuccess);
       socket.off('host-next', onLoadSuccess);
     }
@@ -45,7 +45,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === 'questionnaire') {
       return <HostQuestionnaire socket={socket} />;
     } else {
-      return <Start socket={socket} />;
+      return <HostOpen socket={socket} />;
     }
   }
 

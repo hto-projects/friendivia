@@ -12,7 +12,7 @@ const getAllGameIds = async (): Promise<number[]> => {
   }
 };
 
-const hostNewGame = async (socketId: string): Promise<number> => {
+const hostOpenGame = async (socketId: string): Promise<number> => {
   try {
     const allGameIds = await getAllGameIds();
     const maxId = allGameIds.length && Math.max(...allGameIds);
@@ -64,4 +64,4 @@ const deleteAllGames = async (): Promise<any> => {
   }
 };
 
-export default { getAllGameIds, hostNewGame, deleteAllGames, getGameData, moveGameToQuestionnaire };
+export default { getAllGameIds, hostOpenGame, deleteAllGames, getGameData, moveGameToQuestionnaire };

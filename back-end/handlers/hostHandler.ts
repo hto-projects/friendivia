@@ -5,12 +5,12 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IGame from '../interfaces/IGame.ts';
 
 export default (io, socket: Socket) => {
-  const onHostStart = async () => {
+  const onHostOpen = async () => {
     try {
-      const newGameId = await hostDb.hostNewGame(socket.id);
-      socket.emit('host-start-success', newGameId);
+      const newGameId = await hostDb.hostOpenGame(socket.id);
+      socket.emit('host-open-success', newGameId);
     } catch (e) {
-      socket.emit('host-start-error', e);
+      socket.emit('host-open-error', e);
     }
   };
 
@@ -43,7 +43,7 @@ export default (io, socket: Socket) => {
     }
   };
 
-  const onHostGoToQuestionnaire = async (gameId) => {
+  const onHostStart = async (gameId) => {
     try {
       await hostDb.moveGameToQuestionnaire(gameId);
       await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io);
@@ -54,8 +54,8 @@ export default (io, socket: Socket) => {
     }
   }
 
-  socket.on('host-start', onHostStart);
+  socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
-  socket.on('host-go-to-questionnaire', onHostGoToQuestionnaire);
+  socket.on('host-start', onHostStart);
 }
