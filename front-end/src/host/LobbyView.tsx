@@ -19,7 +19,7 @@ export default function LobbyView(props: ILobbyViewProps) {
   return (
     <>
       <p>Game ID: {gameId}</p>
-      <p>These players have joined the game:</p>
+      <p>These player have joined the game:</p>
       <ul>
         {playerNames.map((name: String) => (
           <li>{name}</li>

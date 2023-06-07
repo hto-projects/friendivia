@@ -16,7 +16,7 @@ export default function HostQuestionnaire(props: IHostQuestionnaireProps) {
 
   return (
     <>
-      <p>We are waiting for everyone to complete the questionnaire.</p>
+      <p>We are waiting for everyone to compete the questionnaire.</p>
       <Button variant="contained" onClick={onDoThis}>Do This</Button>
     </>
   );

@@ -16,7 +16,7 @@ export default function Start(props: IStartProps) {
 
   return (
     <>
-      <p>Click below to host a new game:</p>
+      <p>Click below to hot a new game:</p>
       <Button variant="contained" onClick={onHost}>Host</Button>
     </>
   );
