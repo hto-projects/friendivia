@@ -57,7 +57,7 @@ $ npm run start
 [nodemon] watching path(s): *.*
 [nodemon] watching extensions: ts,json
 [nodemon] starting `ts-node-esm index.ts`
-Server listening on 4000
+Server listening on 4001
 MongoDB successfully connected
 ```
 
@@ -70,9 +70,9 @@ Like the back-end, the front-end has some necessary configuration settings. Thes
 Create a new file named **.env** in the **front-end** folder with these contents:
 
 ```
-HTTP_PROXY="http://localhost:4000"
-HTTPS_PROXY="http://localhost:4000"
-REACT_APP_BACK_END_URL="http://localhost:4000"
+HTTP_PROXY="http://localhost:4001"
+HTTPS_PROXY="http://localhost:4001"
+REACT_APP_BACK_END_URL="http://localhost:4001"
 ```
 
 #### Running the Front-End Server

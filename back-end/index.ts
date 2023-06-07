@@ -15,7 +15,7 @@ const app = express();
 const http = createServer(app);
 const io = new Server(http, {
   cors: {
-      origin: process.env['FRONT_END_URL'] || "http://localhost:3000"
+      origin: process.env['FRONT_END_URL'] || "http://localhost:3001"
   }
 });
 
@@ -37,8 +37,8 @@ const onSocketConnect = socket => {
 
 io.on('connection', onSocketConnect);
 
-http.listen(4000, () => {
-  console.log(`Server listening on 4000`);
+http.listen(4001, () => {
+  console.log(`Server listening on 4001`);
 });
 
 app.get('/up-check', (_req, res: any) => {
