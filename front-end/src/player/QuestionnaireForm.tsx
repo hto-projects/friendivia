@@ -38,7 +38,7 @@ export default function QuestionnaireForm(props: IQuestionnaireFormProps) {
 
   const questionnaireInputs = (
     <>
-      <p>Please answer all qestions below.</p>
+      <p>Please answer all questions below.</p>
       {
         questions.map((q, i) => (
           <div key={i}>
