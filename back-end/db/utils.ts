@@ -7,18 +7,22 @@ const createQuestionnaireQuestionsWithOptions = async (): Promise<IQuestionnaire
   return [
     {
       text: "What is your favorite movie?",
+      quizText: "What is <PLAYER>'s favorite movie?",
       fakeAnswers: ["RoboCop", "The Godfather", "The Deer Hunter", "How to Train Your Dragon", "Despicable Me", "Into the Spiderverse"]
     },
     {
       text: "What do you do for fun?",
+      quizText: "What does <PLAYER> do for fun?",
       fakeAnswers: ["Nothing", "watch tv", "play music", "Skateboarding", "go to school", "eat pizza"]
     },
     {
       text: "Where were you born?",
+      quizText: "Where was <PLAYER> born?",
       fakeAnswers: ["Cleveland", "Ohio", "here", "in a hospital", "on Planet Earth", "Detroit, Michigan"]
     },
     {
       text: "What is your favorite animal?",
+      quizText: "What is <PLAYER>'s favorite animal?",
       fakeAnswers: ["goose", "dog", "Tiger", "Grey Wolf", "lizard", "frog 🐸"]
     },
   ]
@@ -74,7 +78,7 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
       }
 
       const currentQuestionnaireQ: IQuestionnaireQuestion = questionnaireQs[i];
-      const text: string = currentQuestionnaireQ.text;
+      const text: string = currentQuestionnaireQ.quizText;
       const correctAnswer: string = currentPlayer.questionnaireAnswers[i];
 
       const options: string[] = [correctAnswer];

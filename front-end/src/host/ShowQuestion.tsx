@@ -9,10 +9,15 @@ interface IShowQuestionProps {
 
 export default function ShowQuestion(props: IShowQuestionProps) {
   const { options, questionText, playerName } = props;
+
+  function interpolatePlayerNameInQuestionText() {
+    const [part1, part2] = questionText.split("<PLAYER>");
+    return <p>{part1}<b>{playerName}</b>{part2}</p>;
+  }
+
   return (
     <>
-      <p>How did <b>{playerName}</b> answer this question?</p>
-      <p><b>{questionText}</b></p>
+      {interpolatePlayerNameInQuestionText()}
       <ul>
       {options.map((o: String, i: number) => (
         <li key={i}>{o}</li>
