@@ -2,6 +2,7 @@ enum GameStates {
   Init = 'init',
   Lobby = 'lobby',
   Questionnaire = 'questionnaire',
+  PreQuiz = 'pre-quiz',
   Inactive = 'inactive'
 }
 

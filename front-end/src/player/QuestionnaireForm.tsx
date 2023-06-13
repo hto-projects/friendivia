@@ -12,10 +12,10 @@ interface IQuestionnaireFormProps {
 }
 
 export default function QuestionnaireForm(props: IQuestionnaireFormProps) {
-  const [answers, setAnswers] = React.useState<string[]>([]);
-  const inMessage = `Submission accepted! Please wait for the other players to finish.`;
-
   const { socket, playerState, questions } = props;
+
+  const [answers, setAnswers] = React.useState<string[]>(Array(questions.length).fill(''));
+  const inMessage = `Submission accepted! Please wait for the other players to finish.`;
 
   function onSubmitQuestionnaire() {
     socket.emit('player-submit-questionnaire', answers);
@@ -33,8 +33,6 @@ export default function QuestionnaireForm(props: IQuestionnaireFormProps) {
     
     setAnswers(newAnswers);
   }
-
-  console.log(questions);
 
   const questionnaireInputs = (
     <>

@@ -10,16 +10,22 @@ interface PlayerAppProps {
 export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem('player-id') || '';
   const [playerState, setPlayerState] = React.useState('');
+  const [questionnaireQuestions, setQuestionnaireQuestions] = React.useState<string[]>([]);
+  const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
 
-  if (!playerState) {
+  if (!loaded) {
     socket.emit('player-load', playerIdFromStorage);
   }
 
   React.useEffect(() => {
     function onLoadSuccess(data: any) {
-      setPlayerState(data.playerState.state);
+      setLoaded(true);
+      setPlayerState(data.player.playerState.state);
+      if (data && data.gameData && data.gameData.questionnaireQuestions) {
+        setQuestionnaireQuestions(data.gameData.questionnaireQuestions);
+      }
     }
   
     socket.on('player-load-success', onLoadSuccess);
@@ -31,10 +37,18 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }, [playerState, setPlayerState]);
 
+  function getElementForState() {
+    if (playerState === 'filling-questionnaire' || playerState === 'submitted-questionnaire-waiting') {
+      return <Questionnaire socket={socket} playerState={playerState} questionnaireQuestions={questionnaireQuestions} />;
+    } else {
+      return <Join socket={socket} playerState={playerState} />;
+    }
+  }
+
   return (
     <>
       <h1>Friendpardy</h1>
-      {playerState === 'filling-questionnaire' ? <Questionnaire socket={socket} playerState={playerState} /> : <Join socket={socket} playerState={playerState} /> }
+      {getElementForState()}
     </>
   );
 }

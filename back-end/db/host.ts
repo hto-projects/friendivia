@@ -1,6 +1,7 @@
 import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import Game from '../models/Game.ts'
+import utilDb from '../db/utils.ts';
 
 const getAllGameIds = async (): Promise<number[]> => {
   try {
@@ -23,7 +24,8 @@ const hostOpenGame = async (socketId: string): Promise<number> => {
         state: GameStates.Lobby,
         message: ''
       },
-      hostSocketId: socketId
+      hostSocketId: socketId,
+      questionnaireQuestions: []
     };
 
     const newGame = new Game(newGameObject);
@@ -46,15 +48,29 @@ const getGameData = async (gameId: number): Promise<IGame | null> => {
   }
 };
 
-const moveGameToQuestionnaire = async (gameId: number): Promise<any> => {
+const setGameState = async (gameId: number, newState: GameStates): Promise<void> => {
   try {
     await Game.updateOne({id: gameId}, {
-      $set: { 'gameState.state': 'questionnaire' }
+      $set: { 'gameState.state': newState }
     });
+  } catch (e) {
+    console.error(`Issue setting game state: ${e}`);
+  }
+};
+
+const moveGameToQuestionnaire = async (gameId: number): Promise<any> => {
+  try {
+    const questionnaireQuestions = await utilDb.createQuestionnaireQuestions();
+    await setGameState(gameId, GameStates.Questionnaire);
+    await Game.updateOne({id: gameId}, {
+      $set: { 'questionnaireQuestions': questionnaireQuestions }
+    });
+
+    return questionnaireQuestions;
   } catch (e) {
     console.error(`Issue moving game to questionnaire: ${e}`);
   }
-}
+};
 
 const deleteAllGames = async (): Promise<any> => {
   try {
@@ -64,4 +80,4 @@ const deleteAllGames = async (): Promise<any> => {
   }
 };
 
-export default { getAllGameIds, hostOpenGame, deleteAllGames, getGameData, moveGameToQuestionnaire };
+export default { getAllGameIds, hostOpenGame, deleteAllGames, getGameData, setGameState, moveGameToQuestionnaire };

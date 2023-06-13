@@ -1,5 +1,9 @@
 import { Socket } from 'socket.io';
 import playerDb from '../db/player.ts';
+import hostDb from '../db/host.ts';
+import IPlayer from '../interfaces/IPlayer.ts';
+import IGame from '../interfaces/IGame.ts';
+import { GameStates } from '../interfaces/IGameState.ts';
 
 export default (io, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
@@ -30,9 +34,10 @@ export default (io, socket: Socket) => {
     }
 
     try {
-      const player = await playerDb.getPlayer(playerId);
+      const player: IPlayer = await playerDb.getPlayer(playerId);
+      const gameData: IGame | null = await hostDb.getGameData(player.gameId);
       if (player) {
-        socket.emit('player-load-success', player);
+        socket.emit('player-load-success', { player, gameData });
       } else {
         socket.emit('player-load-error', 'player not found');
       }
@@ -41,6 +46,25 @@ export default (io, socket: Socket) => {
     }
   };
 
+  const onPlayerSubmitQuestionnaire = async (answers: string []) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
+      const gameId = player.gameId;
+      await playerDb.playerAnswerQuestionnaire(player.id, answers);
+      socket.emit('player-submit-questionnaire-success');
+
+      const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
+      if (allPlayersDone) {
+        await hostDb.setGameState(gameId, GameStates.PreQuiz);
+        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      }
+    } catch (e) {
+      socket.emit('player-submit-questionnaire-error', e);
+    }
+  };
+
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
+  socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
 }

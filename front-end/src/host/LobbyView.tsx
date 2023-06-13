@@ -21,8 +21,8 @@ export default function LobbyView(props: ILobbyViewProps) {
       <p>Game ID: {gameId}</p>
       <p>These player have joined the game:</p>
       <ul>
-        {playerNames.map((name: String) => (
-          <li>{name}</li>
+        {playerNames.map((name: String, i: number) => (
+          <li key={i}>{name}</li>
         ))}
       </ul>
       <Button onClick={onStart}>Start</Button>

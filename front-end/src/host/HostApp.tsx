@@ -3,6 +3,7 @@ import Lobby from './Lobby';
 import { Socket } from 'socket.io-client';
 import HostOpen from './Open';
 import HostQuestionnaire from './HostQuestionnaire';
+import PreQuiz from './PreQuiz';
 
 interface IHostProps {
   socket: Socket
@@ -12,12 +13,16 @@ export default function HostApp(props: IHostProps) {
   const gameIdFromStorage = Number(localStorage.getItem('game-id')) || -1;
   const [gameId, setGameId] = React.useState<number>(gameIdFromStorage);
   const [gameState, setGameState] = React.useState<string>('init');
+  const [loaded, setLoaded] = React.useState<boolean>(false);
   const { socket } = props;
 
-  socket.emit('host-load', gameIdFromStorage);
+  if (!loaded) {
+    socket.emit('host-load', gameIdFromStorage);
+  }
 
   React.useEffect(() => {
     function onLoadSuccess(data: any) {
+      setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
     }
@@ -43,7 +48,9 @@ export default function HostApp(props: IHostProps) {
     if (state === 'lobby') {
       return <Lobby socket={socket} gameId={gameId} />;
     } else if (state === 'questionnaire') {
-      return <HostQuestionnaire socket={socket} />;
+      return <HostQuestionnaire />;
+    } else if (state === 'pre-quiz') {
+      return <PreQuiz />;
     } else {
       return <HostOpen socket={socket} />;
     }
