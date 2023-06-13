@@ -2,6 +2,7 @@ import React from 'react';
 import Join from './Join';
 import { Socket } from 'socket.io-client';
 import Questionnaire from './Questionnaire';
+import QuizQuestionOptions from './QuizQuestionOptions';
 
 interface PlayerAppProps {
   socket: Socket
@@ -10,7 +11,8 @@ interface PlayerAppProps {
 export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem('player-id') || '';
   const [playerState, setPlayerState] = React.useState('');
-  const [questionnaireQuestions, setQuestionnaireQuestions] = React.useState<string[]>([]);
+  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
@@ -23,8 +25,12 @@ export default function PlayerApp(props: PlayerAppProps) {
     function onLoadSuccess(data: any) {
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
-      if (data && data.gameData && data.gameData.questionnaireQuestions) {
-        setQuestionnaireQuestions(data.gameData.questionnaireQuestions);
+      if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
+        setQuestionnaireQuestionsText(data.extraData.questionnaireQuestionsText);
+      }
+
+      if (data && data.extraData && data.extraData.quizQuestionOptionsText) {
+        setQuizQuestionOptionsText(data.extraData.quizQuestionOptionsText);
       }
     }
   
@@ -39,7 +45,10 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   function getElementForState() {
     if (playerState === 'filling-questionnaire' || playerState === 'submitted-questionnaire-waiting') {
-      return <Questionnaire socket={socket} playerState={playerState} questionnaireQuestions={questionnaireQuestions} />;
+      return <Questionnaire socket={socket} playerState={playerState} questionnaireQuestionsText={questionnaireQuestionsText} />;
+    } else if (playerState === 'seeing-question') {
+      debugger;
+      return <QuizQuestionOptions socket={socket} optionsList={quizQuestionOptionsText} />
     } else {
       return <Join socket={socket} playerState={playerState} />;
     }

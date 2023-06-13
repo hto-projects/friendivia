@@ -57,12 +57,12 @@ const getPlayerBySocketId = async (socketId): Promise<any> => {
   }
 }
 
-const updateAllPlayerStates = async (gameId: number, newState: PlayerStates, io, gameData: object): Promise<any> => {
+const updateAllPlayerStates = async (gameId: number, newState: PlayerStates, io, extraData: object): Promise<any> => {
   try {
     await Player.updateMany({gameId: gameId}, { $set: { 'playerState.state': newState } });
     const allPlayers = await Player.find({gameId: gameId});
     for (const player of allPlayers) {
-      io.to(player.playerSocketId).emit('player-next', { player, gameData });
+      io.to(player.playerSocketId).emit('player-next', { player, extraData });
     }
   } catch (e) {
     console.error(`Issue updating all player states: ${e}`);

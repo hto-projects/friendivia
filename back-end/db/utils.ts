@@ -1,19 +1,28 @@
 import IPlayer from "../interfaces/IPlayer";
+import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
+import IQuizQuestion from "../interfaces/IQuizQuestion";
 
-interface IQuizQuestion {
-	text: string,
-	playerId: string,
-	optionsList: string[],
-	correctAnswer: number
-}
-
-const createQuestionnaireQuestions = async (): Promise<string[]> => {
+const createQuestionnaireQuestionsWithOptions = async (): Promise<IQuestionnaireQuestion[]> => {
+  // dummy data for now
   return [
-    "What is your favorite movie?",
-    "What do you do for fun?",
-    "Where were you born?"
-  ];
-};
+    {
+      text: "What is your favorite movie?",
+      fakeAnswers: ["RoboCop", "The Godfather", "The Deer Hunter", "How to Train Your Dragon", "Despicable Me", "Into the Spiderverse"]
+    },
+    {
+      text: "What do you do for fun?",
+      fakeAnswers: ["Nothing", "watch tv", "play music", "Skateboarding", "go to school", "eat pizza"]
+    },
+    {
+      text: "Where were you born?",
+      fakeAnswers: ["Cleveland", "Ohio", "here", "in a hospital", "on Planet Earth", "Detroit, Michigan"]
+    },
+    {
+      text: "What is your favorite animal?",
+      fakeAnswers: ["goose", "dog", "Tiger", "Grey Wolf", "lizard", "frog 🐸"]
+    },
+  ]
+}
 
 const chooseRandomFromList = (listOfSomething: any[]): any => {
     const randomIdx = Math.floor(Math.random()*listOfSomething.length);
@@ -21,7 +30,7 @@ const chooseRandomFromList = (listOfSomething: any[]): any => {
     return removedArr[0];
   }
 
-const selectRandom = (mainList, newList, count) =>{
+const selectRandom = (mainList, newList, count) => {
     let mainCopy = [...mainList];
 
     while (newList.length < count) {
@@ -47,19 +56,9 @@ const shuffle = (array: any[]): void => {
   }
 }
 
-const getNumQuestions = (numPlayers) => {
-  return numPlayers;
-}
-
-const generateQuiz = (players: IPlayer[], questionnaireQs: string[]): IQuizQuestion[] => {
-    const numQuestions = getNumQuestions(players.length);
+const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[]): IQuizQuestion[] => {
+    const numQuestions = 4;
     const numberOfOptions = 4;
-
-    for (let i = 0; i < numQuestions; i++) {
-
-    }
-
-    const allPlayerIds: string[] = players.map(p => p.id);
 
     const playerIds: string[] = [];
     for (let i = 0; i < numQuestions; i++) {
@@ -67,7 +66,6 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: string[]): IQuizQuest
     }
 
     const questionsList: IQuizQuestion[] = [];
-
     for (let i = 0; i < numQuestions; i++) {
       let currentPlayerId = chooseRandomFromList(playerIds);
       let currentPlayer = players.find(p => p.id === currentPlayerId);
@@ -75,36 +73,33 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: string[]): IQuizQuest
         continue;
       }
 
-      const text: string = questionnaireQs[i];
-      const playerId: string = currentPlayer.id;
+      const currentQuestionnaireQ: IQuestionnaireQuestion = questionnaireQs[i];
+      const text: string = currentQuestionnaireQ.text;
+      const correctAnswer: string = currentPlayer.questionnaireAnswers[i];
 
-      const randomPlayerIds: string[] = [];
-      randomPlayerIds.push(currentPlayerId);
-      selectRandom(allPlayerIds, randomPlayerIds, numberOfOptions);
-      shuffle(randomPlayerIds);
-      const correctAnswer: number = randomPlayerIds.indexOf(currentPlayerId);
+      const options: string[] = [correctAnswer];
 
-      let optionsList: string[] = [];
-      for (let j = 0; j < randomPlayerIds.length; j++) {
-        let optionPlayer: IPlayer | undefined = players.find(p => p.id === randomPlayerIds[j]);
-        if (!optionPlayer) {
-          continue;
-        }
+      const fakeAnswers = currentQuestionnaireQ.fakeAnswers;
+      const allPlayerAnswers = players.map(p => p.questionnaireAnswers[i]);
 
-        optionsList.push(optionPlayer.questionnaireAnswers[i]);
-      }
+      selectRandom([...fakeAnswers, ...allPlayerAnswers], options, numberOfOptions);
+      shuffle(options);
+
+      const correctAnswerIndex: number = options.indexOf(correctAnswer);
       
-      let currentQuestion: IQuizQuestion = {
-        correctAnswer: correctAnswer,
+      const currentQuestion: IQuizQuestion = {
+        correctAnswerIndex: correctAnswerIndex,
         text: text,
-        playerId: playerId,
-        optionsList: optionsList
+        playerId: currentPlayerId,
+        playerName: currentPlayer.name,
+        optionsList: options
       }
       
       questionsList.push(currentQuestion);
     }
-    
+
+    shuffle(questionsList);
     return questionsList;
   }
 
-export default { createQuestionnaireQuestions, generateQuiz };
+export default { createQuestionnaireQuestionsWithOptions, generateQuiz };

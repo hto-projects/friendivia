@@ -45,8 +45,8 @@ export default (io, socket: Socket) => {
 
   const onHostStart = async (gameId) => {
     try {
-      const questionnaireQuestions = await hostDb.moveGameToQuestionnaire(gameId);
-      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestions });
+      const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
+      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
     } catch (e) {

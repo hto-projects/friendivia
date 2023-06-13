@@ -4,6 +4,7 @@ import hostDb from '../db/host.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
 import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
+import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 export default (io, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
@@ -16,7 +17,8 @@ export default (io, socket: Socket) => {
       } else {
         const newPlayerId = await playerDb.addPlayer(name, gameId, socket.id);
         const allPlayersInGame = await playerDb.getPlayers(gameId);
-        io.emit('players-updated', {
+        const currentGameData = await hostDb.getGameData(gameId);
+        io.to(currentGameData?.hostSocketId).emit('players-updated', {
           gameId: gameId,
           players: allPlayersInGame
         });
@@ -36,8 +38,14 @@ export default (io, socket: Socket) => {
     try {
       const player: IPlayer = await playerDb.getPlayer(playerId);
       const gameData: IGame | null = await hostDb.getGameData(player.gameId);
+      const currentQuizQuestionIndex = gameData?.currentQuestionIndex || -1;
+      const extraData = {
+        questionnaireQuestionsText: gameData?.questionnaireQuestions.map(q => q.text),
+        quizQuestionOptionsText: currentQuizQuestionIndex >= 0 ? gameData?.quizQuestions[currentQuizQuestionIndex].optionsList : []
+      };
+
       if (player) {
-        socket.emit('player-load-success', { player, gameData });
+        socket.emit('player-load-success', { player, extraData });
       } else {
         socket.emit('player-load-error', 'player not found');
       }
@@ -45,6 +53,31 @@ export default (io, socket: Socket) => {
       socket.emit('player-load-error', e);
     }
   };
+  const hostGoNext = async (gameId: number): Promise<void> => {
+    const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+    io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+  }
+
+  const allPlayersGoNext = async (gameId: number): Promise<void> => {
+    const currentGameData = await hostDb.getGameData(gameId);
+
+    const currentQuestionIndex = currentGameData?.currentQuestionIndex || 0;
+    const quizQuestionOptionsText: string[] = currentGameData?.quizQuestions[currentQuestionIndex].optionsList || [];
+
+    await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingQuestion, io, { quizQuestionOptionsText });
+  }
+
+  const hostStartQuiz = async (gameId: number): Promise<void> => {
+    await hostDb.setGameState(gameId, GameStates.PreQuiz);
+    await hostDb.buildQuiz(gameId);
+    await hostGoNext(gameId);
+    setTimeout(async () => {
+      await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
+      await hostDb.nextQuestion(gameId);
+      await hostGoNext(gameId);
+      await allPlayersGoNext(gameId);
+    }, 5000);
+  }
 
   const onPlayerSubmitQuestionnaire = async (answers: string []) => {
     try {
@@ -55,9 +88,7 @@ export default (io, socket: Socket) => {
 
       const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
       if (allPlayersDone) {
-        await hostDb.setGameState(gameId, GameStates.PreQuiz);
-        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+        await hostStartQuiz(gameId);
       }
     } catch (e) {
       socket.emit('player-submit-questionnaire-error', e);
