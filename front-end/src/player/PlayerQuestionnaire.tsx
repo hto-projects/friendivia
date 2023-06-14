@@ -1,36 +1,23 @@
 import * as React from 'react';
 import '../style.css';
 import { Socket } from 'socket.io-client';
-import QuestionnaireForm from './QuestionnaireForm';
+import PlayerQuestionnaireForm from './PlayerQuestionnaireForm';
 
 interface IQuestionnaireProps {
   socket: Socket,
-  playerState: string
+  playerState: string,
+  questionnaireQuestionsText: string[]
 }
 
-const questionsToAsk = [
-  "What is your favorite movie?",
-  "What do you do for fun?",
-  "Where were you born?"
-]
-
-export default function Questionnaire(props: IQuestionnaireProps) {
-  const { socket, playerState } = props;
-  const [questionnairePlayerState, setQuestionnairePlayerState] = React.useState({});
-
-  React.useEffect(() => {
-    if (playerState === 'submitted-questionnaire-waiting') {
-      setQuestionnairePlayerState({
-        state: 'submitted-questionnaire-waiting',
-        message: ''
-      });
-    }
-  }, [questionnairePlayerState, setQuestionnairePlayerState]);
+export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
+  const { socket, playerState, questionnaireQuestionsText } = props;
+  const [questionnairePlayerState, setQuestionnairePlayerState] = React.useState({
+    state: playerState,
+    message: ''
+  });
   
   React.useEffect(() => {
-    function onSubmitQuestionnaireSuccess(playerId: string) {
-      localStorage.setItem('player-id', playerId);
-
+    function onSubmitQuestionnaireSuccess() {
       setQuestionnairePlayerState({
         state: 'submitted-questionnaire-waiting',
         message: ''
@@ -54,6 +41,6 @@ export default function Questionnaire(props: IQuestionnaireProps) {
   }, [questionnairePlayerState, setQuestionnairePlayerState]);
 
   return (
-    <QuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionsToAsk} />
+    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText} />
   )
 }

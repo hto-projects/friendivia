@@ -1,0 +1,43 @@
+import * as React from 'react';
+import '../style.css';
+import { Button } from '@mui/material';
+import { Socket } from 'socket.io-client';
+import PlayerQuizQuestionView from './PlayerQuizQuestionView';
+
+interface IQuizQuestionProps {
+  optionsList: string[],
+  socket: Socket,
+  playerState: string
+}
+
+export default function PlayerQuizQuestion(props: IQuizQuestionProps) {
+  const { optionsList, socket, playerState } = props;
+  const [quizQuestionPlayerState, setQuizQuestionPlayerState] = React.useState({
+    state: playerState,
+    message: ''
+  });
+
+
+  React.useEffect(() => {
+    function onAnswerQuestionSuccess() {
+      setQuizQuestionPlayerState({
+        state: 'answered-quiz-question-waiting',
+        message: ''
+      });
+    }
+  
+    socket.on('player-answer-question-success', onAnswerQuestionSuccess);
+
+    return () => {
+      socket.off('player-answer-question-success', onAnswerQuestionSuccess);
+    }
+  }, []);
+
+  return (
+    <PlayerQuizQuestionView
+      optionsList={optionsList}
+      socket={socket}
+      playerState={quizQuestionPlayerState}
+    />
+  );
+}

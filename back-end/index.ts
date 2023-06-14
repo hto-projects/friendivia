@@ -23,7 +23,7 @@ const db = process.env['MONGO_URI'] || '';
 const dbSettings = {
 	useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: process.env['DB_NAME'] || "friendpardy-test"
+  dbName: process.env['DB_NAME'] || "friendpardy-test-2"
 };
 
 mongoose.connect(db, dbSettings)

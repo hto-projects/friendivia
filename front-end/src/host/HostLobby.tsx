@@ -2,14 +2,14 @@ import * as React from 'react';
 import '../style.css';
 import { Socket } from 'socket.io-client';
 import IPlayer from 'back-end/interfaces/IPlayer';
-import LobbyView from './LobbyView';
+import HostLobbyView from './HostLobbyView';
 
 interface ILobbyProps {
   socket: Socket,
   gameId: number
 }
 
-export default function Lobby(props: ILobbyProps) {
+export default function HostLobby(props: ILobbyProps) {
   const [players, setPlayers] = React.useState<IPlayer[]>([]);
   const { socket, gameId } = props;
 
@@ -27,5 +27,5 @@ export default function Lobby(props: ILobbyProps) {
     }
   }, [players, setPlayers]);
 
-  return <LobbyView playerNames={players.map(p => p.name)} gameId={gameId} socket={socket} />;
+  return <HostLobbyView playerNames={players.map(p => p.name)} gameId={gameId} socket={socket} />;
 }

@@ -9,7 +9,7 @@ interface ILobbyViewProps {
   socket: Socket
 }
 
-export default function LobbyView(props: ILobbyViewProps) {
+export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {
@@ -19,10 +19,10 @@ export default function LobbyView(props: ILobbyViewProps) {
   return (
     <>
       <p>Game ID: {gameId}</p>
-      <p>These player have joined the game:</p>
+      <p>These players have joined the game:</p>
       <ul>
-        {playerNames.map((name: String) => (
-          <li>{name}</li>
+        {playerNames.map((name: String, i: number) => (
+          <li key={i}>{name}</li>
         ))}
       </ul>
       <Button onClick={onStart}>Start</Button>

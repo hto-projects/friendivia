@@ -20,9 +20,11 @@ export default (io, socket: Socket) => {
     }
 
     try {
-      const dataForGame = await hostDb.getGameData(gameId);
-      if (dataForGame) {
-        socket.emit('host-load-success', dataForGame);
+      const dataForGame: any = await hostDb.getGameData(gameId);
+      if (dataForGame) {     
+        const data = dataForGame;
+        const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
+        socket.emit('host-load-success', {...data, quizQuestionGuesses});
         const playersForGame = await playerDb.getPlayers(gameId);
         socket.emit('players-updated', {
           gameId: gameId,
@@ -45,8 +47,8 @@ export default (io, socket: Socket) => {
 
   const onHostStart = async (gameId) => {
     try {
-      await hostDb.moveGameToQuestionnaire(gameId);
-      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io);
+      const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
+      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
     } catch (e) {

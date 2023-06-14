@@ -2,7 +2,10 @@ enum GameStates {
   Init = 'init',
   Lobby = 'lobby',
   Questionnaire = 'questionnaire',
-  Inactive = 'inactive'
+  PreQuiz = 'pre-quiz',
+  Inactive = 'inactive',
+  ShowingQuestion = 'showing-question',
+  ShowingAnswer = 'showing-answer'
 }
 
 interface IGameState {

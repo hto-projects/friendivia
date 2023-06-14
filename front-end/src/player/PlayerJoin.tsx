@@ -1,14 +1,14 @@
 import * as React from 'react';
 import '../style.css';
 import { Socket } from 'socket.io-client';
-import JoinForm from './JoinForm';
+import PlayerJoinForm from './PlayerJoinForm';
 
 interface IJoinProps {
   socket: Socket,
   playerState: string
 }
 
-export default function Join(props: IJoinProps) {
+export default function PlayerJoin(props: IJoinProps) {
   const { socket, playerState } = props;
   const [joiningPlayerState, setJoiningPlayerState] = React.useState({});
 
@@ -48,6 +48,6 @@ export default function Join(props: IJoinProps) {
   }, [joiningPlayerState, setJoiningPlayerState]);
 
   return (
-    <JoinForm socket={socket} playerState={joiningPlayerState} />
+    <PlayerJoinForm socket={socket} playerState={joiningPlayerState} />
   )
 }
