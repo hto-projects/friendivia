@@ -4,7 +4,8 @@ enum PlayerStates {
   FillingQuestionnaire = 'filling-questionnaire',
   DoneWithQuestionnaireWaiting = 'submitted-questionnaire-waiting',
   SeeingQuestion = 'seeing-question',
-  WaitingForAnswer = 'waiting-for-answer',
+  QuestionAboutMe = 'question-about-me',
+  AnsweredQuizQuestionWaiting = 'answered-quiz-question-waiting',
   SeeingAnswer = 'seeing-answer'
 }
 

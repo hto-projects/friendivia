@@ -44,8 +44,8 @@ const hostOpenGame = async (socketId: string): Promise<number> => {
 
 const getGameData = async (gameId: number): Promise<IGame | null> => {
   try {
-    const gameData = await Game.findOne({id: gameId});
-    return gameData;
+    const gameData: any = await Game.findOne({id: gameId});
+    return gameData?.toObject();
   } catch (e) {
     console.error(`Issue getting game data: ${e}`);
     return null;

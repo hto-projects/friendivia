@@ -2,6 +2,7 @@ import * as uuid from 'uuid';
 import IPlayer from '../interfaces/IPlayer.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Player from '../models/Player.ts'
+import IGame from '../interfaces/IGame.ts';
 
 const getPlayers = async (gameId: number): Promise<IPlayer[]> => {
   try {
@@ -39,21 +40,23 @@ const addPlayer = async (playerName: string, gameId: number, socketId: string): 
   }
 };
 
-const getPlayer = async (playerId): Promise<any> => {
+const getPlayer = async (playerId: string): Promise<any> => {
   try {
     const player = await Player.findOne({id: playerId});
     return player;
   } catch (e) {
     console.error(`Issue getting player state: ${e}`);
+    return null;
   }
 }
 
-const getPlayerBySocketId = async (socketId): Promise<any> => {
+const getPlayerBySocketId = async (socketId: string): Promise<any> => {
   try {
     const player = await Player.findOne({playerSocketId: socketId});
     return player;
   } catch (e) {
     console.error(`Issue getting player state: ${e}`);
+    return null;
   }
 }
 
@@ -69,7 +72,7 @@ const updateAllPlayerStates = async (gameId: number, newState: PlayerStates, io,
   }
 };
 
-const playerAnswerQuestionnaire = async (playerId: string, questionnaireAnswers: string[]): Promise<any> => {
+const playerCompleteQuestionnaire = async (playerId: string, questionnaireAnswers: string[]): Promise<any> => {
   try {
     await Player.updateOne({
       id: playerId
@@ -94,6 +97,52 @@ const checkAllPlayersDoneWithQuestionnaire = async (gameId: number): Promise<boo
   }
 };
 
+const playerAnswerQuestion = async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
+  try {
+    const player: IPlayer | null = await Player.findOne({id: playerId});
+
+    if (player === null) {
+      throw `Player not found: ${playerId}`;
+    } else {    
+      const newQuizGuesses = player.quizGuesses;
+      newQuizGuesses[gameData.currentQuestionIndex] = guess;
+
+      await Player.updateOne({
+        id: playerId
+      }, { 
+        $set: {
+          'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
+          'quizGuesses': newQuizGuesses
+        }
+      });
+    }
+  } catch (e) {
+    console.error(`Issue answering question: ${e}`);
+  }
+};
+
+const checkAllPlayersAnsweredQuizQuestion = async (gameId: number): Promise<boolean> => {
+  try {
+    const allPlayersInGame = await Player.find({gameId: gameId});
+    return allPlayersInGame.every(p => p.playerState.state === PlayerStates.AnsweredQuizQuestionWaiting);
+  } catch (e) {
+    console.error(`Issue checking if all players have answered question: ${e}`);
+    return false;
+  }
+};
+
+type Guess = { name: string, guess: number}
+
+const getPlayerGuessesForQuizQuestion = async (gameId: number, questionIndex: number): Promise<Guess[]> => {
+  const playersInGame = await getPlayers(gameId);
+  const playerGuesses = playersInGame.map(p => ({
+    name: p.name,
+    guess: p.quizGuesses[questionIndex]
+  }));
+
+  return playerGuesses;
+}
+
 const deleteAllPlayers = async (): Promise<any> => {
   try {
     await Player.deleteMany({});
@@ -102,4 +151,16 @@ const deleteAllPlayers = async (): Promise<any> => {
   }
 };
 
-export default { getPlayers, addPlayer, deleteAllPlayers, getPlayer, getPlayerBySocketId, updateAllPlayerStates, playerAnswerQuestionnaire, checkAllPlayersDoneWithQuestionnaire };
+export default {
+  getPlayers,
+  addPlayer,
+  deleteAllPlayers,
+  getPlayer,
+  getPlayerBySocketId,
+  updateAllPlayerStates,
+  playerCompleteQuestionnaire,
+  checkAllPlayersDoneWithQuestionnaire,
+  playerAnswerQuestion,
+  checkAllPlayersAnsweredQuizQuestion,
+  getPlayerGuessesForQuizQuestion
+};

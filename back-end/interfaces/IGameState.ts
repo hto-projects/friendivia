@@ -4,7 +4,8 @@ enum GameStates {
   Questionnaire = 'questionnaire',
   PreQuiz = 'pre-quiz',
   Inactive = 'inactive',
-  ShowingQuestion = 'showing-question'
+  ShowingQuestion = 'showing-question',
+  ShowingAnswer = 'showing-answer'
 }
 
 interface IGameState {
