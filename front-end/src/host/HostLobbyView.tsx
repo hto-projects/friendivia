@@ -21,10 +21,10 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       <h1>Game Code</h1>
       <p className="gameid">{gameId}</p>
       <h1>Players</h1>
-      <ul>
+      <ul className="ul">
         {playerNames.map((name: String, i: number) => (
           <li key={i}>
-            <h1 className="players">{name}</h1>
+            <h1 className="player">{name}</h1>
           </li>
         ))}
       </ul>
