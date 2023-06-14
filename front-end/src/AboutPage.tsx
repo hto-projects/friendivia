@@ -1,15 +1,44 @@
-import * as React from 'react';
-import './style.css';
+import * as React from "react";
+import "./style.css";
+import { Button } from "@mui/material";
+import logo from "./assets/friendpardymocklogo.png";
 
 export default function AboutPage() {
   return (
-    <>
-      <h1>About <i>Friendpardy!</i></h1>
-      <p>
-        How well do you know your friends? In this friends trivia game (not Friends the tv show), you'll start by answering a few questions about yourself. Then, you'll try to answer some questions about your friends, while they try to answer questions about you! You will be rewarded if you know your friends well. You will also be rewarded if your friends know you well.
+    <div className="about">
+      <h1>About</h1>
+      <img className="logo" src={logo} />
+      <br />
+      <p className="body">
+        <b>How well do you know your friends?</b>
+        <br />
+        <br />
+        In this friends trivia game (not Friends the tv show), you'll start by
+        answering a few questions about yourself. <br />
+        <br />
+        Then, you'll try to answer some questions about your friends, while they
+        try to answer questions about you! <br /> <br />
+        You will be rewarded if you know your friends well. You will also be
+        rewarded if your friends know you well.
       </p>
-      <p><a href="/">Join a Game</a></p>
-      <p><a href="/host">Host a Game</a></p>
-    </>
-  )
+      <div className="horizontal">
+        <Button
+          className="button"
+          variant="contained"
+          sx={{ bgcolor: "#757de8;", m: 2 }}
+          href="/"
+        >
+          Join a game
+        </Button>
+        <Button
+          className="button"
+          variant="contained"
+          sx={{ bgcolor: "#757de8;", m: 2 }}
+          href="/host"
+        >
+          Host a game
+        </Button>
+      </div>
+    </div>
+  );
 }

@@ -1,3 +1,105 @@
-* {
-  font-family: Lato;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+:root {
+  --main: #ffffff;
+  --accent: #757de8;
 }
+
+h1, p {
+  font-family: Inter, sans-serif;
+}
+
+.logo{
+  align-self: center;
+  margin: auto; 
+  width: 20%;
+  height: 10%;
+  padding-bottom: 3vh;
+}
+
+
+.about{
+  /*background-image: url('./assets/confetti.gif');*/
+  background-repeat: repeat;
+  background-size: 60% auto;
+  background-clip: cover;
+  size: 100vh;
+  justify-content: center;
+  text-align: center;
+  margin: 10% auto;
+}
+
+.body{
+  /*make */
+  font-family: Inter, sans-serif;
+  text-align: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  font-size: 1em;
+}
+/**/
+.button{
+  background-color: var(--accent);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  box-shadow: 5px 10px;
+
+}
+
+.gameid{
+  font-weight: 1000;
+  font-size: 3.5em;
+  margin-left: 30vw;
+  margin-right: 30vw;
+  padding: 10px;
+  color:#ffffff;
+  background: rgba(113, 125, 228, .8);
+  
+  border-radius: 10px;
+}
+
+.horizontal{
+  display: flex;
+  justify-content: center;
+  margin: 5% auto;
+  padding: auto;
+}
+
+.players{
+  font-family: Inter, sans-serif;
+  font-size: 2em;
+  margin:auto;
+  text-align: center;
+}
+
+.player{
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  margin:auto;
+  text-align: center;
+  margin-left: 40vw;
+  margin-right: 40vw;
+  margin-bottom: 1vh;
+  padding: 10px;
+  color:#ffffff;
+  background: rgba(113, 125, 228, .8);
+  
+  border-radius: 10px;
+}
+
+.ul{
+  list-style-type: none;
+  justify-content: center;
+  justify-self: center;
+  padding-left: 0;
+}
+

@@ -1,31 +1,40 @@
-import * as React from 'react';
-import '../style.css';
-import { Button } from '@mui/material';
-import { Socket } from 'socket.io-client';
+import * as React from "react";
+import "../style.css";
+import { Button } from "@mui/material";
+import { Socket } from "socket.io-client";
 
 interface ILobbyViewProps {
-  playerNames: string[],
-  gameId: number,
-  socket: Socket
+  playerNames: string[];
+  gameId: number;
+  socket: Socket;
 }
 
 export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {
-    socket.emit('host-start', gameId);
+    socket.emit("host-start", gameId);
   }
 
   return (
     <>
-      <p>Game ID: {gameId}</p>
-      <p>These players have joined the game:</p>
-      <ul>
+      <h1>Game Code</h1>
+      <p className="gameid">{gameId}</p>
+      <h1>Players</h1>
+      <ul className="ul">
         {playerNames.map((name: String, i: number) => (
-          <li key={i}>{name}</li>
+          <li key={i}>
+            <h1 className="player">{name}</h1>
+          </li>
         ))}
       </ul>
-      <Button onClick={onStart}>Start</Button>
+      <Button
+        variant="contained"
+        sx={{ bgcolor: "#757de8;" }}
+        onClick={onStart}
+      >
+        Start
+      </Button>
     </>
   );
 }
