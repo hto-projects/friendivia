@@ -8,6 +8,7 @@ import HostShowQuestion from "./HostShowQuestion";
 import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
+import logo from "../assets/friendpardymocklogo.png";
 
 interface IHostProps {
   socket: Socket;
@@ -106,7 +107,7 @@ export default function HostApp(props: IHostProps) {
     <div className="about">
       <img
         className="logo"
-        src={require("../assets/friendpardymocklogo.png")}
+        src={logo}
       />
       {getElementForState(gameState)}
     </div>

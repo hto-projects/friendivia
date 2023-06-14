@@ -24,7 +24,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
   const joinInputs = (
     <>
       <p>Enter your name to join the game:</p>
-      <p>Enter your name to join the game:</p>
       <TextField
         id="name"
         label="Name"
