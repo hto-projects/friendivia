@@ -3,14 +3,14 @@ import '../style.css';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Socket } from 'socket.io-client';
-import Wait from './Wait';
+import PlayerWait from './PlayerWait';
 
 interface IJoinFormProps {
   socket: Socket,
   playerState: any
 }
 
-export default function JoinForm(props: IJoinFormProps) {
+export default function PlayerJoinForm(props: IJoinFormProps) {
   const [name, setName] = React.useState('');
   const [gameId, setGameId] = React.useState<number>(0);
   const inMessage = `You're in! Please wait for the game to begin.`;
@@ -48,5 +48,5 @@ export default function JoinForm(props: IJoinFormProps) {
     </>
   );
 
-  return playerState.state === 'joined-waiting' ? <Wait message={inMessage} /> : joinInputs;
+  return playerState.state === 'joined-waiting' ? <PlayerWait message={inMessage} /> : joinInputs;
 }

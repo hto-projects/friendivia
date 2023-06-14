@@ -9,7 +9,7 @@ interface ILobbyViewProps {
   socket: Socket
 }
 
-export default function LobbyView(props: ILobbyViewProps) {
+export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {

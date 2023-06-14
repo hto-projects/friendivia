@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../style.css';
 import { Socket } from 'socket.io-client';
-import QuestionnaireForm from './QuestionnaireForm';
+import PlayerQuestionnaireForm from './PlayerQuestionnaireForm';
 
 interface IQuestionnaireProps {
   socket: Socket,
@@ -9,7 +9,7 @@ interface IQuestionnaireProps {
   questionnaireQuestionsText: string[]
 }
 
-export default function Questionnaire(props: IQuestionnaireProps) {
+export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
   const { socket, playerState, questionnaireQuestionsText } = props;
   const [questionnairePlayerState, setQuestionnairePlayerState] = React.useState({
     state: playerState,
@@ -41,6 +41,6 @@ export default function Questionnaire(props: IQuestionnaireProps) {
   }, [questionnairePlayerState, setQuestionnairePlayerState]);
 
   return (
-    <QuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText} />
+    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText} />
   )
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import Join from './Join';
+import PlayerJoin from './PlayerJoin';
 import { Socket } from 'socket.io-client';
-import Questionnaire from './Questionnaire';
-import QuizQuestionOptions from './QuizQuestionOptions';
+import PlayerQuestionnaire from './PlayerQuestionnaire';
+import PlayerQuizQuestion from './PlayerQuizQuestion';
+import PlayerWait from './PlayerWait';
 
 interface PlayerAppProps {
   socket: Socket
@@ -45,12 +46,15 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   function getElementForState() {
     if (playerState === 'filling-questionnaire' || playerState === 'submitted-questionnaire-waiting') {
-      return <Questionnaire socket={socket} playerState={playerState} questionnaireQuestionsText={questionnaireQuestionsText} />;
-    } else if (playerState === 'seeing-question') {
-      debugger;
-      return <QuizQuestionOptions socket={socket} optionsList={quizQuestionOptionsText} />
+      return <PlayerQuestionnaire socket={socket} playerState={playerState} questionnaireQuestionsText={questionnaireQuestionsText} />;
+    } else if (playerState === 'seeing-question' || playerState === 'answered-quiz-question-waiting') {
+      return <PlayerQuizQuestion socket={socket} optionsList={quizQuestionOptionsText} playerState={playerState}/>
+    } else if (playerState === 'question-about-me') {
+      return <PlayerWait message="Please wait while the other players answer this question about you..." />
+    } else if (playerState === 'seeing-answer') {
+      return <PlayerWait message={`See the correct answer on the host screen.`} />
     } else {
-      return <Join socket={socket} playerState={playerState} />;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 

@@ -7,7 +7,7 @@ interface IShowQuestionProps {
   options: string[]
 }
 
-export default function ShowQuestion(props: IShowQuestionProps) {
+export default function HostShowQuestion(props: IShowQuestionProps) {
   const { options, questionText, playerName } = props;
 
   function interpolatePlayerNameInQuestionText() {

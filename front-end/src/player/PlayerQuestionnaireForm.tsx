@@ -3,7 +3,7 @@ import '../style.css';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Socket } from 'socket.io-client';
-import Wait from './Wait';
+import PlayerWait from './PlayerWait';
 
 interface IQuestionnaireFormProps {
   socket: Socket,
@@ -11,7 +11,7 @@ interface IQuestionnaireFormProps {
   questions: string[]
 }
 
-export default function QuestionnaireForm(props: IQuestionnaireFormProps) {
+export default function PlayerQuestionnaireForm(props: IQuestionnaireFormProps) {
   const { socket, playerState, questions } = props;
 
   const [answers, setAnswers] = React.useState<string[]>(Array(questions.length).fill(''));
@@ -59,5 +59,5 @@ export default function QuestionnaireForm(props: IQuestionnaireFormProps) {
     </>
   );
 
-  return playerState.state === 'submitted-questionnaire-waiting' ? <Wait message={inMessage} /> : questionnaireInputs;
+  return playerState.state === 'submitted-questionnaire-waiting' ? <PlayerWait message={inMessage} /> : questionnaireInputs;
 }
