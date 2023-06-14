@@ -19,7 +19,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   return (
     <>
       <p>Game ID: {gameId}</p>
-      <p>These player have joined the game:</p>
+      <p>These players have joined the game:</p>
       <ul>
         {playerNames.map((name: String, i: number) => (
           <li key={i}>{name}</li>
