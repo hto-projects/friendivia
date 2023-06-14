@@ -16,8 +16,8 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
-      <p><a href="/about">About</a></p>
-      <Button onClick={() => socket.emit("delete-please")}>Clear Data</Button>
+      {/* <p><a href="/about">About</a></p>
+      <Button onClick={() => socket.emit("delete-please")}>Clear Data</Button> */}
     </>
   );
 }
