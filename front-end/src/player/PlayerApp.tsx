@@ -15,9 +15,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [questionnaireQuestionsText, setQuestionnaireQuestionsText] =
     React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
-    string[]
-  >([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
