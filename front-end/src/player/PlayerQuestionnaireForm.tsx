@@ -38,6 +38,8 @@ export default function PlayerQuestionnaireForm(
     setAnswers(newAnswers);
   }
 
+  let maxAnswer = 20;
+
   const questionnaireInputs = (
     <>
       <p>Please answer all questions below.</p>
@@ -50,6 +52,7 @@ export default function PlayerQuestionnaireForm(
             variant="outlined"
             size="small"
             value={answers[i]}
+            inputProps={{ maxLength: maxAnswer }}
             onChange={(e) => onInputChange(e.target.value, i)}
           />
         </div>
@@ -57,6 +60,7 @@ export default function PlayerQuestionnaireForm(
       <br />
       <Button
         variant="contained"
+        disabled={answers.some((a) => a.length === 0)}
         sx={{ bgcolor: "#757de8;" }}
         onClick={onSubmitQuestionnaire}
       >

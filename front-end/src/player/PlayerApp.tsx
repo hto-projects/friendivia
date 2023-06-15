@@ -4,7 +4,7 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
-import logo from "../assets/friendpardymocklogo.png";
+import logo from "../assets/friendpardylogo.png";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -13,10 +13,8 @@ interface PlayerAppProps {
 export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
-  const [
-    questionnaireQuestionsText,
-    setQuestionnaireQuestionsText,
-  ] = React.useState<string[]>([]);
+  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] =
+    React.useState<string[]>([]);
   const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
     string[]
   >([]);
@@ -90,10 +88,7 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   return (
     <div className="about">
-      <img
-        className="logo"
-        src={logo}
-      />
+      <img className="logo" src={logo} />
       {getElementForState()}
     </div>
   );

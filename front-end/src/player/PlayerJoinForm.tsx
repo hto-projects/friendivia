@@ -30,6 +30,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
         variant="outlined"
         size="small"
         value={name}
+        inputProps={{ maxLength: 10 }}
         onChange={(e) => setName(e.target.value)}
       />
       <TextField
@@ -41,8 +42,8 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
         value={gameId || ""}
         onChange={(e) => setGameId(Number(e.target.value))}
       />
-      {/* material ui button that is the color purple specifically using styling*/}
       <Button
+        disabled={!name || !gameId}
         variant="contained"
         sx={{ bgcolor: "#757de8;" }}
         onClick={onSubmitJoin}
