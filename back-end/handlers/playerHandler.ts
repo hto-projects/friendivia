@@ -103,7 +103,7 @@ export default (io: Server, socket: Socket) => {
 
       const allPlayersDone = await playerDb.checkAllPlayersAnsweredQuizQuestion(gameId);
       if (allPlayersDone) {
-        await hostHelpers.hostShowAnswer(gameId, io);
+        await hostHelpers.hostPreAnswer(gameId, io);
       }
     } catch (e) {
       socket.emit('player-answer-question-error', e);
