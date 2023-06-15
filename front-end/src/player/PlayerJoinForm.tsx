@@ -2,6 +2,7 @@ import * as React from "react";
 import "../style.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Stack from '@mui/material/Stack';
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerWait";
 
@@ -24,32 +25,36 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
   const joinInputs = (
     <>
       <p>Enter your name to join the game:</p>
-      <TextField
-        id="name"
-        label="Name"
-        variant="outlined"
-        size="small"
-        value={name}
-        inputProps={{ maxLength: 10 }}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <TextField
-        id="game-id"
-        label="Game ID"
-        variant="outlined"
-        size="small"
-        type="number"
-        value={gameId || ""}
-        onChange={(e) => setGameId(Number(e.target.value))}
-      />
-      <Button
-        disabled={!name || !gameId}
-        variant="contained"
-        sx={{ bgcolor: "#757de8;" }}
-        onClick={onSubmitJoin}
-      >
-        Join
-      </Button>
+      <Stack className="joinForm" spacing={2}>
+        <TextField
+          id="name"
+          label="Name"
+          variant="outlined"
+          size="medium"
+          value={name}
+          inputProps={{ maxLength: 10 }}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          className="idInput"
+          id="game-id"
+          label="Game ID"
+          variant="outlined"
+          size="medium"
+          type="number"
+          value={gameId || ""}
+          onChange={(e) => setGameId(Number(e.target.value))}
+        />
+        <Button
+          disabled={!name || !gameId}
+          variant="contained"
+          size="large"
+          sx={{ bgcolor: "#757de8;" }}
+          onClick={onSubmitJoin}
+        >
+          Join
+        </Button>
+      </Stack>
       <p style={{ color: "red" }}>{playerState.message}</p>
     </>
   );
