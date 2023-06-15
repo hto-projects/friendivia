@@ -41,7 +41,7 @@ export default (io: Server, socket: Socket) => {
         }
       }
     } catch (e) {
-      console.error("failed to add player");
+      console.error("Failed to add player: " + e);
     }
   };
 
