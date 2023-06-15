@@ -13,23 +13,30 @@ export default (io: Server, socket: Socket) => {
       const allPlayersInGame = await playerDb.getPlayers(gameId);
       const foundPlayer = allPlayersInGame.find(p => p.name === name);
       const playerWithNameAlreadyExists = !!foundPlayer;
+      const allActiveGameIds = await hostDb.getAllGameIds();
+      const foundGame = allActiveGameIds.find(g => g === gameId);
+      const gameExists = !!foundGame;
 
       if (playerWithNameAlreadyExists) {
         socket.emit('join-error', 'A player with that name has already joined.');
       } else {
-        const newPlayerId = await playerDb.addPlayer(name, gameId, socket.id);
-        const allPlayersInGame = await playerDb.getPlayers(gameId);
-        const currentGameData = await hostDb.getGameData(gameId);
-        if (currentGameData === null) {
-          return;
+        if (!gameExists) {
+          socket.emit('join-error', 'Invalid Game ID');
+        } else {
+          const newPlayerId = await playerDb.addPlayer(name, gameId, socket.id);
+          const allPlayersInGame = await playerDb.getPlayers(gameId);
+          const currentGameData = await hostDb.getGameData(gameId);
+          if (currentGameData === null) {
+            return;
+          }
+
+          io.to(currentGameData.hostSocketId).emit('players-updated', {
+            gameId: gameId,
+            players: allPlayersInGame
+          });
+
+          socket.emit('join-success', newPlayerId);
         }
-
-        io.to(currentGameData.hostSocketId).emit('players-updated', {
-          gameId: gameId,
-          players: allPlayersInGame
-        });
-
-        socket.emit('join-success', newPlayerId);
       }
     } catch (e) {
       console.error("failed to add player");
