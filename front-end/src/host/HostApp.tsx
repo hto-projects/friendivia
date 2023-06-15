@@ -8,7 +8,7 @@ import HostShowQuestion from "./HostShowQuestion";
 import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
-import logo from "../assets/friendpardymocklogo.png";
+import logo from "../assets/friendpardylogo.png";
 
 interface IHostProps {
   socket: Socket;
@@ -80,7 +80,7 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
         />
       );
-    } else if (state === 'pre-answer') {
+    } else if (state === "pre-answer") {
       return <p>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
@@ -106,10 +106,7 @@ export default function HostApp(props: IHostProps) {
 
   return (
     <div className="about">
-      <img
-        className="logo"
-        src={logo}
-      />
+      <img className="logo" src={logo} />
       {getElementForState(gameState)}
     </div>
   );
