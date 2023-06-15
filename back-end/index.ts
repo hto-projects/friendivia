@@ -4,7 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import registerPlayerHandlers from './handlers/playerHandler.ts';
 import registerHostHandlers from './handlers/hostHandler.ts';
 
@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 const http = createServer(app);
-const io = new Server(http, {
+const io: Server = new Server(http, {
   cors: {
       origin: process.env['FRONT_END_URL'] || "http://localhost:3001"
   }
@@ -30,7 +30,7 @@ mongoose.connect(db, dbSettings)
   .then(() => console.error("MongoDB successfully connected"))
   .catch(err => console.error(err));
 
-const onSocketConnect = socket => {
+const onSocketConnect = (socket: Socket) => {
   registerPlayerHandlers(io, socket);
   registerHostHandlers(io, socket);
 }
