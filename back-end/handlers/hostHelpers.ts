@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
+import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
@@ -29,9 +30,10 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
-  
+
   setTimeout(async () => {
     await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
+    await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingAnswer, io, {});
     const gameData = await hostDb.getGameData(gameId);
     if (gameData === null) {
       return;
