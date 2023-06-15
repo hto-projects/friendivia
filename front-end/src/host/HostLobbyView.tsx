@@ -22,7 +22,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       <Paper elevation={3} className="gameid">
         {gameId}
       </Paper>
-      <h1>Players</h1>
+      <h1>{playerNames.length} Players</h1>
       <ul className="ul">
         {playerNames.map((name: String, i: number) => (
           <li key={i}>
