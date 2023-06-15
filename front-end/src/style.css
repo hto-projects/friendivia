@@ -133,6 +133,18 @@ h1, h2, p {
   box-shadow: 5px 10px;
 }
 
+.waiting{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .guesses{
   display: grid;
 }
