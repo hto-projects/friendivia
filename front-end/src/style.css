@@ -5,7 +5,7 @@
   --accent: #757de8;
 }
 
-h1, p {
+h1, h2, p {
   font-family: Inter, sans-serif;
 }
 
@@ -56,6 +56,7 @@ h1, p {
 }
 
 .gameid{
+  font-family: Inter, sans-serif;
   font-weight: 1000;
   font-size: 3.5em;
   margin-left: 30vw;
@@ -86,14 +87,10 @@ h1, p {
   font-size: 1em;
   margin:auto;
   text-align: center;
-  margin-left: 40vw;
-  margin-right: 40vw;
-  margin-bottom: 1vh;
   padding: 10px;
   color:#ffffff;
   background: rgba(113, 125, 228, .8);
-  
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .ul{
@@ -101,5 +98,13 @@ h1, p {
   justify-content: center;
   justify-self: center;
   padding-left: 0;
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap;
+}
+
+.playerbox{
+  margin-left: 10vw;
+  margin-right: 10vw;
 }
 

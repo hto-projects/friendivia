@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../style.css";
-import { Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
 
 interface ILobbyViewProps {
@@ -18,13 +18,18 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
-      <h1>Game Code</h1>
-      <p className="gameid">{gameId}</p>
+      <h2>Join at friendpardy.com</h2>
+      <Paper elevation={3} className="gameid">
+        {gameId}
+      </Paper>
       <h1>Players</h1>
       <ul className="ul">
         {playerNames.map((name: String, i: number) => (
           <li key={i}>
-            <h1 className="player">{name}</h1>
+            <Paper elevation={3} className="playerbox">
+              <p className="player">{name}</p>
+            </Paper>
+            <br />
           </li>
         ))}
       </ul>
