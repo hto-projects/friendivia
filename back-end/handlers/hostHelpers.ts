@@ -27,15 +27,20 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 }
 
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
-  await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
-  const gameData = await hostDb.getGameData(gameId);
-  if (gameData === null) {
-    return;
-  }
-
-  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+  await hostDb.setGameState(gameId, GameStates.PreAnswer);
+  await hostGoNext(gameId, io);
   
-  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
+  setTimeout(async () => {
+    await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
+    const gameData = await hostDb.getGameData(gameId);
+    if (gameData === null) {
+      return;
+    }
+  
+    const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+    
+    io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
+  }, 5000)
 }
 
 export default { hostStartQuiz, hostShowAnswer };
