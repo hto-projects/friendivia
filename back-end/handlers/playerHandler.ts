@@ -3,6 +3,8 @@ import playerDb from '../db/player.ts';
 import hostDb from '../db/host.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
 import IGame from '../interfaces/IGame.ts';
+import { GameStates } from '../interfaces/IGameState.ts';
+import Game from '../models/Game.ts'
 import hostHelpers from './hostHelpers.ts';
 
 export default (io: Server, socket: Socket) => {
@@ -13,15 +15,15 @@ export default (io: Server, socket: Socket) => {
       const allPlayersInGame = await playerDb.getPlayers(gameId);
       const foundPlayer = allPlayersInGame.find(p => p.name === name);
       const playerWithNameAlreadyExists = !!foundPlayer;
-      const allActiveGameIds = await hostDb.getAllGameIds();
-      const foundGame = allActiveGameIds.find(g => g === gameId);
-      const gameExists = !!foundGame;
+      const allGames: IGame[] = await Game.find({});
+      const foundGame = allGames.find(g => g.id === gameId);
+      const joinableGame = foundGame?.gameState.state === GameStates.Lobby;
 
-      if (playerWithNameAlreadyExists) {
-        socket.emit('join-error', 'A player with that name has already joined.');
+      if (!joinableGame) {
+        socket.emit('join-error', 'Invalid Game ID');
       } else {
-        if (!gameExists) {
-          socket.emit('join-error', 'Invalid Game ID');
+        if (playerWithNameAlreadyExists) {
+          socket.emit('join-error', 'A player with that name has already joined.');
         } else {
           const newPlayerId = await playerDb.addPlayer(name, gameId, socket.id);
           const allPlayersInGame = await playerDb.getPlayers(gameId);
