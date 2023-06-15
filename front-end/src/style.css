@@ -10,13 +10,20 @@ h1, h2, p {
 }
 
 .logo{
-  align-self: center;
-  margin: auto; 
-  width: 20%;
-  height: 10%;
-  padding-bottom: 3vh;
+  /*make the logo larger on mobile than on desktop*/
+  width: 50%;
+  height: auto;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
+.joinForm{
+  display: grid;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+}
 
 .about{
   /*background-image: url('./assets/confetti.gif');*/
@@ -27,6 +34,10 @@ h1, h2, p {
   justify-content: center;
   text-align: center;
   margin: 10% auto;
+}
+
+.idInput{
+  padding-bottom: 5%;
 }
 
 .body{
@@ -52,7 +63,6 @@ h1, h2, p {
   cursor: pointer;
   border-radius: 20px;
   box-shadow: 5px 10px;
-
 }
 
 .gameid{

@@ -23,32 +23,36 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
 
   const joinInputs = (
     <>
-      <p>Enter your name to join the game:</p>
-      <TextField
-        id="name"
-        label="Name"
-        variant="outlined"
-        size="small"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <TextField
-        id="game-id"
-        label="Game ID"
-        variant="outlined"
-        size="small"
-        type="number"
-        value={gameId || ""}
-        onChange={(e) => setGameId(Number(e.target.value))}
-      />
-      {/* material ui button that is the color purple specifically using styling*/}
-      <Button
-        variant="contained"
-        sx={{ bgcolor: "#757de8;" }}
-        onClick={onSubmitJoin}
-      >
-        Join
-      </Button>
+      <div className="joinForm">
+        <TextField
+          id="name"
+          label="Name"
+          variant="outlined"
+          size="small"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
+        <TextField
+          className="idInput"
+          id="game-id"
+          label="Game ID"
+          variant="outlined"
+          size="small"
+          type="number"
+          value={gameId || ""}
+          onChange={(e) => setGameId(Number(e.target.value))}
+        />
+        <br />
+        <Button
+          variant="contained"
+          sx={{ bgcolor: "#757de8;" }}
+          onClick={onSubmitJoin}
+        >
+          Join
+        </Button>
+      </div>
+
       <p style={{ color: "red" }}>{playerState.message}</p>
     </>
   );
