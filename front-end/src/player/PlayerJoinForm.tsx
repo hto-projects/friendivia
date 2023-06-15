@@ -23,6 +23,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
 
   const joinInputs = (
     <>
+      <p>Enter your name to join the game:</p>
       <div className="joinForm">
         <TextField
           id="name"
@@ -30,9 +31,9 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           variant="outlined"
           size="small"
           value={name}
+          inputProps={{ maxLength: 10 }}
           onChange={(e) => setName(e.target.value)}
         />
-        <br />
         <TextField
           className="idInput"
           id="game-id"
@@ -45,6 +46,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
         />
         <br />
         <Button
+          disabled={!name || !gameId}
           variant="contained"
           sx={{ bgcolor: "#757de8;" }}
           onClick={onSubmitJoin}
