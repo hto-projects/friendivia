@@ -3,6 +3,7 @@ import "../style.css";
 import { Socket } from "socket.io-client";
 import IPlayer from "back-end/interfaces/IPlayer";
 import HostLobbyView from "./HostLobbyView";
+import HostQuestionnaireView from "./HostQuestionnaireView";
 
 interface IQuestionnaireProps {
   donePlayers: string[];
@@ -13,7 +14,7 @@ interface IQuestionnaireProps {
 
 export default function HostLobby(props: IQuestionnaireProps) {
   const [players, setPlayers] = React.useState<IPlayer[]>([]);
-  const { socket, gameId } = props;
+  const { donePlayers, waitingPlayers, socket, gameId } = props;
 
   React.useEffect(() => {
     function onPlayersUpdated(playersObject: any) {
@@ -30,7 +31,10 @@ export default function HostLobby(props: IQuestionnaireProps) {
   }, [players, setPlayers]);
 
   return (
-    <HostLobbyView
+    <HostQuestionnaireView
+    donePlayers={players.filter((p) => p.playerState.state === "DoneWithQuestionnaireWaiting").map((p) => p.name)}
+      donePlayers= 
+      waitingPlayers=
       playerNames={players.map((p) => p.name)}
       gameId={gameId}
       socket={socket}
