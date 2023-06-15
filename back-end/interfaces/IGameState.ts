@@ -6,7 +6,9 @@ enum GameStates {
   ShowingQuestion = 'showing-question',
   PreAnswer = 'pre-answer',
   ShowingAnswer = 'showing-answer',
-  Inactive = 'inactive'
+  PreLeaderBoard = 'pre-leader-board',
+  LeaderBoard = 'leader-board',
+  Inactive = 'inactive',
 }
 
 interface IGameState {

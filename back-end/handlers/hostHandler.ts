@@ -24,7 +24,9 @@ export default (io, socket: Socket) => {
       if (dataForGame) {     
         const data = dataForGame;
         const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
-        socket.emit('host-load-success', {...data, quizQuestionGuesses});
+        const playerScores = await playerDb.getPlayerScores(gameId);
+        socket.emit('host-load-success', {...data, quizQuestionGuesses, playerScores});
+        
         const playersForGame = await playerDb.getPlayers(gameId);
         socket.emit('players-updated', {
           gameId: gameId,
