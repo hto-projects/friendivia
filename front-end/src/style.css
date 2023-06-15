@@ -19,6 +19,10 @@ h1, h2, p {
     margin-bottom: 1%;
   }
 
+  .form{
+    width: 100%
+  }
+
   .questionnaireInput{
     width: 100%;
   }
@@ -26,6 +30,10 @@ h1, h2, p {
   .answerButton{
     align-self: center;
     width: 100%;
+  }
+
+  .idInput{
+    padding-bottom: 5%;
   }
 }
 
@@ -39,6 +47,10 @@ h1, h2, p {
     margin-bottom: 1%;
   }
 
+  .form{
+    width: 30%;
+  }
+
   .questionnaireInput{
     width: 30%;
   }
@@ -46,6 +58,11 @@ h1, h2, p {
   .answerButton{
     align-self: center;
     width: 50%;
+  }
+
+  .idInput{
+    padding-bottom: 5%;
+    width: 30%;
   }
 }
 
@@ -65,6 +82,9 @@ h1, h2, p {
 
 
 .joinForm{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
   display: grid;
   margin: 5% auto;
   margin-left: 10%;
@@ -82,9 +102,7 @@ h1, h2, p {
   margin: 10% auto;
 }
 
-.idInput{
-  padding-bottom: 5%;
-}
+
 
 .questionnaireInput{
   display: flex;
@@ -113,6 +131,10 @@ h1, h2, p {
   cursor: pointer;
   border-radius: 20px;
   box-shadow: 5px 10px;
+}
+
+.guesses{
+  display: grid;
 }
 
 .gameid{
