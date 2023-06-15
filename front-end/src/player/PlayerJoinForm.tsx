@@ -37,7 +37,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           onChange={(e) => setName(e.target.value)}
         />
         <TextField
-          className="idInput"
+          className="idInput form"
           id="game-id"
           label="Game ID"
           variant="outlined"
