@@ -16,8 +16,8 @@ export default (io: Server, socket: Socket) => {
       const foundPlayer = allPlayersInGame.find(p => p.name === name);
       const playerWithNameAlreadyExists = !!foundPlayer;
       const allGames: IGame[] = await Game.find({});
-      const foundGames = allGames.find(g => g.id === gameId);
-      const joinableGame = foundGames?.gameState.state === GameStates.Lobby;
+      const foundGame = allGames.find(g => g.id === gameId);
+      const joinableGame = foundGame?.gameState.state === GameStates.Lobby;
 
       if (!joinableGame) {
         socket.emit('join-error', 'Invalid Game ID');
