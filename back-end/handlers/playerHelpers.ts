@@ -12,7 +12,7 @@ export default {
     }
 
     const currentQuestionIndex = currentGameData.currentQuestionIndex;
-    const quizQuestionOptionsText: string[] = currentGameData?.quizQuestions[currentQuestionIndex].optionsList || [];
+    const quizQuestionOptionsText: string[] = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
 
     await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingQuestion, io, { quizQuestionOptionsText });
   }
