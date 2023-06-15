@@ -34,7 +34,6 @@ export default function HostApp(props: IHostProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(data: IGame & { quizQuestionGuesses }) {
-      console.log(data);
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
@@ -81,6 +80,8 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
         />
       );
+    } else if (state === 'pre-answer') {
+      return <p>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
