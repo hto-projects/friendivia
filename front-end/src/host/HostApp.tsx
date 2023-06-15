@@ -9,6 +9,7 @@ import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
+import HostLeaderBoard from "./HostLeaderBoard";
 
 interface IHostProps {
   socket: Socket;
@@ -24,6 +25,7 @@ export default function HostApp(props: IHostProps) {
     setCurrentQuizQuestionIndex,
   ] = React.useState<number>(-1);
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
+  const [playerScores, setPlayerScores] = React.useState([]);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const { socket } = props;
@@ -33,13 +35,14 @@ export default function HostApp(props: IHostProps) {
   }
 
   React.useEffect(() => {
-    function onLoadSuccess(data: IGame & { quizQuestionGuesses }) {
+    function onLoadSuccess(data: IGame & { quizQuestionGuesses, playerScores }) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
       setQuizQuestions(data.quizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
+      setPlayerScores(data.playerScores);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -99,6 +102,12 @@ export default function HostApp(props: IHostProps) {
           playerGuesses={quizQuestionGuesses}
         />
       );
+    } else if (state === "pre-leader-board") {
+      return <p>Calculating final scores...</p>;
+    } else if (state === "leader-board") {
+      return (
+        <HostLeaderBoard playerScores={playerScores} />
+      )
     } else {
       return <HostOpen socket={socket} />;
     }

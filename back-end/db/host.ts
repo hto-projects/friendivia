@@ -89,18 +89,24 @@ export default {
     return quizQuestions;
   },
 
-  nextQuestion: async function(gameId: number): Promise<number> {
+  nextQuestion: async function(gameId: number): Promise<boolean> {
     const currentGame: IGame | null = await this.getGameData(gameId);
     if (currentGame === null) {
-      return -1;
+      return false;
     }
 
     const currentQuestionIndex = currentGame.currentQuestionIndex;
+    const nextQuestionIndex = currentQuestionIndex + 1;
+
+    if (nextQuestionIndex === currentGame.quizQuestions.length) {
+      return false;
+    }
+
     await Game.updateOne({ id: gameId }, {
       $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
     });
 
-    return currentQuestionIndex + 1;
+    return true;
   },
 
   deleteAllGames: async (): Promise<any> => {
