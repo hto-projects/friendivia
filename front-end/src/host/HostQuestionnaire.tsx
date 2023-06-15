@@ -32,7 +32,7 @@ export default function HostLobby(props: IQuestionnaireProps) {
 
   return (
     <HostQuestionnaireView
-    donePlayers={players.filter((p) => p.playerState.state === "DoneWithQuestionnaireWaiting").map((p) => p.name)}
+    donePlayers={players.filter((p) => p.playerState.state === p.playerState.state.DoneWithQuestionnaireWaiting).map((p) => p.name)}
       donePlayers= 
       waitingPlayers=
       playerNames={players.map((p) => p.name)}
