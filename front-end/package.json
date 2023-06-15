@@ -20,7 +20,7 @@
     "build-legacy": "react-scripts --openssl-legacy-provider build",
     "build": "react-scripts build",
     "start-legacy": "react-scripts --openssl-legacy-provider start",
-    "start": "react-scripts start"
+    "start": "react-scripts --openssl-legacy-provider start"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
