@@ -4,7 +4,8 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Player from '../models/Player.ts'
 import IGame from '../interfaces/IGame.ts';
 
-type Guess = { name: string, guess: number}
+type Guess = { name: string, guess: number };
+type Score = { name: string, score: number };
 
 export default {
   getPlayers: async (gameId: number): Promise<IPlayer[]> => {
@@ -142,6 +143,16 @@ export default {
     }));
 
     return playerGuesses;
+  },
+
+  getPlayerScores: async function(gameId: number): Promise<Score[]> {
+    const playersInGame = await this.getPlayers(gameId);
+    const playerScores = playersInGame.map(p => ({
+      name: p.name,
+      score: p.score
+    }));
+
+    return playerScores;
   },
 
   deleteAllPlayers: async (): Promise<any> => {

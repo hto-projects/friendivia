@@ -79,6 +79,10 @@ export default function PlayerApp(props: PlayerAppProps) {
       return (
         <PlayerWait message={`See the correct answer on the host screen.`} />
       );
+    } else if (playerState === "pre-leader-board") {
+      return <PlayerWait message={`Calculating final scores...`} />;
+    } else if (playerState === "leader-board") {
+      return <PlayerWait message={`gg`} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }

@@ -42,7 +42,6 @@ export default function PlayerQuestionnaireForm(
 
   const questionnaireInputs = (
     <>
-      <p>Please answer all questions below.</p>
       {questions.map((q, i) => (
         <div key={i}>
           <p>{q}</p>
@@ -51,6 +50,8 @@ export default function PlayerQuestionnaireForm(
             label={"Answer " + (i + 1)}
             variant="outlined"
             size="small"
+            className="questionnaireInput"
+            margin="dense"
             value={answers[i]}
             inputProps={{ maxLength: maxAnswer }}
             onChange={(e) => onInputChange(e.target.value, i)}

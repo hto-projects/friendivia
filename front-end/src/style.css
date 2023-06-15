@@ -9,14 +9,67 @@ h1, h2, p {
   font-family: Inter, sans-serif;
 }
 
-.logo{
-  align-self: center;
-  margin: auto; 
-  width: 20%;
-  height: 10%;
-  padding-bottom: 3vh;
+/*mobile*/
+@media (max-width: 767px) {
+  .logo{
+    height: 70%;
+    width: 70%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  .questionnaireInput{
+    width: 100%;
+  }
+
+  .answerButton{
+    align-self: center;
+    width: 100%;
+  }
 }
 
+/* Styles for desktop screens */
+@media (min-width: 768px) {
+  .logo{
+    height: 30%;
+    width: 30%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  .questionnaireInput{
+    width: 30%;
+  }
+
+  .answerButton{
+    align-self: center;
+    width: 50%;
+  }
+}
+
+.answerOptions{
+  align-self: center;
+  display: flex;
+  /*make there be space between each answer*/
+  justify-content: space-between;
+  flex-direction: column;
+  margin: auto;
+}
+
+.answerButton{
+  align-self: center;
+  width: 50%;
+}
+
+
+.joinForm{
+  display: grid;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+}
 
 .about{
   /*background-image: url('./assets/confetti.gif');*/
@@ -27,6 +80,14 @@ h1, h2, p {
   justify-content: center;
   text-align: center;
   margin: 10% auto;
+}
+
+.idInput{
+  padding-bottom: 5%;
+}
+
+.questionnaireInput{
+  display: flex;
 }
 
 .body{
@@ -52,7 +113,6 @@ h1, h2, p {
   cursor: pointer;
   border-radius: 20px;
   box-shadow: 5px 10px;
-
 }
 
 .gameid{
@@ -97,11 +157,31 @@ h1, h2, p {
   list-style-type: none;
   justify-content: center;
   justify-self: center;
-  padding-left: 0;
   display: flex;
-  flex-direction: row; 
+  flex-direction: column; 
   flex-wrap: wrap;
+  padding-left: 0;
 }
+/* make the answers not overlap*/
+.answer{
+  align-self: center;
+  width: 50%;
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  margin:auto;
+  text-align: center;
+}
+
+.paper{
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  width: 50%;
+  align-self: center;
+  text-align: center;
+}
+
+
 
 .playerbox{
   margin-left: 10vw;

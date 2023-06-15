@@ -6,7 +6,9 @@ enum PlayerStates {
   SeeingQuestion = 'seeing-question',
   QuestionAboutMe = 'question-about-me',
   AnsweredQuizQuestionWaiting = 'answered-quiz-question-waiting',
-  SeeingAnswer = 'seeing-answer'
+  SeeingAnswer = 'seeing-answer',
+  PreLeaderBoard = 'pre-leader-board',
+  LeaderBoard = 'leader-board'
 }
 
 interface IPlayerState {
