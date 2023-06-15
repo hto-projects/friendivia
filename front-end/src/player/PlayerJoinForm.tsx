@@ -54,7 +54,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           Join
         </Button>
       </div>
-
       <p style={{ color: "red" }}>{playerState.message}</p>
     </>
   );
