@@ -8,6 +8,7 @@ import HostShowQuestion from "./HostShowQuestion";
 import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
+import logo from "../assets/friendpardymocklogo.png";
 
 interface IHostProps {
   socket: Socket;
@@ -33,7 +34,6 @@ export default function HostApp(props: IHostProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(data: IGame & { quizQuestionGuesses }) {
-      console.log(data);
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
@@ -80,6 +80,8 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
         />
       );
+    } else if (state === 'pre-answer') {
+      return <p>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -106,7 +108,7 @@ export default function HostApp(props: IHostProps) {
     <div className="about">
       <img
         className="logo"
-        src={require("../assets/friendpardymocklogo.png")}
+        src={logo}
       />
       {getElementForState(gameState)}
     </div>

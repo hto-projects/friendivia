@@ -4,6 +4,7 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
+import logo from "../assets/friendpardymocklogo.png";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -91,7 +92,7 @@ export default function PlayerApp(props: PlayerAppProps) {
     <div className="about">
       <img
         className="logo"
-        src={require("../assets/friendpardymocklogo.png")}
+        src={logo}
       />
       {getElementForState()}
     </div>

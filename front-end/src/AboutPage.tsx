@@ -1,12 +1,13 @@
 import * as React from "react";
 import "./style.css";
 import { Button } from "@mui/material";
+import logo from "./assets/friendpardymocklogo.png";
 
 export default function AboutPage() {
   return (
     <div className="about">
       <h1>About</h1>
-      <img className="logo" src={require("./assets/friendpardymocklogo.png")} />
+      <img className="logo" src={logo} />
       <br />
       <p className="body">
         <b>How well do you know your friends?</b>
