@@ -1,6 +1,7 @@
 
 
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
@@ -9,13 +10,21 @@ import registerPlayerHandlers from './handlers/playerHandler.ts';
 import registerHostHandlers from './handlers/hostHandler.ts';
 
 dotenv.config();
+const frontEndUrl = process.env['FRONT_END_URL'] || "http://localhost:3001";
 
 const app = express();
+
+const corsOptions = {
+  origin: frontEndUrl,
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 const http = createServer(app);
 const io: Server = new Server(http, {
   cors: {
-      origin: process.env['FRONT_END_URL'] || "http://localhost:3001"
+      origin: frontEndUrl
   }
 });
 
