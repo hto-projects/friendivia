@@ -46,7 +46,7 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
     await hostGoNext(gameId, io);
-    await playerHelpers.allPlayersGoToNextQuestion(gameId);
+    await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
   } else {
     await hostPreLeaderBoard(gameId, io);
   }
