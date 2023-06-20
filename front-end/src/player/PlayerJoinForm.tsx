@@ -51,7 +51,11 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           disabled={!name || !gameId}
           variant="contained"
           size="large"
-          sx={{ bgcolor: "#757de8;" }}
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+          }}
           onClick={onSubmitJoin}
         >
           Join
