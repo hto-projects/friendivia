@@ -18,29 +18,21 @@ export default {
     const allPlayersInGame = await playerDb.getPlayers(gameId);
     for (let i = 0; i < allPlayersInGame.length; i++) {
       const player = allPlayersInGame[i]
-
+      var state = "";
       if (allPlayersInGame[i].id === currentGameData.quizQuestions[currentQuestionIndex].playerId) {
-        await Player.updateOne({
-          id: currentGameData.quizQuestions[currentQuestionIndex].playerId
-        }, { 
-          $set: { 
-            'playerState.state': PlayerStates.QuestionAboutMe
-          }
-        });      
-        const updatedPlayer = await playerDb.getPlayer(player.id);
-        io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}
-         else {
-          await Player.updateOne({
-            id: allPlayersInGame[i].id
-          }, { 
-            $set: { 
-              'quizQuestionOptionsText': quizQuestionOptionsText,
-              'playerState.state': PlayerStates.SeeingQuestion
-            }
-          });   
-          const updatedPlayer = await playerDb.getPlayer(player.id);
-          io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});
-           }
-    }    
+        state = PlayerStates.QuestionAboutMe;
+      } else {state = PlayerStates.SeeingQuestion;}
+
+      await Player.updateOne({
+        id: player.id
+      }, { 
+        $set: { 
+          'playerState.state': state
+        }
+      });      
+      const updatedPlayer = await playerDb.getPlayer(player.id);
+      io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}   
+    }
+    
   }
-}
+
