@@ -115,7 +115,7 @@ export default function PlayerApp(props: PlayerAppProps) {
             </div>
           </Grid>
           <Grid item xs={4}>
-            <div className="align_center">{/*Place holder for */}</div>
+            <div className="align_center">{/*Place holder for Score*/}</div>
           </Grid>
         </Grid>
         {getElementForState()}
