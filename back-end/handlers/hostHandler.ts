@@ -49,7 +49,7 @@ export default (io, socket: Socket) => {
 
   const onHostStart = async (gameId) => {
     try {
-      if ((await playerDb.getPlayers(gameId)).length > 2) {
+      if ((await playerDb.getPlayers(gameId)).length >= 2) {
       const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
       await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
