@@ -25,7 +25,12 @@ export default function AboutPage() {
         <Button
           className="button"
           variant="contained"
-          sx={{ bgcolor: "#757de8;", m: 2 }}
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
           href="/"
         >
           Join a game
@@ -33,7 +38,12 @@ export default function AboutPage() {
         <Button
           className="button"
           variant="contained"
-          sx={{ bgcolor: "#757de8;", m: 2 }}
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
           href="/host"
         >
           Host a game
