@@ -37,14 +37,20 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         {options.map((o: String, i: number) => (
           <>
             <div className="guesses">
-              <Paper>
+              <Paper
+                style={{
+                  background:
+                    i === correctAnswerIndex
+                      ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
+                      : "white",
+                  color: i === correctAnswerIndex ? "white" : "black",
+                }}
+              >
                 <p
                   style={{
-                    background:
-                      i === correctAnswerIndex
-                        ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
-                        : "white",
                     color: i === correctAnswerIndex ? "white" : "black",
+                    fontWeight: i === correctAnswerIndex ? "bolder" : "normal",
+                    fontSize: "1.5rem",
                   }}
                 >
                   {o}
@@ -54,7 +60,28 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                 {playerGuesses
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
-                    <p key={j}>{g.name}</p>
+                    <Paper
+                      style={{
+                        margin: "auto",
+                        width: "50vw",
+                        alignContent: "center",
+                        backgroundColor:
+                          getComputedStyle(document.body).getPropertyValue(
+                            "--accent"
+                          ) + ";",
+                      }}
+                    >
+                      <p
+                        style={{
+                          color: i === correctAnswerIndex ? "white" : "black",
+                          fontWeight:
+                            i === correctAnswerIndex ? "bolder" : "normal",
+                        }}
+                        key={j}
+                      >
+                        {g.name}
+                      </p>
+                    </Paper>
                   ))}
               </Stack>
               <br />
