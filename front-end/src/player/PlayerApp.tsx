@@ -6,10 +6,10 @@ import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
 import logo from "../assets/friendpardylogo.png";
 import { Chip } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -19,9 +19,13 @@ export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
-  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] =
-    React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
+  const [
+    questionnaireQuestionsText,
+    setQuestionnaireQuestionsText,
+  ] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
+    string[]
+  >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
@@ -34,6 +38,7 @@ export default function PlayerApp(props: PlayerAppProps) {
     function onLoadSuccess(data: any) {
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
+      setPlayerName(data.player.name);
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
         setQuestionnaireQuestionsText(
           data.extraData.questionnaireQuestionsText
@@ -94,25 +99,48 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }
 
-  return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <div className = "align_center">
-            <Chip label={playerName} />
-          </div>
-        </Grid>
-        <Grid item xs={4}>
-          <div className = "align_center">
+  //if player name has not been inputted do not display chip
+  if (playerName != "") {
+    return (
+      <>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <div className="align_center">
+              <Chip label={playerName} />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className="align_center">
               <img className="logo" src={logo} />
-          </div>
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className="align_center">{/*Place holder for */}</div>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <div className = "align_center">{/*Place holder for */}</div>
+        {getElementForState()}
+      </>
+    );
+  }
+  else {
+    return (
+      <>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <div className="align_center">
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className="align_center">
+              <img className="logo" src={logo} />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className="align_center">{/*Place holder for */}</div>
+          </Grid>
         </Grid>
-      </Grid>
-{getElementForState()}
-
-    </>
-  );
+        {getElementForState()}
+      </>
+    );
+  }
 }
