@@ -28,7 +28,7 @@ export default {
           }
         });      
         const updatedPlayer = await playerDb.getPlayer(player.id);
-        io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { updatedPlayer });}
+        io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}
          else {
           await Player.updateOne({
             id: allPlayersInGame[i].id
@@ -39,7 +39,7 @@ export default {
             }
           });   
           const updatedPlayer = await playerDb.getPlayer(player.id);
-          io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { updatedPlayer });
+          io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});
            }
     }    
   }
