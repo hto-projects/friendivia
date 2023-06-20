@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerWait";
+import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';
 
 interface IJoinFormProps {
   socket: Socket;
@@ -13,7 +15,7 @@ interface IJoinFormProps {
 export default function PlayerJoinForm(props: IJoinFormProps) {
   const [name, setName] = React.useState("");
   const [gameId, setGameId] = React.useState<number>(0);
-  const inMessage = `You're in! Please wait for the game to begin.`;
+  const inMessage = `You're in! Please wait for the game to begin.` + "\n";
 
   const { socket, playerState } = props;
 

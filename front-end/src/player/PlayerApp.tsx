@@ -5,6 +5,11 @@ import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
 import logo from "../assets/friendpardylogo.png";
+import { Chip } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 interface PlayerAppProps {
   socket: Socket;
@@ -13,6 +18,7 @@ interface PlayerAppProps {
 export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
+  const [playerName, setPlayerName] = React.useState("");
   const [questionnaireQuestionsText, setQuestionnaireQuestionsText] =
     React.useState<string[]>([]);
   const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
@@ -26,6 +32,8 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(data: any) {
+      console.log(data);
+      setPlayerName(data.player.name);
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
@@ -85,9 +93,25 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   return (
-    <div className="about">
-      <img className="logo" src={logo} />
-      {getElementForState()}
-    </div>
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <div className = "align_center">
+            <Chip label={playerName} />
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className = "align_center">
+              <img className="logo" src={logo} />
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className = "align_center">{/*Place holder for */}</div>
+        </Grid>
+      </Grid>
+{getElementForState()}
+
+    </>
+
   );
 }

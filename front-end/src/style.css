@@ -12,8 +12,8 @@ h1, h2, p {
 .logo{
   align-self: center;
   margin: auto; 
-  width: 20%;
-  height: 10%;
+  width: 100%;
+  height: auto;
   padding-bottom: 3vh;
 }
 
@@ -108,3 +108,6 @@ h1, h2, p {
   margin-right: 10vw;
 }
 
+.align_center {
+  text-align: center;
+}
