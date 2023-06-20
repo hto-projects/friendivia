@@ -56,7 +56,14 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   {o}
                 </p>
               </Paper>
-              <Stack>
+              <Stack
+                style={{
+                  backgroundColor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                }}
+              >
                 {playerGuesses
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
@@ -69,11 +76,22 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                           getComputedStyle(document.body).getPropertyValue(
                             "--accent"
                           ) + ";",
+                        background:
+                          getComputedStyle(document.body).getPropertyValue(
+                            "--accent"
+                          ) + ";",
                       }}
                     >
                       <p
                         style={{
-                          color: i === correctAnswerIndex ? "white" : "black",
+                          background:
+                            getComputedStyle(document.body).getPropertyValue(
+                              "--accent"
+                            ) + ";",
+                          color:
+                            getComputedStyle(document.body).getPropertyValue(
+                              "--accent"
+                            ) + ";", //i === correctAnswerIndex ? "white" : "black",
                           fontWeight:
                             i === correctAnswerIndex ? "bolder" : "normal",
                         }}
