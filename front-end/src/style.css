@@ -4,7 +4,7 @@
   /*Screen background color, button text color*/
   --bg: #ffffff;
   /*All text color except button text*/
-  --text: #ff0000;
+  --text: #000000;
   /*Button background colors*/
   --accent: #757de8;
   color: var(--text);
