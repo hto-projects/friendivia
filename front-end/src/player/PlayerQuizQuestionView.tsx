@@ -31,7 +31,11 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
             <Button
               className="answerButton"
               variant="contained"
-              sx={{ bgcolor: "#757de8;" }}
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+              }}
               key={i}
               onClick={() => answerQuestion(i)}
             >
