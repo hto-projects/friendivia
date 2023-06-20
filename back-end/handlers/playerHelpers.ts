@@ -1,11 +1,12 @@
 import playerDb from '../db/player.ts';
 import hostDb from '../db/host.ts';
 import IGame from '../interfaces/IGame.ts';
+import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
-import { Server } from 'socket.io';
 
 export default {
-  allPlayersGoToNextQuestion: async (gameId: number, io: Server): Promise<void> => {
+  allPlayersGoToNextQuestion: async (gameId: number): Promise<void> => {
+
     const currentGameData: IGame | null = await hostDb.getGameData(gameId);
     if (currentGameData === null) {
       return;
@@ -13,7 +14,24 @@ export default {
 
     const currentQuestionIndex = currentGameData.currentQuestionIndex;
     const quizQuestionOptionsText: string[] = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
-
-    await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingQuestion, io, { quizQuestionOptionsText });
+    const allPlayersInGame = await playerDb.getPlayers(gameId);
+    for (let i = 0; i < allPlayersInGame.length; i++) {
+      if (allPlayersInGame[i].id === currentGameData.quizQuestions[currentQuestionIndex].playerId) {
+        await Player.updateOne({
+          id: currentGameData.quizQuestions[currentQuestionIndex].playerId
+        }, { 
+          $set: { 
+            'playerState.state': PlayerStates.QuestionAboutMe
+          }
+        });      } else {
+          await Player.updateOne({
+            id: allPlayersInGame[i].id
+          }, { 
+            $set: { 
+              'quizQuestionOptionsText': quizQuestionOptionsText,
+              'playerState.state': PlayerStates.SeeingQuestion
+            }
+          });      }
+    }    
   }
 }
