@@ -19,13 +19,8 @@ export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
-  const [
-    questionnaireQuestionsText,
-    setQuestionnaireQuestionsText,
-  ] = React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
-    string[]
-  >([]);
+  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
