@@ -128,7 +128,7 @@ export default {
   checkAllPlayersAnsweredQuizQuestion: async (gameId: number): Promise<boolean> => {
     try {
       const allPlayersInGame = await Player.find({gameId: gameId});
-      return allPlayersInGame.filter(p => p.playerState.state === PlayerStates.AnsweredQuizQuestionWaiting).length === allPlayersInGame.length - 1;
+      return allPlayersInGame.every(p => p.playerState.state === PlayerStates.AnsweredQuizQuestionWaiting || p.playerState.state === PlayerStates.QuestionAboutMe);
     } catch (e) {
       console.error(`Issue checking if all players have answered question: ${e}`);
       return false;
