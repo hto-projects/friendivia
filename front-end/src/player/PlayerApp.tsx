@@ -98,7 +98,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   return (
     <>
     <div className="align_center">
-    <Grid container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={4}>
           <div className="align_center">
             {/*if player name has not been inputted do not display username chip*/}
@@ -116,7 +116,7 @@ export default function PlayerApp(props: PlayerAppProps) {
         </Grid>
       </Grid>
       {getElementForState()}
-    </div>
+      </div>
     </>
   );
 }
