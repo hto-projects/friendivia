@@ -94,9 +94,24 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   return (
-    <div className="about">
-      <img className="logo" src={logo} />
-      {getElementForState()}
-    </div>
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <div className = "align_center">
+            <Chip label={playerName} />
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className = "align_center">
+              <img className="logo" src={logo} />
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className = "align_center">{/*Place holder for */}</div>
+        </Grid>
+      </Grid>
+{getElementForState()}
+
+    </>
   );
 }
