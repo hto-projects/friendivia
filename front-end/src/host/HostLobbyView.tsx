@@ -35,6 +35,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       </ul>
       <Button
         variant="contained"
+        disabled={playerNames.length < 2}
         sx={{ bgcolor: "#757de8;" }}
         onClick={onStart}
       >

@@ -9,6 +9,7 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 const PRE_QUIZ_MS = 5000;
 const SHOW_ANSWER_MS = 10000;
 const PRE_ANSWER_MS = 5000;
+const PRE_LEADER_BOARD_MS = 5000;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
@@ -19,11 +20,36 @@ const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   io.to(currentGameData.hostSocketId).emit('host-next', currentGameData);
 }
 
-const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
-  await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
-  await hostDb.nextQuestion(gameId);
+const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.LeaderBoard);
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.LeaderBoard, io, {});
+
+  const gameData: IGame | null = await hostDb.getGameData(gameId);
+  if (gameData === null) {
+    return;
+  }
+  
+  const playerScores = await playerDb.getPlayerScores(gameId);
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores });
+}
+
+const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.PreLeaderBoard);
   await hostGoNext(gameId, io);
-  await playerHelpers.allPlayersGoNext(gameId, io);
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreLeaderBoard, io, {});
+  setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
+}
+
+const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
+  const shouldContinue = await hostDb.nextQuestion(gameId);
+
+  if (shouldContinue) {
+    await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
+    await hostGoNext(gameId, io);
+    await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
+  } else {
+    await hostPreLeaderBoard(gameId, io);
+  }
 }
 
 const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
