@@ -62,7 +62,10 @@ export default function PlayerQuestionnaireForm(
       <Button
         variant="contained"
         disabled={answers.some((a) => a.length === 0)}
-        sx={{ bgcolor: "#757de8;" }}
+        sx={{
+          bgcolor:
+            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+        }}
         onClick={onSubmitQuestionnaire}
       >
         Submit
