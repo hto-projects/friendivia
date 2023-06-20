@@ -18,7 +18,15 @@ export default {
 
   hostOpenGame: async function(socketId: string): Promise<number> {
     try {
-      const newId = Math.floor(Math.random() * 9000 + 1000);
+      var newId = -1;
+      while (true) {
+        const testId = Math.floor(Math.random() * 9000 + 1000);
+        const gameExists = await Game.exists({id: testId});
+        if (!gameExists) {
+          newId = testId;
+          break;
+        }
+      }
       const newGameObject: IGame = {
         id: newId,
         gameState: {
