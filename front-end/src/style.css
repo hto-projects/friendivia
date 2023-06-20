@@ -215,6 +215,10 @@ h1, h2, p {
   margin-right: 10vw;
 }
 
+.align_center {
+  text-align: center;
+}
+
 .id{
   margin:0;
 }

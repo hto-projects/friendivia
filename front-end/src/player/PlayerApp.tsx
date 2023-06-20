@@ -5,6 +5,11 @@ import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
 import logo from "../assets/friendpardylogo.png";
+import { Chip } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -13,8 +18,8 @@ interface PlayerAppProps {
 export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
-  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] =
-    React.useState<string[]>([]);
+  const [playerName, setPlayerName] = React.useState("");
+  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
   const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
@@ -28,6 +33,7 @@ export default function PlayerApp(props: PlayerAppProps) {
     function onLoadSuccess(data: any) {
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
+      setPlayerName(data.player.name);
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
         setQuestionnaireQuestionsText(
           data.extraData.questionnaireQuestionsText
@@ -88,10 +94,29 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }
 
+
   return (
-    <div className="about">
-      <img className="logo" src={logo} />
+    <>
+    <div className="align_center">
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <div className="align_center">
+            {/*if player name has not been inputted do not display username chip*/}
+            {playerName != "" ? <Chip label={playerName} /> : ""}
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div className="align_center">
+            <img className="logo" src={logo} />
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          {/*if player name has not been inputted do not display score chip*/}
+          <div className="align_center">{playerName != "" ? ""/*Place holder for Score*/ : ""}</div>
+        </Grid>
+      </Grid>
       {getElementForState()}
-    </div>
+      </div>
+    </>
   );
 }
