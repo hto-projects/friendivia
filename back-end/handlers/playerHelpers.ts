@@ -27,7 +27,9 @@ export default {
             'playerState.state': PlayerStates.QuestionAboutMe
           }
         });      
-        io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player });} else {
+        const updatedPlayer = await playerDb.getPlayer(player.id);
+        io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { updatedPlayer });}
+         else {
           await Player.updateOne({
             id: allPlayersInGame[i].id
           }, { 
@@ -36,7 +38,8 @@ export default {
               'playerState.state': PlayerStates.SeeingQuestion
             }
           });   
-          io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { player });
+          const updatedPlayer = await playerDb.getPlayer(player.id);
+          io.to(allPlayersInGame[i].playerSocketId).emit('player-next', { updatedPlayer });
            }
     }    
   }
