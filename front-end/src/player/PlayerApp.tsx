@@ -5,6 +5,11 @@ import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
 import logo from "../assets/friendpardylogo.png";
+import { Chip } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 interface PlayerAppProps {
   socket: Socket;
