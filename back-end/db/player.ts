@@ -104,18 +104,16 @@ export default {
   playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
-      /*
-      //Log player data
-      console.log(playerId + " | " + guess);*/
-      //console.log(gameData);
+      // Log player data
+      // console.log(playerId + " | " + guess);
+      // console.log(gameData);
       
       if (player === null) {
         throw `Player not found: ${playerId}`;
       } else {    
         const newQuizGuesses = player.quizGuesses;
         newQuizGuesses[gameData.currentQuestionIndex] = guess;
-        //                                                                                                                                                                                                                                      halo
-        console.log(player.name + "'s score before guess: " + player.score);
+        // console.log(player.name + "'s score before guess: " + player.score);
         await Player.updateOne({
           id: playerId
         }, { 
@@ -125,7 +123,7 @@ export default {
             'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
           }
         });
-        console.log(player.name + "'s score after guess: " + (player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)));
+        // console.log(player.name + "'s score after guess: " + (player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)));
       }
     } catch (e) {
       console.error(`Issue answering question: ${e}`);
