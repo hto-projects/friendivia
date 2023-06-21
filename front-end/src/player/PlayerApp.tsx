@@ -32,7 +32,6 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(data: any) {
-      //console.log(data);
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
