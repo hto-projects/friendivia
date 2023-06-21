@@ -76,14 +76,7 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
-  // console.log("Guesses:")
-  // console.log(guesses);
-  //58Here
-  //Sudo code:
-  //Find the total correct answers via loop 
-  //
-  
-  //Stores the score to add to the player's later
+
   let ScoreAdder = 0;
   let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
   for (let i = 0; i < guesses.length; i++) {
@@ -92,18 +85,8 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
     }
   }
 
-  
-
-  //Update score by 100 for each right answer by others
-  //identify player
-
-  //update score on player
   let player = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);
-  // console.log ("Player: " + player.name);
-  // console.log ("Player Score:");
-  // console.log (player.score);
-  // console.log ("Score added:");
-  // console.log (ScoreAdder);
+
  await Player.updateOne({
     id: gameData.quizQuestions[gameData.currentQuestionIndex].playerId
   }, { 
