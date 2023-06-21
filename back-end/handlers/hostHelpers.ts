@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
+import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 const PRE_QUIZ_MS = 5000;
@@ -75,6 +76,24 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+
+  let ScoreAdder = 0;
+  let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
+  for (let i = 0; i < guesses.length; i++) {
+    if (guesses[i].guess === correctGuess) {
+      ScoreAdder += 100;
+    }
+  }
+
+  let player = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);
+
+ await Player.updateOne({
+    id: gameData.quizQuestions[gameData.currentQuestionIndex].playerId
+  }, { 
+    $set: {
+      'score' : player.score + ScoreAdder
+    }
+  });
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
   setTimeout(hostShowNextQuestion, SHOW_ANSWER_MS, gameId, io);
 }
