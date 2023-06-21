@@ -107,15 +107,15 @@ export default {
       /*
       //Log player data
       console.log(playerId + " | " + guess);*/
-      console.log(gameData);
+      //console.log(gameData);
       
       if (player === null) {
         throw `Player not found: ${playerId}`;
       } else {    
         const newQuizGuesses = player.quizGuesses;
         newQuizGuesses[gameData.currentQuestionIndex] = guess;
-        
-        console.log("before update: " + player.score);
+        //                                                                                                                                                                                                                                      halo
+        console.log(player.name + "'s score before guess: " + player.score);
         await Player.updateOne({
           id: playerId
         }, { 
@@ -125,7 +125,7 @@ export default {
             'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
           }
         });
-        console.log("After Update: " + (player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)));
+        console.log(player.name + "'s score after guess: " + (player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)));
       }
     } catch (e) {
       console.error(`Issue answering question: ${e}`);

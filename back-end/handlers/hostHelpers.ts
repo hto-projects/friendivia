@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
+import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 const PRE_QUIZ_MS = 5000;
@@ -75,34 +76,41 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+  console.log("Guesses:")
   console.log(guesses);
   //58Here
   //Sudo code:
   //Find the total correct answers via loop 
   //
-  /*
+  
   //Stores the score to add to the player's later
   let ScoreAdder = 0;
-  
-  for (i = 0; i < player count; i++) {
-    if (player has correct answer) {
+  let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
+  for (let i = 0; i < guesses.length; i++) {
+    if (guesses[i].guess === correctGuess) {
       ScoreAdder += 100;
     }
   }
-  */
+
+  
+
   //Update score by 100 for each right answer by others
   //identify player
 
   //update score on player
-  /*await Player.updateOne({
-    id: playerId
+  let player = await playerDb.getPlayer(  gameData.quizQuestions[gameData.currentQuestionIndex].playerId );\
+  console.log ("Player: " + player.name)
+  console.log ("Player Score:");
+  console.log (player.score);
+  console.log ("Score added:");
+  console.log (ScoreAdder);
+ await Player.updateOne({
+    id: gameData.quizQuestions[gameData.currentQuestionIndex].playerId
   }, { 
     $set: {
-      'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
-      'quizGuesses': newQuizGuesses,
-      'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0) 
+      'score' : player.score + ScoreAdder
     }
-  });*/
+  });
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
   setTimeout(hostShowNextQuestion, SHOW_ANSWER_MS, gameId, io);
 }
