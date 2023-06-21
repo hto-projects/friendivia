@@ -98,8 +98,8 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   //identify player
 
   //update score on player
-  let player = await playerDb.getPlayer(  gameData.quizQuestions[gameData.currentQuestionIndex].playerId );\
-  console.log ("Player: " + player.name)
+  let player = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);
+  console.log ("Player: " + player.name);
   console.log ("Player Score:");
   console.log (player.score);
   console.log ("Score added:");
