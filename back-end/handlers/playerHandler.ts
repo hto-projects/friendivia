@@ -6,6 +6,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import Game from '../models/Game.ts'
 import hostHelpers from './hostHelpers.ts';
+import Player from '../models/Player.ts';
 
 export default (io: Server, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
@@ -64,6 +65,13 @@ export default (io: Server, socket: Socket) => {
       };
 
       if (player) {
+        await Player.updateOne({
+          id: player.id
+        }, { 
+          $set: { 
+            'playerSocketId': socket.id
+          }
+        });   
         socket.emit('player-load-success', { player, extraData });
       } else {
         socket.emit('player-load-error', 'player not found');
