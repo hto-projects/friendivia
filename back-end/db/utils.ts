@@ -164,8 +164,11 @@ const arr = [
 
 let tempArr = arr;
 
-const createQuestionnaireQuestionsWithOptions = async (players): Promise<IQuestionnaireQuestion[]> => {
-  shuffle(tempArr)
+const createQuestionnaireQuestionsWithOptions = async (players, num): Promise<IQuestionnaireQuestion[]> => {
+  if(num===1)
+  {
+    shuffle(tempArr)
+  }
   let Arr: any[] = []
     for(let i=0; i<getNumberOfQuestions(players); i++){
       Arr.push(tempArr[i])

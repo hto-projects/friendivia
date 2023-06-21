@@ -66,7 +66,7 @@ export default {
   moveGameToQuestionnaire: async function(gameId: number): Promise<any> {
     try {
       const players = await playerDb.getPlayers(gameId);
-      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players);
+      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, 1);
       const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
       await this.setGameState(gameId, GameStates.Questionnaire);
       await Game.updateOne({id: gameId}, {
@@ -81,7 +81,7 @@ export default {
 
   buildQuiz: async (gameId: number): Promise<IQuizQuestion[]> => {
     const players = await playerDb.getPlayers(gameId);
-    const questionnaireQuestions = await utilDb.createQuestionnaireQuestionsWithOptions(players);
+    const questionnaireQuestions = await utilDb.createQuestionnaireQuestionsWithOptions(players, 2);
     const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions);
     await Game.updateOne({ id: gameId }, {
       $set: { 'quizQuestions': quizQuestions }
