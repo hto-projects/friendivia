@@ -1,14 +1,16 @@
-import React from 'react';
-import { socket, backEndUrl } from './socket';
-import PlayerApp from './player/PlayerApp';
-import HostApp from './host/HostApp'
+import React from "react";
+import { socket, backEndUrl } from "./socket";
+import PlayerApp from "./player/PlayerApp";
+import HostApp from "./host/HostApp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Button from '@mui/material/Button';
-import AboutPage from './AboutPage';
-import LoadingPage from './LoadingPage';
+import Button from "@mui/material/Button";
+import AboutPage from "./AboutPage";
+import LoadingPage from "./LoadingPage";
 
 export default function App() {
-  const [serverConnection, setServerConnection] = React.useState("Connecting to server...");
+  const [serverConnection, setServerConnection] = React.useState(
+    "Connecting to server..."
+  );
 
   React.useEffect(() => {
     const checkServerConnection = async () => {
@@ -36,13 +38,15 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
-      <p><a href="/about">About</a></p>
+      <p>
+        <a href="/about">About</a>
+      </p>
       <Button onClick={() => socket.emit("delete-please")}>Clear Data</Button>
     </>
   );
 
   if (serverConnection !== "Connected!") {
-    page = <LoadingPage msg={serverConnection} />;
+    page = <LoadingPage msg={"Getting the party started..."} />;
   }
 
   return page;
