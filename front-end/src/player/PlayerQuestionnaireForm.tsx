@@ -24,6 +24,10 @@ export default function PlayerQuestionnaireForm(
   function onSubmitQuestionnaire() {
     for (let i = 0; i < answers.length; i++) {
       answers[i] = answers[i].trim();
+      if (answers[i] == "") {
+        alert("Please fill out all answers not just spaces.");
+        return;
+      }
     }
     socket.emit("player-submit-questionnaire", answers);
   }
