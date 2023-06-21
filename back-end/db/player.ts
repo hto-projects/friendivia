@@ -104,19 +104,19 @@ export default {
   playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
-
+      
       if (player === null) {
         throw `Player not found: ${playerId}`;
       } else {    
         const newQuizGuesses = player.quizGuesses;
         newQuizGuesses[gameData.currentQuestionIndex] = guess;
-
         await Player.updateOne({
           id: playerId
         }, { 
           $set: {
             'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
-            'quizGuesses': newQuizGuesses
+            'quizGuesses': newQuizGuesses,
+            'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
           }
         });
       }

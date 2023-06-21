@@ -3,6 +3,7 @@ import hostDb from '../db/host.ts';
 import playerDb from '../db/player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IGame from '../interfaces/IGame.ts';
+import Game from '../models/Game.ts';
 
 export default (io, socket: Socket) => {
   const onHostOpen = async () => {
@@ -25,6 +26,13 @@ export default (io, socket: Socket) => {
         const data = dataForGame;
         const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
         const playerScores = await playerDb.getPlayerScores(gameId);
+        await Game.updateOne({
+          id: gameId
+        }, { 
+          $set: { 
+            'hostSocketId': socket.id
+          }
+        });  
         socket.emit('host-load-success', {...data, quizQuestionGuesses, playerScores});
         
         const playersForGame = await playerDb.getPlayers(gameId);
@@ -32,7 +40,7 @@ export default (io, socket: Socket) => {
           gameId: gameId,
           players: playersForGame
         });
-      }
+            }
     } catch (e) {
       socket.emit('host-load-error', e);
     }
