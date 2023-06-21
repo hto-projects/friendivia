@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../style.css";
+import crown from "../assets/crown.png";
 
 interface ILeaderBoardProps {
   playerScores: Array<any>;
@@ -7,17 +8,29 @@ interface ILeaderBoardProps {
 
 export default function HostLeaderBoard(props: ILeaderBoardProps) {
   const playerScores = props.playerScores;
-
   playerScores.sort((p1, p2) => p1.score - p2.score);
 
   return (
     <>
-      <h1>Leader board</h1>
-      <ol>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ alignSelf: "center", margin: "auto" }}>Leaderboard</h1>
+        <br />
+        <img src={crown} style={{ width: "8vw" }} />
         {playerScores.map((ps, i) => (
-          <li key={i}>{ps.name}: {ps.score}</li>
+          <div>
+            <p className="participant">
+              {ps.name} | {ps.score}
+            </p>
+            <br />
+          </div>
         ))}
-      </ol>
+      </div>
     </>
   );
 }
