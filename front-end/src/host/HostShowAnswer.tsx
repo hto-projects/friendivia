@@ -29,12 +29,17 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       </p>
     );
   }
-
+  function toUpperCaseArray(ArrayToCapital:Array<string>) {
+    for (let i = 0; i < ArrayToCapital.length; i++) {
+      ArrayToCapital[i] = ArrayToCapital [i].toUpperCase();
+    }
+    return ArrayToCapital;
+  }
   return (
     <>
       {interpolatePlayerNameInQuestionText()}
       <div>
-        {options.map((o: String, i: number) => (
+        {toUpperCaseArray(options).map((o: String, i: number) => (
           <>
             <div className="guesses">
               <Paper
