@@ -140,7 +140,8 @@ h1, h2, p {
 }
 
 .guesses{
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 
 .gameid{

@@ -44,6 +44,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                       ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
                       : "white",
                   color: i === correctAnswerIndex ? "white" : "black",
+                  width: "30vw",
+                  margin: "auto",
                 }}
               >
                 <p
@@ -67,39 +69,31 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                 {playerGuesses
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
-                    <Paper
-                      style={{
-                        margin: "auto",
-                        width: "50vw",
-                        alignContent: "center",
-                        backgroundColor:
-                          getComputedStyle(document.body).getPropertyValue(
-                            "--accent"
-                          ) + ";",
-                        background:
-                          getComputedStyle(document.body).getPropertyValue(
-                            "--accent"
-                          ) + ";",
-                      }}
-                    >
-                      <p
-                        style={{
-                          background:
-                            getComputedStyle(document.body).getPropertyValue(
-                              "--accent"
-                            ) + ";",
-                          color:
-                            getComputedStyle(document.body).getPropertyValue(
-                              "--accent"
-                            ) + ";", //i === correctAnswerIndex ? "white" : "black",
-                          fontWeight:
-                            i === correctAnswerIndex ? "bolder" : "normal",
+                    <>
+                      <br />
+                      <Paper
+                        sx={{
+                          backgroundColor: "#757de8;",
+                          width: "10vw",
+                          margin: "auto",
                         }}
-                        key={j}
                       >
-                        {g.name}
-                      </p>
-                    </Paper>
+                        <p
+                          style={{
+                            background:
+                              getComputedStyle(document.body).getPropertyValue(
+                                "--accent"
+                              ) + ";",
+                            color: "white",
+                            fontWeight: "bolder",
+                          }}
+                          key={j}
+                        >
+                          {g.name}
+                        </p>
+                      </Paper>
+                      <br />
+                    </>
                   ))}
               </Stack>
               <br />
