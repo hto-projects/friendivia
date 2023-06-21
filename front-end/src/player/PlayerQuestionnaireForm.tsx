@@ -38,7 +38,7 @@ export default function PlayerQuestionnaireForm(
     setAnswers(newAnswers);
   }
 
-  let maxAnswer = 20;
+  let maxAnswer = 40;
 
   const questionnaireInputs = (
     <>
