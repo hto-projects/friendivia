@@ -29,7 +29,7 @@ export default function PlayerQuestionnaireForm(
     const newAnswers: string[] = [];
     for (let i = 0; i < questions.length; i++) {
       if (index === i) {
-        newAnswers[i] = newValue;
+        newAnswers[i] = newValue.trim();
       } else {
         newAnswers[i] = answers[i];
       }
