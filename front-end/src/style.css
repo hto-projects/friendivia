@@ -140,7 +140,7 @@ h1, h2, p {
 }
 
 .guesses{
-  display: grid;
+  margin: auto;
 }
 
 .gameid{
@@ -222,4 +222,6 @@ h1, h2, p {
 .id{
   margin:0;
 }
+
+
 
