@@ -46,6 +46,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   color: i === correctAnswerIndex ? "white" : "black",
                   width: "30vw",
                   margin: "auto",
+                  paddingTop: "0.1vh",
+                  paddingBottom: "0.1vh",
                 }}
               >
                 <p
@@ -70,10 +72,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
                     <>
-                      <br />
                       <Paper
                         sx={{
-                          backgroundColor: "#757de8;",
+                          backgroundColor:
+                            getComputedStyle(document.body).getPropertyValue(
+                              "--accent"
+                            ) + ";",
                           width: "10vw",
                           margin: "auto",
                         }}

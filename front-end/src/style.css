@@ -140,8 +140,7 @@ h1, h2, p {
 }
 
 .guesses{
-  display: flex;
-  flex-direction: column;
+  margin: auto;
 }
 
 .gameid{
@@ -219,4 +218,6 @@ h1, h2, p {
 .id{
   margin:0;
 }
+
+
 
