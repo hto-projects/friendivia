@@ -75,6 +75,34 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+  console.log(guesses);
+  //58Here
+  //Sudo code:
+  //Find the total correct answers via loop 
+  //
+  /*
+  //Stores the score to add to the player's later
+  let ScoreAdder = 0;
+  
+  for (i = 0; i < player count; i++) {
+    if (player has correct answer) {
+      ScoreAdder += 100;
+    }
+  }
+  */
+  //Update score by 100 for each right answer by others
+  //identify player
+
+  //update score on player
+  /*await Player.updateOne({
+    id: playerId
+  }, { 
+    $set: {
+      'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
+      'quizGuesses': newQuizGuesses,
+      'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0) 
+    }
+  });*/
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
   setTimeout(hostShowNextQuestion, SHOW_ANSWER_MS, gameId, io);
 }

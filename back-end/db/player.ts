@@ -104,7 +104,11 @@ export default {
   playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
-
+      /*
+      //Log player data
+      console.log(playerId + " | " + guess);
+      console.log(gameData);
+      */
       if (player === null) {
         throw `Player not found: ${playerId}`;
       } else {    
@@ -116,7 +120,8 @@ export default {
         }, { 
           $set: {
             'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
-            'quizGuesses': newQuizGuesses
+            'quizGuesses': newQuizGuesses,
+            'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
           }
         });
       }
