@@ -13,6 +13,10 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {
+    console.log(
+      getComputedStyle(document.documentElement).getPropertyValue("accent") +
+        ";"
+    );
     socket.emit("host-start", gameId);
   }
 
@@ -20,7 +24,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     <>
       <h2>Join at friendpardy.com</h2>
       <Paper elevation={3} className="gameid">
-        {gameId}
+        <p className="id">{gameId}</p>
       </Paper>
       <h1>{playerNames.length} Players</h1>
       <ul className="ul">
@@ -35,7 +39,11 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       </ul>
       <Button
         variant="contained"
-        sx={{ bgcolor: "#757de8;" }}
+        disabled={playerNames.length < 2}
+        sx={{
+          bgcolor:
+            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+        }}
         onClick={onStart}
       >
         Start

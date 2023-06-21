@@ -1,13 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root {
-  --main: #ffffff;
+  /*Screen background color, button text color*/
+  --bg: #ffffff;
+  /*All text color except button text*/
+  --text: #000000;
+  /*Button background colors*/
   --accent: #757de8;
+  color: var(--text);
+  background-color: var(--bg);
 }
 
 h1, h2, p {
   font-family: Inter, sans-serif;
+  color: var(--text);
 }
+
 
 /*mobile*/
 @media (max-width: 767px) {
@@ -19,6 +27,10 @@ h1, h2, p {
     margin-bottom: 1%;
   }
 
+  .form{
+    width: 100%
+  }
+
   .questionnaireInput{
     width: 100%;
   }
@@ -26,6 +38,10 @@ h1, h2, p {
   .answerButton{
     align-self: center;
     width: 100%;
+  }
+
+  .idInput{
+    padding-bottom: 5%;
   }
 }
 
@@ -39,6 +55,10 @@ h1, h2, p {
     margin-bottom: 1%;
   }
 
+  .form{
+    width: 30%;
+  }
+
   .questionnaireInput{
     width: 30%;
   }
@@ -47,12 +67,16 @@ h1, h2, p {
     align-self: center;
     width: 50%;
   }
+
+  .idInput{
+    padding-bottom: 5%;
+    width: 30%;
+  }
 }
 
 .answerOptions{
   align-self: center;
   display: flex;
-  /*make there be space between each answer*/
   justify-content: space-between;
   flex-direction: column;
   margin: auto;
@@ -65,6 +89,9 @@ h1, h2, p {
 
 
 .joinForm{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
   display: grid;
   margin: 5% auto;
   margin-left: 10%;
@@ -72,7 +99,6 @@ h1, h2, p {
 }
 
 .about{
-  /*background-image: url('./assets/confetti.gif');*/
   background-repeat: repeat;
   background-size: 60% auto;
   background-clip: cover;
@@ -82,9 +108,7 @@ h1, h2, p {
   margin: 10% auto;
 }
 
-.idInput{
-  padding-bottom: 5%;
-}
+
 
 .questionnaireInput{
   display: flex;
@@ -103,7 +127,7 @@ h1, h2, p {
 .button{
   background-color: var(--accent);
   border: none;
-  color: white;
+  color: var(--bg);
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -115,6 +139,10 @@ h1, h2, p {
   box-shadow: 5px 10px;
 }
 
+.guesses{
+  display: grid;
+}
+
 .gameid{
   font-family: Inter, sans-serif;
   font-weight: 1000;
@@ -122,8 +150,7 @@ h1, h2, p {
   margin-left: 30vw;
   margin-right: 30vw;
   padding: 10px;
-  color:#ffffff;
-  background: rgba(113, 125, 228, .8);
+  background: var(--accent);
   
   border-radius: 10px;
 }
@@ -148,8 +175,8 @@ h1, h2, p {
   margin:auto;
   text-align: center;
   padding: 10px;
-  color:#ffffff;
-  background: rgba(113, 125, 228, .8);
+  color:var(--text);
+  background: var(--bg);
   border-radius: 5px;
 }
 
@@ -162,7 +189,7 @@ h1, h2, p {
   flex-wrap: wrap;
   padding-left: 0;
 }
-/* make the answers not overlap*/
+
 .answer{
   align-self: center;
   width: 50%;
@@ -186,5 +213,13 @@ h1, h2, p {
 .playerbox{
   margin-left: 10vw;
   margin-right: 10vw;
+}
+
+.align_center {
+  text-align: center;
+}
+
+.id{
+  margin:0;
 }
 

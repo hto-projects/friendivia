@@ -1,11 +1,13 @@
 import playerDb from '../db/player.ts';
 import hostDb from '../db/host.ts';
 import IGame from '../interfaces/IGame.ts';
+import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import { Server } from 'socket.io';
 
 export default {
   allPlayersGoToNextQuestion: async (gameId: number, io: Server): Promise<void> => {
+
     const currentGameData: IGame | null = await hostDb.getGameData(gameId);
     if (currentGameData === null) {
       return;
@@ -13,7 +15,24 @@ export default {
 
     const currentQuestionIndex = currentGameData.currentQuestionIndex;
     const quizQuestionOptionsText: string[] = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
+    const allPlayersInGame = await playerDb.getPlayers(gameId);
+    for (let i = 0; i < allPlayersInGame.length; i++) {
+      const player = allPlayersInGame[i]
+      var state = "";
+      if (allPlayersInGame[i].id === currentGameData.quizQuestions[currentQuestionIndex].playerId) {
+        state = PlayerStates.QuestionAboutMe;
+      } else {state = PlayerStates.SeeingQuestion;}
 
-    await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingQuestion, io, { quizQuestionOptionsText });
+      await Player.updateOne({
+        id: player.id
+      }, { 
+        $set: { 
+          'playerState.state': state
+        }
+      });      
+      const updatedPlayer = await playerDb.getPlayer(player.id);
+      io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}   
+    }
+    
   }
-}
+

@@ -2,6 +2,7 @@ import IPlayer from "../interfaces/IPlayer";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 
+
 function getNumberOfQuestions(players) {
   let temporaryNum; 
   if(players.length === 2)
@@ -174,6 +175,8 @@ const createQuestionnaireQuestionsWithOptions = async (players, num): Promise<IQ
       Arr.push(tempArr[i])
     }
   return Arr;
+
+
 }
 
 const chooseRandomFromList = (listOfSomething: any[]): any => {

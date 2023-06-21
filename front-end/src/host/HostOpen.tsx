@@ -17,8 +17,14 @@ export default function HostOpen(props: IOpenProps) {
   return (
     <>
       <p>Click below to host a new game:</p>
-      <br />
-      <Button variant="contained" sx={{ bgcolor: "#757de8;" }} onClick={onHost}>
+      <Button
+        variant="contained"
+        sx={{
+          bgcolor:
+            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+        }}
+        onClick={onHost}
+      >
         Host
       </Button>
     </>
