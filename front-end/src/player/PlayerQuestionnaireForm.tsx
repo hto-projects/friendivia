@@ -22,6 +22,9 @@ export default function PlayerQuestionnaireForm(
   const inMessage = `Submission accepted! Please wait for the other players to finish.`;
 
   function onSubmitQuestionnaire() {
+    for (let i = 0; i < answers.length; i++) {
+      answers[i] = answers[i].trim();
+    }
     socket.emit("player-submit-questionnaire", answers);
   }
 
@@ -29,7 +32,7 @@ export default function PlayerQuestionnaireForm(
     const newAnswers: string[] = [];
     for (let i = 0; i < questions.length; i++) {
       if (index === i) {
-        newAnswers[i] = newValue.trim();
+        newAnswers[i] = newValue;
       } else {
         newAnswers[i] = answers[i];
       }
