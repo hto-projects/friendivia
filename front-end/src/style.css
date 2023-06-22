@@ -224,4 +224,42 @@ h1, h2, p {
 }
 
 
+.participant{
+  font-family: Inter, sans-serif;
+  font-size: 1.5em;
+  font-weight: bolder;
+  margin:auto;
+  text-align: center;
+  padding: 10px;
+  color:var(--bg);
+  background: var(--accent);
+  border-radius: 5px;
+  width: 10vw;
+}
+
+.ol{
+  list-style-type: none;
+}
+
+.li{
+  list-style-type: none;
+}
+
+.ol li{
+  list-style-type: none;
+}
+
+.score {
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 1.2em;
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  color: var(--bg);
+  width: 5vw;
+  background: var(--accent);
+  border-radius: 5px;
+}
+
 
