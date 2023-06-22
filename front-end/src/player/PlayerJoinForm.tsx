@@ -19,6 +19,12 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
   const { socket, playerState } = props;
 
   function onSubmitJoin() {
+    var nameCheck = name.trim();
+    if (nameCheck == "") {
+      alert("Please enter a name.");
+      return;
+    }
+
     socket.emit("player-submit-join", { name, gameId });
   }
 

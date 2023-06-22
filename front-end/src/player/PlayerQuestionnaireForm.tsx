@@ -22,6 +22,13 @@ export default function PlayerQuestionnaireForm(
   const inMessage = `Submission accepted! Please wait for the other players to finish.`;
 
   function onSubmitQuestionnaire() {
+    for (let i = 0; i < answers.length; i++) {
+      answers[i] = answers[i].trim();
+      if (answers[i] == "") {
+        alert("Please fill out all answers not just spaces.");
+        return;
+      }
+    }
     socket.emit("player-submit-questionnaire", answers);
   }
 

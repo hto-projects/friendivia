@@ -11,7 +11,7 @@ import Player from '../models/Player.ts';
 export default (io: Server, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
     try {
-      const name = data.name;
+      const name = data.name.trim();
       const gameId: number = data.gameId;
       const allPlayersInGame = await playerDb.getPlayers(gameId);
       const foundPlayer = allPlayersInGame.find(p => p.name === name);
