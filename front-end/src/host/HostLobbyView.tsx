@@ -32,7 +32,14 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           <li key={i}>
             <Paper
               elevation={3}
-              className="playerbox"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "red",
+                  cursor: "pointer",
+                  boxShadow: 8,
+                },
+              }}
+              className="lobby_player"
               onClick={() => onPlayerKick(name)}
             >
               <p className="player">{name}</p>

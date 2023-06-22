@@ -215,6 +215,11 @@ h1, h2, p {
   margin-right: 10vw;
 }
 
+.lobby_player{
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
 .align_center {
   text-align: center;
 }
