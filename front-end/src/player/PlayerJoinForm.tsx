@@ -20,7 +20,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
 
   function onSubmitJoin() {
     var nameCheck = name.trim();
-    console.log("|" + nameCheck + "|");
     if (nameCheck == "") {
       alert("Please enter a name.");
       return;
