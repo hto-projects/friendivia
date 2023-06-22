@@ -103,25 +103,22 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   return (
     <>
-      <div className="align_center">
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <div className="align_center">
-              {/*if player name has not been inputted do not display username chip*/}
-              {playerName != "" ? <Chip label={playerName} /> : ""}
-            </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div className="align_center">
-              <img className="logo" src={logo} />
-            </div>
-          </Grid>
-          <Grid item xs={3}>
-            {/*if player name has not been inputted do not display score chip*/}
-            <div className="align_center">
-              {playerName != "" ? "" /*Place holder for Score*/ : ""}
-            </div>
-          </Grid>
+    <div className="align_center">
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <div className="align_center">
+            {/*if player name has not been inputted do not display username chip*/}
+            {playerName != "" ? <Chip  label={playerName} /> : ""}
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+          <div className="align_center">
+            <img className="logo" src={logo} />
+          </div>
+        </Grid>
+        <Grid item xs={3}>
+          {/*if player name has not been inputted do not display score chip*/}
+          <div className="align_center">{playerName != "" ? <Chip label={playerScore} /> : ""}</div>
         </Grid>
         {getElementForState()}
       </div>

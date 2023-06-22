@@ -11,7 +11,7 @@ interface ILeaderBoardProps {
 export default function HostLeaderBoard(props: ILeaderBoardProps) {
   const socket = props.socket;
   const playerScores = props.playerScores;
-  playerScores.sort((p1, p2) => p1.score - p2.score);
+  playerScores.sort((p1, p2) => p2.score - p1.score);
 
   function onPlayAgain() {
     socket.emit("play-again");
