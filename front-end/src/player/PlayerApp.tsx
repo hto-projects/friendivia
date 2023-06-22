@@ -20,8 +20,13 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState("");
-  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
+  const [
+    questionnaireQuestionsText,
+    setQuestionnaireQuestionsText,
+  ] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
+    string[]
+  >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
@@ -90,12 +95,11 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "pre-leader-board") {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
-      return <PlayerWait message={`gg`} />;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
-
 
   return (
     <>
@@ -116,8 +120,8 @@ export default function PlayerApp(props: PlayerAppProps) {
           {/*if player name has not been inputted do not display score chip*/}
           <div className="align_center">{playerName != "" ? <Chip label={playerScore} /> : ""}</div>
         </Grid>
-      </Grid>
-      {getElementForState()}
+        </Grid>
+        {getElementForState()}
       </div>
     </>
   );
