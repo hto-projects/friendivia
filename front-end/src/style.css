@@ -208,11 +208,23 @@ h1, h2, p {
   text-align: center;
 }
 
-
+.waiting{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .playerbox{
-  margin-left: 10vw;
-  margin-right: 10vw;
+  width: 20vw;
+  align-self: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .align_center {
