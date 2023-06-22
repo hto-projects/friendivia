@@ -286,4 +286,46 @@ h1, h2, p {
   border-radius: 5px;
 }
 
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.timer {
+  font-family: "Inter";
+  color:var(--bg);
+  font-weight: bolder;
+  font-size: 4em;
+  text-align: center;
+  vertical-align: middle;
+  margin: auto;
+}
+
+.dot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8vw;
+  width: 8vw;
+  background-color: var(--accent);
+  border-radius: 50%;
+  margin: auto;
+  align-self: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.info {
+  max-width: 360px;
+  margin: 40px auto 0;
+  text-align: center;
+  font-size: 16px;
+}
+
 
