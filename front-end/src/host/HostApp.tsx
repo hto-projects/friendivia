@@ -115,7 +115,7 @@ export default function HostApp(props: IHostProps) {
 
   return (
     <div className="about">
-      <img className="logo" src={logo} />
+      <img className="logohost" src={logo} />
       {getElementForState(gameState)}
     </div>
   );

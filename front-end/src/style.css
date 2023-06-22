@@ -20,6 +20,13 @@ h1, h2, p {
 /*mobile*/
 @media (max-width: 767px) {
   .logo{
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+  .logohost{
     height: 70%;
     width: 70%;
     margin: auto;
@@ -48,6 +55,14 @@ h1, h2, p {
 /* Styles for desktop screens */
 @media (min-width: 768px) {
   .logo{
+    height: 70%;
+    width: 70%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  .logohost{
     height: 30%;
     width: 30%;
     margin: auto;
