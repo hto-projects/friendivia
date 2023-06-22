@@ -227,6 +227,7 @@ h1, h2, p {
   margin-right: 5vw;
 }
 
+
 .align_center {
   text-align: center;
 }
@@ -251,14 +252,19 @@ h1, h2, p {
 
 .ol{
   list-style-type: none;
+  margin: 0;
 }
 
 .li{
   list-style-type: none;
+  margin: 0;
+
 }
 
 .ol li{
   list-style-type: none;
+  margin: 0;
+
 }
 
 .score {

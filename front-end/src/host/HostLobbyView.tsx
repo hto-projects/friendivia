@@ -27,16 +27,16 @@ export default function HostLobbyView(props: ILobbyViewProps) {
         <p className="id">{gameId}</p>
       </Paper>
       <h1>{playerNames.length} Players</h1>
-      <ul className="ul">
+      <div className="waiting">
         {playerNames.map((name: String, i: number) => (
-          <li key={i}>
+          <>
             <Paper elevation={3} className="playerbox">
               <p className="player">{name}</p>
             </Paper>
             <br />
-          </li>
+          </>
         ))}
-      </ul>
+      </div>
       <Button
         variant="contained"
         disabled={playerNames.length < 2}
