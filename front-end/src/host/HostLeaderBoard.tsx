@@ -8,7 +8,7 @@ interface ILeaderBoardProps {
 
 export default function HostLeaderBoard(props: ILeaderBoardProps) {
   const playerScores = props.playerScores;
-  playerScores.sort((p1, p2) => p1.score - p2.score);
+  playerScores.sort((p1, p2) => p2.score - p1.score);
 
   return (
     <>
