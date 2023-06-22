@@ -68,8 +68,16 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const playAgain = async (gameId) => {
+    try {
+      hostDb.deleteGame(gameId);
+      onHostOpen();
+    } catch (e) {
+      console.error(`Failed to delete game: ${e}`)
+    }}
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
-}
+  socket.on('play-again', playAgain);}

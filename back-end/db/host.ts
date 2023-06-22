@@ -122,5 +122,13 @@ export default {
     } catch (e) {
       console.error(`Issue deleting all games: ${e}`);
     }
-  }
+  },
+
+  deleteGame: async(gameId: number): Promise<any> => {
+    try{
+      await Game.deleteOne({id: gameId});
+    }
+    catch(e){
+      console.error(`Issue deleting game: ${e}`);
+    }}
 }

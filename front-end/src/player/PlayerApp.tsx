@@ -20,8 +20,13 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState("");
-  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
+  const [
+    questionnaireQuestionsText,
+    setQuestionnaireQuestionsText,
+  ] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
+    string[]
+  >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
@@ -90,34 +95,35 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "pre-leader-board") {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
-      return <PlayerWait message={`gg`} />;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
-
   return (
     <>
-    <div className="align_center">
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <div className="align_center">
-            {/*if player name has not been inputted do not display username chip*/}
-            {playerName != "" ? <Chip  label={playerName} /> : ""}
-          </div>
+      <div className="align_center">
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <div className="align_center">
+              {/*if player name has not been inputted do not display username chip*/}
+              {playerName != "" ? <Chip label={playerName} /> : ""}
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div className="align_center">
+              <img className="logo" src={logo} />
+            </div>
+          </Grid>
+          <Grid item xs={3}>
+            {/*if player name has not been inputted do not display score chip*/}
+            <div className="align_center">
+              {playerName != "" ? "" /*Place holder for Score*/ : ""}
+            </div>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <div className="align_center">
-            <img className="logo" src={logo} />
-          </div>
-        </Grid>
-        <Grid item xs={3}>
-          {/*if player name has not been inputted do not display score chip*/}
-          <div className="align_center">{playerName != "" ? ""/*Place holder for Score*/ : ""}</div>
-        </Grid>
-      </Grid>
-      {getElementForState()}
+        {getElementForState()}
       </div>
     </>
   );
