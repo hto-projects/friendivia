@@ -180,6 +180,10 @@ h1, h2, p {
   border-radius: 5px;
 }
 
+.player:hover{
+  text-decoration: line-through;
+}
+
 .ul{
   list-style-type: none;
   justify-content: center;

@@ -34,9 +34,9 @@ export default function HostLobbyView(props: ILobbyViewProps) {
               elevation={3}
               sx={{
                 "&:hover": {
-                  backgroundColor: "red",
                   cursor: "pointer",
                   boxShadow: 8,
+                  textDecoration: "strike-through",
                 },
               }}
               className="lobby_player"
