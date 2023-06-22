@@ -35,7 +35,9 @@ export default function HostApp(props: IHostProps) {
   }
 
   React.useEffect(() => {
-    function onLoadSuccess(data: IGame & { quizQuestionGuesses, playerScores }) {
+    function onLoadSuccess(
+      data: IGame & { quizQuestionGuesses; playerScores }
+    ) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
@@ -66,7 +68,7 @@ export default function HostApp(props: IHostProps) {
     if (state === "lobby") {
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
-      return <HostQuestionnaire />;
+      return <HostQuestionnaire socket={socket} gameId={gameId} />;
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {
@@ -105,9 +107,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "pre-leader-board") {
       return <p>Calculating final scores...</p>;
     } else if (state === "leader-board") {
-      return (
-        <HostLeaderBoard playerScores={playerScores} />
-      )
+      return <HostLeaderBoard playerScores={playerScores} />;
     } else {
       return <HostOpen socket={socket} />;
     }
