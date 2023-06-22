@@ -114,7 +114,7 @@ export default function PlayerApp(props: PlayerAppProps) {
         </Grid>
         <Grid item xs={3}>
           {/*if player name has not been inputted do not display score chip*/}
-          <div className="align_center">{playerName != "" ? ""/*Place holder for Score*/ : ""}</div>
+          <div className="align_center">{playerName != "" ? <Chip label={playerScore} /> : ""}</div>
         </Grid>
       </Grid>
       {getElementForState()}
