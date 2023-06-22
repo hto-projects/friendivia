@@ -13,11 +13,11 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {
-    console.log(
-      getComputedStyle(document.documentElement).getPropertyValue("accent") +
-        ";"
-    );
     socket.emit("host-start", gameId);
+  }
+
+  async function onPlayerKick(name: string) {
+    socket.emit("host-kick-player", name);
   }
 
   return (
@@ -28,9 +28,13 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       </Paper>
       <h1>{playerNames.length} Players</h1>
       <ul className="ul">
-        {playerNames.map((name: String, i: number) => (
+        {playerNames.map((name: string, i: number) => (
           <li key={i}>
-            <Paper elevation={3} className="playerbox">
+            <Paper
+              elevation={3}
+              className="playerbox"
+              onClick={() => onPlayerKick(name)}
+            >
               <p className="player">{name}</p>
             </Paper>
             <br />

@@ -118,6 +118,26 @@ export default (io: Server, socket: Socket) => {
     }
   };
 
+  const onHostKickPlayer = async (playerName: string) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerByName(playerName);
+      const gameId = player.gameId;
+      await playerDb.kickPlayer(playerName, gameId);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+      const currentGameData = await hostDb.getGameData(gameId);
+      if (currentGameData === null) {
+        return;
+      }
+
+      io.to(currentGameData.hostSocketId).emit('players-updated', {
+        gameId: gameId,
+        players: allPlayersInGame
+      });
+    } catch (e) {
+      console.error("Failed to kick player: " + e);
+    }}
+
+  socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
