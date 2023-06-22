@@ -54,6 +54,24 @@ export default {
     }
   },
 
+  getPlayerByName: async (playerName: string): Promise<any> => {
+    try {
+      const player = await Player.findOne({name: playerName});
+      return player;
+    } catch (e) {
+      console.error(`Issue getting player state: ${e}`);
+      return null;
+    }},
+
+    kickPlayer: async (playerName: string, gameId: number): Promise<any> => {
+      try {
+        await Player.deleteOne({name: playerName, gameId: gameId});
+      } catch (e) {
+        console.error(`Issue kicking player: ${e}`);
+      }
+    },
+        
+
   getPlayerBySocketId: async (socketId: string): Promise<any> => {
     try {
       const player = await Player.findOne({playerSocketId: socketId});
