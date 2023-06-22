@@ -8,7 +8,8 @@ enum PlayerStates {
   AnsweredQuizQuestionWaiting = 'answered-quiz-question-waiting',
   SeeingAnswer = 'seeing-answer',
   PreLeaderBoard = 'pre-leader-board',
-  LeaderBoard = 'leader-board'
+  LeaderBoard = 'leader-board',
+  TimeUp = 'time-is-up'
 }
 
 interface IPlayerState {

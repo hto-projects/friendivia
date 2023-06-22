@@ -10,6 +10,7 @@ const PRE_QUIZ_MS = 5000;
 const SHOW_ANSWER_MS = 10000;
 const PRE_ANSWER_MS = 5000;
 const PRE_LEADER_BOARD_MS = 5000;
+const PLAYER_COMPLETE_QUIZ = 10000;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
@@ -47,6 +48,7 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
     await hostGoNext(gameId, io);
     await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
+    setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
   } else {
     await hostPreLeaderBoard(gameId, io);
   }
@@ -62,7 +64,7 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
-
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.TimeUp, io, {});
   setTimeout(hostShowAnswer, PRE_ANSWER_MS, gameId, io);
 }
 

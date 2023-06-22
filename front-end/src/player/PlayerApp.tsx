@@ -89,6 +89,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
       return <PlayerWait message={`gg`} />;
+    } else if (playerState === "time-is-up") {
+      return <PlayerWait message={`Time is up for this question...`} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
