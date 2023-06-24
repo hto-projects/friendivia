@@ -100,7 +100,6 @@ export default (io: Server, socket: Socket) => {
   const onPlayerAnswerQuestion = async (guess: number) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
-      const gameId = player.gameId;
       const gameData: IGame | null = await hostDb.getGameData(player.gameId);
       if (gameData === null) {
         throw `Game not found: ${player.gameId}`;
