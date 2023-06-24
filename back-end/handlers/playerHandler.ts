@@ -109,10 +109,6 @@ export default (io: Server, socket: Socket) => {
       await playerDb.playerAnswerQuestion(player.id, guess, gameData);
       socket.emit('player-answer-question-success');
 
-      const allPlayersDone = await playerDb.checkAllPlayersAnsweredQuizQuestion(gameId);
-      if (allPlayersDone) {
-        await hostHelpers.hostPreAnswer(gameId, io);
-      }
     } catch (e) {
       socket.emit('player-answer-question-error', e);
     }
@@ -136,7 +132,7 @@ export default (io: Server, socket: Socket) => {
     } catch (e) {
       console.error("Failed to kick player: " + e);
     }}
-
+  
   socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
