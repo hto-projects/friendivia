@@ -12,7 +12,7 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
   const { options, questionText, playerName } = props;
 
   function App() {
-    const [counter, setCounter] = React.useState(10);
+    const [counter, setCounter] = React.useState(15);
     React.useEffect(() => {
       counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
     }, [counter]);
