@@ -4,11 +4,13 @@ import playerDb from '../db/player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
+import q from '../db/question.ts';
 
 export default (io, socket: Socket) => {
   const onHostOpen = async () => {
     try {
       const newGameId = await hostDb.hostOpenGame(socket.id);
+      await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
       socket.emit('host-open-error', e);
