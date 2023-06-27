@@ -258,7 +258,7 @@ h1, h2, p {
   color:var(--bg);
   background: var(--accent);
   border-radius: 5px;
-  width: 10vw;
+  width: 20vw;
 }
 
 .ol{
