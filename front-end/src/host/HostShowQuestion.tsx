@@ -1,7 +1,6 @@
 import * as React from "react";
 import "../style.css";
 import { Button, Paper, Grid } from "@mui/material";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 interface IShowQuestionProps {
   playerName: string;
