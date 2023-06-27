@@ -19,7 +19,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
-  const [playerScore, setPlayerScore] = React.useState("");
+  const [playerScore, setPlayerScore] = React.useState(0);
   const [
     questionnaireQuestionsText,
     setQuestionnaireQuestionsText,
@@ -95,7 +95,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "pre-leader-board") {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
-      return <PlayerJoin socket={socket} playerState={playerState} />;
+      return (
+      <PlayerJoin socket={socket} playerState={playerState} />
+      );
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
