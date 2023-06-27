@@ -36,9 +36,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     );
   }
 
-  function onNextQuestion() {
+  function onNext() {
     socket.emit('next-question', gameId);
-    console.log('Log is emmitted');
   }
 
   return (
@@ -126,7 +125,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               ";",
             m: 2,
           }}
-          onClick={onNextQuestion}
+          onClick={onNext}
         >
           Next Question
         </Button>

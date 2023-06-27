@@ -82,7 +82,6 @@ export default (io, socket: Socket) => {
 
   const onNextQuestion = async (gameId) => {
     try {
-      console.log('socket function started');
       hostHelpers.hostShowNextQuestion(gameId, io);
     } catch (e) {
       console.error(`Failed to move to next question: ${e}`)
