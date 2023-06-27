@@ -102,6 +102,8 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
           correctAnswerIndex={correctAnswerIndex}
           playerGuesses={quizQuestionGuesses}
+          socket={socket}
+          gameId={gameId}
         />
       );
     } else if (state === "pre-leader-board") {

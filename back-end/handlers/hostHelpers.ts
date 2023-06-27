@@ -8,7 +8,6 @@ import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 const PRE_QUIZ_MS = 5000;
-const SHOW_ANSWER_MS = 15000;
 const PRE_ANSWER_MS = 5000;
 const PRE_LEADER_BOARD_MS = 5000;
 const PLAYER_COMPLETE_QUIZ = 15000;
@@ -97,7 +96,6 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
     }
   });
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
-  setTimeout(hostShowNextQuestion, SHOW_ANSWER_MS, gameId, io);
 }
 
-export default { hostStartQuiz, hostPreAnswer };
+export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion };

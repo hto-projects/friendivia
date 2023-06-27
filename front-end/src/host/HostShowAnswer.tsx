@@ -1,6 +1,8 @@
 import * as React from "react";
 import "../style.css";
 import { Paper, Stack } from "@mui/material";
+import { Button } from "@mui/material";
+import { Socket } from "socket.io-client";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -8,6 +10,8 @@ interface IShowAnswerProps {
   options: string[];
   correctAnswerIndex: number;
   playerGuesses: Array<any>;
+  socket: Socket;
+  gameId: number;
 }
 
 export default function HostShowAnswer(props: IShowAnswerProps) {
@@ -17,6 +21,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     playerName,
     correctAnswerIndex,
     playerGuesses,
+    socket,
+    gameId
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -28,6 +34,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         {part2}
       </p>
     );
+  }
+
+  function onNext() {
+    socket.emit('next-question', gameId);
   }
 
   return (
@@ -104,6 +114,21 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
             </div>
           </>
         ))}
+      </div>
+      <div>
+        <Button
+          className="button"
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
+          onClick={onNext}
+        >
+          Next Question
+        </Button>
       </div>
     </>
   );
