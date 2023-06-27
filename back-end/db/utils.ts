@@ -5,37 +5,20 @@ import IQuizQuestion from "../interfaces/IQuizQuestion";
 
 function getNumberOfQuestions(players) {
   let temporaryNum; 
-  if(players.length === 2)
+  if(players.length <= 3)
   {
-    temporaryNum = 10
+    temporaryNum = 5
   }
-  else if(players.length === 3)
+  else if(players.length <= 5)
   {
-    temporaryNum = 15
+    temporaryNum = 3
   }
-  else if(players.length === 4)
+  else if(players.length <= 8)
   {
-    temporaryNum = 12
+    temporaryNum = 2
   }
-  else if(players.length === 5)
-  {
-    temporaryNum = 15
-  }
-  else if(players.length === 6)
-  {
-    temporaryNum = 12
-  }
-  else if(players.length === 7)
-  {
-    temporaryNum = 14
-  }
-  else if(players.length === 8)
-  {
-    temporaryNum = 16
-  }
-  else
-  {
-    temporaryNum = players.length
+  else{
+    temporaryNum = 1
   }
   return temporaryNum;
 }
