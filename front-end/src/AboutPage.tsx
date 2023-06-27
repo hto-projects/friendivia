@@ -7,7 +7,7 @@ export default function AboutPage() {
   return (
     <div className="about">
       <h1>About</h1>
-      <img className="logo" src={logo} />
+      <img className="logohost" src={logo} />
       <br />
       <p className="body">
         <b>How well do you know your friends?</b>
