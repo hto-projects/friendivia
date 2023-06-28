@@ -5,7 +5,6 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
 import q from '../db/question.ts';
-import q from '../db/question.ts';
 import hostHelpers from './hostHelpers.ts';
 
 export default (io, socket: Socket) => {
@@ -79,6 +78,7 @@ export default (io, socket: Socket) => {
       onHostOpen();
     } catch (e) {
       console.error(`Failed to delete game: ${e}`)
+    }}
 
   const onNextQuestion = async (gameId) => {
     try {
@@ -93,4 +93,5 @@ export default (io, socket: Socket) => {
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
-  socket.on('next-question', onNextQuestion);}
+  socket.on('next-question', onNextQuestion);
+}
