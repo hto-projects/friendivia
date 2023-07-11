@@ -1,6 +1,6 @@
 import React from "react";
 import "../style.css";
-import { Button, Paper, Grid } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
 
 interface ILobbyViewProps {
