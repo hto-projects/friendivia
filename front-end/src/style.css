@@ -414,3 +414,17 @@ h1, h2, p {
   background-color: #bdd4e7;
   background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
 }
+
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  justify-content: center;
+}
+
+.lobby_player {
+  flex: 0 0 auto;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  min-width: 100px;
+}
