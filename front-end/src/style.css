@@ -243,6 +243,17 @@ h1, h2, p {
   text-align: center;
 }
 
+.banner {
+  background-color: rgba(117, 125, 232, 0.4);
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom-style: outset;
+  border-color: var(--accent);
+  border-width: 10px;
+
+}
+
 .id{
   margin:0;
 }

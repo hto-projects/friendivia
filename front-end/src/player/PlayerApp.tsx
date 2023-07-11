@@ -106,11 +106,12 @@ export default function PlayerApp(props: PlayerAppProps) {
   return (
     <>
     <div className="align_center">
+      <div className="banner">
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <div className="align_center">
             {/*if player name has not been inputted do not display username chip*/}
-            {playerName != "" ? <Chip  label={playerName} /> : ""}
+            {playerName != "" ? <Chip  label={playerName}/> : ""}
           </div>
         </Grid>
         <Grid item xs={6}>
@@ -123,8 +124,9 @@ export default function PlayerApp(props: PlayerAppProps) {
           <div className="align_center">{playerName != "" ? <Chip label={playerScore} /> : ""}</div>
         </Grid>
         </Grid>
-        {getElementForState()}
       </div>
+      {getElementForState()}
+    </div>
     </>
   );
 }
