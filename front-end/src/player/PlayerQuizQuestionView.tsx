@@ -28,7 +28,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
         {optionsList.map((o: String, i: number) => (
           <>
             <br />
-            <Button
+            <Button style={{textTransform: 'none'}}
               className="answerButton"
               variant="contained"
               sx={{
