@@ -7,6 +7,8 @@ enum PlayerStates {
   QuestionAboutMe = 'question-about-me',
   AnsweredQuizQuestionWaiting = 'answered-quiz-question-waiting',
   SeeingAnswer = 'seeing-answer',
+  SeeingAnswerCorrect = 'seeing-answer-correct',
+  SeeingAnswerIncorrect = 'seeing-answer-incorrect',
   PreLeaderBoard = 'pre-leader-board',
   LeaderBoard = 'leader-board'
 }
