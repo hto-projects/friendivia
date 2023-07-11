@@ -88,9 +88,18 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const onTimerSkip = async (gameId) => {
+    try {
+      hostHelpers.hostSkipTimer(gameId, io);
+    } catch(e) {
+      console.error(`Failed to skip timer: ${e}`)
+    }
+  }
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
-  socket.on('next-question', onNextQuestion);}
+  socket.on('next-question', onNextQuestion);
+  socket.on('timer-skip', onTimerSkip);}

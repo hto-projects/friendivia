@@ -1,15 +1,18 @@
 import * as React from "react";
 import "../style.css";
 import { Button, Paper, Grid } from "@mui/material";
+import { Socket } from "socket.io-client";
 
 interface IShowQuestionProps {
   playerName: string;
   questionText: string;
   options: string[];
+  socket: Socket;
+  gameId: number;
 }
 
 export default function HostShowQuestion(props: IShowQuestionProps) {
-  const { options, questionText, playerName } = props;
+  const { options, questionText, playerName, socket, gameId } = props;
 
   function App() {
     const [counter, setCounter] = React.useState(15);
@@ -36,6 +39,10 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
     );
   }
 
+  function onTimerSkipBtn() {
+    socket.emit('timer-skip', gameId);
+  }
+
   return (
     <>
       <App />
@@ -49,6 +56,21 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
           </Paper>
         ))}
       </ul>
+      <div>
+        <Button
+          className="button"
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
+          onClick={onTimerSkipBtn}
+        >
+          Show Answers
+        </Button>
+      </div>
     </>
   );
 }
