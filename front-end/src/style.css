@@ -252,13 +252,15 @@ h1, h2, p {
   font-family: Inter, sans-serif;
   font-size: 1.5em;
   font-weight: bolder;
-  margin:auto;
+  margin: 1vw;
   text-align: center;
   padding: 10px;
   color:var(--bg);
   background: var(--accent);
   border-radius: 5px;
   width: 20vw;
+  display: flex;
+  justify-content: center;
 }
 
 .ol{
@@ -326,6 +328,12 @@ h1, h2, p {
   margin: 40px auto 0;
   text-align: center;
   font-size: 16px;
+}
+
+.leaderboard{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 
