@@ -72,6 +72,7 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
+  await playerHelpers.allPlayersTimesUp(gameId, io);
 
   setTimeout(hostShowAnswer, PRE_ANSWER_MS, gameId, io);
 }

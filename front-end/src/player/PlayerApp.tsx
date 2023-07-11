@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import PlayerCorrect from "./PlayerCorrect";
 import PlayerIncorrect from "./PlayerIncorrect";
 import PlayerIsSubject from "./PlayerIsSubject";
+import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -87,6 +88,8 @@ export default function PlayerApp(props: PlayerAppProps) {
           playerState={playerState}
         />
       );
+    } else if (playerState === "did-not-answer-question-waiting") {
+      return <PlayerRanOutOfTime />;
     } else if (playerState === "question-about-me") {
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-answer-correct") {
