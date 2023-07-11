@@ -11,6 +11,7 @@ const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
 const PRE_LEADER_BOARD_MS = 5000;
 const PLAYER_COMPLETE_QUIZ = 15000;
+let nextQuestionTimer;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
@@ -48,10 +49,15 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
     await hostGoNext(gameId, io);
     await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
-    setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
+    nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
   } else {
     await hostPreLeaderBoard(gameId, io);
   }
+}
+
+const hostSkipTimer = async (gameId: number, io: Server): Promise<void> => {
+  clearTimeout(nextQuestionTimer);
+  hostPreAnswer(gameId, io);  
 }
 
 const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
@@ -98,4 +104,4 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
 }
 
-export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion };
+export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion, hostSkipTimer };
