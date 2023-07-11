@@ -62,7 +62,9 @@ const hostSkipTimer = async (gameId: number, io: Server): Promise<void> => {
 
 const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreQuiz);
-  await hostDb.buildQuiz(gameId);
+  const data = await hostDb.getGameData(gameId)
+  const questions = data?.questionnaireQuestions;
+  await hostDb.buildQuiz(gameId, questions);
   await hostGoNext(gameId, io);
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }
