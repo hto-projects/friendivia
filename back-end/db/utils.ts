@@ -3,7 +3,6 @@ import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 import Question from "../db/question.ts";
 
-
 function getNumberOfQuestions(players) {
   let temporaryNum; 
   if(players.length <= 3)
@@ -62,7 +61,8 @@ const shuffle = (array: any[]): void => {
 }
 
 const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[]): IQuizQuestion[] => {
-    const numQuestions = 4;
+    var numQuestions = 4;
+    if(players.length > 4){numQuestions = players.length;}
     const numberOfOptions = 4;
 
     const playerIds: string[] = [];
