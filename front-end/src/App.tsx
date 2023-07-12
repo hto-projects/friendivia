@@ -39,7 +39,19 @@ export default function App() {
         </Routes>
       </BrowserRouter>
       <p>
-        <a href="/about">About</a>
+        <Button
+          className="button"
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
+          href="/about"
+        >
+          About
+        </Button>
       </p>
       <Button onClick={() => socket.emit("delete-please")}>Clear Data</Button>
     </>
