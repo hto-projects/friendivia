@@ -109,7 +109,8 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   return (
     <>
-      <div className="align_center">
+    <div className="align_center">
+      <div className="banner">
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <div className="align_center">
@@ -129,8 +130,9 @@ export default function PlayerApp(props: PlayerAppProps) {
             </div>
           </Grid>
         </Grid>
-        {getElementForState()}
       </div>
+      {getElementForState()}
+    </div>
     </>
   );
 }
