@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io';
 import hostDb from '../db/host.ts';
 import playerDb from '../db/player.ts';
+import questionDb from '../db/question.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
@@ -53,6 +54,7 @@ export default (io, socket: Socket) => {
     try {
       await playerDb.deleteAllPlayers();
       await hostDb.deleteAllGames();
+      await questionDb.deleteAllQuestions();
     } catch (e) {
       console.error("failed to delete all");
     }
