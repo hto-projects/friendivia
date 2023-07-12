@@ -26,12 +26,21 @@ const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> =>
   await hostDb.setGameState(gameId, GameStates.LeaderBoard);
   await playerDb.updateAllPlayerStates(gameId, PlayerStates.LeaderBoard, io, {});
 
+  const playerScores = await playerDb.getPlayerScores(gameId);
+  playerScores.sort((a, b) => b.score - a.score);
+  const players = await playerDb.getPlayers(gameId);
+  const winningScore = playerScores[0];
+  for(let i = 0; i < players.length; i++) {
+    if (players[i].score === winningScore.score) {
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.Win, io, {});
+    }
+  }
+
   const gameData: IGame | null = await hostDb.getGameData(gameId);
   if (gameData === null) {
     return;
   }
   
-  const playerScores = await playerDb.getPlayerScores(gameId);
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores });
 }
 
