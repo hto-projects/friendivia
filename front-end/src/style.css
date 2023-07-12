@@ -213,7 +213,7 @@ h1, h2, p {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 1em;
+  font-size: 2vw;
   margin:auto;
   text-align: center;
 }
@@ -246,11 +246,14 @@ h1, h2, p {
 .banner {
   background-color: rgba(117, 125, 232, 0.4);
   font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
   border-bottom-style: outset;
   border-color: var(--accent);
   border-width: 10px;
+  margin-left: 0px; /*check if this actually works on mobile when added to develop
+  bc cant check rn*/
+  margin-right: 0px;
 }
 
 .id{
@@ -307,7 +310,7 @@ h1, h2, p {
   font-family: "Inter";
   color:var(--bg);
   font-weight: bolder;
-  font-size: 4em;
+  font-size: 3vw;
   text-align: center;
   vertical-align: middle;
   margin: auto;
@@ -317,12 +320,19 @@ h1, h2, p {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vw;
-  width: 8vw;
+  height: 7vw;
+  width: 7vw;
   background-color: var(--accent);
   border-radius: 50%;
   margin: auto;
+  margin-bottom: 1vw;
   align-self: center;
+}
+
+.question{
+  font-size: 3vw;
+  margin: auto;
+  margin-bottom: 1vw;
 }
 
 .text {
