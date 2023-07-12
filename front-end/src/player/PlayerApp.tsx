@@ -14,6 +14,7 @@ import PlayerCorrect from "./PlayerCorrect";
 import PlayerIncorrect from "./PlayerIncorrect";
 import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
+import PlayerOver from "./PlayerOver";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -101,7 +102,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "pre-leader-board") {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
-      return <PlayerJoin socket={socket} playerState={playerState} />;
+      return <PlayerOver rank={0} />;
+    } else if (playerState === "win") {
+      return <PlayerOver rank={1} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
@@ -109,30 +112,30 @@ export default function PlayerApp(props: PlayerAppProps) {
 
   return (
     <>
-    <div className="align_center">
-      <div className="banner">
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <div className="align_center">
-              {/*if player name has not been inputted do not display username chip*/}
-              {playerName != "" ? <Chip label={playerName} /> : ""}
-            </div>
+      <div className="align_center">
+        <div className="banner">
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <div className="align_center">
+                {/*if player name has not been inputted do not display username chip*/}
+                {playerName != "" ? <Chip label={playerName} /> : ""}
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div className="align_center">
+                <img className="logo" src={logo} />
+              </div>
+            </Grid>
+            <Grid item xs={3}>
+              {/*if player name has not been inputted do not display score chip*/}
+              <div className="align_center">
+                {playerName != "" ? <Chip label={playerScore} /> : ""}
+              </div>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <div className="align_center">
-              <img className="logo" src={logo} />
-            </div>
-          </Grid>
-          <Grid item xs={3}>
-            {/*if player name has not been inputted do not display score chip*/}
-            <div className="align_center">
-              {playerName != "" ? <Chip label={playerScore} /> : ""}
-            </div>
-          </Grid>
-        </Grid>
+        </div>
+        {getElementForState()}
       </div>
-      {getElementForState()}
-    </div>
     </>
   );
 }
