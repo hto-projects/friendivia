@@ -5,22 +5,11 @@ import Question from "../db/question.ts";
 
 function getNumberOfQuestions(players) {
   let temporaryNum; 
-  if(players.length <= 3)
+  if(players.length <= 5)
   {
     temporaryNum = 5
   }
-  else if(players.length <= 5)
-  {
-    temporaryNum = 5
-  }
-  else if(players.length <= 8)
-  {
-    temporaryNum = 5
-  }
-  else{
-    temporaryNum = 5
-  }
-  return temporaryNum;
+  else return players.length;
 }
 
 const createQuestionnaireQuestionsWithOptions = async (players): Promise<IQuestionnaireQuestion[]> => {
