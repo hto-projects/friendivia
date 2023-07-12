@@ -1,7 +1,7 @@
 import Question from "../models/Question.ts";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import baseQuestions from "../db/basequestions.ts";
-import question from "../db/question.ts";
+import question from "../db/question.ts"; 
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -51,8 +51,14 @@ export default {
                   }
                 question.addQuestion(formattedQuestion);
             });
-    }
-
+    },
+    deleteAllQuestions: async (): Promise<any> => {
+        try {
+          await Question.deleteMany({});
+        } catch (e) {
+          console.error(`Issue deleting all games: ${e}`);
+        }
+      }
 };
 
 
