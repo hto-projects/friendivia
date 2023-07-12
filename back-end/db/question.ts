@@ -1,7 +1,7 @@
 import Question from "../models/Question.ts";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import baseQuestions from "../db/basequestions.ts";
-import question from "../db/question.ts";
+import question from "../db/question.ts"; 
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -19,7 +19,6 @@ export default {
             const questionExists = await Question.exists({ text: question.text }) || await Question.exists({ quizText: question.quizText });
             if (!questionExists) {
                 await newQuestion.save();
-                console.log(newQuestion);
                 return newQuestion;}
             return null;
         } catch (e) {
@@ -29,7 +28,14 @@ export default {
     },
     getRandomQuestions: async (numQuestions: number): Promise<any> => {
         try {
-            const questions = await Question.aggregate([{ $sample: { size: numQuestions } }]);
+            var questions = await Question.aggregate([{ $sample: { size: numQuestions } }]);
+            for (var i = 0; i < questions.length; i++) {
+                for (var j = i + 1; j < questions.length; j++) {
+                    while (questions[i].text == questions[j].text) {
+                        questions[i] = await Question.aggregate([{ $sample: { size: 1 } }]);
+                    }
+                }
+            }
             return questions;
         } catch (e) {
             console.error(`Issue getting random questions: ${e}`);
@@ -45,8 +51,14 @@ export default {
                   }
                 question.addQuestion(formattedQuestion);
             });
-    }
-
+    },
+    deleteAllQuestions: async (): Promise<any> => {
+        try {
+          await Question.deleteMany({});
+        } catch (e) {
+          console.error(`Issue deleting all games: ${e}`);
+        }
+      }
 };
 
 

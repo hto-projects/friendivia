@@ -55,7 +55,17 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   return (
     <>
       {interpolatePlayerNameInQuestionText()}
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          width: "80vw",
+          alignContent: "center",
+          alignSelf: "center",
+          margin: "auto",
+        }}
+      >
         {options.map((o: String, i: number) => (
           <>
             <div className="guesses">
@@ -101,6 +111,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                               "--accent"
                             ) + ";",
                           width: "10vw",
+                          paddingTop: "0.1vh",
+                          paddingBottom: "0.1vh",
                           margin: "auto",
                         }}
                       >
@@ -112,13 +124,16 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                               ) + ";",
                             color: "white",
                             fontWeight: "bolder",
+                            alignSelf: "center",
+                            verticalAlign: "middle",
+                            margin: "auto",
                           }}
                           key={j}
                         >
                           {g.name}
                         </p>
                       </Paper>
-                      <br />
+                      <div style={{ height: "0.4vh" }} />
                     </>
                   ))}
               </Stack>

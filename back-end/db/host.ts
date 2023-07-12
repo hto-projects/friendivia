@@ -79,15 +79,15 @@ export default {
         $set: { 'questionnaireQuestions': questionsWithOptions }
       });
 
+      
       return questionnaireQuestionsText;
     } catch (e) {
       console.error(`Issue moving game to questionnaire: ${e}`);
     }
   },
 
-  buildQuiz: async (gameId: number): Promise<IQuizQuestion[]> => {
+  buildQuiz: async (gameId: number, questionnaireQuestions: any): Promise<IQuizQuestion[]> => {
     const players = await playerDb.getPlayers(gameId);
-    const questionnaireQuestions = await utilDb.createQuestionnaireQuestionsWithOptions(players);
     const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions);
     await Game.updateOne({ id: gameId }, {
       $set: { 'quizQuestions': quizQuestions }

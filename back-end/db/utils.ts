@@ -25,7 +25,8 @@ function getNumberOfQuestions(players) {
 }
 
 const createQuestionnaireQuestionsWithOptions = async (players): Promise<IQuestionnaireQuestion[]> => {
-  return Question.getRandomQuestions(getNumberOfQuestions(players));
+  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players));
+  return questions;
 }
 
 const chooseRandomFromList = (listOfSomething: any[]): any => {

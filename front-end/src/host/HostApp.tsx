@@ -83,6 +83,8 @@ export default function HostApp(props: IHostProps) {
           options={quizQuestionOptions}
           questionText={quizQuestionText}
           playerName={quizQuestionPlayerName}
+          socket={socket}
+          gameId={gameId}
         />
       );
     } else if (state === "pre-answer") {

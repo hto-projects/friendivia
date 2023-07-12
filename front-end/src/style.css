@@ -156,6 +156,7 @@ h1, h2, p {
 
 .guesses{
   margin: auto;
+  padding: 0%;
 }
 
 .gameid{
@@ -213,7 +214,7 @@ h1, h2, p {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 1em;
+  font-size: 2vw;
   margin:auto;
   text-align: center;
 }
@@ -243,6 +244,19 @@ h1, h2, p {
   text-align: center;
 }
 
+.banner {
+  background-color: rgba(117, 125, 232, 0.4);
+  font-weight: bold;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  border-bottom-style: outset;
+  border-color: var(--accent);
+  border-width: 10px;
+  margin-left: 0px; /*check if this actually works on mobile when added to develop
+  bc cant check rn*/
+  margin-right: 0px;
+}
+
 .id{
   margin:0;
 }
@@ -252,13 +266,15 @@ h1, h2, p {
   font-family: Inter, sans-serif;
   font-size: 1.5em;
   font-weight: bolder;
-  margin:auto;
+  margin: 1vw;
   text-align: center;
   padding: 10px;
   color:var(--bg);
   background: var(--accent);
   border-radius: 5px;
   width: 20vw;
+  display: flex;
+  justify-content: center;
 }
 
 .ol{
@@ -295,7 +311,7 @@ h1, h2, p {
   font-family: "Inter";
   color:var(--bg);
   font-weight: bolder;
-  font-size: 4em;
+  font-size: 3vw;
   text-align: center;
   vertical-align: middle;
   margin: auto;
@@ -305,12 +321,19 @@ h1, h2, p {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vw;
-  width: 8vw;
+  height: 7vw;
+  width: 7vw;
   background-color: var(--accent);
   border-radius: 50%;
   margin: auto;
+  margin-bottom: 1vw;
   align-self: center;
+}
+
+.question{
+  font-size: 3vw;
+  margin: auto;
+  margin-bottom: 1vw;
 }
 
 .text {
@@ -328,4 +351,101 @@ h1, h2, p {
   font-size: 16px;
 }
 
+.leaderboard{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
+
+.correct{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  margin:auto;
+  text-align: center;
+  padding: 10px;
+  color:var(--bg);
+  border-radius: 5px;
+  width: 90vw;
+  height: 87vh;
+  vertical-align: middle;
+  background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
+}
+
+.incorrect{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  margin:auto;
+  text-align: center;
+  padding: 10px;
+  color:var(--bg);
+  border-radius: 5px;
+  width: 90vw;
+  height: 87vh;
+  vertical-align: middle;
+  background: linear-gradient(98.3deg, rgb(0, 0, 0) 10.6%, rgb(255, 0, 0) 97.7%);
+}
+
+.correctImg{
+  width: 50vw;
+  height: auto;
+  align-self: center;
+}
+
+.correctTxt{
+  font-family: Inter, sans-serif;
+  color:var(--bg);
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.subjectTxt{
+  font-family: Inter, sans-serif;
+  color:var(--bg);
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.subject{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  font-family: Inter, sans-serif;
+  font-size: 1em;
+  margin:auto;
+  text-align: center;
+  padding: 10px;
+  color:var(--bg);
+  border-radius: 5px;
+  width: 90vw;
+  height: 87vh;
+  vertical-align: middle;
+  background-color: #bdd4e7;
+  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+}
+
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  justify-content: center;
+}
+
+.lobby_player {
+  flex: 0 0 auto;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  min-width: 100px;
+}
