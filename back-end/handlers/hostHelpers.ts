@@ -72,17 +72,30 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
+  await playerHelpers.allPlayersTimesUp(gameId, io);
 
   setTimeout(hostShowAnswer, PRE_ANSWER_MS, gameId, io);
 }
 
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
-  await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingAnswer, io, {});
-  const gameData = await hostDb.getGameData(gameId);
+  const gameData = await hostDb.getGameData(gameId);  
   if (gameData === null) {
     return;
   }
+
+  const players = await playerDb.getPlayers(gameId);
+  players.forEach(async (player) => {
+    if (player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex) {
+      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
+    } else if(gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id){
+      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
+    }
+    else
+    {
+      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
+    }
+  });
 
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
 

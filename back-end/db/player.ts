@@ -17,7 +17,6 @@ export default {
       return [];
     }
   },
-
   addPlayer: async (playerName: string, gameId: number, socketId: string): Promise<string> => {
     try {
       const playerId = `player_${uuid.v4()}`;
@@ -93,6 +92,18 @@ export default {
       console.error(`Issue updating all player states: ${e}`);
     }
   },
+
+  updatePlayerState: async (playerId: string, newState: PlayerStates, io, extraData: object): Promise<any> => {
+    try {
+      await Player.updateOne({id: playerId}, { $set: { 'playerState.state': newState } });
+      const players = await Player.find({id: playerId});
+      for (const player of players) {
+        io.to(player.playerSocketId).emit('player-next', { player, extraData });
+      }
+      
+    } catch (e) {
+      console.error(`Issue updating player state: ${e}`);
+    }},
 
   playerCompleteQuestionnaire: async (playerId: string, questionnaireAnswers: string[]): Promise<any> => {
     try {
