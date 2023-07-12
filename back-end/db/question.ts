@@ -7,7 +7,6 @@ export default {
     getQuestions: async (): Promise<any> => {
         try {
             const questions = await Question.find();
-            console.log('Get:' + questions);
             return questions;
         } catch (e) {
             console.error(`Issue getting questions: ${e}`);
@@ -20,7 +19,6 @@ export default {
             const questionExists = await Question.exists({ text: question.text }) || await Question.exists({ quizText: question.quizText });
             if (!questionExists) {
                 await newQuestion.save();
-                console.log('Add:' + newQuestion.text);
                 return newQuestion;}
             return null;
         } catch (e) {
@@ -35,11 +33,8 @@ export default {
                 for (var j = i + 1; j < questions.length; j++) {
                     while (questions[i].text == questions[j].text) {
                         questions[i] = await Question.aggregate([{ $sample: { size: 1 } }]);
-                        console.log('Randomij: ' + questions[i].text);
                     }
-                    console.log('Randomj: ' + questions[j].text);
                 }
-                console.log('Randomi: ' + questions[i].text);
             }
             return questions;
         } catch (e) {
@@ -54,7 +49,6 @@ export default {
                     quizText: thisQuestion.quizText,
                     fakeAnswers: thisQuestion.fakeAnswers
                   }
-                console.log('Formatted:' + formattedQuestion.text);
                 question.addQuestion(formattedQuestion);
             });
     },
