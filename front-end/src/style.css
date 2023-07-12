@@ -156,6 +156,7 @@ h1, h2, p {
 
 .guesses{
   margin: auto;
+  padding: 0%;
 }
 
 .gameid{
