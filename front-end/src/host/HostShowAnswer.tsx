@@ -12,8 +12,10 @@ interface IShowAnswerProps {
   playerGuesses: Array<any>;
   socket: Socket;
   gameId: number;
+  quizLength: number;
 }
 
+var num = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
   const {
     options,
@@ -22,7 +24,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     correctAnswerIndex,
     playerGuesses,
     socket,
-    gameId
+    gameId, 
+    quizLength
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -37,9 +40,18 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function onNext() {
+    num++;
     socket.emit('next-question', gameId);
   }
 
+  function buttonText(){
+    if(num < quizLength)
+      return "Next Question";
+    else 
+      return "Show Leaderboard";
+  }
+
+  if(buttonText() == "Next Question")
   return (
     <>
       {interpolatePlayerNameInQuestionText()}
@@ -131,5 +143,98 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         </Button>
       </div>
     </>
-  );
+  )
+  else
+  return (
+    <>
+      {interpolatePlayerNameInQuestionText()}
+      <div>
+        {options.map((o: String, i: number) => (
+          <>
+            <div className="guesses">
+              <Paper
+                style={{
+                  background:
+                    i === correctAnswerIndex
+                      ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
+                      : "white",
+                  color: i === correctAnswerIndex ? "white" : "black",
+                  width: "30vw",
+                  margin: "auto",
+                  paddingTop: "0.1vh",
+                  paddingBottom: "0.1vh",
+                }}
+              >
+                <p
+                  style={{
+                    color: i === correctAnswerIndex ? "white" : "black",
+                    fontWeight: i === correctAnswerIndex ? "bolder" : "normal",
+                    fontSize: "1.5rem",
+                  }}
+                >
+                  {o}
+                </p>
+              </Paper>
+              <Stack
+                style={{
+                  backgroundColor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                }}
+              >
+                {playerGuesses
+                  .filter((g) => g.guess === i)
+                  .map((g, j) => (
+                    <>
+                      <Paper
+                        sx={{
+                          backgroundColor:
+                            getComputedStyle(document.body).getPropertyValue(
+                              "--accent"
+                            ) + ";",
+                          width: "10vw",
+                          margin: "auto",
+                        }}
+                      >
+                        <p
+                          style={{
+                            background:
+                              getComputedStyle(document.body).getPropertyValue(
+                                "--accent"
+                              ) + ";",
+                            color: "white",
+                            fontWeight: "bolder",
+                          }}
+                          key={j}
+                        >
+                          {g.name}
+                        </p>
+                      </Paper>
+                      <br />
+                    </>
+                  ))}
+              </Stack>
+              <br />
+            </div>
+          </>
+        ))}
+      </div>
+      <div>
+        <Button
+          className="button"
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+            m: 2,
+          }}
+          onClick={onNext}
+        >
+          Show Leaderboard
+        </Button>
+      </div>
+    </>
+  )
 }

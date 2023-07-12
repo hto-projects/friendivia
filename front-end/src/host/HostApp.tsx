@@ -94,7 +94,7 @@ export default function HostApp(props: IHostProps) {
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
       const correctAnswerIndex = currentQuizQuestion.correctAnswerIndex;
-
+      const quizQuestionsLength = quizQuestions.length;
       return (
         <HostShowAnswer
           options={quizQuestionOptions}
@@ -104,6 +104,7 @@ export default function HostApp(props: IHostProps) {
           playerGuesses={quizQuestionGuesses}
           socket={socket}
           gameId={gameId}
+          quizLength={quizQuestionsLength}
         />
       );
     } else if (state === "pre-leader-board") {
