@@ -449,3 +449,9 @@ h1, h2, p {
   padding-right: 1vw;
   min-width: 100px;
 }
+
+.secretButton{
+  background: transparent;
+    border: none !important;
+    font-size:0;
+}

@@ -4,10 +4,9 @@ import IQuizQuestion from "../interfaces/IQuizQuestion";
 import Question from "../db/question.ts";
 
 function getNumberOfQuestions(players) {
-  let temporaryNum; 
   if(players.length <= 5)
   {
-    temporaryNum = 5
+    return 5;
   }
   else return players.length;
 }

@@ -53,7 +53,17 @@ export default function App() {
           About
         </Button>
       </p>
-      <Button onClick={() => socket.emit("delete-please")}>Clear Data</Button>
+      <Button
+        onClick={() => socket.emit("delete-please")}
+        className="secretButton"
+        sx={{
+          background: "transparent",
+          fontSize: "0.1em",
+          color: "transparent",
+        }}
+      >
+        Clear Data
+      </Button>
     </>
   );
 
