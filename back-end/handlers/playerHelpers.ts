@@ -45,19 +45,19 @@ export default {
     for (let i = 0; i < allPlayersInGame.length; i++) {
       const player = allPlayersInGame[i]
       var state = "";
-      if (player.playerState.state === 'answered-quiz-question-waiting' || player.playerState.state === 'question-about-me') {
-        return;
-      } else {state = PlayerStates.DidNotAnswerQuestionWaiting;}
-
-      await Player.updateOne({
-        id: player.id
-      }, { 
-        $set: { 
-          'playerState.state': state
-        }
-      });     
-      const updatedPlayer = await playerDb.getPlayer(player.id);
-      io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });}   
+      if (!(player.playerState.state === 'answered-quiz-question-waiting' || player.playerState.state === 'question-about-me')) {
+        state = PlayerStates.DidNotAnswerQuestionWaiting;
+        await Player.updateOne({
+          id: player.id
+        }, { 
+          $set: { 
+            'playerState.state': state
+          }
+        });
+        const updatedPlayer = await playerDb.getPlayer(player.id);
+        io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
+      }
+    }   
   }
 }
 
