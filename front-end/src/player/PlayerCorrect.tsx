@@ -6,7 +6,7 @@ export default function PlayerCorrect() {
   return (
     <>
       <div className="correct">
-        <img className="correctImg" src={correct} alt="correct" />
+        <img className="correctImg" src={correct} alt="Correct" />
         <p className="correctTxt">+200 points</p>
       </div>
     </>

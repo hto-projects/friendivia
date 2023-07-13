@@ -397,8 +397,8 @@ h1, h2, p {
 }
 
 .correctImg{
-  width: 50vw;
-  height: auto;
+  width: auto;
+  height: 50vw;
   align-self: center;
 }
 
