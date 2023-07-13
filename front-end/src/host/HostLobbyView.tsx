@@ -23,11 +23,12 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   return (
     <>
       <h2>
-        Join at{" "}
-        {window.location.href
-          .replace("/host", "")
-          .replace("http://", "")
-          .replace("www.", "")}
+        Join at
+        {" " +
+          window.location.href
+            .replace("/host", "")
+            .replace("http://", "")
+            .replace("www.", "")}
       </h2>
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
