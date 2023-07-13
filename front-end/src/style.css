@@ -219,7 +219,7 @@ h1, h2, p {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 2vw;
+  font-size: 23px;
   margin:auto;
   text-align: center;
 }
@@ -336,7 +336,7 @@ h1, h2, p {
 }
 
 .question{
-  font-size: 3vw;
+  font-size: 23px;
   margin: auto;
   margin-bottom: 1vw;
 }
