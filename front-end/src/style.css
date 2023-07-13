@@ -347,6 +347,12 @@ h1, h2, p {
   margin-bottom: 1vw;
 }
 
+.showAnswer{
+  font-size: 2.5vw;
+  margin: auto;
+  margin-bottom: 3vh;
+}
+
 .text {
   color: #aaa;
 }
