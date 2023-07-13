@@ -154,7 +154,7 @@ h1, h2, p {
   box-shadow: 5px 10px;
 }
 
-.aboutContainer{
+.bottomContainer{
   display: flex;
   justify-content: flex-start;
 }
@@ -247,6 +247,12 @@ h1, h2, p {
 
 .align_center {
   text-align: center;
+}
+
+
+.player_join {
+  text-align: center;
+  height: calc(100vh - 70px);
 }
 
 .banner {

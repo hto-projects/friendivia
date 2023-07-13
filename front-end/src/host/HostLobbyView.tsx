@@ -57,23 +57,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       >
         Start
       </Button>
-      <div className="aboutContainer">
-        <p>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>
     </>
   );
 }
