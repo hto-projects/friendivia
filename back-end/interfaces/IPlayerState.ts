@@ -12,7 +12,9 @@ enum PlayerStates {
   SeeingAnswerIncorrect = 'seeing-answer-incorrect',
   PreLeaderBoard = 'pre-leader-board',
   LeaderBoard = 'leader-board',
-  Win = 'win'
+  RankOne = 'rank-one',
+  RankTwo = 'rank-two',
+  RankThree = 'rank-three',
 }
 
 interface IPlayerState {
