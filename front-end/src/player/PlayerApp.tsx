@@ -126,7 +126,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerOver rank={3} />;
     } else {
       bottomButtons = true;
-      return <PlayerJoin socket={socket} playerState={playerState} />;
+      return <PlayerJoin socket={socket} playerState={playerState}/>;
     }
   }
 
@@ -164,7 +164,7 @@ export default function PlayerApp(props: PlayerAppProps) {
         </div>
         {getElementForState()}
       </div>
-      {bottomButtons ? (
+      {bottomButtons && playerState != "joined-waiting" ? (
       <div className="bottomContainer">
         <p>
         <Button
