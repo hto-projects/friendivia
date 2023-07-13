@@ -18,8 +18,17 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
 
   const guessReceivedMessage = `Guess received! Hang tight...`;
 
+  function goTo(answerIndex: number){
+    answerQuestion(answerIndex);
+    allPlayersAnswerQuestion(answerIndex);
+  }
+
   const answerQuestion = async (answerIndex: number): Promise<void> => {
     socket.emit("player-answer-question", answerIndex);
+  };
+
+  const allPlayersAnswerQuestion = async (answerIndex: number): Promise<void> => {
+    socket.emit('check-all-players-answered', answerIndex);
   };
 
   const optionsForm = (
@@ -37,7 +46,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
                   ";",
               }}
               key={i}
-              onClick={() => answerQuestion(i)}
+              onClick={() => goTo(i)}
             >
               {o}
             </Button>

@@ -7,11 +7,15 @@ import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
 import q from '../db/question.ts';
 import hostHelpers from './hostHelpers.ts';
+import Player from '../models/Player.ts';
+import IPlayer from '../interfaces/IPlayer.ts';
 
+var GameId ;
 export default (io, socket: Socket) => {
   const onHostOpen = async () => {
     try {
       const newGameId = await hostDb.hostOpenGame(socket.id);
+      GameId = newGameId;
       await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
@@ -98,10 +102,35 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const allPlayersAnsweredQuestion = async (guess: number) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
+      const gameData: IGame | null = await hostDb.getGameData(player.gameId);
+      if (gameData === null) {
+        throw `Game not found: ${player.gameId}`;
+      }
+      await playerDb.playerAnswerQuestion(player.id, guess, gameData);
+      var ContinueGame = true;
+      const allPlayersInGame = await Player.find({gameId: GameId});
+      for(let p=0; p<allPlayersInGame.length; p++){
+        if(allPlayersInGame[p].playerState.state != PlayerStates.AnsweredQuizQuestionWaiting && allPlayersInGame[p].playerState.state != PlayerStates.QuestionAboutMe){
+          ContinueGame = false;
+          break;
+        }
+      }
+      if(ContinueGame){
+        await hostHelpers.hostSkipTimer(GameId, io);
+      }
+    } catch(e) {
+      console.error(`Failed to check if all players answered quiz question: ${e}`)
+    }
+  }
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
   socket.on('next-question', onNextQuestion);
-  socket.on('timer-skip', onTimerSkip);}
+  socket.on('timer-skip', onTimerSkip);
+  socket.on('check-all-players-answered', allPlayersAnsweredQuestion);}
