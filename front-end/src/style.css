@@ -581,10 +581,22 @@ body {
   60% {transform: translateY(-15px);} 
 } 
 
+<<<<<<< HEAD
 
 .fillScreen{
   height: 100vh;
   overflow: hidden;
+=======
+.fillScreen{
+  width: auto;
+  height: auto;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+>>>>>>> f49a4ce (Somewhat works, but has blank space)
 .vs{
   font-size: 8em;
   font-weight: bolder;
