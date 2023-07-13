@@ -154,6 +154,11 @@ h1, h2, p {
   box-shadow: 5px 10px;
 }
 
+.aboutContainer{
+  display: flex;
+  justify-content: flex-start;
+}
+
 .guesses{
   margin: auto;
   padding: 0%;

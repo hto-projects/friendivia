@@ -38,21 +38,6 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
-      <p>
-        <Button
-          className="button"
-          variant="contained"
-          sx={{
-            bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
-            m: 2,
-          }}
-          href="/about"
-        >
-          About
-        </Button>
-      </p>
       <Button
         onClick={() => socket.emit("delete-please")}
         className="secretButton"

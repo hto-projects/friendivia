@@ -68,6 +68,23 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
         </Button>
       </Stack>
       <p style={{ color: "red" }}>{playerState.message}</p>
+      <div className="aboutContainer">
+        <p>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>
     </>
   );
 
