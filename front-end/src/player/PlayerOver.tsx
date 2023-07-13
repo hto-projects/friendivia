@@ -32,9 +32,9 @@ export default function PlayerOver(props: IOverProps) {
         {props.rank === 1 ? (
           <p className="correctTxt">You won!</p>
         ) : props.rank === 2 ? (
-          <p className="correctTxt">Second place!</p>
+          <p className="correctTxt">Second!</p>
         ) : props.rank === 3 ? (
-          <p className="correctTxt">Third place!</p>
+          <p className="correctTxt">Third!</p>
         ) : (
           <p className="correctTxt">You lost!</p>
         )}
