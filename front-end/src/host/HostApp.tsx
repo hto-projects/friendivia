@@ -11,6 +11,7 @@ import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import Button from "@mui/material/Button";
+import HostTiebreaker from "./HostTiebreaker";
 
 interface IHostProps {
   socket: Socket;
@@ -75,6 +76,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "showing-question") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
+      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
@@ -114,6 +116,8 @@ export default function HostApp(props: IHostProps) {
       return <p>Calculating final scores...</p>;
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
+    } else if (state == "tiebreaker") {
+      return <HostTiebreaker />;
     } else {
       return <HostOpen socket={socket} />;
     }
@@ -126,23 +130,26 @@ export default function HostApp(props: IHostProps) {
         {getElementForState(gameState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainer">
-        <p>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>) : ""}
+        <div className="bottomContainer">
+          <p>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
