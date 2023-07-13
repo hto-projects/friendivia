@@ -24,14 +24,14 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     correctAnswerIndex,
     playerGuesses,
     socket,
-    gameId, 
-    quizLength
+    gameId,
+    quizLength,
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     return (
-      <p>
+      <p className="showAnswer">
         {part1}
         <b>{playerName}</b>
         {part2}
@@ -41,19 +41,18 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
   function onNext() {
     currentQuizLength++;
-    socket.emit('next-question', gameId);
+    socket.emit("next-question", gameId);
   }
 
-  function buttonText(){
-    if(currentQuizLength < quizLength)
-      return "Next Question";
-    else 
-      return "Show Leaderboard";
+  function buttonText() {
+    if (currentQuizLength < quizLength) return "Next Question";
+    else return "Show Leaderboard";
   }
 
   return (
     <>
       {interpolatePlayerNameInQuestionText()}
+      <p>x points for {playerName}</p>
       <div
         style={{
           display: "flex",
@@ -79,6 +78,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   margin: "auto",
                   paddingTop: "0.1vh",
                   paddingBottom: "0.1vh",
+                  height: "11vh",
                 }}
               >
                 <p
@@ -90,6 +90,20 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                 >
                   {o}
                 </p>
+                {i === correctAnswerIndex ? (
+                  <Paper
+                    style={{
+                      width: "20%",
+                      padding: "0px",
+                      marginLeft: "23.5vw",
+                      marginTop: "-2.5vh",
+                    }}
+                  >
+                    <p style={{ padding: "0px" }}>+200</p>
+                  </Paper>
+                ) : (
+                  <></>
+                )}
               </Paper>
               <Stack
                 style={{
@@ -153,9 +167,11 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
           }}
           onClick={onNext}
         >
-          {buttonText() == "Next Question" ? "Next Question" : "Show Leaderboard"}
+          {buttonText() == "Next Question"
+            ? "Next Question"
+            : "Show Leaderboard"}
         </Button>
       </div>
     </>
-  )
+  );
 }
