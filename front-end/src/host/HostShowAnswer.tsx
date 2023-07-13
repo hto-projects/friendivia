@@ -31,7 +31,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   function interpolatePlayerNameInQuestionText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     return (
-      <p style={{fontSize: "23px"}}>
+      <p style={{fontSize: "1.5em"}}>
         {part1}
         <b>{playerName}</b>
         {part2}
