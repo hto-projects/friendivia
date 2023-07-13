@@ -24,7 +24,6 @@ const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
 
 const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.LeaderBoard);
-  await playerDb.updateAllPlayerStates(gameId, PlayerStates.LeaderBoard, io, {});
 
   const playerScores = await playerDb.getPlayerScores(gameId);
   playerScores.sort((a, b) => b.score - a.score);
@@ -38,6 +37,9 @@ const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> =>
     }
     else if (players[i].score === playerScores[2].score) {
       await playerDb.updatePlayerState(players[i].id, PlayerStates.RankThree, io, {});
+    }
+    else{
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.LeaderBoard, io, {});
     }
   }
 
