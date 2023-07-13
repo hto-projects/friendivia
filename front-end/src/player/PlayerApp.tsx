@@ -126,75 +126,82 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerOver rank={3} />;
     } else {
       bottomButtons = true;
-      return <PlayerJoin socket={socket} playerState={playerState}/>;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
   return (
     <>
-      <div className="player_join">
-        <div className="banner">
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <div className="align_center">
-                {/*if player name has not been inputted do not display username chip*/}
-                {playerName != "" ? <Chip label={playerName} /> : ""}
-              </div>
-            </Grid>
-            <Grid item xs={6}>
-              <div className="align_center">
-                <img className="logo" src={logo} />
-              </div>
-            </Grid>
-            <Grid item xs={3}>
-              {/*if player name has not been inputted do not display score chip*/}
-              <div className="align_center">
-                {playerState != "filling-questionnaire" ? (
-                  playerName != "" ? (
-                    <Chip label={playerScore} />
+      <div className="fillScreen">
+        <div className="player_join">
+          <div className="banner">
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <div className="align_center">
+                  {/*if player name has not been inputted do not display username chip*/}
+                  {playerName != "" ? <Chip label={playerName} /> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="align_center">
+                  <img className="logo" src={logo} />
+                </div>
+              </Grid>
+              <Grid item xs={3}>
+                {/*if player name has not been inputted do not display score chip*/}
+                <div className="align_center">
+                  {playerState != "filling-questionnaire" ? (
+                    playerName != "" ? (
+                      <Chip label={playerScore} />
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}
-              </div>
+                  )}
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
+          </div>
+          {getElementForState()}
         </div>
-        {getElementForState()}
+        {bottomButtons && playerState != "joined-waiting" ? (
+          <div className="bottomContainer">
+            <p>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                href="/host"
+              >
+                Host A Game
+              </Button>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                href="/about"
+              >
+                About
+              </Button>
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-      {bottomButtons && playerState != "joined-waiting" ? (
-      <div className="bottomContainer">
-        <p>
-        <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/host"
-          >
-            Host A Game
-          </Button>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>) : ""}
     </>
   );
 }
