@@ -6,7 +6,7 @@ export default function PlayerCorrect() {
   return (
     <>
       <div className="incorrect">
-        <img className="correctImg" src={incorrect} alt="Incorrect" />
+        <img className="niceTryImg" src={incorrect} alt="Incorrect" />
         <p className="correctTxt">Nice try</p>
       </div>
     </>

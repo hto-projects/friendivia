@@ -1,14 +1,18 @@
-import * as React from 'react';
-import '../style.css';
+import * as React from "react";
+import "../style.css";
+import hourglass from "../assets/hourglass.png";
 
 interface IWaitProps {
-  message: String
+  message: String;
 }
 
 export default function PlayerWait(props: IWaitProps) {
   return (
     <>
-      <p className='align_center'>{props.message}</p>
+      <div className="wait">
+        <img className="hourglass" src={hourglass} alt="Correct" />
+        <p className="waitTxt">{props.message}</p>
+      </div>
     </>
   );
 }
