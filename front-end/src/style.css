@@ -565,7 +565,7 @@ h1, h2, p {
 
 .fillScreen{
   width: auto;
-  height: auto;
+  height: 93vh;
   top: 0;
   bottom: 0;
   margin: auto;
