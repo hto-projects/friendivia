@@ -11,7 +11,11 @@ function getNumberOfQuestions(players) {
   else return players.length;
 }
 
-const createQuestionnaireQuestionsWithOptions = async (players): Promise<IQuestionnaireQuestion[]> => {
+const createQuestionnaireQuestionsWithOptions = async (players, number?): Promise<IQuestionnaireQuestion[]> => {
+  if(number){
+    const questions = await Question.getRandomQuestions(number);
+    return questions;
+  }
   const questions = await Question.getRandomQuestions(getNumberOfQuestions(players));
   return questions;
 }
@@ -50,6 +54,7 @@ const shuffle = (array: any[]): void => {
 
 const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[]): IQuizQuestion[] => {
     var numQuestions = 4;
+    if(questionnaireQs.length === 1){numQuestions = 1;} else
     if(players.length > 4){numQuestions = players.length;}
     const numberOfOptions = 4;
 
