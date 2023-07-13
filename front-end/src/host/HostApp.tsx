@@ -10,6 +10,7 @@ import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
+import Button from "@mui/material/Button";
 
 interface IHostProps {
   socket: Socket;
@@ -119,9 +120,29 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <div className="about">
-      <img className="logohost" src={logo} />
-      {getElementForState(gameState)}
-    </div>
+    <>
+      <div className="about">
+        <img className="logohost" src={logo} />
+        {getElementForState(gameState)}
+      </div>
+      {gameState === "lobby" ? (
+      <div className="bottomContainer">
+        <p>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>) : ""}
+    </>
   );
 }

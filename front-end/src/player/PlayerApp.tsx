@@ -15,6 +15,7 @@ import PlayerIncorrect from "./PlayerIncorrect";
 import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
+import Button from "@mui/material/Button";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -35,6 +36,8 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
+
+  var bottomButtons;
 
   if (!loaded) {
     socket.emit("player-load", playerIdFromStorage);
@@ -71,6 +74,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       playerState === "filling-questionnaire" ||
       playerState === "submitted-questionnaire-waiting"
     ) {
+      bottomButtons = false;
       return (
         <PlayerQuestionnaire
           socket={socket}
@@ -82,6 +86,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       playerState === "seeing-question" ||
       playerState === "answered-quiz-question-waiting"
     ) {
+      bottomButtons = false;
       return (
         <PlayerQuizQuestion
           socket={socket}
@@ -90,33 +95,44 @@ export default function PlayerApp(props: PlayerAppProps) {
         />
       );
     } else if (playerState === "did-not-answer-question-waiting") {
+      bottomButtons = false;
       return <PlayerRanOutOfTime />;
     } else if (playerState === "question-about-me") {
+      bottomButtons = false;
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-answer-correct") {
+      bottomButtons = false;
       return <PlayerCorrect />;
     } else if (playerState === "seeing-answer-incorrect") {
+      bottomButtons = false;
       return <PlayerIncorrect />;
     } else if (playerState === "seeing-answer") {
+      bottomButtons = false;
       return <PlayerIsSubject />;
     } else if (playerState === "pre-leader-board") {
+      bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
+      bottomButtons = false;
       return <PlayerOver rank={0} />;
     } else if (playerState === "rank-one") {
+      bottomButtons = false;
       return <PlayerOver rank={1} />;
     } else if (playerState === "rank-two") {
+      bottomButtons = false;
       return <PlayerOver rank={2} />;
     } else if (playerState === "rank-three") {
+      bottomButtons = false;
       return <PlayerOver rank={3} />;
     } else {
+      bottomButtons = true;
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
   return (
     <>
-      <div className="align_center">
+      <div className="player_join">
         <div className="banner">
           <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -148,6 +164,37 @@ export default function PlayerApp(props: PlayerAppProps) {
         </div>
         {getElementForState()}
       </div>
+      {bottomButtons ? (
+      <div className="bottomContainer">
+        <p>
+        <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/host"
+          >
+            Host A Game
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>) : ""}
     </>
   );
 }
