@@ -52,7 +52,6 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   return (
     <>
       {interpolatePlayerNameInQuestionText()}
-      <p>x points for {playerName}</p>
       <div
         style={{
           display: "flex",
@@ -73,6 +72,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                     i === correctAnswerIndex
                       ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
                       : "white",
+                  boxShadow: i === correctAnswerIndex ? "0 0 10px green" : "",
                   color: i === correctAnswerIndex ? "white" : "black",
                   width: "30vw",
                   margin: "auto",
@@ -171,7 +171,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
             ? "Next Question"
             : "Show Leaderboard"}
         </Button>
-      </div>
+      </div>{" "}
     </>
   );
 }
