@@ -28,6 +28,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           window.location.href
             .replace("/host", "")
             .replace("http://", "")
+            .replace("https://", "")
             .replace("www.", "")}
       </h2>
       <Paper elevation={3} className="gameid">
