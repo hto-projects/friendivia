@@ -103,8 +103,12 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
       return <PlayerOver rank={0} />;
-    } else if (playerState === "win") {
+    } else if (playerState === "rank-one") {
       return <PlayerOver rank={1} />;
+    } else if (playerState === "rank-two") {
+      return <PlayerOver rank={2} />;
+    } else if (playerState === "rank-three") {
+      return <PlayerOver rank={3} />;
     } else {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
@@ -129,7 +133,15 @@ export default function PlayerApp(props: PlayerAppProps) {
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
               <div className="align_center">
-                {playerState != "filling-questionnaire" ? (playerName != "" ? <Chip label={playerScore} /> : "") : ""}
+                {playerState != "filling-questionnaire" ? (
+                  playerName != "" ? (
+                    <Chip label={playerScore} />
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
               </div>
             </Grid>
           </Grid>
