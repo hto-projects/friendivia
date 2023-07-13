@@ -129,7 +129,7 @@ export default function PlayerApp(props: PlayerAppProps) {
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
               <div className="align_center">
-                {playerName != "" ? <Chip label={playerScore} /> : ""}
+                {playerState != "filling-questionnaire" ? (playerName != "" ? <Chip label={playerScore} /> : "") : ""}
               </div>
             </Grid>
           </Grid>
