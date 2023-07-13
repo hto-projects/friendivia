@@ -15,7 +15,7 @@ interface IShowAnswerProps {
   quizLength: number;
 }
 
-var num = 1;
+var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
   const {
     options,
@@ -40,12 +40,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function onNext() {
-    num++;
+    currentQuizLength++;
     socket.emit('next-question', gameId);
   }
 
   function buttonText(){
-    if(num < quizLength)
+    if(currentQuizLength < quizLength)
       return "Next Question";
     else 
       return "Show Leaderboard";
