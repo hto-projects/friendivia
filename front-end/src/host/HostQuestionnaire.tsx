@@ -1,6 +1,14 @@
 import * as React from 'react';
 import '../style.css';
+import Speak from '../Speak';
 
 export default function HostQuestionnaire() {
-  return <p>We are waiting for everyone to complete the questionnaire.</p>;
+  const text = "Please fill out the questionnaires on your devices.";
+
+  return (
+    <>
+      <Speak text={text} />
+      <p>{text}</p>
+    </>
+  );
 }
