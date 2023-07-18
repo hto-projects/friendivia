@@ -67,6 +67,11 @@ body {
   .idInput{
     padding-bottom: 5%;
   }
+
+  .element{
+    height: 78%;
+    margin: 0px;
+  }
 }
 
 /* Styles for desktop screens */
@@ -103,6 +108,11 @@ body {
   .idInput{
     padding-bottom: 5%;
     width: 30%;
+  }
+
+  .element{
+    height: 64%;
+    margin: 0px;
   }
 }
 
@@ -427,11 +437,6 @@ body {
   height: 100%;
   overflow: hidden;
   background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
-}
-
-.element{
-  height: 100%;
-  margin: 0px;
 }
 
 .incorrect{
