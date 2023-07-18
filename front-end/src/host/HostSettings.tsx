@@ -16,7 +16,6 @@ export default function HostSettings(props: ISettingsProps) {
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
 
   async function onBack() {
-    console.log(timePerQuestion);
     socket.emit("host-back", gameId, {timePerQuestion});
   }
 

@@ -66,7 +66,6 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
   }
 
   const PLAYER_COMPLETE_QUIZ = currentGameData?.settings.timePerQuestion * 1000;
-  console.log(PLAYER_COMPLETE_QUIZ);
 
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);

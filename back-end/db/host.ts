@@ -138,12 +138,10 @@ export default {
   updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
     try {
       const timePerQuestion = settingsData.timePerQuestion;
-      console.log(timePerQuestion);
 
       await Game.updateOne({id: gameId}, {
         $set: { 'settings.timePerQuestion': timePerQuestion }
       });
-      console.log(`Made it to settings update`);
     } catch (e) {
       console.error(`Issue updating settings: ${e}`);
     }

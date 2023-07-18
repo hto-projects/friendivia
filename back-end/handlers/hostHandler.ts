@@ -144,7 +144,6 @@ export default (io, socket: Socket) => {
   const onHostBack = async (gameId, settingsData) => {
     try {
       await hostDb.setGameState(gameId, GameStates.Lobby);
-      console.log(`Made it to handler: ${settingsData.timePerQuestion}`);
       await hostDb.updateSettings(gameId, settingsData);
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
