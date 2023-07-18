@@ -72,10 +72,10 @@ export default {
     }
   },
 
-  moveGameToQuestionnaire: async function(gameId: number): Promise<any> {
+  moveGameToQuestionnaire: async function(gameId: number, questions?: number): Promise<any> {
     try {
       const players = await playerDb.getPlayers(gameId);
-      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players);
+      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, questions);
       const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
       await this.setGameState(gameId, GameStates.Questionnaire);
       await Game.updateOne({id: gameId}, {
