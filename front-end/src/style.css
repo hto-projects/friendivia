@@ -16,7 +16,6 @@ h1, h2, p {
   color: var(--text);
 }
 
-
 /*mobile*/
 @media (max-width: 767px) {
   .logo{
@@ -572,4 +571,8 @@ h1, h2, p {
 
 .tie{
   font-size: 1.5em;
+}
+
+.musicIcon{
+  width: 5vh;
 }

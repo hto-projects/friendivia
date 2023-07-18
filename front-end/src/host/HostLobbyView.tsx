@@ -24,7 +24,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
-      <PlayAudio src={open} />
+      <PlayAudio src={open} loop={false} />
       <h2>
         Join at
         {" " +
