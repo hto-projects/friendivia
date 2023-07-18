@@ -3,6 +3,7 @@ import hostDb from '../db/host.ts';
 import playerDb from '../db/player.ts';
 import questionDb from '../db/question.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
+import { GameStates } from '../interfaces/IGameState.ts';
 import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
 import q from '../db/question.ts';
@@ -126,6 +127,32 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const onHostSettings = async (gameId = null) => {
+    try {
+      if (gameId != null) {
+        await hostDb.setGameState(gameId, GameStates.Settings);
+        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      } else {
+        console.error(`Failed to find game for HostSettungs`)
+      }
+    } catch(e) {
+      console.error(`Failed to open host settings: ${e}`)
+    }
+  }
+
+  const onHostBack = async (gameId, settingsData) => {
+    try {
+      await hostDb.setGameState(gameId, GameStates.Lobby);
+      console.log(`Made it to handler: ${settingsData.timePerQuestion}`);
+      await hostDb.updateSettings(gameId, settingsData);
+      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+      io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+    } catch(e) {
+      console.error(`Failed to go back: ${e}`)
+    }
+  }
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
@@ -133,4 +160,6 @@ export default (io, socket: Socket) => {
   socket.on('play-again', playAgain);
   socket.on('next-question', onNextQuestion);
   socket.on('timer-skip', onTimerSkip);
-  socket.on('check-all-players-answered', allPlayersAnsweredQuestion);}
+  socket.on('check-all-players-answered', allPlayersAnsweredQuestion);
+  socket.on('host-settings', onHostSettings);
+  socket.on('host-back', onHostBack);}

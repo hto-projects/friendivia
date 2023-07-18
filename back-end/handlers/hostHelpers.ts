@@ -10,7 +10,6 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
 const PRE_LEADER_BOARD_MS = 5000;
-const PLAYER_COMPLETE_QUIZ = 15000;
 let nextQuestionTimer;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
@@ -59,7 +58,15 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
 }
 
 const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
+  const currentGameData: IGame | null = await hostDb.getGameData(gameId);
   const shouldContinue = await hostDb.nextQuestion(gameId);
+
+  if (currentGameData?.settings.timePerQuestion === undefined) {
+    return;
+  }
+
+  const PLAYER_COMPLETE_QUIZ = currentGameData?.settings.timePerQuestion * 1000;
+  console.log(PLAYER_COMPLETE_QUIZ);
 
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);

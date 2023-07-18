@@ -36,7 +36,10 @@ export default {
         hostSocketId: socketId,
         questionnaireQuestions: [],
         quizQuestions: [],
-        currentQuestionIndex: -1
+        currentQuestionIndex: -1,
+        settings: {
+          timePerQuestion: 15
+        }
       };
 
       const newGame = new Game(newGameObject);
@@ -130,5 +133,19 @@ export default {
     }
     catch(e){
       console.error(`Issue deleting game: ${e}`);
-    }}
+    }},
+
+  updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
+    try {
+      const timePerQuestion = settingsData.timePerQuestion;
+      console.log(timePerQuestion);
+
+      await Game.updateOne({id: gameId}, {
+        $set: { 'settings.timePerQuestion': timePerQuestion }
+      });
+      console.log(`Made it to settings update`);
+    } catch (e) {
+      console.error(`Issue updating settings: ${e}`);
+    }
+  }
 }
