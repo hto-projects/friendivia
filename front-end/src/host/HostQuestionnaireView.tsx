@@ -4,9 +4,17 @@ import IPlayer from "back-end/interfaces/IPlayer";
 import Paper from "@mui/material/Paper";
 import { Socket } from "socket.io-client";
 
-export default function HostQuestionnaireView(props) {
-  const waitingPlayers = props.waitingPlayers;
-  const donePlayers = props.donePlayers;
+interface HostQuestionnaireViewProps {
+  donePlayers: any;
+  waitingPlayers: any;
+  gameId: number;
+  socket: Socket;
+}
+
+export default function HostQuestionnaireView(props: HostQuestionnaireViewProps) {
+  let waitingPlayers = props.waitingPlayers;
+  let donePlayers = props.donePlayers;
+  console.log(donePlayers, waitingPlayers, "in view")
 
   return (
     <>

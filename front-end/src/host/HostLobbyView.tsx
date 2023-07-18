@@ -18,6 +18,8 @@ export default function HostLobbyView(props: ILobbyViewProps) {
         ";"
     );
     socket.emit("host-start", gameId);
+    //socket.emit("get-waiting-players", playerNames);
+    //console.log("waiting emitted", playerNames)
   }
 
   return (

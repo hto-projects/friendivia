@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
+//import { Socket } from 'socket.io'
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
@@ -98,4 +99,45 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   setTimeout(hostShowNextQuestion, SHOW_ANSWER_MS, gameId, io);
 }
 
-export default { hostStartQuiz, hostPreAnswer };
+const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
+  const allPlayersInGame = await playerDb.getPlayers(gameId);
+  console.log(allPlayersInGame, "allPlayersInGame")
+  let donePlayers: any = [];
+  let waitingPlayers: any = [];
+
+  for (let i = 0; i < allPlayersInGame.length; i++) {
+    const player = allPlayersInGame[i];
+    console.log(player.name)
+    if (player.playerState.state === 'submitted-questionnaire-waiting'){
+      donePlayers.push(player.name);
+    } else if (player.playerState.state === "filling-questionnaire"){
+      waitingPlayers.push(player.name);
+    }
+  }
+
+  console.log(donePlayers, waitingPlayers, "in playerHelper, checking done and waiting lists")
+  return [donePlayers, waitingPlayers]
+}
+
+const onHostViewUpdate = async(gameId, io: Server) => {
+  const gameData = await hostDb.getGameData(gameId);
+
+  if (gameData === null) {
+    return;
+  }
+
+  try {
+    console.log("reaches host handler update")
+    const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
+    if(!allPlayersDone){
+      console.log("before going to helper for statuses")
+      let playerStatusLists = await getQuestionnaireStatus(gameId);
+      console.log("after getting statuses, ", playerStatusLists)
+      io.to(gameData.hostSocketId).emit('update-host-view', playerStatusLists);
+    }
+  } catch (e) {
+    io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);
+  }
+}
+
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate };
