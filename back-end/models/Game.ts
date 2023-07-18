@@ -7,7 +7,8 @@ const gameSchema = new Schema<IGame>({
   hostSocketId: { type: String, required: true },
   questionnaireQuestions: [{type: Object}],
   quizQuestions: [{type: Object }],
-  currentQuestionIndex: { type: Number, required: true }
+  currentQuestionIndex: { type: Number, required: true },
+	settings: { type: Object, required: true}
 });
 
 const Game = model<IGame>('Game', gameSchema);
