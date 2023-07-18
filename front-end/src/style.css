@@ -151,7 +151,14 @@ body {
   margin: 10% auto;
 }
 
-
+.hostFormat{
+  background-repeat: repeat;
+  background-size: 60% auto;
+  background-clip: cover;
+  size: 100%;
+  justify-content: center;
+  text-align: center;
+}
 
 .questionnaireInput{
   display: flex;
@@ -185,6 +192,12 @@ body {
 .noBtnElement{
   height: 100%;
   margin: 0px;
+}
+
+.bottomContainerHost{
+  display: flex;
+  justify-content: flex-start;
+  margin: 15% auto;
 }
 
 .bottomContainer{
