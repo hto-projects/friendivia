@@ -31,24 +31,26 @@ export default function App() {
 
   let page = (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PlayerApp socket={socket} />} />
-          <Route path="/host" element={<HostApp socket={socket} />} />
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
-      </BrowserRouter>
-      <Button
-        onClick={() => socket.emit("delete-please")}
-        className="secretButton"
-        sx={{
-          background: "transparent",
-          fontSize: "0.1em",
-          color: "transparent",
-        }}
-      >
-        Clear Data
-      </Button>
+      <div className="fillScreen">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<PlayerApp socket={socket} />} />
+            <Route path="/host" element={<HostApp socket={socket} />} />
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </BrowserRouter>
+        <Button
+          onClick={() => socket.emit("delete-please")}
+          className="secretButton"
+          sx={{
+            background: "transparent",
+            fontSize: "0.1em",
+            color: "transparent",
+          }}
+        >
+          Clear Data
+        </Button>
+      </div>
     </>
   );
 
