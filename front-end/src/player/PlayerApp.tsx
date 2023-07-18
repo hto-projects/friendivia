@@ -172,7 +172,11 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   return (
-    <div className="fillScreen">
+    <div
+      className={
+        playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
+      }
+    >
       <div className="player_join">
         <div className="banner">
           <Grid container spacing={2}>
