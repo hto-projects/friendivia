@@ -6,6 +6,7 @@ import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
+import Game from '../models/Game.ts';
 
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
@@ -51,10 +52,30 @@ const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> =>
 }
 
 const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
-  await hostDb.setGameState(gameId, GameStates.PreLeaderBoard);
-  await hostGoNext(gameId, io);
-  await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreLeaderBoard, io, {});
-  setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
+  const playerScores = await playerDb.getPlayerScores(gameId);
+  playerScores.sort((a, b) => b.score - a.score);
+  if (playerScores[0].score === playerScores[1].score) {
+    await hostDb.setGameState(gameId, GameStates.Tiebreaker);
+    await hostGoNext(gameId, io);
+    await new Promise(r => setTimeout(r, 10000));
+    try {
+      const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, 1);
+      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
+      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+      await Game.updateOne({ id: gameId }, {
+        $set: { 'currentQuestionIndex': -1 }
+      });
+      io.to(currentGameData!.hostSocketId).emit('host-next', currentGameData);
+    } catch (e) {
+      console.error(`Failed to go to questionnaire: ${e}`)
+    }
+  }
+  else{
+    await hostDb.setGameState(gameId, GameStates.PreLeaderBoard);
+    await hostGoNext(gameId, io);
+    await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreLeaderBoard, io, {});
+    setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
+  }
 }
 
 const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {

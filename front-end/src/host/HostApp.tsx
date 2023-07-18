@@ -12,6 +12,7 @@ import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import Button from "@mui/material/Button";
 import HostSettings from "./HostSettings";
+import HostTiebreaker from "./HostTiebreaker";
 
 interface IHostProps {
   socket: Socket;
@@ -78,6 +79,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "showing-question") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
+      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
@@ -120,6 +122,8 @@ export default function HostApp(props: IHostProps) {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
       return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion}/>;
+    } else if (state == "tiebreaker") {
+      return <HostTiebreaker />;
     } else {
       return <HostOpen socket={socket} />;
     }
@@ -165,7 +169,7 @@ export default function HostApp(props: IHostProps) {
             About
           </Button>
         </p>
-      </div>) : ""}
+      </div>) : ("")}
     </>
   );
 }
