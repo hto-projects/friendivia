@@ -17,6 +17,9 @@ import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
+import fillOut from "../assets/audio/fillOut.mp3";
+import start from "../assets/audio/start.mp3";
+import leader from "../assets/audio/whoWon.mp3";
 
 interface IHostProps {
   socket: Socket;
@@ -38,6 +41,45 @@ export default function HostApp(props: IHostProps) {
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
   const { socket } = props;
+  const [fillOutAudioPlayed, setFillOutAudioPlayed] = React.useState<boolean>(
+    false
+  );
+  const [startAudioPlayed, setStartAudioPlayed] = React.useState<boolean>(
+    false
+  );
+  const [leaderAudioPlayed, setLeaderAudioPlayed] = React.useState<boolean>(
+    false
+  );
+
+  React.useEffect(() => {
+    if (gameState === "pre-leader-board" && !leaderAudioPlayed) {
+      const audioStart = new Audio(leader);
+      audioStart.play();
+      setLeaderAudioPlayed(true);
+    } else if (gameState !== "questionnaire") {
+      setLeaderAudioPlayed(false);
+    }
+  }, [gameState]);
+
+  React.useEffect(() => {
+    if (gameState === "pre-quiz" && !startAudioPlayed) {
+      const audioStart = new Audio(start);
+      audioStart.play();
+      setStartAudioPlayed(true);
+    } else if (gameState !== "questionnaire") {
+      setStartAudioPlayed(false);
+    }
+  }, [gameState]);
+
+  React.useEffect(() => {
+    if (gameState === "questionnaire" && !fillOutAudioPlayed) {
+      const audioFillOut = new Audio(fillOut);
+      audioFillOut.play();
+      setFillOutAudioPlayed(true);
+    } else if (gameState !== "questionnaire") {
+      setFillOutAudioPlayed(false);
+    }
+  }, [gameState]);
 
   function muteMusic(muted: boolean) {
     setMuted(!muted);
@@ -93,7 +135,11 @@ export default function HostApp(props: IHostProps) {
     if (state === "lobby") {
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
-      return <HostQuestionnaire />;
+      return (
+        <>
+          <HostQuestionnaire />
+        </>
+      );
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {
@@ -141,7 +187,13 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion}/>;
+      return (
+        <HostSettings
+          socket={socket}
+          gameId={gameId}
+          timePerQuestionSetting={timePerQuestion}
+        />
+      );
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else {
@@ -154,7 +206,7 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <>
+    <div className="scroll">
       <PlayAudio src={theme} loop={true} />
       <div className="musicButton">
         <IconButton onClick={() => muteMusic(muted)}>
@@ -166,36 +218,39 @@ export default function HostApp(props: IHostProps) {
         {getElementForState(gameState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainer">
-        <p>
-        <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onSettings}
-          >
-            Game Settings
-          </Button>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>) : ("")}
-    </>
+        <div className="bottomContainer">
+          <p>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onSettings}
+            >
+              Game Settings
+            </Button>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
   );
 }

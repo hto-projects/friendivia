@@ -31,6 +31,7 @@ body {
   box-sizing: border-box;
   height: auto;
   width: auto;
+  font-family: Inter, sans-serif;
 }
 
 
@@ -617,6 +618,11 @@ body {
 .scroll{
   overflow-y: scroll;
   height: 100vh;
+}
+
+.editableQuestion{
+  width: 100%;
+  
 }
 
 
