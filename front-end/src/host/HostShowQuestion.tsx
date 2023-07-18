@@ -9,13 +9,14 @@ interface IShowQuestionProps {
   options: string[];
   socket: Socket;
   gameId: number;
+  timePerQuestion: number;
 }
 
 export default function HostShowQuestion(props: IShowQuestionProps) {
-  const { options, questionText, playerName, socket, gameId } = props;
+  const { options, questionText, playerName, socket, gameId, timePerQuestion } = props;
 
   function App() {
-    const [counter, setCounter] = React.useState(15);
+    const [counter, setCounter] = React.useState(timePerQuestion);
     React.useEffect(() => {
       counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
     }, [counter]);

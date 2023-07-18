@@ -11,6 +11,7 @@ import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import Button from "@mui/material/Button";
+import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 
 interface IHostProps {
@@ -28,6 +29,7 @@ export default function HostApp(props: IHostProps) {
   ] = React.useState<number>(-1);
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
   const [playerScores, setPlayerScores] = React.useState([]);
+  const [timePerQuestion, setTimePerQuestion] = React.useState(15);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const { socket } = props;
@@ -47,6 +49,7 @@ export default function HostApp(props: IHostProps) {
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
+      setTimePerQuestion(data.settings.timePerQuestion);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -88,6 +91,7 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
           socket={socket}
           gameId={gameId}
+          timePerQuestion={timePerQuestion}
         />
       );
     } else if (state === "pre-answer") {
@@ -116,11 +120,17 @@ export default function HostApp(props: IHostProps) {
       return <p>Calculating final scores...</p>;
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
+    } else if (state === "settings") {
+      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else {
       return <HostOpen socket={socket} />;
     }
+  }
+
+  function onSettings() {
+    socket.emit("host-settings", gameId);
   }
 
   return (
@@ -130,26 +140,36 @@ export default function HostApp(props: IHostProps) {
         {getElementForState(gameState)}
       </div>
       {gameState === "lobby" ? (
-        <div className="bottomContainer">
-          <p>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              href="/about"
-            >
-              About
-            </Button>
-          </p>
-        </div>
-      ) : (
-        ""
-      )}
+      <div className="bottomContainer">
+        <p>
+        <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            onClick={onSettings}
+          >
+            Game Settings
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>) : ("")}
     </>
   );
 }
