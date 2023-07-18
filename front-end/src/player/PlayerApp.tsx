@@ -172,7 +172,6 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   return (
-<<<<<<< HEAD
     <div className="fillScreen">
       <div className="player_join">
         <div className="banner">
@@ -194,46 +193,17 @@ export default function PlayerApp(props: PlayerAppProps) {
                 {playerState != "filling-questionnaire" ? (
                   playerName != "" ? (
                     <Chip label={playerScore} />
-=======
-    <>
-      <div className="fillScreen">
-        <div className="player_join">
-          <div className="banner">
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <div className="align_center">
-                  {/*if player name has not been inputted do not display username chip*/}
-                  {playerName != "" ? <Chip label={playerName} /> : ""}
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div className="align_center">
-                  <img className="logo" src={logo} />
-                </div>
-              </Grid>
-              <Grid item xs={3}>
-                {/*if player name has not been inputted do not display score chip*/}
-                <div className="align_center">
-                  {playerState != "filling-questionnaire" ? (
-                    playerName != "" ? (
-                      <Chip label={playerScore} />
-                    ) : (
-                      ""
-                    )
->>>>>>> f49a4ce (Somewhat works, but has blank space)
                   ) : (
                     ""
-                  )}
-                </div>
-              </Grid>
+                  )
+                ) : (
+                  ""
+                )}
+              </div>
             </Grid>
-          </div>
-          {getElementForState()}
+          </Grid>
         </div>
-<<<<<<< HEAD
         <div className="element">{getElementForState()}</div>
-=======
->>>>>>> f49a4ce (Somewhat works, but has blank space)
         {bottomButtons && playerState != "joined-waiting" ? (
           <div className="bottomContainer">
             <p>
@@ -247,10 +217,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                     ) + ";",
                   m: 2,
                 }}
-<<<<<<< HEAD
                 style={{ marginBottom: 0 }}
-=======
->>>>>>> f49a4ce (Somewhat works, but has blank space)
                 href="/host"
               >
                 Host A Game
@@ -265,10 +232,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                     ) + ";",
                   m: 2,
                 }}
-<<<<<<< HEAD
                 style={{ marginBottom: 0 }}
-=======
->>>>>>> f49a4ce (Somewhat works, but has blank space)
                 href="/about"
               >
                 About
@@ -279,10 +243,6 @@ export default function PlayerApp(props: PlayerAppProps) {
           ""
         )}
       </div>
-<<<<<<< HEAD
     </div>
-=======
-    </>
->>>>>>> f49a4ce (Somewhat works, but has blank space)
   );
 }
