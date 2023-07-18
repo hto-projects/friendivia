@@ -130,6 +130,47 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }
 
+
+  function getButtonsForState() {
+    if ( playerState === "init" || playerState === null) {
+      return (
+      <div className="bottomContainer" id="btmContainPlayerApp">
+        <p>
+        <Button
+            className="button"
+            id="HostPlayerApp"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/host"
+          >
+            Host A Game
+          </Button>
+          <Button
+            className="button"
+            id="AboutPlayerApp"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>);
+    } else {
+      return (<></>);
+    }
+  }
+
   return (
     <div className="fillScreen">
       <div className="player_join">

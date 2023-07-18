@@ -581,7 +581,17 @@ body {
   60% {transform: translateY(-15px);} 
 } 
 
+
 .fillScreen{
   height: 100vh;
   overflow: hidden;
+.vs{
+  font-size: 8em;
+  font-weight: bolder;
+  background-image: linear-gradient(45deg, #f3ec78, #af4261);
+  background-clip: text;
+}
+
+.tie{
+  font-size: 1.5em;
 }
