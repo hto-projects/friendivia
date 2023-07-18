@@ -33,6 +33,9 @@ export default (io: Server, socket: Socket) => {
             return;
           }
 
+          const updatedPlayer = await playerDb.getPlayer(newPlayerId);
+          io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
+
           io.to(currentGameData.hostSocketId).emit('players-updated', {
             gameId: gameId,
             players: allPlayersInGame

@@ -181,6 +181,11 @@ body {
   box-shadow: 5px 10px;
 }
 
+.noBtnElement{
+  height: 100%;
+  margin: 0px;
+}
+
 .bottomContainer{
   display: flex;
   justify-content: flex-start;
