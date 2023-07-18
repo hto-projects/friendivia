@@ -33,6 +33,7 @@ body {
   width: auto;
 }
 
+
 /*mobile*/
 @media (max-width: 767px) {
   .logo{
@@ -605,6 +606,10 @@ body {
   font-size: 1.5em;
 }
 
+.musicIcon{
+  width: 5vh;
+}
+
 .questionnaireInputs{
   overflow-y: scroll;
 }
@@ -613,4 +618,5 @@ body {
   overflow-y: scroll;
   height: 100vh;
 }
+
 

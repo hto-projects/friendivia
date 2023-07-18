@@ -2,6 +2,8 @@ import React from "react";
 import "../style.css";
 import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
+import open from "../assets/audio/appopen.mp3";
+import PlayAudio from "../PlayAudio";
 
 interface ILobbyViewProps {
   playerNames: string[];
@@ -22,6 +24,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
+      <PlayAudio src={open} loop={false} />
       <h2>
         Join at
         {" " +
