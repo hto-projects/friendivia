@@ -83,8 +83,6 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
       const currentQuestionnaireQ: IQuestionnaireQuestion = chooseRandomFromList(selectableQuestionList);
       const text: string = currentQuestionnaireQ.quizText;
       const Qindex: number = revisedQuestionList.indexOf(currentQuestionnaireQ);
-      console.log(Qindex);
-      console.log(Qindex % questionnaireQs.length);
       const correctAnswer: string = currentPlayer.questionnaireAnswers[Qindex % questionnaireQs.length];
 
       const options: string[] = [correctAnswer];
