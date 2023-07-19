@@ -2,6 +2,7 @@ import * as React from "react";
 import "../style.css";
 import PlayAudio from "../PlayAudio";
 import theme from "../assets/audio/theme.mp3";
+import Speak from "../Speak";
 import { Socket } from "socket.io-client";
 import IPlayer from "back-end/interfaces/IPlayer";
 import HostQuestionnaireView from "./HostQuestionnaireView";
@@ -39,6 +40,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
   
   return (
     <>
+      <Speak text={"Fill out your questionnaires please."} cloud={true} />
       <PlayAudio src={theme} loop={true} />
       <HostQuestionnaireView
         donePlayers={donePlayers}

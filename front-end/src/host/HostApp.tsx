@@ -15,6 +15,7 @@ import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import Speak from "../Speak";
 import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
@@ -163,7 +164,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>;
+      return (
+        <>
+          <Speak text="Let's see who won" cloud={true} />
+          <p>Calculating final scores...</p>
+        </>
+      );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
