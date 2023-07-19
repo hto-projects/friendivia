@@ -1,4 +1,5 @@
 
   export default interface ISettings {
-      timePerQuestion: number
+      timePerQuestion: number,
+      numQuizQuestions: number
   }
