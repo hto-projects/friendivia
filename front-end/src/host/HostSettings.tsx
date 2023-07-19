@@ -21,12 +21,25 @@ export default function HostSettings(props: ISettingsProps) {
     IQuestionnaireQuestion[]
   >([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
 
+  const addCustomQuestion = () => {
+    setAddedQuestions((prevQuestions) => [
+      ...prevQuestions,
+      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] },
+    ]);
+  };
+
+  const removeCustomQuestion = (index: number) => {
+    setAddedQuestions((prevQuestions) =>
+      prevQuestions.filter((_, i) => i !== index)
+    );
+  };
+
   async function onBack() {
     socket.emit("host-back", gameId, { timePerQuestion, addedQuestions });
   }
 
   return (
-    <>
+    <div className="scroll">
       <Stack className="joinForm" spacing={2}>
         <p>Time Per Question:</p>
         <TextField
@@ -40,89 +53,94 @@ export default function HostSettings(props: ISettingsProps) {
           onChange={(e) => setTimePerQuestion(Number(e.target.value))}
         />
         <p>Custom Questions:</p>
+        <p>Quiz questions must include &lt;PLAYER&gt;</p>
         {/*text: "What is your favorite movie?",
         quizText: "What is <PLAYER>'s favorite movie?",
         fakeAnswers: ["The Godfather", "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"] */}
-        <div className="customQuestion">
-          <TextField
-            className="idInput form"
-            id="questionText"
-            label="Question Text"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].text = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-          <TextField
-            className="idInput form"
-            id="quizText"
-            label="Quiz Text"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].quizText = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-          <TextField
-            className="idInput form"
-            id="fakeAnswer1"
-            label="Fake Answer 1"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].fakeAnswers[0] = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-          <TextField
-            className="idInput form"
-            id="fakeAnswer2"
-            label="Fake Answer 2"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].fakeAnswers[1] = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-          <TextField
-            className="idInput form"
-            id="fakeAnswer3"
-            label="Fake Answer 3"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].fakeAnswers[2] = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-          <TextField
-            className="idInput form"
-            id="fakeAnswer4"
-            label="Fake Answer 4"
-            variant="outlined"
-            size="small"
-            type="text"
-            onChange={(e) => {
-              const newQuestions = [...addedQuestions];
-              newQuestions[0].fakeAnswers[3] = e.target.value;
-              setAddedQuestions(newQuestions);
-            }}
-          />
-        </div>
+        {addedQuestions.map((question, index) => (
+          <div key={index} className="customQuestion">
+            <TextField
+              className="idInput form"
+              id="questionText"
+              label="Question Text"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].text = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <TextField
+              className="idInput form"
+              id="quizText"
+              label="Quiz Text"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].quizText = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <TextField
+              className="idInput form"
+              id="fakeAnswer1"
+              label="Fake Answer 1"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].fakeAnswers[0] = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <TextField
+              className="idInput form"
+              id="fakeAnswer2"
+              label="Fake Answer 2"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].fakeAnswers[1] = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <TextField
+              className="idInput form"
+              id="fakeAnswer3"
+              label="Fake Answer 3"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].fakeAnswers[2] = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <TextField
+              className="idInput form"
+              id="fakeAnswer4"
+              label="Fake Answer 4"
+              variant="outlined"
+              size="small"
+              type="text"
+              onChange={(e) => {
+                const newQuestions = [...addedQuestions];
+                newQuestions[0].fakeAnswers[3] = e.target.value;
+                setAddedQuestions(newQuestions);
+              }}
+            />
+            <Button onClick={() => removeCustomQuestion(index)}>Remove</Button>
+          </div>
+        ))}
+        <Button onClick={() => addCustomQuestion()}>Add Custom Question</Button>
         <p>Click below to go back:</p>
         <Button
           variant="contained"
@@ -136,6 +154,6 @@ export default function HostSettings(props: ISettingsProps) {
           Save
         </Button>
       </Stack>
-    </>
+    </div>
   );
 }
