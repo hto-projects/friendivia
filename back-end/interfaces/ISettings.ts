@@ -1,7 +1,4 @@
 
-  interface ISettings {
+  export default interface ISettings {
       timePerQuestion: number
   }
-  
-  export { ISettings };
-  
