@@ -161,12 +161,12 @@ export default function HostApp(props: IHostProps) {
           <img className="musicIcon" src={muted ? musicOff : musicOn} />
         </IconButton>
       </div>
-      <div className="about">
+      <div className="hostFormat">
         <img className="logohost" src={logo} />
         {getElementForState(gameState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainer">
+      <div className="bottomContainerHost">
         <p>
         <Button
             className="button"
