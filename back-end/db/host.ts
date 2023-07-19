@@ -166,7 +166,7 @@ export default {
 
   updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
     try {
-      console.log(settingsData);
+
       const timePerQuestion = settingsData.timePerQuestion;
       const customQuestions = settingsData.addedQuestions;
 
@@ -208,7 +208,6 @@ export default {
 
   hostClosePreSettings: async function(preSettingsId: string, settingsData: any): Promise<any> {
     try {
-      console.log(settingsData);
       const timePerQuestion = settingsData.timePerQuestion;
       const customQuestions = settingsData.customQuestions;
 

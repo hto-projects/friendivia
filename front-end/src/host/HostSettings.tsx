@@ -58,9 +58,6 @@ export default function HostSettings(props: ISettingsProps) {
           &lt;PLAYER&gt;'s favorite movie?", fakeAnswers: ["The Godfather",
           "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"]
         </p>
-        {/*text: "What is your favorite movie?",
-        quizText: "What is <PLAYER>'s favorite movie?",
-        fakeAnswers: ["The Godfather", "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"] */}
         {addedQuestions.map((question, index) => (
           <div key={index} className="customQuestion">
             <TextField
