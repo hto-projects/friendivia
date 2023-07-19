@@ -51,7 +51,22 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function correctText() {
-    return "The correct answer was " + options[correctAnswerIndex] + "!";
+    var res = "The correct answer was " + options[correctAnswerIndex];
+    var correctPlayers = playerGuesses.filter(
+      (g) => g.guess === correctAnswerIndex
+    );
+    if (correctPlayers.length != 0) res += "! Nice guessing ";
+    correctPlayers.forEach((e) => {
+      if (
+        e.name === correctPlayers[correctPlayers.length - 1].name &&
+        e.name !== correctPlayers[0].name
+      ) {
+        res += "and " + e.name + ".";
+      } else {
+        res += e.name + ", ";
+      }
+    });
+    return res;
   }
 
   return (

@@ -20,6 +20,11 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     .replace("www.", "");
   const joinMessage = `Join at ${joinUrl}`;
   const textToSpeak = `Welcome to frenperdy! ${joinMessage}`;
+  const gameStr = gameId
+    .toString()
+    .split("")
+    .join(" ");
+  console.log(gameId, gameStr);
 
   async function onStart() {
     socket.emit("host-start", gameId);
@@ -31,8 +36,8 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
-      <Speak text={textToSpeak} />
       <h2>{joinMessage}</h2>
+      <Speak text={joinMessage + ". Use code: " + gameStr} />
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
       </Paper>

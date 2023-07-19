@@ -12,6 +12,7 @@ import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import Button from "@mui/material/Button";
 import HostTiebreaker from "./HostTiebreaker";
+import Speak from "../Speak";
 
 interface IHostProps {
   socket: Socket;
@@ -113,7 +114,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p>Calculating final scores...</p>;
+      return (
+        <>
+          <Speak text="Let's see who won" cloud={true} />
+          <p>Calculating final scores...</p>
+        </>
+      );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state == "tiebreaker") {
