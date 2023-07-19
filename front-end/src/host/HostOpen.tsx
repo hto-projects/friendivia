@@ -14,6 +14,10 @@ export default function HostOpen(props: IOpenProps) {
     socket.emit("host-open");
   }
 
+  async function onPreSettings() {
+    socket.emit("host-pre-settings");
+  }
+
   return (
     <>
       <p>Click below to host a new game:</p>
@@ -27,6 +31,19 @@ export default function HostOpen(props: IOpenProps) {
       >
         Host
       </Button>
+      <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            onClick={onPreSettings}
+          >
+            Game Settings
+          </Button>
     </>
   );
 }

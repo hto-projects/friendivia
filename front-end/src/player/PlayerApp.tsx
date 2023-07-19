@@ -124,55 +124,71 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "rank-three") {
       bottomButtons = false;
       return <PlayerOver rank={3} />;
-    } else {
+    } else if (playerState === "") {
       bottomButtons = true;
-      return <PlayerJoin socket={socket} playerState={playerState}/>;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
+    } else {
+      bottomButtons = false;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
-
   function getButtonsForState() {
-    if ( playerState === "init" || playerState === null) {
+    if (playerState === "init" || playerState === null || playerState === "") {
       return (
-      <div className="bottomContainer" id="btmContainPlayerApp">
-        <p>
-        <Button
-            className="button"
-            id="HostPlayerApp"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/host"
-          >
-            Host A Game
-          </Button>
-          <Button
-            className="button"
-            id="AboutPlayerApp"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>);
+        <div className="bottomContainer" id="btmContainPlayerApp">
+          <p>
+            <Button
+              className="button"
+              id="HostPlayerApp"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/host"
+            >
+              Host A Game
+            </Button>
+            <Button
+              className="button"
+              id="AboutPlayerApp"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      );
     } else {
-      return (<></>);
+      return <></>;
+    }
+  }
+
+  function getScreenForState() {
+    console.log("player state:" + playerState);
+    if (playerState === "init" || playerState === null || playerState === "") {
+      return "element";
+    } else {
+      return "noBtnElement";
     }
   }
 
   return (
-    <>
+    <div
+      className={
+        playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
+      }
+    >
       <div className="player_join">
         <div className="banner">
           <Grid container spacing={2}>
@@ -203,9 +219,46 @@ export default function PlayerApp(props: PlayerAppProps) {
             </Grid>
           </Grid>
         </div>
-        {getElementForState()}
+        <div className={getScreenForState()}>{getElementForState()}</div>
+        {bottomButtons ? (
+          <div className="bottomContainer">
+            <p>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                style={{ marginBottom: 0 }}
+                href="/host"
+              >
+                Host A Game
+              </Button>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                style={{ marginBottom: 0 }}
+                href="/about"
+              >
+                About
+              </Button>
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-      {getButtonsForState()}
-    </>
+    </div>
   );
 }

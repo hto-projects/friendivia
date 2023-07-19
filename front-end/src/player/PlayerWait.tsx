@@ -8,11 +8,9 @@ interface IWaitProps {
 
 export default function PlayerWait(props: IWaitProps) {
   return (
-    <>
-      <div className="wait">
-        <img className="hourglass" src={hourglass} alt="Correct" />
-        <p className="waitTxt">{props.message}</p>
-      </div>
-    </>
+    <div className="wait">
+      <img className="hourglass" src={hourglass} alt="Correct" />
+      <p className="waitTxt">{props.message}</p>
+    </div>
   );
 }

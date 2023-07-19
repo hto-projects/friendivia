@@ -48,7 +48,7 @@ export default function PlayerQuestionnaireForm(
   let maxAnswer = 40;
 
   const questionnaireInputs = (
-    <>
+    <div className="questionnaireInputs">
       {questions.map((q, i) => (
         <div key={i}>
           <p>{q}</p>
@@ -78,7 +78,7 @@ export default function PlayerQuestionnaireForm(
         Submit
       </Button>
       <p style={{ color: "red" }}>{playerState.message}</p>
-    </>
+    </div>
   );
 
   return playerState.state === "submitted-questionnaire-waiting" ? (

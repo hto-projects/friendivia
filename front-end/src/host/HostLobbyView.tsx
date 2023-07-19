@@ -3,6 +3,8 @@ import "../style.css";
 import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
+import open from "../assets/audio/appopen.mp3";
+import PlayAudio from "../PlayAudio";
 
 interface ILobbyViewProps {
   playerNames: string[];
@@ -38,6 +40,16 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     <>
       <h2>{joinMessage}</h2>
       <Speak text={joinMessage + ". Use code: " + gameStr} />
+      <PlayAudio src={open} loop={false} />
+      <h2>
+        Join at
+        {" " +
+          window.location.href
+            .replace("/host", "")
+            .replace("http://", "")
+            .replace("https://", "")
+            .replace("www.", "")}
+      </h2>
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
       </Paper>

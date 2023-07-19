@@ -9,4 +9,5 @@ export default function HostPreQuiz() {
       <p>All questionnaires have been completed! The quiz will begin soon...</p>
     </>
   );
+  return <p style={{fontSize: "1.5em"}}>All questionnaires have been completed! The quiz will begin soon...</p>;
 }
