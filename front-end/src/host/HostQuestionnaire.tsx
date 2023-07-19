@@ -36,8 +36,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
       socket.off("update-host-view", onStatusReceived);
     };
   }, []);
-
-export default function HostQuestionnaire() {
+  
   return (
     <>
       <PlayAudio src={theme} loop={true} />
