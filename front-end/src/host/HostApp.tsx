@@ -10,6 +10,9 @@ import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
+import Button from "@mui/material/Button";
+import HostSettings from "./HostSettings";
+import HostTiebreaker from "./HostTiebreaker";
 
 interface IHostProps {
   socket: Socket;
@@ -26,6 +29,7 @@ export default function HostApp(props: IHostProps) {
   ] = React.useState<number>(-1);
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
   const [playerScores, setPlayerScores] = React.useState([]);
+  const [timePerQuestion, setTimePerQuestion] = React.useState(15);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const { socket } = props;
@@ -45,6 +49,7 @@ export default function HostApp(props: IHostProps) {
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
+      setTimePerQuestion(data.settings.timePerQuestion);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -74,6 +79,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "showing-question") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
+      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
@@ -83,6 +89,9 @@ export default function HostApp(props: IHostProps) {
           options={quizQuestionOptions}
           questionText={quizQuestionText}
           playerName={quizQuestionPlayerName}
+          socket={socket}
+          gameId={gameId}
+          timePerQuestion={timePerQuestion}
         />
       );
     } else if (state === "pre-answer") {
@@ -94,7 +103,7 @@ export default function HostApp(props: IHostProps) {
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
       const correctAnswerIndex = currentQuizQuestion.correctAnswerIndex;
-
+      const quizQuestionsLength = quizQuestions.length;
       return (
         <HostShowAnswer
           options={quizQuestionOptions}
@@ -102,21 +111,65 @@ export default function HostApp(props: IHostProps) {
           playerName={quizQuestionPlayerName}
           correctAnswerIndex={correctAnswerIndex}
           playerGuesses={quizQuestionGuesses}
+          socket={socket}
+          gameId={gameId}
+          quizLength={quizQuestionsLength}
         />
       );
     } else if (state === "pre-leader-board") {
       return <p>Calculating final scores...</p>;
     } else if (state === "leader-board") {
-      return <HostLeaderBoard playerScores={playerScores} />;
+      return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
+    } else if (state === "settings") {
+      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion}/>;
+    } else if (state == "tiebreaker") {
+      return <HostTiebreaker />;
     } else {
       return <HostOpen socket={socket} />;
     }
   }
 
+  function onSettings() {
+    socket.emit("host-settings", gameId);
+  }
+
   return (
-    <div className="about">
-      <img className="logo" src={logo} />
-      {getElementForState(gameState)}
-    </div>
+    <>
+      <div className="about">
+        <img className="logohost" src={logo} />
+        {getElementForState(gameState)}
+      </div>
+      {gameState === "lobby" ? (
+      <div className="bottomContainer">
+        <p>
+        <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            onClick={onSettings}
+          >
+            Game Settings
+          </Button>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="/about"
+          >
+            About
+          </Button>
+        </p>
+      </div>) : ("")}
+    </>
   );
 }

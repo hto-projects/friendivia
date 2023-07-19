@@ -32,8 +32,33 @@ export default {
       });      
       const updatedPlayer = await playerDb.getPlayer(player.id);
       io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}   
+  },
+     
+  allPlayersTimesUp: async (gameId: number, io: Server): Promise<void> => {
+
+    const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+    if (currentGameData === null) {
+      return;
     }
 
+    const allPlayersInGame = await playerDb.getPlayers(gameId);
+    for (let i = 0; i < allPlayersInGame.length; i++) {
+      const player = allPlayersInGame[i]
+      var state = "";
+      if (!(player.playerState.state === 'answered-quiz-question-waiting' || player.playerState.state === 'question-about-me')) {
+        state = PlayerStates.DidNotAnswerQuestionWaiting;
+        await Player.updateOne({
+          id: player.id
+        }, { 
+          $set: { 
+            'playerState.state': state
+          }
+        });
+        const updatedPlayer = await playerDb.getPlayer(player.id);
+        io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
+      }
+    }   
   }
+}
 
   

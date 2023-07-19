@@ -1,14 +1,23 @@
 import { Socket } from 'socket.io';
 import hostDb from '../db/host.ts';
 import playerDb from '../db/player.ts';
+import questionDb from '../db/question.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
+import { GameStates } from '../interfaces/IGameState.ts';
 import IGame from '../interfaces/IGame.ts';
 import Game from '../models/Game.ts';
+import q from '../db/question.ts';
+import hostHelpers from './hostHelpers.ts';
+import Player from '../models/Player.ts';
+import IPlayer from '../interfaces/IPlayer.ts';
 
+var GameId ;
 export default (io, socket: Socket) => {
   const onHostOpen = async () => {
     try {
       const newGameId = await hostDb.hostOpenGame(socket.id);
+      GameId = newGameId;
+      await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
       socket.emit('host-open-error', e);
@@ -50,6 +59,7 @@ export default (io, socket: Socket) => {
     try {
       await playerDb.deleteAllPlayers();
       await hostDb.deleteAllGames();
+      await questionDb.deleteAllQuestions();
     } catch (e) {
       console.error("failed to delete all");
     }
@@ -68,8 +78,87 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const playAgain = async (gameId) => {
+    try {
+      hostDb.deleteGame(gameId);
+      onHostOpen();
+    } catch (e) {
+      console.error(`Failed to delete game: ${e}`)
+    }
+  }
+
+  const onNextQuestion = async (gameId) => {
+    try {
+      hostHelpers.hostShowNextQuestion(gameId, io);
+    } catch (e) {
+      console.error(`Failed to move to next question: ${e}`)
+    }
+  }
+
+  const onTimerSkip = async (gameId) => {
+    try {
+      hostHelpers.hostSkipTimer(gameId, io);
+    } catch(e) {
+      console.error(`Failed to skip timer: ${e}`)
+    }
+  }
+
+  const allPlayersAnsweredQuestion = async (guess: number) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
+      const gameData: IGame | null = await hostDb.getGameData(player.gameId);
+      if (gameData === null) {
+        throw `Game not found: ${player.gameId}`;
+      }
+      await playerDb.playerAnswerQuestion(player.id, guess, gameData);
+      var ContinueGame = true;
+      const allPlayersInGame = await Player.find({gameId: GameId});
+      for(let p=0; p<allPlayersInGame.length; p++){
+        if(allPlayersInGame[p].playerState.state != PlayerStates.AnsweredQuizQuestionWaiting && allPlayersInGame[p].playerState.state != PlayerStates.QuestionAboutMe){
+          ContinueGame = false;
+          break;
+        }
+      }
+      if(ContinueGame){
+        await hostHelpers.hostSkipTimer(GameId, io);
+      }
+    } catch(e) {
+      console.error(`Failed to check if all players answered quiz question: ${e}`)
+    }
+  }
+
+  const onHostSettings = async (gameId = null) => {
+    try {
+      if (gameId != null) {
+        await hostDb.setGameState(gameId, GameStates.Settings);
+        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      } else {
+        console.error(`Failed to find game for HostSettungs`)
+      }
+    } catch(e) {
+      console.error(`Failed to open host settings: ${e}`)
+    }
+  }
+
+  const onHostBack = async (gameId, settingsData) => {
+    try {
+      await hostDb.setGameState(gameId, GameStates.Lobby);
+      await hostDb.updateSettings(gameId, settingsData);
+      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+      io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+    } catch(e) {
+      console.error(`Failed to go back: ${e}`)
+    }
+  }
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
-}
+  socket.on('play-again', playAgain);
+  socket.on('next-question', onNextQuestion);
+  socket.on('timer-skip', onTimerSkip);
+  socket.on('check-all-players-answered', allPlayersAnsweredQuestion);
+  socket.on('host-settings', onHostSettings);
+  socket.on('host-back', onHostBack);}

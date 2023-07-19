@@ -9,6 +9,8 @@ enum GameStates {
   PreLeaderBoard = 'pre-leader-board',
   LeaderBoard = 'leader-board',
   Inactive = 'inactive',
+  Settings = 'settings',
+  Tiebreaker = 'tiebreaker',
 }
 
 interface IGameState {

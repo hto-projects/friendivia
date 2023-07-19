@@ -11,7 +11,7 @@ import Player from '../models/Player.ts';
 export default (io: Server, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
     try {
-      const name = data.name;
+      const name = data.name.trim();
       const gameId: number = data.gameId;
       const allPlayersInGame = await playerDb.getPlayers(gameId);
       const foundPlayer = allPlayersInGame.find(p => p.name === name);
@@ -103,7 +103,6 @@ export default (io: Server, socket: Socket) => {
   const onPlayerAnswerQuestion = async (guess: number) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
-      const gameId = player.gameId;
       const gameData: IGame | null = await hostDb.getGameData(player.gameId);
       if (gameData === null) {
         throw `Game not found: ${player.gameId}`;
@@ -112,15 +111,31 @@ export default (io: Server, socket: Socket) => {
       await playerDb.playerAnswerQuestion(player.id, guess, gameData);
       socket.emit('player-answer-question-success');
 
-      const allPlayersDone = await playerDb.checkAllPlayersAnsweredQuizQuestion(gameId);
-      if (allPlayersDone) {
-        await hostHelpers.hostPreAnswer(gameId, io);
-      }
     } catch (e) {
       socket.emit('player-answer-question-error', e);
     }
   };
 
+  const onHostKickPlayer = async (playerName: string) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerByName(playerName);
+      const gameId = player.gameId;
+      await playerDb.kickPlayer(playerName, gameId);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+      const currentGameData = await hostDb.getGameData(gameId);
+      if (currentGameData === null) {
+        return;
+      }
+
+      io.to(currentGameData.hostSocketId).emit('players-updated', {
+        gameId: gameId,
+        players: allPlayersInGame
+      });
+    } catch (e) {
+      console.error("Failed to kick player: " + e);
+    }}
+  
+  socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);

@@ -10,6 +10,12 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import PlayerCorrect from "./PlayerCorrect";
+import PlayerIncorrect from "./PlayerIncorrect";
+import PlayerIsSubject from "./PlayerIsSubject";
+import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
+import PlayerOver from "./PlayerOver";
+import Button from "@mui/material/Button";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -19,12 +25,19 @@ export default function PlayerApp(props: PlayerAppProps) {
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
-  const [playerScore, setPlayerScore] = React.useState("");
-  const [questionnaireQuestionsText, setQuestionnaireQuestionsText] = React.useState<string[]>([]);
-  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<string[]>([]);
+  const [playerScore, setPlayerScore] = React.useState(0);
+  const [
+    questionnaireQuestionsText,
+    setQuestionnaireQuestionsText,
+  ] = React.useState<string[]>([]);
+  const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
+    string[]
+  >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   const { socket } = props;
+
+  var bottomButtons;
 
   if (!loaded) {
     socket.emit("player-load", playerIdFromStorage);
@@ -61,6 +74,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       playerState === "filling-questionnaire" ||
       playerState === "submitted-questionnaire-waiting"
     ) {
+      bottomButtons = false;
       return (
         <PlayerQuestionnaire
           socket={socket}
@@ -72,6 +86,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       playerState === "seeing-question" ||
       playerState === "answered-quiz-question-waiting"
     ) {
+      bottomButtons = false;
       return (
         <PlayerQuizQuestion
           socket={socket}
@@ -79,46 +94,159 @@ export default function PlayerApp(props: PlayerAppProps) {
           playerState={playerState}
         />
       );
+    } else if (playerState === "did-not-answer-question-waiting") {
+      bottomButtons = false;
+      return <PlayerRanOutOfTime />;
     } else if (playerState === "question-about-me") {
-      return (
-        <PlayerWait message="Please wait while the other players answer this question about you..." />
-      );
+      bottomButtons = false;
+      return <PlayerIsSubject />;
+    } else if (playerState === "seeing-answer-correct") {
+      bottomButtons = false;
+      return <PlayerCorrect />;
+    } else if (playerState === "seeing-answer-incorrect") {
+      bottomButtons = false;
+      return <PlayerIncorrect />;
     } else if (playerState === "seeing-answer") {
-      return (
-        <PlayerWait message={`See the correct answer on the host screen.`} />
-      );
+      bottomButtons = false;
+      return <PlayerIsSubject />;
     } else if (playerState === "pre-leader-board") {
+      bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;
     } else if (playerState === "leader-board") {
-      return <PlayerWait message={`gg`} />;
+      bottomButtons = false;
+      return <PlayerOver rank={0} />;
+    } else if (playerState === "rank-one") {
+      bottomButtons = false;
+      return <PlayerOver rank={1} />;
+    } else if (playerState === "rank-two") {
+      bottomButtons = false;
+      return <PlayerOver rank={2} />;
+    } else if (playerState === "rank-three") {
+      bottomButtons = false;
+      return <PlayerOver rank={3} />;
     } else {
+      bottomButtons = true;
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
+  function getButtonsForState() {
+    if (playerState === "init" || playerState === null) {
+      return (
+        <div className="bottomContainer" id="btmContainPlayerApp">
+          <p>
+            <Button
+              className="button"
+              id="HostPlayerApp"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/host"
+            >
+              Host A Game
+            </Button>
+            <Button
+              className="button"
+              id="AboutPlayerApp"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  }
 
   return (
-    <>
-    <div className="align_center">
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <div className="align_center">
-            {/*if player name has not been inputted do not display username chip*/}
-            {playerName != "" ? <Chip label={playerName} /> : ""}
+    <div
+      className={
+        playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
+      }
+    >
+      <div className="player_join">
+        <div className="banner">
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <div className="align_center">
+                {/*if player name has not been inputted do not display username chip*/}
+                {playerName != "" ? <Chip label={playerName} /> : ""}
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div className="align_center">
+                <img className="logo" src={logo} />
+              </div>
+            </Grid>
+            <Grid item xs={3}>
+              {/*if player name has not been inputted do not display score chip*/}
+              <div className="align_center">
+                {playerState != "filling-questionnaire" ? (
+                  playerName != "" ? (
+                    <Chip label={playerScore} />
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+        <div className="element">{getElementForState()}</div>
+        {bottomButtons && playerState != "joined-waiting" ? (
+          <div className="bottomContainer">
+            <p>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                style={{ marginBottom: 0 }}
+                href="/host"
+              >
+                Host A Game
+              </Button>
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                style={{ marginBottom: 0 }}
+                href="/about"
+              >
+                About
+              </Button>
+            </p>
           </div>
-        </Grid>
-        <Grid item xs={4}>
-          <div className="align_center">
-            <img className="logo" src={logo} />
-          </div>
-        </Grid>
-        <Grid item xs={4}>
-          {/*if player name has not been inputted do not display score chip*/}
-          <div className="align_center">{playerName != "" ? ""/*Place holder for Score*/ : ""}</div>
-        </Grid>
-      </Grid>
-      {getElementForState()}
+        ) : (
+          ""
+        )}
       </div>
-    </>
+    </div>
   );
 }

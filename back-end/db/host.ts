@@ -36,7 +36,10 @@ export default {
         hostSocketId: socketId,
         questionnaireQuestions: [],
         quizQuestions: [],
-        currentQuestionIndex: -1
+        currentQuestionIndex: -1,
+        settings: {
+          timePerQuestion: 15
+        }
       };
 
       const newGame = new Game(newGameObject);
@@ -69,25 +72,25 @@ export default {
     }
   },
 
-  moveGameToQuestionnaire: async function(gameId: number): Promise<any> {
+  moveGameToQuestionnaire: async function(gameId: number, questions?: number): Promise<any> {
     try {
       const players = await playerDb.getPlayers(gameId);
-      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, 1);
+      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, questions);
       const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
       await this.setGameState(gameId, GameStates.Questionnaire);
       await Game.updateOne({id: gameId}, {
         $set: { 'questionnaireQuestions': questionsWithOptions }
       });
 
+      
       return questionnaireQuestionsText;
     } catch (e) {
       console.error(`Issue moving game to questionnaire: ${e}`);
     }
   },
 
-  buildQuiz: async (gameId: number): Promise<IQuizQuestion[]> => {
+  buildQuiz: async (gameId: number, questionnaireQuestions: any): Promise<IQuizQuestion[]> => {
     const players = await playerDb.getPlayers(gameId);
-    const questionnaireQuestions = await utilDb.createQuestionnaireQuestionsWithOptions(players, 2);
     const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions);
     await Game.updateOne({ id: gameId }, {
       $set: { 'quizQuestions': quizQuestions }
@@ -121,6 +124,26 @@ export default {
       await Game.deleteMany({});
     } catch (e) {
       console.error(`Issue deleting all games: ${e}`);
+    }
+  },
+
+  deleteGame: async(gameId: number): Promise<any> => {
+    try{
+      await Game.deleteOne({id: gameId});
+    }
+    catch(e){
+      console.error(`Issue deleting game: ${e}`);
+    }},
+
+  updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
+    try {
+      const timePerQuestion = settingsData.timePerQuestion;
+
+      await Game.updateOne({id: gameId}, {
+        $set: { 'settings.timePerQuestion': timePerQuestion }
+      });
+    } catch (e) {
+      console.error(`Issue updating settings: ${e}`);
     }
   }
 }

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import "../style.css";
 import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
@@ -13,38 +13,54 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
   async function onStart() {
-    console.log(
-      getComputedStyle(document.documentElement).getPropertyValue("accent") +
-        ";"
-    );
     socket.emit("host-start", gameId);
-    //socket.emit("get-waiting-players", playerNames);
-    //console.log("waiting emitted", playerNames)
+  }
+
+  async function onPlayerKick(name: string) {
+    socket.emit("host-kick-player", name);
   }
 
   return (
     <>
-      <h2>Join at friendpardy.com</h2>
+      <h2>
+        Join at
+        {" " +
+          window.location.href
+            .replace("/host", "")
+            .replace("http://", "")
+            .replace("https://", "")
+            .replace("www.", "")}
+      </h2>
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
       </Paper>
       <h1>{playerNames.length} Players</h1>
-      <div className="waiting">
-        {playerNames.map((name: String, i: number) => (
-          <>
-            <Paper elevation={3} className="playerbox">
-              <p className="player">{name}</p>
-            </Paper>
-            <br />
-          </>
+      <div className="player-list">
+        {playerNames.map((name: string, i: number) => (
+          <Paper
+            key={i}
+            elevation={3}
+            className="lobby_player"
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+                boxShadow: 8,
+                textDecoration: "line-through",
+              },
+            }}
+            onClick={() => onPlayerKick(name)}
+          >
+            <p className="player">{name}</p>
+          </Paper>
         ))}
+      </div>
       </div>
       <Button
         variant="contained"
         disabled={playerNames.length < 2}
+        style={{ marginTop: "5vh" }}
         sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+          bgcolor: getComputedStyle(document.body).getPropertyValue("--accent"),
         }}
         onClick={onStart}
       >
