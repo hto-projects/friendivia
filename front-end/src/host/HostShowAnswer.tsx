@@ -3,6 +3,7 @@ import "../style.css";
 import { Paper, Stack } from "@mui/material";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
+import Speak from "../Speak";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -49,8 +50,13 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     else return "Show Leaderboard";
   }
 
+  function correctText() {
+    return "The correct answer was " + options[correctAnswerIndex] + "!";
+  }
+
   return (
     <>
+      <Speak text={correctText()} cloud={true} />
       <div>
         {interpolatePlayerNameInQuestionText()}
         <div

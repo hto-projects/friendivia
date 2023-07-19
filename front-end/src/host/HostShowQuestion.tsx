@@ -2,6 +2,7 @@ import * as React from "react";
 import "../style.css";
 import { Button, Paper, Grid } from "@mui/material";
 import { Socket } from "socket.io-client";
+import Speak from "../Speak";
 
 interface IShowQuestionProps {
   playerName: string;
@@ -39,13 +40,29 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
     );
   }
 
+  function quizText() {
+    const [part1, part2] = questionText.split("<PLAYER>");
+    //for last option say or
+    var res = "";
+    res += part1 + playerName + part2;
+    for (var i = 0; i < options.length; i++) {
+      if (i == options.length - 1) {
+        res += " or " + options[i];
+      } else {
+        res += ", " + options[i];
+      }
+    }
+    return res;
+  }
+
   function onTimerSkipBtn() {
-    socket.emit('timer-skip', gameId);
+    socket.emit("timer-skip", gameId);
   }
 
   return (
     <>
       <App />
+      <Speak text={quizText()} cloud={true} />
       {interpolatePlayerNameInQuestionText()}
       <ul className="ul">
         {options.map((o: String, i: number) => (
