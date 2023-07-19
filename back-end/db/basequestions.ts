@@ -87,7 +87,7 @@ const arr = [
     {
         text: "How many languages can you speak?",
         quizText: "How many languages can <PLAYER> speak?",
-        fakeAnswers: ["zErO", "5", "two", "Hablo dos"]
+        fakeAnswers: ["zErO", "5", "two", "tres"]
     },
     {
         text: "If you could have any one superpower, what would it be?",
