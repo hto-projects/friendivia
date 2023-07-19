@@ -38,6 +38,8 @@ export default (io, socket: Socket) => {
         const data = dataForGame;
         const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
         const playerScores = await playerDb.getPlayerScores(gameId);
+        
+        const playersInGame = await playerDb.getPlayers(gameId);
         await Game.updateOne({
           id: gameId
         }, { 
@@ -45,12 +47,10 @@ export default (io, socket: Socket) => {
             'hostSocketId': socket.id
           }
         });  
-        socket.emit('host-load-success', {...data, quizQuestionGuesses, playerScores});
-        
-        const playersForGame = await playerDb.getPlayers(gameId);
+        socket.emit('host-load-success', {...data, quizQuestionGuesses, playerScores, playersInGame});
         socket.emit('players-updated', {
           gameId: gameId,
-          players: playersForGame
+          players: playersInGame
         });
             }
     } catch (e) {
@@ -97,7 +97,8 @@ export default (io, socket: Socket) => {
       const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
       await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-      io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      let playersInGame = await playerDb.getPlayers(gameId);
+      io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
       } else{console.log("Need at least two players")}
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
