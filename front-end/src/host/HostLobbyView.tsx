@@ -57,7 +57,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           </Paper>
         ))}
       </div>
-      </div>
       <Button
         variant="contained"
         disabled={playerNames.length < 2}
