@@ -38,6 +38,7 @@ export default function HostApp(props: IHostProps) {
   ] = React.useState<number>(-1);
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
   const [playerScores, setPlayerScores] = React.useState([]);
+  const [playersInGame, setPlayersInGame] = React.useState([]);
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -66,7 +67,7 @@ export default function HostApp(props: IHostProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(
-      data: IGame & { quizQuestionGuesses; playerScores }
+      data: IGame & { quizQuestionGuesses; playerScores; playersInGame }
     ) {
       setLoaded(true);
       setGameId(data.id);
@@ -75,6 +76,7 @@ export default function HostApp(props: IHostProps) {
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
+      setPlayersInGame(data.playersInGame);
       setTimePerQuestion(data.settings.timePerQuestion);
     }
 
@@ -117,7 +119,7 @@ export default function HostApp(props: IHostProps) {
     if (state === "lobby") {
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
-      return <HostQuestionnaire />;
+      return <HostQuestionnaire socket={socket} gameId={gameId} playersInGame={playersInGame} />;
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {

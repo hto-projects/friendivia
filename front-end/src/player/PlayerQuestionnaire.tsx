@@ -30,7 +30,7 @@ export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
         message: errorMsg
       });
     }
-  
+
     socket.on('player-submit-questionnaire-success', onSubmitQuestionnaireSuccess);
     socket.on('player-submit-questionnaire-error', onSubmitQuestionnaireError);
 
