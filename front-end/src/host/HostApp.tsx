@@ -115,7 +115,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p>The guesses are in...</p>;
+      return <p style={{fontSize: "1.5em"}}>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -137,7 +137,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p>Calculating final scores...</p>;
+      return <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>;
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {

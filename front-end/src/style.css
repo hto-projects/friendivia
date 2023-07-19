@@ -252,7 +252,7 @@ body {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 2vw;
+  font-size: 1.5em;
   margin:auto;
   text-align: center;
 }
@@ -375,13 +375,13 @@ body {
 }
 
 .question{
-  font-size: 3vw;
+  font-size: 1.5em;
   margin: auto;
   margin-bottom: 1vw;
 }
 
 .showAnswer{
-  font-size: 2.5vw;
+  font-size: 1.5em;
   margin: auto;
   margin-bottom: 3vh;
 }
