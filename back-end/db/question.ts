@@ -17,7 +17,8 @@ export default {
         try {
             const newQuestion = new Question(question);
             const questionExists = await Question.exists({ text: question.text }) || await Question.exists({ quizText: question.quizText });
-            if (!questionExists) {
+            const nothingEmpty = question.text != "" || question.quizText != "" || question.fakeAnswers[0] != "" || question.fakeAnswers[1] != "" || question.fakeAnswers[2] != "";
+            if (!questionExists && nothingEmpty) {
                 await newQuestion.save();
                 return newQuestion;}
             return null;

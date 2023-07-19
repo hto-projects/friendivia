@@ -7,6 +7,7 @@ import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
+import question from '../db/question.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -33,6 +34,7 @@ export default {
     try {
       const settingsData = await this.getPreSettingsData(preSettingsId);
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
+      const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
 
       var newId = -1;
@@ -55,7 +57,8 @@ export default {
         quizQuestions: [],
         currentQuestionIndex: -1,
         settings: {
-          timePerQuestion: timePerQuestion
+          timePerQuestion: timePerQuestion,
+          customQuestions: customQuestions
         }
       };
 
@@ -163,11 +166,18 @@ export default {
 
   updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
     try {
+
       const timePerQuestion = settingsData.timePerQuestion;
+      const customQuestions = settingsData.addedQuestions;
 
       await Game.updateOne({id: gameId}, {
-        $set: { 'settings.timePerQuestion': timePerQuestion }
+        $set: { 'settings.timePerQuestion': timePerQuestion, 'settings.customQuestions': customQuestions }
       });
+
+      customQuestions.forEach(async (thisQuestion) => {
+        await question.addQuestion(thisQuestion);
+      });
+
     } catch (e) {
       console.error(`Issue updating settings: ${e}`);
     }
@@ -182,6 +192,7 @@ export default {
         settingsState: true,
         settings: {
           timePerQuestion: 15,
+          customQuestions: []
         }
       };
 
@@ -198,13 +209,16 @@ export default {
   hostClosePreSettings: async function(preSettingsId: string, settingsData: any): Promise<any> {
     try {
       const timePerQuestion = settingsData.timePerQuestion;
+      const customQuestions = settingsData.customQuestions;
 
       await PreGameSettings.updateOne({id: preSettingsId}, {
         $set: { 
           'settingsState': false,
-          'settings.timePerQuestion': timePerQuestion
+          'settings.timePerQuestion': timePerQuestion,
+          'settings.customQuestions': customQuestions
         }
       });
+
     } catch (e) {
       console.error(`Issue updating pre-settings: ${e}`);
     }
