@@ -53,7 +53,11 @@ export default function HostSettings(props: ISettingsProps) {
           onChange={(e) => setTimePerQuestion(Number(e.target.value))}
         />
         <p>Custom Questions:</p>
-        <p>Quiz questions must include &lt;PLAYER&gt;</p>
+        <p>
+          text: "What is your favorite movie?", quizText: "What is
+          &lt;PLAYER&gt;'s favorite movie?", fakeAnswers: ["The Godfather",
+          "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"]
+        </p>
         {/*text: "What is your favorite movie?",
         quizText: "What is <PLAYER>'s favorite movie?",
         fakeAnswers: ["The Godfather", "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"] */}
@@ -68,7 +72,7 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].text = e.target.value;
+                newQuestions[index].text = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
@@ -81,7 +85,7 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].quizText = e.target.value;
+                newQuestions[index].quizText = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
@@ -94,7 +98,7 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].fakeAnswers[0] = e.target.value;
+                newQuestions[index].fakeAnswers[0] = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
@@ -107,7 +111,7 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].fakeAnswers[1] = e.target.value;
+                newQuestions[index].fakeAnswers[1] = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
@@ -120,7 +124,7 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].fakeAnswers[2] = e.target.value;
+                newQuestions[index].fakeAnswers[2] = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
@@ -133,14 +137,30 @@ export default function HostSettings(props: ISettingsProps) {
               type="text"
               onChange={(e) => {
                 const newQuestions = [...addedQuestions];
-                newQuestions[0].fakeAnswers[3] = e.target.value;
+                newQuestions[index].fakeAnswers[3] = e.target.value;
                 setAddedQuestions(newQuestions);
               }}
             />
-            <Button onClick={() => removeCustomQuestion(index)}>Remove</Button>
+            <Button
+              onClick={() => removeCustomQuestion(index)}
+              variant="contained"
+              sx={{
+                bgcolor: "gray",
+              }}
+            >
+              Remove
+            </Button>
           </div>
         ))}
-        <Button onClick={() => addCustomQuestion()}>Add Custom Question</Button>
+        <Button
+          onClick={() => addCustomQuestion()}
+          variant="contained"
+          sx={{
+            bgcolor: "black",
+          }}
+        >
+          Add Custom Question
+        </Button>
         <p>Click below to go back:</p>
         <Button
           variant="contained"
