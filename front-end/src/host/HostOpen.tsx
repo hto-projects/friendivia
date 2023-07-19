@@ -32,18 +32,17 @@ export default function HostOpen(props: IOpenProps) {
         Host
       </Button>
       <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onPreSettings}
-          >
-            Game Settings
-          </Button>
+        className="button"
+        variant="contained"
+        sx={{
+          bgcolor:
+            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+          m: 2,
+        }}
+        onClick={onPreSettings}
+      >
+        Game Settings
+      </Button>
     </>
   );
 }

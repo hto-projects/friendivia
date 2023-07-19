@@ -13,10 +13,12 @@ interface ISettingsProps {
 
 export default function HostSettings(props: ISettingsProps) {
   const { socket, gameId, timePerQuestionSetting } = props;
-  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(
+    timePerQuestionSetting || 15
+  );
 
   async function onBack() {
-    socket.emit("host-back", gameId, {timePerQuestion});
+    socket.emit("host-back", gameId, { timePerQuestion });
   }
 
   return (
@@ -38,7 +40,8 @@ export default function HostSettings(props: ISettingsProps) {
           variant="contained"
           sx={{
             bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
           }}
           onClick={onBack}
         >

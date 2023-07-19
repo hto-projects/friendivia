@@ -26,9 +26,12 @@ interface IHostProps {
 
 export default function HostApp(props: IHostProps) {
   const gameIdFromStorage = Number(localStorage.getItem("game-id")) || -1;
-  const settingsIdFromStorage = String(localStorage.getItem("settings-id")) || '-1';
+  const settingsIdFromStorage =
+    String(localStorage.getItem("settings-id")) || "-1";
   const [gameId, setGameId] = React.useState<number>(gameIdFromStorage);
-  const [preSettingsId, setPreSettingsId] = React.useState<string>(settingsIdFromStorage);
+  const [preSettingsId, setPreSettingsId] = React.useState<string>(
+    settingsIdFromStorage
+  );
   const [gameState, setGameState] = React.useState<string>("init");
   const [settingsState, setSettingsState] = React.useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = React.useState<IQuizQuestion[]>([]);
@@ -139,7 +142,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{fontSize: "1.5em"}}>The guesses are in...</p>;
+      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -161,15 +164,27 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>;
+      return <p style={{ fontSize: "1.5em" }}>Calculating final scores...</p>;
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion}/>;
+      return (
+        <HostSettings
+          socket={socket}
+          gameId={gameId}
+          timePerQuestionSetting={timePerQuestion}
+        />
+      );
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {
-      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion}/>;
+      return (
+        <HostPreSettings
+          socket={socket}
+          preSettingsId={preSettingsId}
+          timePerQuestionSetting={timePerQuestion}
+        />
+      );
     } else {
       return <HostOpen socket={socket} />;
     }
@@ -192,36 +207,39 @@ export default function HostApp(props: IHostProps) {
         {getElementForState(gameState, settingsState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainerHost">
-        <p>
-        <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onSettings}
-          >
-            Game Settings
-          </Button>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>) : ("")}
+        <div className="bottomContainerHost">
+          <p>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onSettings}
+            >
+              Game Settings
+            </Button>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

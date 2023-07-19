@@ -13,10 +13,12 @@ interface IPreSettingsProps {
 
 export default function HostPreSettings(props: IPreSettingsProps) {
   const { socket, preSettingsId, timePerQuestionSetting } = props;
-  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(
+    timePerQuestionSetting || 15
+  );
 
   async function onPSBack() {
-    socket.emit("host-ps-back", preSettingsId, {timePerQuestion});
+    socket.emit("host-ps-back", preSettingsId, { timePerQuestion });
   }
 
   return (
@@ -38,7 +40,8 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           variant="contained"
           sx={{
             bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
           }}
           onClick={onPSBack}
         >

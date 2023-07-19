@@ -1,12 +1,12 @@
-import * as React from 'react';
-import '../style.css';
-import { Socket } from 'socket.io-client';
-import IPlayer from 'back-end/interfaces/IPlayer';
-import HostLobbyView from './HostLobbyView';
+import * as React from "react";
+import "../style.css";
+import { Socket } from "socket.io-client";
+import IPlayer from "back-end/interfaces/IPlayer";
+import HostLobbyView from "./HostLobbyView";
 
 interface ILobbyProps {
-  socket: Socket,
-  gameId: number
+  socket: Socket;
+  gameId: number;
 }
 
 export default function HostLobby(props: ILobbyProps) {
@@ -19,13 +19,19 @@ export default function HostLobby(props: ILobbyProps) {
         setPlayers(playersObject.players);
       }
     }
-  
-    socket.on('players-updated', onPlayersUpdated);
+
+    socket.on("players-updated", onPlayersUpdated);
 
     return () => {
-      socket.off('players-updated', onPlayersUpdated);
-    }
+      socket.off("players-updated", onPlayersUpdated);
+    };
   }, [players, setPlayers]);
 
-  return <HostLobbyView playerNames={players.map(p => p.name)} gameId={gameId} socket={socket} />;
+  return (
+    <HostLobbyView
+      playerNames={players.map((p) => p.name)}
+      gameId={gameId}
+      socket={socket}
+    />
+  );
 }
