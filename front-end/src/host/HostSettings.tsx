@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
 
 interface ISettingsProps {
   socket: Socket;
@@ -13,10 +14,15 @@ interface ISettingsProps {
 
 export default function HostSettings(props: ISettingsProps) {
   const { socket, gameId, timePerQuestionSetting } = props;
-  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(
+    timePerQuestionSetting || 15
+  );
+  const [addedQuestions, setAddedQuestions] = React.useState<
+    IQuestionnaireQuestion[]
+  >([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
 
   async function onBack() {
-    socket.emit("host-back", gameId, {timePerQuestion});
+    socket.emit("host-back", gameId, { timePerQuestion, addedQuestions });
   }
 
   return (
@@ -33,16 +39,101 @@ export default function HostSettings(props: ISettingsProps) {
           value={timePerQuestion}
           onChange={(e) => setTimePerQuestion(Number(e.target.value))}
         />
+        <p>Custom Questions:</p>
+        {/*text: "What is your favorite movie?",
+        quizText: "What is <PLAYER>'s favorite movie?",
+        fakeAnswers: ["The Godfather", "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"] */}
+        <div className="customQuestion">
+          <TextField
+            className="idInput form"
+            id="questionText"
+            label="Question Text"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].text = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+          <TextField
+            className="idInput form"
+            id="quizText"
+            label="Quiz Text"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].quizText = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+          <TextField
+            className="idInput form"
+            id="fakeAnswer1"
+            label="Fake Answer 1"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].fakeAnswers[0] = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+          <TextField
+            className="idInput form"
+            id="fakeAnswer2"
+            label="Fake Answer 2"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].fakeAnswers[1] = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+          <TextField
+            className="idInput form"
+            id="fakeAnswer3"
+            label="Fake Answer 3"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].fakeAnswers[2] = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+          <TextField
+            className="idInput form"
+            id="fakeAnswer4"
+            label="Fake Answer 4"
+            variant="outlined"
+            size="small"
+            type="text"
+            onChange={(e) => {
+              const newQuestions = [...addedQuestions];
+              newQuestions[0].fakeAnswers[3] = e.target.value;
+              setAddedQuestions(newQuestions);
+            }}
+          />
+        </div>
         <p>Click below to go back:</p>
         <Button
           variant="contained"
           sx={{
             bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
           }}
           onClick={onBack}
         >
-          Back
+          Save
         </Button>
       </Stack>
     </>
