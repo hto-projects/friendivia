@@ -1,9 +1,12 @@
 import IGame from '../interfaces/IGame.ts';
+import IPreGameSettings from '../interfaces/IPreGameSettings.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
-import Game from '../models/Game.ts'
+import Game from '../models/Game.ts';
+import PreGameSettings from '../models/PreGameSettings.ts';
 import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
+import * as uuid from 'uuid';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -16,8 +19,22 @@ export default {
     }
   },
 
-  hostOpenGame: async function(socketId: string): Promise<number> {
+  getPreSettingsData: async (preSettingsId: string): Promise<IPreGameSettings | null> => {
     try {
+      const settingsData: any = await PreGameSettings.findOne({id: preSettingsId});
+      return settingsData?.toObject();
+    } catch (e) {
+      console.error(`Issue getting game data: ${e}`);
+      return null;
+    }
+  },
+
+  hostOpenGame: async function(socketId: string, preSettingsId: string): Promise<number> {
+    try {
+      const settingsData = await this.getPreSettingsData(preSettingsId);
+      const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
+      this.deleteOneSettings(preSettingsId);
+
       var newId = -1;
       while (true) {
         const testId = Math.floor(Math.random() * 9000 + 1000);
@@ -38,7 +55,7 @@ export default {
         quizQuestions: [],
         currentQuestionIndex: -1,
         settings: {
-          timePerQuestion: 15
+          timePerQuestion: timePerQuestion
         }
       };
 
@@ -122,6 +139,15 @@ export default {
   deleteAllGames: async (): Promise<any> => {
     try {
       await Game.deleteMany({});
+      await PreGameSettings.deleteMany({});
+    } catch (e) {
+      console.error(`Issue deleting all games: ${e}`);
+    }
+  },
+
+  deleteOneSettings: async (preSettingsId): Promise<any> => {
+    try {
+      await PreGameSettings.deleteOne({id: preSettingsId});
     } catch (e) {
       console.error(`Issue deleting all games: ${e}`);
     }
@@ -145,5 +171,52 @@ export default {
     } catch (e) {
       console.error(`Issue updating settings: ${e}`);
     }
-  }
+  },
+
+  hostOpenPreSettings: async function(socketId: string): Promise<string> {
+    try {
+      var newId = `preSettings_${uuid.v4()}`;
+      const newPreSettingsObject: IPreGameSettings = {
+        id: newId,
+        hostSocketId: socketId,
+        settingsState: true,
+        settings: {
+          timePerQuestion: 15,
+        }
+      };
+
+      const newPreSettings = new PreGameSettings(newPreSettingsObject);
+      await newPreSettings.save();
+
+      return newId;
+    } catch (e) {
+      console.error(`Issue creating new game: ${e}`);
+      return '-1';
+    }
+  },
+
+  hostClosePreSettings: async function(preSettingsId: string, settingsData: any): Promise<any> {
+    try {
+      const timePerQuestion = settingsData.timePerQuestion;
+
+      await PreGameSettings.updateOne({id: preSettingsId}, {
+        $set: { 
+          'settingsState': false,
+          'settings.timePerQuestion': timePerQuestion
+        }
+      });
+    } catch (e) {
+      console.error(`Issue updating pre-settings: ${e}`);
+    }
+  },
+
+  setSettingsState: async (preSettingsId: string, newState: boolean): Promise<void> => {
+    try {
+      await PreGameSettings.updateOne({id: preSettingsId}, {
+        $set: { 'settingsState': newState }
+      });
+    } catch (e) {
+      console.error(`Issue setting settings state: ${e}`);
+    }
+  },
 }
