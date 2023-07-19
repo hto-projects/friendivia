@@ -33,6 +33,7 @@ body {
   width: auto;
 }
 
+
 /*mobile*/
 @media (max-width: 767px) {
   .logo{
@@ -150,7 +151,14 @@ body {
   margin: 10% auto;
 }
 
-
+.hostFormat{
+  background-repeat: repeat;
+  background-size: 60% auto;
+  background-clip: cover;
+  size: 100%;
+  justify-content: center;
+  text-align: center;
+}
 
 .questionnaireInput{
   display: flex;
@@ -179,6 +187,17 @@ body {
   cursor: pointer;
   border-radius: 20px;
   box-shadow: 5px 10px;
+}
+
+.noBtnElement{
+  height: 100%;
+  margin: 0px;
+}
+
+.bottomContainerHost{
+  display: flex;
+  justify-content: flex-start;
+  margin: 15% auto;
 }
 
 .bottomContainer{
@@ -246,7 +265,7 @@ body {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 2vw;
+  font-size: 1.5em;
   margin:auto;
   text-align: center;
 }
@@ -386,13 +405,13 @@ body {
 }
 
 .question{
-  font-size: 3vw;
+  font-size: 1.5em;
   margin: auto;
   margin-bottom: 1vw;
 }
 
 .showAnswer{
-  font-size: 2.5vw;
+  font-size: 1.5em;
   margin: auto;
   margin-bottom: 3vh;
 }
@@ -622,6 +641,10 @@ body {
   font-size: 1.5em;
 }
 
+.musicIcon{
+  width: 5vh;
+}
+
 .questionnaireInputs{
   overflow-y: scroll;
 }
@@ -630,4 +653,5 @@ body {
   overflow-y: scroll;
   height: 100vh;
 }
+
 

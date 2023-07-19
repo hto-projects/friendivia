@@ -147,7 +147,12 @@ export default (io, socket: Socket) => {
       await hostDb.setGameState(gameId, GameStates.Lobby);
       await hostDb.updateSettings(gameId, settingsData);
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-      io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      await io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+      io.to(currentGameData?.hostSocketId).emit('players-updated', {
+        gameId: gameId,
+        players: allPlayersInGame
+      });
     } catch(e) {
       console.error(`Failed to go back: ${e}`)
     }

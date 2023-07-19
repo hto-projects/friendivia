@@ -1,5 +1,7 @@
 import * as React from "react";
 import "../style.css";
+import PlayAudio from "../PlayAudio";
+import theme from "../assets/audio/theme.mp3";
 import { Socket } from "socket.io-client";
 import IPlayer from "back-end/interfaces/IPlayer";
 import HostQuestionnaireView from "./HostQuestionnaireView";
@@ -35,12 +37,16 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     };
   }, []);
 
+export default function HostQuestionnaire() {
   return (
-    <HostQuestionnaireView
-      donePlayers={donePlayers}
-      waitingPlayers={waitingPlayers}
-      gameId={gameId}
-      socket={socket}
-    />
+    <>
+      <PlayAudio src={theme} loop={true} />
+      <HostQuestionnaireView
+        donePlayers={donePlayers}
+        waitingPlayers={waitingPlayers}
+        gameId={gameId}
+        socket={socket}
+      />
+    </>
   );
 }

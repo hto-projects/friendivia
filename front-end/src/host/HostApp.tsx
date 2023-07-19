@@ -10,9 +10,13 @@ import IGame from "back-end/interfaces/IGame";
 import HostShowAnswer from "./HostShowAnswer";
 import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
-import Button from "@mui/material/Button";
+import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import theme from "../assets/audio/theme.mp3";
+import PlayAudio from "../PlayAudio";
+import musicOn from "../assets/musicon.png";
+import musicOff from "../assets/musicoff.png";
 
 interface IHostProps {
   socket: Socket;
@@ -33,7 +37,23 @@ export default function HostApp(props: IHostProps) {
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
+  const [muted, setMuted] = React.useState<boolean>(false);
   const { socket } = props;
+
+  function muteMusic(muted: boolean) {
+    setMuted(!muted);
+    if (muted) {
+      const audio = document.querySelector("audio");
+      if (audio) {
+        audio.play();
+      }
+    } else {
+      const audio = document.querySelector("audio");
+      if (audio) {
+        audio.pause();
+      }
+    }
+  }
 
   if (!loaded) {
     socket.emit("host-load", gameIdFromStorage);
@@ -97,7 +117,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p>The guesses are in...</p>;
+      return <p style={{fontSize: "1.5em"}}>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -119,7 +139,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p>Calculating final scores...</p>;
+      return <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>;
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
@@ -137,12 +157,18 @@ export default function HostApp(props: IHostProps) {
 
   return (
     <>
-      <div className="about">
+      <PlayAudio src={theme} loop={true} />
+      <div className="musicButton">
+        <IconButton onClick={() => muteMusic(muted)}>
+          <img className="musicIcon" src={muted ? musicOff : musicOn} />
+        </IconButton>
+      </div>
+      <div className="hostFormat">
         <img className="logohost" src={logo} />
         {getElementForState(gameState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainer">
+      <div className="bottomContainerHost">
         <p>
         <Button
             className="button"

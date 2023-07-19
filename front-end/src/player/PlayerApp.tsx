@@ -124,14 +124,17 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "rank-three") {
       bottomButtons = false;
       return <PlayerOver rank={3} />;
-    } else {
+    } else if (playerState === "") {
       bottomButtons = true;
+      return <PlayerJoin socket={socket} playerState={playerState} />;
+    } else {
+      bottomButtons = false;
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
 
   function getButtonsForState() {
-    if (playerState === "init" || playerState === null) {
+    if (playerState === "init" || playerState === null || playerState === "") {
       return (
         <div className="bottomContainer" id="btmContainPlayerApp">
           <p>
@@ -171,6 +174,15 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }
 
+  function getScreenForState() {
+    console.log("player state:" + playerState);
+    if (playerState === "init" || playerState === null || playerState === "") {
+      return "element";
+    } else {
+      return "noBtnElement";
+    }
+  }
+
   return (
     <div
       className={
@@ -207,8 +219,8 @@ export default function PlayerApp(props: PlayerAppProps) {
             </Grid>
           </Grid>
         </div>
-        <div className="element">{getElementForState()}</div>
-        {bottomButtons && playerState != "joined-waiting" ? (
+        <div className={getScreenForState()}>{getElementForState()}</div>
+        {bottomButtons ? (
           <div className="bottomContainer">
             <p>
               <Button
