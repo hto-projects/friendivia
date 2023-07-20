@@ -47,7 +47,15 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
 
     function onPlayersUpdated(playersObject: any) {
       console.log("players updated");
-      socket.emit("update-host-view");
+      const updatedDonePlayers = getPlayerNamesForState(
+        playersObject.players,
+        "submitted-questionnaire-waiting"
+      );
+      const updatedWaitingPlayers = getPlayerNamesForState(
+        playersObject.players,
+        "filling-questionnaire"
+      );
+      onStatusReceived([updatedDonePlayers, updatedWaitingPlayers]);
     }
 
     socket.on("players-updated", onPlayersUpdated);
@@ -55,7 +63,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     return () => {
       socket.off("update-host-view", onStatusReceived);
     };
-  }, []);
+  }, [socket]);
 
   return (
     <>
