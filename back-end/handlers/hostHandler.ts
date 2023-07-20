@@ -94,11 +94,13 @@ export default (io, socket: Socket) => {
   const onHostStart = async (gameId) => {
     try {
       if ((await playerDb.getPlayers(gameId)).length >= 2) {
-      const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
-      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-      let playersInGame = await playerDb.getPlayers(gameId);
-      io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
+        const data: IGame | null = await hostDb.getGameData(gameId);
+        const numQuestionnaireQuestions = data?.settings.numQuestionnaireQuestions || 5;
+        const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, numQuestionnaireQuestions);
+        await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
+        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+        let playersInGame = await playerDb.getPlayers(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
       } else{console.log("Need at least two players")}
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)

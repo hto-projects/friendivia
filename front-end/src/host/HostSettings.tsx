@@ -10,12 +10,14 @@ interface ISettingsProps {
   socket: Socket;
   gameId: number;
   timePerQuestionSetting: number;
+  numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, timePerQuestionSetting, numQuizQuestionsSetting } = props;
+  const { socket, gameId, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
   const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
 
@@ -33,7 +35,7 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuizQuestions, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, addedQuestions });
   }
 
   return (
@@ -50,11 +52,23 @@ export default function HostSettings(props: ISettingsProps) {
           value={timePerQuestion}
           onChange={(e) => setTimePerQuestion(Number(e.target.value))}
         />
+        <p>Number of Questionnaire Questions:</p>
+        <TextField
+          className="idInput form"
+          id="question#QuestionnaireQ"
+          label="Number of Questionnaire Questions"
+          variant="outlined"
+          size="small"
+          type="number"
+          inputProps={{ min: 2, max: 24}}
+          value={numQuestionnaireQuestions}
+          onChange={(e) => setNumQuestionnaireQuestions(Number(e.target.value))}
+        />
         <p>Number of Quiz Questions:</p>
         <TextField
           className="idInput form"
           id="question#QuizQ"
-          label="Num of Quiz Questions"
+          label="Number of Quiz Questions"
           variant="outlined"
           size="small"
           type="number"

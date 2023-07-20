@@ -34,6 +34,7 @@ export default {
     try {
       const settingsData = await this.getPreSettingsData(preSettingsId);
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
+      const numQuestionnaireQuestions = settingsData?.settings.numQuestionnaireQuestions || 5;
       const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
       const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
@@ -59,6 +60,7 @@ export default {
         currentQuestionIndex: -1,
         settings: {
           timePerQuestion: timePerQuestion,
+          numQuestionnaireQuestions: numQuestionnaireQuestions,
           numQuizQuestions: numQuizQuestions,
           customQuestions: customQuestions
         }
@@ -170,12 +172,14 @@ export default {
     try {
 
       const timePerQuestion = settingsData.timePerQuestion;
+      const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
       const customQuestions = settingsData.addedQuestions;
 
       await Game.updateOne({id: gameId}, {
         $set: { 
           'settings.timePerQuestion': timePerQuestion,
+          'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
           'settings.customQuestions': customQuestions
         }});
@@ -198,6 +202,7 @@ export default {
         settingsState: true,
         settings: {
           timePerQuestion: 15,
+          numQuestionnaireQuestions: 5,
           numQuizQuestions: 5,
           customQuestions: []
         }
@@ -216,6 +221,7 @@ export default {
   hostClosePreSettings: async function(preSettingsId: string, settingsData: any): Promise<any> {
     try {
       const timePerQuestion = settingsData.timePerQuestion;
+      const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
       const customQuestions = settingsData.customQuestions;
 
@@ -223,6 +229,7 @@ export default {
         $set: { 
           'settingsState': false,
           'settings.timePerQuestion': timePerQuestion,
+          'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
           'settings.customQuestions': customQuestions
         }
