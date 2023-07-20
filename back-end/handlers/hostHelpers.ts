@@ -66,7 +66,8 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
       await Game.updateOne({ id: gameId }, {
         $set: { 'currentQuestionIndex': -1 }
       });
-      io.to(currentGameData!.hostSocketId).emit('host-next', currentGameData);
+      let playersInGame = await playerDb.getPlayers(gameId);
+      io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
     }
@@ -166,13 +167,11 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
 const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
   const allPlayersInGame = await playerDb.getPlayers(gameId);
-  console.log(allPlayersInGame, "allPlayersInGame")
   let donePlayers: any = [];
   let waitingPlayers: any = [];
 
   for (let i = 0; i < allPlayersInGame.length; i++) {
     const player = allPlayersInGame[i];
-    console.log(player.name)
     if (player.playerState.state === 'submitted-questionnaire-waiting'){
       donePlayers.push(player.name);
     } else if (player.playerState.state === "filling-questionnaire"){
@@ -180,7 +179,6 @@ const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
     }
   }
 
-  console.log(donePlayers, waitingPlayers, "in playerHelper, checking done and waiting lists")
   return [donePlayers, waitingPlayers]
 }
 
@@ -192,12 +190,9 @@ const onHostViewUpdate = async(gameId, io: Server) => {
   }
 
   try {
-    console.log("reaches host handler update")
     const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
     if(!allPlayersDone){
-      console.log("before going to helper for statuses")
       let playerStatusLists = await getQuestionnaireStatus(gameId);
-      console.log("after getting statuses, ", playerStatusLists)
       io.to(gameData.hostSocketId).emit('update-host-view', playerStatusLists);
     }
   } catch (e) {

@@ -54,7 +54,11 @@ const shuffle = (array: any[]): void => {
 
 const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[], numQuizQuestions: number): IQuizQuestion[] => {
     var numQuestions = numQuizQuestions;
-    if(questionnaireQs.length * players.length < numQuestions){numQuestions = questionnaireQs.length * players.length;}
+    if(questionnaireQs.length === 1){
+      numQuestions = 1;
+    } else if(questionnaireQs.length * players.length < numQuestions){
+      numQuestions = questionnaireQs.length * players.length;
+    }
     const numberOfOptions = 4;
 
     const playerIds: string[] = [];

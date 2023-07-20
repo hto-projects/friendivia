@@ -14,7 +14,6 @@ interface HostQuestionnaireViewProps {
 export default function HostQuestionnaireView(props: HostQuestionnaireViewProps) {
   let waitingPlayers = props.waitingPlayers;
   let donePlayers = props.donePlayers;
-  console.log(donePlayers, waitingPlayers, "in view")
 
   return (
     <>
