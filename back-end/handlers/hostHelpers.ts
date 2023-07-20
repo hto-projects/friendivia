@@ -83,12 +83,16 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
 const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
   const shouldContinue = await hostDb.nextQuestion(gameId);
-
+  let timePerQuestionMS: number;
   if (currentGameData?.settings.timePerQuestion === undefined) {
-    return;
+    console.error("Error: time per question undefined. Defaulted to 15 seconds.");
+    timePerQuestionMS = 15000;
   }
-
-  const PLAYER_COMPLETE_QUIZ = currentGameData?.settings.timePerQuestion * 1000;
+  else {
+    timePerQuestionMS = currentGameData?.settings.timePerQuestion * 1000;
+  }
+  const PLAYER_COMPLETE_QUIZ = timePerQuestionMS;
+  
 
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
