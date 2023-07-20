@@ -3,6 +3,7 @@ import "../style.css";
 import { Paper, Stack } from "@mui/material";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
+import Speak from "../Speak";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -49,8 +50,28 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     else return "Show Leaderboard";
   }
 
+  function correctText() {
+    var res = "The correct answer was " + options[correctAnswerIndex];
+    var correctPlayers = playerGuesses.filter(
+      (g) => g.guess === correctAnswerIndex
+    );
+    if (correctPlayers.length != 0) res += "! Nice guessing ";
+    correctPlayers.forEach((e) => {
+      if (
+        e.name === correctPlayers[correctPlayers.length - 1].name &&
+        e.name !== correctPlayers[0].name
+      ) {
+        res += "and " + e.name + ".";
+      } else {
+        res += e.name + ", ";
+      }
+    });
+    return res;
+  }
+
   return (
     <>
+      <Speak text={correctText()} cloud={true} />
       <div>
         {interpolatePlayerNameInQuestionText()}
         <div

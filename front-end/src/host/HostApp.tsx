@@ -15,6 +15,7 @@ import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import Speak from "../Speak";
 import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
@@ -26,9 +27,12 @@ interface IHostProps {
 
 export default function HostApp(props: IHostProps) {
   const gameIdFromStorage = Number(localStorage.getItem("game-id")) || -1;
-  const settingsIdFromStorage = String(localStorage.getItem("settings-id")) || '-1';
+  const settingsIdFromStorage =
+    String(localStorage.getItem("settings-id")) || "-1";
   const [gameId, setGameId] = React.useState<number>(gameIdFromStorage);
-  const [preSettingsId, setPreSettingsId] = React.useState<string>(settingsIdFromStorage);
+  const [preSettingsId, setPreSettingsId] = React.useState<string>(
+    settingsIdFromStorage
+  );
   const [gameState, setGameState] = React.useState<string>("init");
   const [settingsState, setSettingsState] = React.useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = React.useState<IQuizQuestion[]>([]);
@@ -38,6 +42,7 @@ export default function HostApp(props: IHostProps) {
   ] = React.useState<number>(-1);
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
   const [playerScores, setPlayerScores] = React.useState([]);
+  const [playersInGame, setPlayersInGame] = React.useState([]);
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
 
@@ -67,7 +72,7 @@ export default function HostApp(props: IHostProps) {
 
   React.useEffect(() => {
     function onLoadSuccess(
-      data: IGame & { quizQuestionGuesses; playerScores }
+      data: IGame & { quizQuestionGuesses; playerScores; playersInGame }
     ) {
       setLoaded(true);
       setGameId(data.id);
@@ -76,6 +81,7 @@ export default function HostApp(props: IHostProps) {
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
+      setPlayersInGame(data.playersInGame);
       setTimePerQuestion(data.settings.timePerQuestion);
       setNumQuizQuestions(data.settings.numQuizQuestions);
     }
@@ -120,13 +126,12 @@ export default function HostApp(props: IHostProps) {
     if (state === "lobby") {
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
-      return <HostQuestionnaire />;
+      return <HostQuestionnaire socket={socket} gameId={gameId} playersInGame={playersInGame} />;
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
-      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
@@ -142,7 +147,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{fontSize: "1.5em"}}>The guesses are in...</p>;
+      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -164,7 +169,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-leader-board") {
-      return <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>;
+      return (
+        <>
+          <Speak text="Let's see who won" cloud={true} />
+          <p>Calculating final scores...</p>
+        </>
+      );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
@@ -183,7 +193,7 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <>
+    <div className="scroll">
       <PlayAudio src={theme} loop={true} />
       <div className="musicButton">
         <IconButton onClick={() => muteMusic(muted)}>
@@ -195,36 +205,39 @@ export default function HostApp(props: IHostProps) {
         {getElementForState(gameState, settingsState)}
       </div>
       {gameState === "lobby" ? (
-      <div className="bottomContainerHost">
-        <p>
-        <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onSettings}
-          >
-            Game Settings
-          </Button>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            href="/about"
-          >
-            About
-          </Button>
-        </p>
-      </div>) : ("")}
-    </>
+        <div className="bottomContainerHost">
+          <p>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onSettings}
+            >
+              Game Settings
+            </Button>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              href="/about"
+            >
+              About
+            </Button>
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
   );
 }

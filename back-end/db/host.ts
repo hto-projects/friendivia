@@ -7,6 +7,7 @@ import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
+import question from '../db/question.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -34,6 +35,7 @@ export default {
       const settingsData = await this.getPreSettingsData(preSettingsId);
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
       const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
+      const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
 
       var newId = -1;
@@ -57,7 +59,8 @@ export default {
         currentQuestionIndex: -1,
         settings: {
           timePerQuestion: timePerQuestion,
-          numQuizQuestions: numQuizQuestions
+          numQuizQuestions: numQuizQuestions,
+          customQuestions: customQuestions
         }
       };
 
@@ -165,15 +168,22 @@ export default {
 
   updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
     try {
+
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuizQuestions = settingsData.numQuizQuestions;
+      const customQuestions = settingsData.addedQuestions;
 
       await Game.updateOne({id: gameId}, {
         $set: { 
           'settings.timePerQuestion': timePerQuestion,
-          'settings.numQuizQuestions': numQuizQuestions 
+          'settings.numQuizQuestions': numQuizQuestions,
+          'settings.customQuestions': customQuestions
         }
+
+      customQuestions.forEach(async (thisQuestion) => {
+        await question.addQuestion(thisQuestion);
       });
+
     } catch (e) {
       console.error(`Issue updating settings: ${e}`);
     }
@@ -188,7 +198,8 @@ export default {
         settingsState: true,
         settings: {
           timePerQuestion: 15,
-          numQuizQuestions: 5
+          numQuizQuestions: 5,
+          customQuestions: []
         }
       };
 
@@ -206,14 +217,17 @@ export default {
     try {
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuizQuestions = settingsData.numQuizQuestions;
+      const customQuestions = settingsData.customQuestions;
 
       await PreGameSettings.updateOne({id: preSettingsId}, {
         $set: { 
           'settingsState': false,
           'settings.timePerQuestion': timePerQuestion,
-          'settings.numQuizQuestions': numQuizQuestions
+          'settings.numQuizQuestions': numQuizQuestions,
+          'settings.customQuestions': customQuestions
         }
       });
+
     } catch (e) {
       console.error(`Issue updating pre-settings: ${e}`);
     }
