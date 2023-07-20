@@ -21,7 +21,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     .replace("https://", "")
     .replace("www.", "");
   const joinMessage = `Join at ${joinUrl}`;
-  const textToSpeak = `Welcome to frenperdy! ${joinMessage}`;
+  const textToSpeak = `Welcome to friendpardy! ${joinMessage}`;
   const gameStr = gameId
     .toString()
     .split("")
@@ -41,15 +41,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       <h2>{joinMessage}</h2>
       <Speak text={joinMessage + ". Use code: " + gameStr} />
       <PlayAudio src={open} loop={false} />
-      <h2>
-        Join at
-        {" " +
-          window.location.href
-            .replace("/host", "")
-            .replace("http://", "")
-            .replace("https://", "")
-            .replace("www.", "")}
-      </h2>
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
       </Paper>
