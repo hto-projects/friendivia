@@ -47,7 +47,11 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           type="number"
           inputProps={{ min: 2, max: 24}}
           value={numQuestionnaireQuestions}
-          onChange={(e) => setNumQuestionnaireQuestions(Number(e.target.value))}
+          onChange={(e) => {
+            setNumQuestionnaireQuestions(Number(e.target.value));
+            if (numQuestionnaireQuestions < 2) {setNumQuestionnaireQuestions(2);}
+            if (numQuestionnaireQuestions > 24) {setNumQuestionnaireQuestions(24);}
+          }}
         />
         <p>Number of Quiz Questions:</p>
         <TextField
@@ -59,7 +63,10 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           type="number"
           inputProps={{ min: 2 }}
           value={numQuizQuestions}
-          onChange={(e) => setNumQuizQuestions(Number(e.target.value))}
+          onChange={(e) => {
+            setNumQuizQuestions(Number(e.target.value));
+            if (numQuizQuestions < 2) {setNumQuizQuestions(2);}
+          }}
         />
         <p>Click below to go back:</p>
         <Button
