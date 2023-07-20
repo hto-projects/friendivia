@@ -14,19 +14,31 @@ interface IQuestionnaireProps {
 }
 
 function getPlayerNamesForState(players: IPlayer[], state: string) {
-  return players.filter(p => p.playerState.state === state).map(p => p.name);
+  return players
+    .filter((p) => p.playerState.state === state)
+    .map((p) => p.name);
 }
 
 export default function HostQuestionnaire(props: IQuestionnaireProps) {
   const { socket, gameId, playersInGame } = props;
-  const donePlayersStart = getPlayerNamesForState(playersInGame, 'submitted-questionnaire-waiting');
-  const waitingPlayersStart = getPlayerNamesForState(playersInGame, 'filling-questionnaire');
+  const donePlayersStart = getPlayerNamesForState(
+    playersInGame,
+    "submitted-questionnaire-waiting"
+  );
+  const waitingPlayersStart = getPlayerNamesForState(
+    playersInGame,
+    "filling-questionnaire"
+  );
 
-  const [donePlayers, setDonePlayers] = React.useState<string[]>(donePlayersStart);
-  const [waitingPlayers, setWaitingPlayers] = React.useState<string[]>(waitingPlayersStart);  
+  const [donePlayers, setDonePlayers] = React.useState<string[]>(
+    donePlayersStart
+  );
+  const [waitingPlayers, setWaitingPlayers] = React.useState<string[]>(
+    waitingPlayersStart
+  );
 
   React.useEffect(() => {
-    function onStatusReceived(playerStatusList: any){
+    function onStatusReceived(playerStatusList: any) {
       setDonePlayers(playerStatusList[0]);
       setWaitingPlayers(playerStatusList[1]);
     }
@@ -37,7 +49,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
       socket.off("update-host-view", onStatusReceived);
     };
   }, []);
-  
+
   return (
     <>
       <Speak text={"Fill out your questionnaires please."} cloud={true} />
