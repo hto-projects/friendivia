@@ -327,6 +327,32 @@ body {
 .lobby_player{
   margin-left: 10vw;
   margin-right: 10vw;
+  animation: growIn 0.5s forwards;
+  opacity: 0;
+}
+
+@keyframes growIn {
+  from {
+    transform: scale(0);
+    background: #757de8;
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .align_center {
