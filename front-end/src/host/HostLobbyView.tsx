@@ -38,7 +38,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
-      <h2>{joinMessage}</h2>
       <Speak text={joinMessage + ". Use code: " + gameStr} />
       <PlayAudio src={open} loop={false} />
       <h2>
