@@ -212,8 +212,7 @@ export default {
           'settingsState': false,
           'settings.timePerQuestion': timePerQuestion,
           'settings.numQuizQuestions': numQuizQuestions
-        }
-      });
+        }});
     } catch (e) {
       console.error(`Issue updating pre-settings: ${e}`);
     }
