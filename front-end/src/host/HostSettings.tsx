@@ -5,19 +5,49 @@ import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import IPlayer from "back-end/interfaces/IPlayer";
 
 interface ISettingsProps {
   socket: Socket;
   gameId: number;
+  playersInGame: IPlayer[];
   timePerQuestionSetting: number;
+  numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, timePerQuestionSetting, numQuizQuestionsSetting } = props;
+  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
+  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
+  const [numQuestionnaireQuestionsInput, setNumQuestionnaireQuestionsInput] = React.useState<number>(numQuestionnaireQuestions);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
+  const [numQuizQuestionsInput, setNumQuizQuestionsInput] = React.useState<number>(numQuizQuestions);
   const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
+  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(5);
+
+  React.useEffect(() => {
+    if (timePerQuestion < 1) {
+      setTimePerQuestion(1);
+    } else if (timePerQuestion > 90) {
+      setTimePerQuestion(90);
+    }
+  }, [timePerQuestion, setTimePerQuestion]);
+
+  React.useEffect(() => {
+    if (numQuestionnaireQuestions < 2) {
+      setNumQuestionnaireQuestions(2);
+    } else if (numQuestionnaireQuestions > 24) {
+      setNumQuestionnaireQuestions(24);
+    }
+  }, [numQuestionnaireQuestions, setNumQuestionnaireQuestions]);
+
+  React.useEffect(() => {
+    if (numQuizQuestions < 2) {
+      setNumQuizQuestions(2);
+    }
+  }, [numQuizQuestions, setNumQuizQuestions]);
 
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
@@ -33,7 +63,7 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuizQuestions, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, addedQuestions });
   }
 
   return (
@@ -47,20 +77,48 @@ export default function HostSettings(props: ISettingsProps) {
           variant="outlined"
           size="small"
           type="number"
-          value={timePerQuestion}
-          onChange={(e) => setTimePerQuestion(Number(e.target.value))}
+          inputProps={{ min: 1, max: 90 }}
+          defaultValue={timePerQuestion}
+          error={(timePerQuestionInput < 1) || (timePerQuestionInput > 90)}
+          helperText={(timePerQuestionInput < 1) || (timePerQuestionInput > 90) ? 'Warning: you must choose a time between 1 and 90 seconds' : ''}
+          onChange={(e) => {
+            setTimePerQuestion(Number(e.target.value));
+            setTimePerQuestionInput(Number(e.target.value));}}
+        />
+        <p>Number of Questionnaire Questions:</p>
+        <TextField
+          className="idInput form"
+          id="question#QuestionnaireQ"
+          label="Number of Questionnaire Questions"
+          variant="outlined"
+          size="small"
+          type="number"
+          inputProps={{ min: 2, max: 24 }}
+          defaultValue={numQuestionnaireQuestions}
+          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24)}
+          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
+          onChange={ (e) => {
+            setNumQuestionnaireQuestions(Number(e.target.value));
+            setNumQuestionnaireQuestionsInput(Number(e.target.value));}}
         />
         <p>Number of Quiz Questions:</p>
         <TextField
           className="idInput form"
           id="question#QuizQ"
-          label="Num of Quiz Questions"
+          label="Number of Quiz Questions"
           variant="outlined"
           size="small"
           type="number"
           inputProps={{ min: 2 }}
-          value={numQuizQuestions}
-          onChange={(e) => setNumQuizQuestions(Number(e.target.value))}
+          defaultValue={numQuizQuestions}
+          error={(numQuizQuestionsInput < 2) }
+          helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : 
+          ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '')}
+          onChange={(e) => {
+            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length);
+            setNumQuizQuestions(Number(e.target.value));
+            setNumQuizQuestionsInput(Number(e.target.value));
+          }}
         />
         <p>Custom Questions:</p>
         <p>

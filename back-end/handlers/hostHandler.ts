@@ -94,11 +94,13 @@ export default (io, socket: Socket) => {
   const onHostStart = async (gameId) => {
     try {
       if ((await playerDb.getPlayers(gameId)).length >= 2) {
-      const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId);
-      await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-      let playersInGame = await playerDb.getPlayers(gameId);
-      io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
+        const data: IGame | null = await hostDb.getGameData(gameId);
+        const numQuestionnaireQuestions = data?.settings.numQuestionnaireQuestions || 5;
+        const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, numQuestionnaireQuestions);
+        await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
+        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+        let playersInGame = await playerDb.getPlayers(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
       } else{console.log("Need at least two players")}
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
@@ -159,7 +161,8 @@ export default (io, socket: Socket) => {
       if (gameId != null) {
         await hostDb.setGameState(gameId, GameStates.Settings);
         const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+        let playersInGame = await playerDb.getPlayers(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
       } else {
         console.error(`Failed to find game for Host Settings`)
       }
@@ -175,7 +178,7 @@ export default (io, socket: Socket) => {
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       await io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
       const allPlayersInGame = await playerDb.getPlayers(gameId);
-      io.to(currentGameData?.hostSocketId).emit('players-updated', {
+      await io.to(currentGameData?.hostSocketId).emit('players-updated', {
         gameId: gameId,
         players: allPlayersInGame
       });
