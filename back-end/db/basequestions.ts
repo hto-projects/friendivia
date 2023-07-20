@@ -118,7 +118,19 @@ const arr = [
         text: "What did you dream of becoming when you were little?",
         quizText: "What did <PLAYER> dream of becoming when they were little?",
         fakeAnswers: ["truck driver", "gangster", "royalty", "Astronaut"]
+    },{
+        text: "If you were a vegetable, which one would you be?",
+quizText: "If <PLAYER> were a vegetable, which one would they be?",
+fakeAnswers: ["Broccoli", "Cucumber", "Carrot", "Zucchini"]
+    }, {
+        text: "What food represents you best?" ,
+        quizText: "What food represents <PLAYER> the best?",
+        fakeAnswers: ["Chocolate covered peppers", "Mango Salsa", "", "PIZZA PIZZA"]
+    }, {
+        text: "What is your favorite word?",
+        quizText: "What do you think is <PLAYER>'s Favorite word"
     }
+    
     ];
 
 export default arr;
