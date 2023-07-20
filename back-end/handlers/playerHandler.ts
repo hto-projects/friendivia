@@ -96,7 +96,6 @@ export default (io: Server, socket: Socket) => {
         await hostHelpers.hostStartQuiz(gameId, io);
       } else {
         hostHelpers.onHostViewUpdate(gameId, io);
-        console.log("reaching else in player submissions")
       }
     } catch (e) {
       socket.emit('player-submit-questionnaire-error', e);
