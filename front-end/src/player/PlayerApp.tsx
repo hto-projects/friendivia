@@ -194,7 +194,7 @@ export default function PlayerApp(props: PlayerAppProps) {
             <Grid item xs={3}>
               <div className="align_center">
                 {/*if player name has not been inputted do not display username chip*/}
-                {playerName != "" ? <Chip label={playerName} /> : ""}
+                {playerName != "" ? <Chip style={{backgroundColor: "white"}} label={playerName} /> : ""}
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -207,7 +207,7 @@ export default function PlayerApp(props: PlayerAppProps) {
               <div className="align_center">
                 {playerState != "filling-questionnaire" ? (
                   playerName != "" ? (
-                    <Chip label={playerScore} />
+                    <Chip style={{backgroundColor: "white"}} label={playerScore} />
                   ) : (
                     ""
                   )

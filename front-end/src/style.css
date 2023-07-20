@@ -195,10 +195,39 @@ body {
 }
 
 .bottomContainerHost{
+  background: rgb(229,184,237);
+  background: linear-gradient(180deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
   display: flex;
   justify-content: flex-start;
-  margin: 15% auto;
+  padding-top: 200px;
+  padding-left: 30px;
 }
+
+.hostFormat1{
+  background: rgb(229,184,237);
+  background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+.LobbySettings{
+  margin-left: 100px;
+  background-color: #5e00ff;
+}
+
+.LobbyAbout{
+  margin-top: 10px;
+  background-color: #5e00ff;
+}
+
+.musicIcon{
+  margin-left: 20px;
+  margin-top: 10px;
+  border-radius: 25px;
+  background-color: white;
+}
+
 
 .bottomContainer{
   display: flex;
@@ -311,12 +340,14 @@ body {
 .player_join {
   text-align: center;
   height: 100%;
+  margin-top: 10px;
 }
 
 .banner {
-  background-color: rgba(117, 125, 232, 0.4);
+  background: rgb(169,101,203);
+  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
   font-weight: bold;
-  margin-top: 1vw;
+  margin-top: 0.05vw;
   margin-bottom: 1vw;
   border-bottom-style: outset;
   border-color: var(--accent);
@@ -389,16 +420,21 @@ body {
   text-align: center;
   vertical-align: middle;
   margin: auto;
+  margin-top: 3vh;
+}
+
+.timeNumber{
+  padding-top: 22%;
 }
 
 .dot{
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 7vw;
   width: 7vw;
   background-color: var(--accent);
   border-radius: 50%;
+  margin-top: 50%;
   margin: auto;
   margin-bottom: 1vw;
   align-self: center;
@@ -413,6 +449,7 @@ body {
 .showAnswer{
   font-size: 1.5em;
   margin: auto;
+  margin-top: 3vh;
   margin-bottom: 3vh;
 }
 
@@ -556,6 +593,7 @@ body {
   padding-left: 1vw;
   padding-right: 1vw;
   min-width: 100px;
+  font-weight: bold;
 }
 
 .secretButton{

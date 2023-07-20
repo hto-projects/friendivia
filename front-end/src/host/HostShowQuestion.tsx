@@ -24,7 +24,7 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
     return (
       <div className="dot">
         <div className="timer">
-          <div>{counter}</div>
+          <div className="timeNumber">{counter}</div>
         </div>
       </div>
     );
