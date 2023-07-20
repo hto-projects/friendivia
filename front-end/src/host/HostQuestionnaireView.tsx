@@ -19,7 +19,6 @@ export default function HostQuestionnaireView(
   let socket = props.socket;
 
   async function onPlayerKick(name: string) {
-    //if > 2 players, kick player
     if (waitingPlayers.length + donePlayers.length > 2) {
       socket.emit("host-kick-player", name);
     } else {
