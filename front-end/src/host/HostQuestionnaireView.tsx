@@ -16,6 +16,15 @@ export default function HostQuestionnaireView(
 ) {
   let waitingPlayers = props.waitingPlayers;
   let donePlayers = props.donePlayers;
+  let socket = props.socket;
+
+  async function onPlayerKick(name: string) {
+    if (waitingPlayers.length + donePlayers.length > 2) {
+      socket.emit("host-kick-player", name);
+    } else {
+      alert("You need at least 2 players to play!");
+    }
+  }
 
   return (
     <>
@@ -24,7 +33,6 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              //background: "#ff6257;",
               background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
               paddingLeft: "1vw",
               paddingRight: "1vw",
@@ -34,17 +42,23 @@ export default function HostQuestionnaireView(
           >
             <h1 style={{ color: "white" }}>Waiting on</h1>
             <ul className="ul">
-              {waitingPlayers.map((name: String, i: number) => (
+              {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   <Paper
                     elevation={3}
                     sx={{
+                      "&:hover": {
+                        cursor: "pointer",
+                        boxShadow: 8,
+                        textDecoration: "line-through",
+                      },
                       color: "red",
                       width: "10vw",
                       paddingTop: "0.1vh",
                       paddingBottom: "0.1vh",
                       margin: "auto",
                     }}
+                    onClick={() => onPlayerKick(name)}
                     className="playerbox"
                   >
                     <p className="player">{name}</p>
@@ -59,10 +73,6 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              //background: "#61ed87;",
-              //like this but with greens background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-              //background: "linear-gradient(45deg, #61ed87 30%, #2bb550 90%)",
-              //reverse that gradient
               background: "linear-gradient(45deg, #61ed87 30%, #C7E5E2 100%)",
               paddingLeft: "1vw",
               paddingRight: "1vw",
@@ -72,11 +82,16 @@ export default function HostQuestionnaireView(
           >
             <h1 style={{ color: "white" }}>Done</h1>
             <ul className="ul">
-              {donePlayers.map((name: String, i: number) => (
+              {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   <Paper
                     elevation={3}
                     sx={{
+                      "&:hover": {
+                        cursor: "pointer",
+                        boxShadow: 8,
+                        textDecoration: "line-through",
+                      },
                       color: "red",
                       width: "10vw",
                       paddingTop: "0.1vh",
@@ -84,6 +99,7 @@ export default function HostQuestionnaireView(
                       margin: "auto",
                     }}
                     className="playerbox"
+                    onClick={() => onPlayerKick(name)}
                   >
                     <p className="player">{name}</p>
                   </Paper>
