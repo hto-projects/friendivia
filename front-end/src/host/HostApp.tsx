@@ -172,7 +172,7 @@ export default function HostApp(props: IHostProps) {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p>Calculating final scores...</p>
+          <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>
         </>
       );
     } else if (state === "leader-board") {
