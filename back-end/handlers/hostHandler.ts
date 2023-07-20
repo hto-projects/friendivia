@@ -161,7 +161,8 @@ export default (io, socket: Socket) => {
       if (gameId != null) {
         await hostDb.setGameState(gameId, GameStates.Settings);
         const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
+        let playersInGame = await playerDb.getPlayers(gameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
       } else {
         console.error(`Failed to find game for Host Settings`)
       }

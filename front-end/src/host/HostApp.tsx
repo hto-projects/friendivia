@@ -181,7 +181,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {

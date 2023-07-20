@@ -5,21 +5,24 @@ import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import IPlayer from "back-end/interfaces/IPlayer";
 
 interface ISettingsProps {
   socket: Socket;
   gameId: number;
+  playersInGame: IPlayer[];
   timePerQuestionSetting: number;
   numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
+  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
   const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
+  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(5);
 
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
@@ -74,8 +77,16 @@ export default function HostSettings(props: ISettingsProps) {
           type="number"
           inputProps={{ min: 2 }}
           value={numQuizQuestions}
-          onChange={(e) => setNumQuizQuestions(Number(e.target.value))}
+          onChange={(e) => {
+            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length)
+            setNumQuizQuestions(Number(e.target.value))}}
         />
+        <p style={{
+          display: (numQuizQuestions > maxNumQuizQuestions)? "block" : "none",
+          color: "red" 
+          }}>
+            Warning: If you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.
+        </p>
         <p>Custom Questions:</p>
         <p>
           text: "What is your favorite movie?", quizText: "What is
