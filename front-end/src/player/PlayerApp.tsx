@@ -175,7 +175,6 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   function getScreenForState() {
-    console.log("player state:" + playerState);
     if (playerState === "init" || playerState === null || playerState === "") {
       return "element";
     } else {
