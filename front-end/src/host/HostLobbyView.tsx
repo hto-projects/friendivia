@@ -21,7 +21,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     .replace("https://", "")
     .replace("www.", "");
   const joinMessage = `Join at ${joinUrl}`;
-  const textToSpeak = `Welcome to frenperdy! ${joinMessage}`;
+  const textToSpeak = `Welcome to friendpardy! ${joinMessage}`;
   const gameStr = gameId
     .toString()
     .split("")
