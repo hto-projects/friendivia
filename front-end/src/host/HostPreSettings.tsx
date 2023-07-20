@@ -9,14 +9,16 @@ interface IPreSettingsProps {
   socket: Socket;
   preSettingsId: string;
   timePerQuestionSetting: number;
+  numQuizQuestionsSetting: number;
 }
 
 export default function HostPreSettings(props: IPreSettingsProps) {
-  const { socket, preSettingsId, timePerQuestionSetting } = props;
+  const { socket, preSettingsId, timePerQuestionSetting, numQuizQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
+  const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
 
   async function onPSBack() {
-    socket.emit("host-ps-back", preSettingsId, {timePerQuestion});
+    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuizQuestions});
   }
 
   return (
@@ -32,6 +34,18 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           type="number"
           value={timePerQuestion}
           onChange={(e) => setTimePerQuestion(Number(e.target.value))}
+        />
+        <p>Number of Quiz Questions:</p>
+        <TextField
+          className="idInput form"
+          id="question#QuizQ"
+          label="Num of Quiz Questions"
+          variant="outlined"
+          size="small"
+          type="number"
+          inputProps={{ min: 2 }}
+          value={numQuizQuestions}
+          onChange={(e) => setNumQuizQuestions(Number(e.target.value))}
         />
         <p>Click below to go back:</p>
         <Button

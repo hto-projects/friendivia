@@ -44,6 +44,7 @@ export default function HostApp(props: IHostProps) {
   const [playerScores, setPlayerScores] = React.useState([]);
   const [playersInGame, setPlayersInGame] = React.useState([]);
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
+  const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
@@ -82,12 +83,14 @@ export default function HostApp(props: IHostProps) {
       setPlayerScores(data.playerScores);
       setPlayersInGame(data.playersInGame);
       setTimePerQuestion(data.settings.timePerQuestion);
+      setNumQuizQuestions(data.settings.numQuizQuestions);
     }
 
     function onSettingsLoadSuccess(data: IPreGameSettings) {
       setPreSettingsId(data.id);
       setSettingsState(data.settingsState);
       setTimePerQuestion(data.settings.timePerQuestion);
+      setNumQuizQuestions(data.settings.numQuizQuestions);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -175,23 +178,11 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return (
-        <HostSettings
-          socket={socket}
-          gameId={gameId}
-          timePerQuestionSetting={timePerQuestion}
-        />
-      );
+      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion} numQuizQuestionsSetting={numQuizQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {
-      return (
-        <HostPreSettings
-          socket={socket}
-          preSettingsId={preSettingsId}
-          timePerQuestionSetting={timePerQuestion}
-        />
-      );
+      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuizQuestionsSetting={numQuizQuestions}/>;
     } else {
       return <HostOpen socket={socket} />;
     }

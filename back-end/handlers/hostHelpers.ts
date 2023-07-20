@@ -108,7 +108,8 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreQuiz);
   const data = await hostDb.getGameData(gameId)
   const questions = data?.questionnaireQuestions;
-  await hostDb.buildQuiz(gameId, questions);
+  const numQuizQuestions = data?.settings.numQuizQuestions || 5;
+  await hostDb.buildQuiz(gameId, questions, numQuizQuestions);
   await hostGoNext(gameId, io);
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }

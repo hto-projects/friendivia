@@ -34,6 +34,7 @@ export default {
     try {
       const settingsData = await this.getPreSettingsData(preSettingsId);
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
+      const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
       const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
 
@@ -58,6 +59,7 @@ export default {
         currentQuestionIndex: -1,
         settings: {
           timePerQuestion: timePerQuestion,
+          numQuizQuestions: numQuizQuestions,
           customQuestions: customQuestions
         }
       };
@@ -109,9 +111,9 @@ export default {
     }
   },
 
-  buildQuiz: async (gameId: number, questionnaireQuestions: any): Promise<IQuizQuestion[]> => {
+  buildQuiz: async (gameId: number, questionnaireQuestions: any, numQuizQuestions: number): Promise<IQuizQuestion[]> => {
     const players = await playerDb.getPlayers(gameId);
-    const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions);
+    const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions, numQuizQuestions);
     await Game.updateOne({ id: gameId }, {
       $set: { 'quizQuestions': quizQuestions }
     });
@@ -168,11 +170,15 @@ export default {
     try {
 
       const timePerQuestion = settingsData.timePerQuestion;
+      const numQuizQuestions = settingsData.numQuizQuestions;
       const customQuestions = settingsData.addedQuestions;
 
       await Game.updateOne({id: gameId}, {
-        $set: { 'settings.timePerQuestion': timePerQuestion, 'settings.customQuestions': customQuestions }
-      });
+        $set: { 
+          'settings.timePerQuestion': timePerQuestion,
+          'settings.numQuizQuestions': numQuizQuestions,
+          'settings.customQuestions': customQuestions
+        }});
 
       customQuestions.forEach(async (thisQuestion) => {
         await question.addQuestion(thisQuestion);
@@ -192,6 +198,7 @@ export default {
         settingsState: true,
         settings: {
           timePerQuestion: 15,
+          numQuizQuestions: 5,
           customQuestions: []
         }
       };
@@ -209,12 +216,14 @@ export default {
   hostClosePreSettings: async function(preSettingsId: string, settingsData: any): Promise<any> {
     try {
       const timePerQuestion = settingsData.timePerQuestion;
+      const numQuizQuestions = settingsData.numQuizQuestions;
       const customQuestions = settingsData.customQuestions;
 
       await PreGameSettings.updateOne({id: preSettingsId}, {
         $set: { 
           'settingsState': false,
           'settings.timePerQuestion': timePerQuestion,
+          'settings.numQuizQuestions': numQuizQuestions,
           'settings.customQuestions': customQuestions
         }
       });

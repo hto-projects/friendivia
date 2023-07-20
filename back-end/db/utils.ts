@@ -52,15 +52,24 @@ const shuffle = (array: any[]): void => {
   }
 }
 
-const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[]): IQuizQuestion[] => {
-    var numQuestions = 4;
-    if(questionnaireQs.length === 1){numQuestions = 1;} else
-    if(players.length > 4){numQuestions = players.length;}
+const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestion[], numQuizQuestions: number): IQuizQuestion[] => {
+    var numQuestions = numQuizQuestions;
+    if(questionnaireQs.length * players.length < numQuestions){numQuestions = questionnaireQs.length * players.length;}
     const numberOfOptions = 4;
 
     const playerIds: string[] = [];
     for (let i = 0; i < numQuestions; i++) {
       playerIds.push(players[i % players.length].id);
+    }
+
+    const revisedQuestionList: IQuestionnaireQuestion[] = [];
+    for (let i = 0; i < numQuestions; i++) {
+      revisedQuestionList.push(questionnaireQs[i % questionnaireQs.length]);
+    }
+
+    const selectableQuestionList: IQuestionnaireQuestion[] = [];
+    for (let i = 0; i < numQuestions; i++) {
+      selectableQuestionList.push(questionnaireQs[i % questionnaireQs.length]);
     }
 
     const questionsList: IQuizQuestion[] = [];
@@ -71,14 +80,15 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
         continue;
       }
 
-      const currentQuestionnaireQ: IQuestionnaireQuestion = questionnaireQs[i];
+      const currentQuestionnaireQ: IQuestionnaireQuestion = chooseRandomFromList(selectableQuestionList);
       const text: string = currentQuestionnaireQ.quizText;
-      const correctAnswer: string = currentPlayer.questionnaireAnswers[i];
+      const Qindex: number = revisedQuestionList.indexOf(currentQuestionnaireQ);
+      const correctAnswer: string = currentPlayer.questionnaireAnswers[Qindex % questionnaireQs.length];
 
       const options: string[] = [correctAnswer];
-
+ 
       const fakeAnswers = currentQuestionnaireQ.fakeAnswers;
-      const allPlayerAnswers = players.map(p => p.questionnaireAnswers[i]);
+      const allPlayerAnswers = players.map(p => p.questionnaireAnswers[Qindex % questionnaireQs.length]);
 
       selectRandom([...fakeAnswers, ...allPlayerAnswers], options, numberOfOptions);
       shuffle(options);
