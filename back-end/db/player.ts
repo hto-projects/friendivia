@@ -64,13 +64,8 @@ export default {
 
     kickPlayer: async (playerName: string, gameId: number): Promise<any> => {
       try {
-        const players = await Player.find({gameId: gameId});
-        if (players.length > 2){
-          await Player.deleteOne({name: playerName, gameId: gameId});
-        }
-        else{
-          console.error('Need at least two players in game!');
-        }
+        await Player.deleteOne({name: playerName, gameId: gameId});
+        console.error('Need at least two players in game!');
       } catch (e) {
         console.error(`Issue kicking player: ${e}`);
       }
