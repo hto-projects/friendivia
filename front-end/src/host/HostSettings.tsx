@@ -65,7 +65,11 @@ export default function HostSettings(props: ISettingsProps) {
           type="number"
           inputProps={{ min: 2, max: 24}}
           value={numQuestionnaireQuestions}
-          onChange={(e) => setNumQuestionnaireQuestions(Number(e.target.value))}
+          onChange={(e) => {
+            setNumQuestionnaireQuestions(Number(e.target.value));
+            if (numQuestionnaireQuestions < 2) {setNumQuestionnaireQuestions(2);}
+            if (numQuestionnaireQuestions > 24) {setNumQuestionnaireQuestions(24);}
+          }}
         />
         <p>Number of Quiz Questions:</p>
         <TextField
@@ -78,8 +82,10 @@ export default function HostSettings(props: ISettingsProps) {
           inputProps={{ min: 2 }}
           value={numQuizQuestions}
           onChange={(e) => {
-            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length)
-            setNumQuizQuestions(Number(e.target.value))}}
+            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length);
+            setNumQuizQuestions(Number(e.target.value));
+            if (numQuizQuestions < 2) {setNumQuizQuestions(2);}
+          }}
         />
         <p style={{
           display: (numQuizQuestions > maxNumQuizQuestions)? "block" : "none",
