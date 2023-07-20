@@ -178,7 +178,7 @@ export default (io, socket: Socket) => {
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       await io.to(currentGameData?.hostSocketId).emit('host-next', currentGameData);
       const allPlayersInGame = await playerDb.getPlayers(gameId);
-      io.to(currentGameData?.hostSocketId).emit('players-updated', {
+      await io.to(currentGameData?.hostSocketId).emit('players-updated', {
         gameId: gameId,
         players: allPlayersInGame
       });
