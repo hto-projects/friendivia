@@ -1,19 +1,18 @@
-import * as React from 'react';
-import '../style.css';
+import * as React from "react";
+import "../style.css";
 import { Button } from "@mui/material";
 
 interface IntLeaderboardProps {
-    gameId: number;
-    socket: any;
-    playerScores: Array<any>;
+  gameId: number;
+  socket: any;
+  playerScores: Array<any>;
 }
 
 export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
   const playerScores = props.playerScores;
-  const ogPlayerScores = playerScores
+  const ogPlayerScores = playerScores;
   playerScores.sort((p1, p2) => p2.score - p1.score);
 
-  
   function onNext() {
     props.socket.emit("next-question", props.gameId);
   }
@@ -83,10 +82,6 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
       >
         Go To Next Question
       </Button>
-    </>    
-  )
+    </>
+  );
 }
-
-
-
-

@@ -113,6 +113,7 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
+      console.log(data.gameState.state);
       setQuizQuestions(data.quizQuestions);
       setWyrQuizQuestions(data.wyrQuizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
@@ -250,6 +251,15 @@ export default function HostApp(props: IHostProps) {
           playerScores={playerScores}
         />
       );
+    } else if (state === "intermediary-leaderboard") {
+      console.log(playerScores, "in int check");
+      return (
+        <HostIntLeaderBoard
+          gameId={gameId}
+          socket={socket}
+          playerScores={playerScores}
+        />
+      );
     } else if (state === "pre-leader-board") {
       return (
         <>
@@ -258,6 +268,7 @@ export default function HostApp(props: IHostProps) {
         </>
       );
     } else if (state === "leader-board") {
+      console.log(playerScores, "in leaderboard check");
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings" || settingsState === true) {
       return (

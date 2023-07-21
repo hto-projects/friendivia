@@ -11,11 +11,11 @@ enum GameStates {
   Inactive = 'inactive',
   Settings = 'settings',
   Tiebreaker = 'tiebreaker',
+  InterLeaderboard = 'intermediary-leaderboard',
   PreWyr = 'pre-wyr',
   WyrQuestionnaire = 'wyr-questionnaire',
   PreWyrQuiz = 'pre-wyr-quiz',
   ShowingWyrQuestion = 'showing-wyr-question',
-  InterLeaderboard = 'intermediary-leaderboard',
 }
 
 interface IGameState {
