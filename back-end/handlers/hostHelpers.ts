@@ -106,6 +106,24 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }
 
+const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.InterLeaderboard);
+
+  const allPlayerScores = await playerDb.getPlayerScores(gameId);
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingRank, io, {playerScores: allPlayerScores});
+  
+  const gameData = await hostDb.getGameData(gameId);
+  if (gameData === null) {
+    return;
+  }
+
+
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
+
+  
+  //await hostGoNext(gameId, io);
+}
+
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
@@ -153,7 +171,13 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
       'score' : player.score + ScoreAdder
     }
   });
-  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
+
+  // put player score code here to get them all
+  // and pass with the next emit, so upon doing the next itll update??
+
+  const playerScores = await playerDb.getPlayerScores(gameId)
+
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
 }
 
-export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion, hostSkipTimer };
+export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard };

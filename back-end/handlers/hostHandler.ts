@@ -126,11 +126,20 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const onIntLeaderboard = async (gameId: number) => {
+    try {
+      hostHelpers.hostShowIntLeaderboard(gameId, io);
+    } catch (e) {
+      console.error(`Failed to move to intermediary leaderboard: ${e}`)
+    }
+  }
+
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
   socket.on('next-question', onNextQuestion);
+  socket.on('go-to-int-leaderboard', onIntLeaderboard);
   socket.on('timer-skip', onTimerSkip);
   socket.on('check-all-players-answered', allPlayersAnsweredQuestion);}

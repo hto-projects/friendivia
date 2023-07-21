@@ -12,6 +12,7 @@ import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import Button from "@mui/material/Button";
 import HostTiebreaker from "./HostTiebreaker";
+import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 
 interface IHostProps {
   socket: Socket;
@@ -43,10 +44,12 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
+      console.log(data.gameState.state);
       setQuizQuestions(data.quizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
+      console.log(playerScores, data.playerScores);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -112,9 +115,13 @@ export default function HostApp(props: IHostProps) {
           quizLength={quizQuestionsLength}
         />
       );
+    } else if (state === "intermediary-leaderboard") {
+      console.log(playerScores, "in int check")
+      return <HostIntLeaderBoard gameId = {gameId} socket = {socket} playerScores={playerScores}/>;
     } else if (state === "pre-leader-board") {
       return <p>Calculating final scores...</p>;
     } else if (state === "leader-board") {
+      console.log(playerScores, "in leaderboard check")
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;

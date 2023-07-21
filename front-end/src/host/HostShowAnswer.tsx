@@ -40,8 +40,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function onNext() {
-    currentQuizLength++;
-    socket.emit("next-question", gameId);
+    if (currentQuizLength < quizLength) {
+      currentQuizLength++;
+      socket.emit("go-to-int-leaderboard", gameId);
+    } else {
+      socket.emit("next-question", gameId);
+    }
   }
 
   function buttonText() {
