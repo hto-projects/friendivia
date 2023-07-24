@@ -3,6 +3,7 @@ import "../style.css";
 import IPlayer from "back-end/interfaces/IPlayer";
 import Paper from "@mui/material/Paper";
 import { Socket } from "socket.io-client";
+import Speak from "../Speak";
 
 interface HostQuestionnaireViewProps {
   donePlayers: any;
@@ -17,6 +18,14 @@ export default function HostQuestionnaireView(
   let waitingPlayers = props.waitingPlayers;
   let donePlayers = props.donePlayers;
   let socket = props.socket;
+  const [warningReached, setWarningReached] = React.useState(false);
+  let spokenText = "";
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setWarningReached(true);
+    }, 10000)
+  }, [warningReached, setWarningReached])
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -26,8 +35,13 @@ export default function HostQuestionnaireView(
     }
   }
 
+  if (warningReached && waitingPlayers.length > 0) {
+    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
+  }
+
   return (
     <>
+      {spokenText && <Speak text={spokenText} />}
       <div className="waiting">
         <div className="waitingPlayers">
           <Paper
