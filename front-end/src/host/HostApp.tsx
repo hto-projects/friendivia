@@ -150,7 +150,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
+      return (
+        <>
+          <Speak text="The guesses are in!" />
+          <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>
+        </>
+      );
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -175,7 +180,7 @@ export default function HostApp(props: IHostProps) {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>
+          <p style={{fontSize: "1.5em"}}>Let's see who won...</p>
         </>
       );
     } else if (state === "leader-board") {
@@ -198,40 +203,34 @@ export default function HostApp(props: IHostProps) {
   return (
     <div className="scroll">
       <PlayAudio src={theme} loop={true} />
-      <div className="musicButton">
-        <IconButton onClick={() => muteMusic(muted)}>
-          <img className="musicIcon" src={muted ? musicOff : musicOn} />
-        </IconButton>
+      <div className="banner">
+        <div className="musicButton">
+          <IconButton onClick={() => muteMusic(muted)}>
+            <img className="musicIcon" src={muted ? musicOff : musicOn} />
+          </IconButton>
+        </div>
+        <div className="hostFormat">
+          <img className="logohost" src={logo} />
+        </div>
       </div>
-      <div className="hostFormat">
-        <img className="logohost" src={logo} />
+      <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
         {getElementForState(gameState, settingsState)}
       </div>
       {gameState === "lobby" ? (
         <div className="bottomContainerHost">
           <p>
             <Button
-              className="button"
+              className="LobbySettings"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               onClick={onSettings}
             >
               Game Settings
             </Button>
+            <br></br>
+            <br></br>
             <Button
-              className="button"
+              className="LobbyAbout"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               href="/about"
             >
               About

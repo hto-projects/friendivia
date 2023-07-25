@@ -1,5 +1,6 @@
 import React from "react";
-import { socket, backEndUrl } from "./socket";
+import { backEndUrl } from "./environment";
+import { socket } from "./socket";
 import PlayerApp from "./player/PlayerApp";
 import HostApp from "./host/HostApp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

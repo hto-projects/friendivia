@@ -21,13 +21,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
   function winnerText() {
     const winnerScore = playerScores[0].score;
     const winnerName = playerScores[0].name;
-    return (
-      "The winner is " +
-      winnerName +
-      " with a score of " +
-      winnerScore +
-      "! Great job!"
-    );
+    return `The winner is "${winnerName}" with a score of "${winnerScore}"! Great job!`;
   }
 
   return (

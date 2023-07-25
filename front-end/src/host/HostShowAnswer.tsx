@@ -51,7 +51,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function correctText() {
-    var res = "The correct answer was " + options[correctAnswerIndex];
+    var res = `The correct answer was "${options[correctAnswerIndex]}".`;
     var correctPlayers = playerGuesses.filter(
       (g) => g.guess === correctAnswerIndex
     );
