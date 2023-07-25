@@ -15,20 +15,20 @@ export default function Speak(props) {
   }
 
   async function createAnnouncementAudioTikTok() {
-    console.log("ann")
+    console.log("ann");
     const url = `https://tiktok-tts.weilnet.workers.dev/api/generation`;
     const body = {
-        text: textToSpeak,
-        voice: 'en_us_rocket'
-    }
+      text: textToSpeak,
+      voice: "en_us_rocket",
+    };
 
     try {
       const response = await fetch(url, {
         method: "Post",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
 
       console.log(response);
