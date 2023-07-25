@@ -38,8 +38,8 @@ export default function HostSettings(props: ISettingsProps) {
   React.useEffect(() => {
     if (numQuestionnaireQuestions < 2) {
       setNumQuestionnaireQuestions(2);
-    } else if (numQuestionnaireQuestions > 24) {
-      setNumQuestionnaireQuestions(24);
+    } else if (numQuestionnaireQuestions > 32) {
+      setNumQuestionnaireQuestions(32);
     }
   }, [numQuestionnaireQuestions, setNumQuestionnaireQuestions]);
 
