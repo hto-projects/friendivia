@@ -78,7 +78,7 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           inputProps={{ min: 2, max: 32 }}
           defaultValue={numQuestionnaireQuestions}
           error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32)}
-          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than or equal to 32' : ''}
+          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : ''}
           onChange={ (e) => {
             setNumQuestionnaireQuestions(Number(e.target.value));
             setNumQuestionnaireQuestionsInput(Number(e.target.value));}}
@@ -94,7 +94,7 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           inputProps={{ min: 2 }}
           defaultValue={numQuizQuestions}
           error={(numQuizQuestionsInput < 2) }
-          helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than or equal to 32' : ''}
+          helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : ''}
           onChange={(e) => {
             setNumQuizQuestions(Number(e.target.value));
             setNumQuizQuestionsInput(Number(e.target.value));
