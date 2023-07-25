@@ -102,6 +102,24 @@ export default (io: Server, socket: Socket) => {
     }
   };
 
+  const onPlayerSubmitWyrQuestionnaire = async (answer: string) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
+      const gameId = player.gameId;
+      await playerDb.playerCompleteWyrQuestionnaire(player.id, answer);
+      socket.emit('player-submit-wyr-questionnaire-success');
+
+      const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
+      if (allPlayersDone) {
+        await hostHelpers.hostStartQuiz(gameId, io);
+      } else {
+        hostHelpers.onHostViewUpdate(gameId, io);
+      }
+    } catch (e) {
+      socket.emit('player-submit-wyr-questionnaire-error', e);
+    }
+  };
+
   const onPlayerAnswerQuestion = async (guess: number) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
@@ -142,5 +160,6 @@ export default (io: Server, socket: Socket) => {
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
+  socket.on('player-submit-wyr-questionnaire', onPlayerSubmitWyrQuestionnaire);
   socket.on('player-answer-question', onPlayerAnswerQuestion);
 }

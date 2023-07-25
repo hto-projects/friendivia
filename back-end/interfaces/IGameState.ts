@@ -11,6 +11,8 @@ enum GameStates {
   Inactive = 'inactive',
   Settings = 'settings',
   Tiebreaker = 'tiebreaker',
+  PreWyr = 'pre-wyr',
+  WyrQuestionnaire = 'wyr-questionnaire'
 }
 
 interface IGameState {

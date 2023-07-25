@@ -121,6 +121,21 @@ export default {
     }
   },
 
+  playerCompleteWyrQuestionnaire: async (playerId: string, wyrAnswer: string): Promise<any> => {
+    try {
+      await Player.updateOne({
+        id: playerId
+      }, {
+        $set: {
+          'wyrAnswer': wyrAnswer,
+          'playerState.state': 'submitted-wyr-questionnaire'
+        }
+      });
+    } catch (e) {
+      console.error(`Issue adding player wyr answer: ${e}`);
+    }
+  },
+
   checkAllPlayersDoneWithQuestionnaire: async (gameId: number): Promise<boolean> => {
     try {
       const allPlayersInGame = await Player.find({gameId: gameId});

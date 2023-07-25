@@ -20,6 +20,8 @@ import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
+import HostPreWyr from "./HostPreWyr";
+import HostWyrQuestionnaire from "./HostWyrQuestionnaire";
 
 interface IHostProps {
   socket: Socket;
@@ -44,7 +46,10 @@ export default function HostApp(props: IHostProps) {
   const [playerScores, setPlayerScores] = React.useState([]);
   const [playersInGame, setPlayersInGame] = React.useState([]);
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
-  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState(5);
+  const [
+    numQuestionnaireQuestions,
+    setNumQuestionnaireQuestions,
+  ] = React.useState(5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -129,7 +134,13 @@ export default function HostApp(props: IHostProps) {
     if (state === "lobby") {
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
-      return <HostQuestionnaire socket={socket} gameId={gameId} playersInGame={playersInGame} />;
+      return (
+        <HostQuestionnaire
+          socket={socket}
+          gameId={gameId}
+          playersInGame={playersInGame}
+        />
+      );
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {
@@ -180,17 +191,44 @@ export default function HostApp(props: IHostProps) {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p style={{fontSize: "1.5em"}}>Let's see who won...</p>
+          <p style={{ fontSize: "1.5em" }}>Let's see who won...</p>
         </>
       );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
-    } else if (state == "tiebreaker") {
+      return (
+        <HostSettings
+          socket={socket}
+          gameId={gameId}
+          playersInGame={playersInGame}
+          timePerQuestionSetting={timePerQuestion}
+          numQuestionnaireQuestionsSetting={numQuestionnaireQuestions}
+          numQuizQuestionsSetting={numQuizQuestions}
+        />
+      );
+    } else if (state === "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {
-      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return (
+        <HostPreSettings
+          socket={socket}
+          preSettingsId={preSettingsId}
+          timePerQuestionSetting={timePerQuestion}
+          numQuestionnaireQuestionsSetting={numQuestionnaireQuestions}
+          numQuizQuestionsSetting={numQuizQuestions}
+        />
+      );
+    } else if (state === "pre-wyr") {
+      return <HostPreWyr />;
+    } else if (state === "wyr-questionnaire") {
+      return (
+        <HostWyrQuestionnaire
+          socket={socket}
+          gameId={gameId}
+          playersInGame={playersInGame}
+        />
+      );
     } else {
       return <HostOpen socket={socket} />;
     }

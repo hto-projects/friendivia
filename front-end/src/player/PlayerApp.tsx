@@ -16,6 +16,7 @@ import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
+import PlayerWyrQuestionnaire from "./PlayerWyrQuestionnaire";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -109,6 +110,16 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "seeing-answer") {
       bottomButtons = false;
       return <PlayerIsSubject />;
+    } else if (playerState === "wyr-questionnaire") {
+      return (
+        <PlayerWyrQuestionnaire
+          socket={socket}
+          playerState={playerState}
+          wyrQuestion={"Would you rather x or y?"}
+          wyrA={"x"}
+          wyrB={"y"}
+        />
+      );
     } else if (playerState === "pre-leader-board") {
       bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;

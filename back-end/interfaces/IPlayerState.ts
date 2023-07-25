@@ -16,6 +16,9 @@ enum PlayerStates {
   RankTwo = 'rank-two',
   RankThree = 'rank-three',
   Tiebreaker = 'tiebreaker',
+  PreWyr = 'pre-wyr',
+  WyrQuestionnaire = 'wyr-questionnaire',
+  SubmittedWyrQuestionnaire = 'submitted-wyr-questionnaire'
 }
 
 interface IPlayerState {

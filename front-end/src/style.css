@@ -21,6 +21,42 @@ html, body {
   margin: 0;
 }
 
+.wyr{
+  align-items: center;
+  align-self: center;
+}
+
+.wyrAnswers{
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: 80vh;
+}
+
+.wyrAnswer{
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.wyrAnswerText{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: Inter, sans-serif;
+  font-size: 1.5em;
+  margin:auto;
+  text-align: center;
+  padding: 10px;
+  color:var(--bg);
+  background: var(--accent);
+  border-radius: 5px;
+}
+
 
 body {
   height: 100%;
