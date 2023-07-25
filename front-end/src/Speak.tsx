@@ -1,11 +1,13 @@
 import * as React from "react";
 import { ttsApiKey } from "./environment";
+import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
 export default function Speak(props) {
   const textToSpeak = props.text;
   const textHasBeenSpoken = React.useRef(false);
+  const addAnnouncement = React.useContext(AddAnnouncementContext);
 
-  async function playElevenLabsAudio() {
+  async function createAnnouncementAudio() {
     const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
@@ -35,7 +37,7 @@ export default function Speak(props) {
       const audioBlob = await response.blob();
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
-      audio.play();
+      addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
     }
@@ -48,15 +50,9 @@ export default function Speak(props) {
 
     textHasBeenSpoken.current = true;
     if (ttsApiKey) {
-      playElevenLabsAudio();
-    } else {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = textToSpeak;
-      msg.rate = 0.9;
-      console.log("Speaking: " + textToSpeak);
-      window.speechSynthesis.speak(msg);
+      createAnnouncementAudio();
     }
-  }, [props.cloud, textToSpeak]);
+  }, [textToSpeak]);
 
   return null;
 }
