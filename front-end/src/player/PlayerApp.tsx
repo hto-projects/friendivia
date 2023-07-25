@@ -51,7 +51,10 @@ export default function PlayerApp(props: PlayerAppProps) {
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
       setPlayerScore(data.player.score);
-      setAllPlayerScores(data.extraData.playerScores);
+
+      if (data && data.extraData && data.extraData.playerScores) {
+        setAllPlayerScores(data.extraData.playerScores);
+      }
 
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
         setQuestionnaireQuestionsText(

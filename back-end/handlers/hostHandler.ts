@@ -162,6 +162,8 @@ export default (io, socket: Socket) => {
       hostHelpers.hostShowIntLeaderboard(gameId, io);
     } catch (e) {
       console.error(`Failed to move to intermediary leaderboard: ${e}`)
+    }
+  }
 
   const onHostSettings = async (gameId = null) => {
     try {
