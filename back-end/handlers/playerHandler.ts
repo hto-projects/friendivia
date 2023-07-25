@@ -133,6 +133,7 @@ export default (io: Server, socket: Socket) => {
         gameId: gameId,
         players: allPlayersInGame
       });
+      hostHelpers.onHostViewUpdate(gameId, io);
     } catch (e) {
       console.error("Failed to kick player: " + e);
     }}

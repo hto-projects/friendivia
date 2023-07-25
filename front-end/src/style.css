@@ -316,6 +316,32 @@ body {
   margin-left: 10%;
   margin-right: 10%;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.donePlayers{
+  width: 20vw;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.waitingPlayers{
+  width: 20vw;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -692,4 +718,6 @@ body {
   height: 100vh;
 }
 
-
+.css-k4qjio-MuiFormHelperText-root {
+  color: #d32f2f !important;
+}
