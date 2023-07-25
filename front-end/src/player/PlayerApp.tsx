@@ -62,10 +62,6 @@ export default function PlayerApp(props: PlayerAppProps) {
       if (data && data.extraData && data.extraData.quizQuestionOptionsText) {
         setQuizQuestionOptionsText(data.extraData.quizQuestionOptionsText);
       }
-
-      /*if (data && data.extraData && data.extraData.playerScores){
-        setAllPlayerScores(data.extraData.playerScores);
-      }*/
     }
 
     socket.on("player-load-success", onLoadSuccess);
