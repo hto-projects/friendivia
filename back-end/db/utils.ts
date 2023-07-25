@@ -29,9 +29,10 @@ const chooseRandomFromList = (listOfSomething: any[]): any => {
 
 const selectRandom = (mainList, newList, count) => {
     let mainCopy = [...mainList];
+    let newList_lower = newList.map(newList => newList.toLowerCase());
     while (newList.length < count) {
       let newValue = chooseRandomFromList(mainCopy);
-      if (!newList.some(s => s.toLowerCase() === newValue.toLowerCase())) {
+      if (!newList_lower.includes(newValue.toLowerCase())) {
         newList.push(newValue);
       }
     }
