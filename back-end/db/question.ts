@@ -1,7 +1,10 @@
 import Question from "../models/Question.ts";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import baseQuestions from "../db/basequestions.ts";
+import baseWyrQuestions from "../db/basewyrquestions.ts";
 import question from "../db/question.ts"; 
+import IWyrQuestionnaireQuestion from "../interfaces/IWyrQuestionnaireQuestion";
+import wyrQuestion from "../db/wyrquestion.ts";
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -51,6 +54,15 @@ export default {
                     fakeAnswers: thisQuestion.fakeAnswers
                   }
                 question.addQuestion(formattedQuestion);
+            });
+            baseWyrQuestions.forEach(async (thisQuestion) => {
+                var formattedQuestion: IWyrQuestionnaireQuestion = {
+                    text: thisQuestion.text,
+                    quizText: thisQuestion.quizText,
+                    answerA: thisQuestion.answerA,
+                    answerB: thisQuestion.answerB
+                  }
+                wyrQuestion.addQuestion(formattedQuestion);
             });
     },
     deleteAllQuestions: async (): Promise<any> => {
