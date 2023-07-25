@@ -22,7 +22,7 @@ const arr = [
     {
         text: "How many sibling(s) do you have?",
         quizText: "How many sibling(s) does <PLAYER> have?",
-        fakeAnswers: ["0", "none", "2", "9"]
+        fakeAnswers: ["3", "none", "2", "9"]
     },
     {
         text: "What's your greatest fear?",
