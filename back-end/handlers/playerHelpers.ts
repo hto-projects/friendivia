@@ -78,6 +78,7 @@ export default {
           }
         });
         const updatedPlayer = await playerDb.getPlayer(player.id);
+
         io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
       }
     }   

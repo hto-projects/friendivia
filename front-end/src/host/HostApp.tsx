@@ -23,7 +23,6 @@ import musicOff from "../assets/musicoff.png";
 import HostPreWyr from "./HostPreWyr";
 import HostWyrQuestionnaire from "./HostWyrQuestionnaire";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
-import HostPreSettings from "./HostPreSettings";
 
 import {
   HostAnnouncementQueue,
@@ -113,7 +112,6 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
-      console.log(data.gameState.state);
       setQuizQuestions(data.quizQuestions);
       setWyrQuizQuestions(data.wyrQuizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
@@ -252,7 +250,6 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "intermediary-leaderboard") {
-      console.log(playerScores, "in int check");
       return (
         <HostIntLeaderBoard
           gameId={gameId}
@@ -268,7 +265,6 @@ export default function HostApp(props: IHostProps) {
         </>
       );
     } else if (state === "leader-board") {
-      console.log(playerScores, "in leaderboard check");
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings" || settingsState === true) {
       return (
