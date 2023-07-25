@@ -93,10 +93,10 @@ export default function HostSettings(props: ISettingsProps) {
           variant="outlined"
           size="small"
           type="number"
-          inputProps={{ min: 2, max: 24 }}
+          inputProps={{ min: 2, max: 32 }}
           defaultValue={numQuestionnaireQuestions}
-          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24)}
-          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
+          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32)}
+          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
           onChange={ (e) => {
             setNumQuestionnaireQuestions(Number(e.target.value));
             setNumQuestionnaireQuestionsInput(Number(e.target.value));}}

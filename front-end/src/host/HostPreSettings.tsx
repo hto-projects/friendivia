@@ -33,8 +33,8 @@ export default function HostPreSettings(props: IPreSettingsProps) {
   React.useEffect(() => {
     if (numQuestionnaireQuestions < 2) {
       setNumQuestionnaireQuestions(2);
-    } else if (numQuestionnaireQuestions > 24) {
-      setNumQuestionnaireQuestions(24);
+    } else if (numQuestionnaireQuestions > 32) {
+      setNumQuestionnaireQuestions(32);
     }
   }, [numQuestionnaireQuestions, setNumQuestionnaireQuestions]);
 
@@ -75,10 +75,10 @@ export default function HostPreSettings(props: IPreSettingsProps) {
           variant="outlined"
           size="small"
           type="number"
-          inputProps={{ min: 2, max: 24 }}
+          inputProps={{ min: 2, max: 32 }}
           defaultValue={numQuestionnaireQuestions}
-          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24)}
-          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
+          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32)}
+          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
           onChange={ (e) => {
             setNumQuestionnaireQuestions(Number(e.target.value));
             setNumQuestionnaireQuestionsInput(Number(e.target.value));}}
