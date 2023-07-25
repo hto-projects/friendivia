@@ -203,40 +203,34 @@ export default function HostApp(props: IHostProps) {
   return (
     <div className="scroll">
       <PlayAudio src={theme} loop={true} />
-      <div className="musicButton">
-        <IconButton onClick={() => muteMusic(muted)}>
-          <img className="musicIcon" src={muted ? musicOff : musicOn} />
-        </IconButton>
+      <div className="banner">
+        <div className="musicButton">
+          <IconButton onClick={() => muteMusic(muted)}>
+            <img className="musicIcon" src={muted ? musicOff : musicOn} />
+          </IconButton>
+        </div>
+        <div className="hostFormat">
+          <img className="logohost" src={logo} />
+        </div>
       </div>
-      <div className="hostFormat">
-        <img className="logohost" src={logo} />
+      <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
         {getElementForState(gameState, settingsState)}
       </div>
       {gameState === "lobby" ? (
         <div className="bottomContainerHost">
           <p>
             <Button
-              className="button"
+              className="LobbySettings"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               onClick={onSettings}
             >
               Game Settings
             </Button>
+            <br></br>
+            <br></br>
             <Button
-              className="button"
+              className="LobbyAbout"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               href="/about"
             >
               About
