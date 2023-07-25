@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Game from '../models/Game.ts';
+import wyrquestion from '../db/wyrquestion.ts';
 
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
@@ -75,7 +76,11 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
   else{
     await hostDb.setGameState(gameId, GameStates.PreWyr);
     await hostGoNext(gameId, io);
-    await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreWyr, io, {});
+    const wyrQuestion = await wyrquestion.getQuestions();
+    const text = wyrQuestion.map((question) => question.text);
+    const as = wyrQuestion.map((question) => question.answerA);
+    const bs = wyrQuestion.map((question) => question.answerB);
+    await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreWyr, io, {wyrQuestion: text, wyrA: as, wyrB: bs});
     setTimeout(hostShowWyrQuestionnaire, 5000, gameId, io);
     //setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
   }

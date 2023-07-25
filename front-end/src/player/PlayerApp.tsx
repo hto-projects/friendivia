@@ -35,6 +35,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     string[]
   >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
+  const [wyrQuestion, setWyrQuestion] = React.useState<string>("");
+  const [wyrA, setWyrA] = React.useState<string>("");
+  const [wyrB, setWyrB] = React.useState<string>("");
 
   const { socket } = props;
 
@@ -54,6 +57,16 @@ export default function PlayerApp(props: PlayerAppProps) {
         setQuestionnaireQuestionsText(
           data.extraData.questionnaireQuestionsText
         );
+      }
+
+      if (data && data.extraData && data.extraData.wyrQuestion) {
+        setWyrQuestion(data.extraData.wyrQuestion);
+      }
+      if (data && data.extraData && data.extraData.wyrA) {
+        setWyrA(data.extraData.wyrA);
+      }
+      if (data && data.extraData && data.extraData.wyrB) {
+        setWyrB(data.extraData.wyrB);
       }
 
       if (data && data.extraData && data.extraData.quizQuestionOptionsText) {
@@ -111,13 +124,14 @@ export default function PlayerApp(props: PlayerAppProps) {
       bottomButtons = false;
       return <PlayerIsSubject />;
     } else if (playerState === "wyr-questionnaire") {
+      const random = Math.floor(Math.random() * wyrQuestion.length);
       return (
         <PlayerWyrQuestionnaire
           socket={socket}
           playerState={playerState}
-          wyrQuestion={"Would you rather x or y?"}
-          wyrA={"x"}
-          wyrB={"y"}
+          wyrQuestion={wyrQuestion[random]}
+          wyrA={wyrA[random]}
+          wyrB={wyrB[random]}
         />
       );
     } else if (playerState === "pre-leader-board") {

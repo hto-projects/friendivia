@@ -1,4 +1,4 @@
-import WyrQuestion from "../models/Question.ts";
+import WyrQuestion from "../models/WyrQuestion.ts";
 import IWyrQuestionnaireQuestion from "../interfaces/IWyrQuestionnaireQuestion";
 
 export default {
