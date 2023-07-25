@@ -16,6 +16,7 @@ import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
+import PlayerNewRanking from "./PlayerNewRanking"
 
 interface PlayerAppProps {
   socket: Socket;
@@ -26,6 +27,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState(0);
+  const [allPlayerScores, setAllPlayerScores] = React.useState([]);
   const [
     questionnaireQuestionsText,
     setQuestionnaireQuestionsText,
@@ -49,6 +51,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
       setPlayerScore(data.player.score);
+      setAllPlayerScores(data.extraData.playerScores);
+
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
         setQuestionnaireQuestionsText(
           data.extraData.questionnaireQuestionsText
@@ -109,6 +113,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "seeing-answer") {
       bottomButtons = false;
       return <PlayerIsSubject />;
+    } else if (playerState === "seeing-rank") {
+      bottomButtons = false;
+      return <PlayerNewRanking playerScores={allPlayerScores} currentPlayerName={playerName} />
     } else if (playerState === "pre-leader-board") {
       bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;
