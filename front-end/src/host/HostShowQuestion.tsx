@@ -13,8 +13,15 @@ interface IShowQuestionProps {
   timePerQuestion: number;
 }
 
-export default function HostShowQuestion(props: IShowQuestionProps) {
-  const { options, questionText, playerName, socket, gameId, timePerQuestion } = props;
+function HostShowQuestion(props: IShowQuestionProps) {
+  const {
+    options,
+    questionText,
+    playerName,
+    socket,
+    gameId,
+    timePerQuestion,
+  } = props;
 
   function App() {
     const [counter, setCounter] = React.useState(timePerQuestion);
@@ -24,7 +31,7 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
     return (
       <div className="dot">
         <div className="timer">
-          <div>{counter}</div>
+          <div className="timeNumber">{counter}</div>
         </div>
       </div>
     );
@@ -43,14 +50,13 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
 
   function quizText() {
     const [part1, part2] = questionText.split("<PLAYER>");
-    //for last option say or
     var res = "";
-    res += part1 + playerName + part2;
+    res += part1 + `"${playerName}"` + part2 + " .... is it ";
     for (var i = 0; i < options.length; i++) {
       if (i == options.length - 1) {
-        res += " or " + options[i];
+        res += `or "${options[i]}"?`;
       } else {
-        res += ", " + options[i];
+        res += `"${options[i]}", `;
       }
     }
     return res;
@@ -92,3 +98,5 @@ export default function HostShowQuestion(props: IShowQuestionProps) {
     </>
   );
 }
+
+export default React.memo(HostShowQuestion);

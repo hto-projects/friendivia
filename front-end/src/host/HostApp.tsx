@@ -44,6 +44,7 @@ export default function HostApp(props: IHostProps) {
   const [playerScores, setPlayerScores] = React.useState([]);
   const [playersInGame, setPlayersInGame] = React.useState([]);
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
+  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState(5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -83,6 +84,7 @@ export default function HostApp(props: IHostProps) {
       setPlayerScores(data.playerScores);
       setPlayersInGame(data.playersInGame);
       setTimePerQuestion(data.settings.timePerQuestion);
+      setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
     }
 
@@ -90,6 +92,7 @@ export default function HostApp(props: IHostProps) {
       setPreSettingsId(data.id);
       setSettingsState(data.settingsState);
       setTimePerQuestion(data.settings.timePerQuestion);
+      setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
     }
 
@@ -147,7 +150,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
+      return (
+        <>
+          <Speak text="The guesses are in!" />
+          <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>
+        </>
+      );
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -172,17 +180,17 @@ export default function HostApp(props: IHostProps) {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p>Calculating final scores...</p>
+          <p style={{fontSize: "1.5em"}}>Let's see who won...</p>
         </>
       );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} timePerQuestionSetting={timePerQuestion} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {
-      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
     } else {
       return <HostOpen socket={socket} />;
     }
@@ -195,40 +203,34 @@ export default function HostApp(props: IHostProps) {
   return (
     <div className="scroll">
       <PlayAudio src={theme} loop={true} />
-      <div className="musicButton">
-        <IconButton onClick={() => muteMusic(muted)}>
-          <img className="musicIcon" src={muted ? musicOff : musicOn} />
-        </IconButton>
+      <div className="banner">
+        <div className="musicButton">
+          <IconButton onClick={() => muteMusic(muted)}>
+            <img className="musicIcon" src={muted ? musicOff : musicOn} />
+          </IconButton>
+        </div>
+        <div className="hostFormat">
+          <img className="logohost" src={logo} />
+        </div>
       </div>
-      <div className="hostFormat">
-        <img className="logohost" src={logo} />
+      <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
         {getElementForState(gameState, settingsState)}
       </div>
       {gameState === "lobby" ? (
         <div className="bottomContainerHost">
           <p>
             <Button
-              className="button"
+              className="LobbySettings"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               onClick={onSettings}
             >
               Game Settings
             </Button>
+            <br></br>
+            <br></br>
             <Button
-              className="button"
+              className="LobbyAbout"
               variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
               href="/about"
             >
               About

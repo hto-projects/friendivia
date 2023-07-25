@@ -1,8 +1,8 @@
 import * as React from 'react';
 import '../style.css';
 import { Socket } from 'socket.io-client';
-import IPlayer from 'back-end/interfaces/IPlayer';
 import HostLobbyView from './HostLobbyView';
+import Speak from '../Speak';
 
 interface ILobbyProps {
   socket: Socket,
@@ -10,13 +10,13 @@ interface ILobbyProps {
 }
 
 export default function HostLobby(props: ILobbyProps) {
-  const [players, setPlayers] = React.useState<IPlayer[]>([]);
+  const [playerNames, setPlayerNames] = React.useState<string[]>([]);
   const { socket, gameId } = props;
 
   React.useEffect(() => {
     function onPlayersUpdated(playersObject: any) {
       if (gameId !== -1 && playersObject.gameId === gameId) {
-        setPlayers(playersObject.players);
+        setPlayerNames(playersObject.players.map(p => p.name));
       }
     }
   
@@ -25,7 +25,14 @@ export default function HostLobby(props: ILobbyProps) {
     return () => {
       socket.off('players-updated', onPlayersUpdated);
     }
-  }, [players, setPlayers]);
+  }, [playerNames, setPlayerNames]);
 
-  return <HostLobbyView playerNames={players.map(p => p.name)} gameId={gameId} socket={socket} />;
+  return (
+    <>
+      <div>
+        {playerNames.map(p => <Speak text={`Welcome to the game, "${p}"!`} />)}
+      </div>
+      <HostLobbyView playerNames={playerNames} gameId={gameId} socket={socket} />
+    </>
+  );
 }
