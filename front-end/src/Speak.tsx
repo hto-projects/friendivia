@@ -7,6 +7,13 @@ export default function Speak(props) {
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
 
+  function speakFromBrowser() {
+    const msg = new SpeechSynthesisUtterance();
+    msg.text = textToSpeak;
+    msg.rate = 0.9;
+    window.speechSynthesis.speak(msg);
+  }
+
   async function createAnnouncementAudio() {
     const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
@@ -40,6 +47,7 @@ export default function Speak(props) {
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
+      speakFromBrowser();
     }
   }
 
@@ -51,6 +59,8 @@ export default function Speak(props) {
     textHasBeenSpoken.current = true;
     if (ttsApiKey) {
       createAnnouncementAudio();
+    } else {
+      speakFromBrowser();
     }
   }, [textToSpeak]);
 
