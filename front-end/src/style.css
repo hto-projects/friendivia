@@ -243,7 +243,7 @@ body {
   padding-left: 30px;
 }
 
-.hostFormat1{
+.HostLobby{
   background: rgb(229,184,237);
   background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
   text-align: center;
@@ -427,7 +427,6 @@ body {
   background: rgb(169,101,203);
   background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
   font-weight: bold;
-  margin-top: 0.05vw;
   margin-bottom: 1vw;
   border-bottom-style: outset;
   border-color: var(--accent);
