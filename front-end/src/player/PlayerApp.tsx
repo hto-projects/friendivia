@@ -51,8 +51,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
       setPlayerScore(data.player.score);
-      console.log(data.extraData.playerScores, "logging playerScores in load success");
       setAllPlayerScores(data.extraData.playerScores);
+
       if (data && data.extraData && data.extraData.questionnaireQuestionsText) {
         setQuestionnaireQuestionsText(
           data.extraData.questionnaireQuestionsText

@@ -9,12 +9,9 @@ interface IntLeaderboardProps {
 }
 
 export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
-  console.log(props.playerScores)
   const playerScores = props.playerScores;
   const ogPlayerScores = playerScores
-  console.log("og: ", ogPlayerScores, "before sort: ", playerScores)
   playerScores.sort((p1, p2) => p2.score - p1.score);
-  console.log("og: ", ogPlayerScores, "after sort: ", playerScores)
 
   
   function onNext() {
