@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
+//import { Socket } from 'socket.io'
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Game from '../models/Game.ts';
@@ -11,7 +12,6 @@ import Game from '../models/Game.ts';
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
 const PRE_LEADER_BOARD_MS = 5000;
-const PLAYER_COMPLETE_QUIZ = 15000;
 let nextQuestionTimer;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
@@ -66,7 +66,8 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
       await Game.updateOne({ id: gameId }, {
         $set: { 'currentQuestionIndex': -1 }
       });
-      io.to(currentGameData!.hostSocketId).emit('host-next', currentGameData);
+      let playersInGame = await playerDb.getPlayers(gameId);
+      io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
     }
@@ -80,7 +81,18 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
 }
 
 const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
+  const currentGameData: IGame | null = await hostDb.getGameData(gameId);
   const shouldContinue = await hostDb.nextQuestion(gameId);
+  let timePerQuestionMS: number;
+  if (currentGameData?.settings.timePerQuestion === undefined) {
+    console.error("Error: time per question undefined. Defaulted to 15 seconds.");
+    timePerQuestionMS = 15000;
+  }
+  else {
+    timePerQuestionMS = currentGameData?.settings.timePerQuestion * 1000;
+  }
+  const PLAYER_COMPLETE_QUIZ = timePerQuestionMS;
+  
 
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
@@ -101,7 +113,8 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreQuiz);
   const data = await hostDb.getGameData(gameId)
   const questions = data?.questionnaireQuestions;
-  await hostDb.buildQuiz(gameId, questions);
+  const numQuizQuestions = data?.settings.numQuizQuestions || 5;
+  await hostDb.buildQuiz(gameId, questions, numQuizQuestions);
   await hostGoNext(gameId, io);
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }
@@ -180,4 +193,39 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
 }
 
-export default { hostStartQuiz, hostPreAnswer, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard };
+const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
+  const allPlayersInGame = await playerDb.getPlayers(gameId);
+  let donePlayers: any = [];
+  let waitingPlayers: any = [];
+
+  for (let i = 0; i < allPlayersInGame.length; i++) {
+    const player = allPlayersInGame[i];
+    if (player.playerState.state === 'submitted-questionnaire-waiting'){
+      donePlayers.push(player.name);
+    } else if (player.playerState.state === "filling-questionnaire"){
+      waitingPlayers.push(player.name);
+    }
+  }
+
+  return [donePlayers, waitingPlayers]
+}
+
+const onHostViewUpdate = async(gameId, io: Server) => {
+  const gameData = await hostDb.getGameData(gameId);
+
+  if (gameData === null) {
+    return;
+  }
+
+  try {
+    const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
+    if(!allPlayersDone){
+      let playerStatusLists = await getQuestionnaireStatus(gameId);
+      io.to(gameData.hostSocketId).emit('update-host-view', playerStatusLists);
+    }
+  } catch (e) {
+    io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);
+  }
+}
+
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard };

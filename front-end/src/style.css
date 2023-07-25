@@ -16,6 +16,23 @@ h1, h2, p {
   color: var(--text);
 }
 
+html, body {
+  height:100%;
+  margin: 0;
+}
+
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  height: auto;
+  width: auto;
+}
+
 
 /*mobile*/
 @media (max-width: 767px) {
@@ -39,7 +56,8 @@ h1, h2, p {
   }
 
   .questionnaireInput{
-    width: 100%;
+    width: 95%;
+
   }
 
   .answerButton{
@@ -49,6 +67,11 @@ h1, h2, p {
 
   .idInput{
     padding-bottom: 5%;
+  }
+
+  .element{
+    height: 78%;
+    margin: 0px;
   }
 }
 
@@ -87,6 +110,11 @@ h1, h2, p {
     padding-bottom: 5%;
     width: 30%;
   }
+
+  .element{
+    height: 64%;
+    margin: 0px;
+  }
 }
 
 .answerOptions{
@@ -117,13 +145,20 @@ h1, h2, p {
   background-repeat: repeat;
   background-size: 60% auto;
   background-clip: cover;
-  size: 100vh;
+  size: 100%;
   justify-content: center;
   text-align: center;
   margin: 10% auto;
 }
 
-
+.hostFormat{
+  background-repeat: repeat;
+  background-size: 60% auto;
+  background-clip: cover;
+  size: 100%;
+  justify-content: center;
+  text-align: center;
+}
 
 .questionnaireInput{
   display: flex;
@@ -153,6 +188,46 @@ h1, h2, p {
   border-radius: 20px;
   box-shadow: 5px 10px;
 }
+
+.noBtnElement{
+  height: 100%;
+  margin: 0px;
+}
+
+.bottomContainerHost{
+  background: rgb(229,184,237);
+  background: linear-gradient(180deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 200px;
+  padding-left: 30px;
+}
+
+.HostLobby{
+  background: rgb(229,184,237);
+  background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+.LobbySettings{
+  margin-left: 100px;
+  background-color: #5e00ff;
+}
+
+.LobbyAbout{
+  margin-top: 10px;
+  background-color: #5e00ff;
+}
+
+.musicIcon{
+  margin-left: 20px;
+  margin-top: 10px;
+  border-radius: 25px;
+  background-color: white;
+}
+
 
 .bottomContainer{
   display: flex;
@@ -219,7 +294,7 @@ h1, h2, p {
   align-self: center;
   width: 50%;
   font-family: Inter, sans-serif;
-  font-size: 2vw;
+  font-size: 1.5em;
   margin:auto;
   text-align: center;
 }
@@ -233,11 +308,49 @@ h1, h2, p {
   text-align: center;
 }
 
+.waiting{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
+.donePlayers{
+  width: 20vw;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.waitingPlayers{
+  width: 20vw;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .playerbox{
-  margin-left: 10vw;
-  margin-right: 10vw;
+  width: 20vw;
+  align-self: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 
 .lobby_player{
@@ -252,20 +365,21 @@ h1, h2, p {
 
 .player_join {
   text-align: center;
-  height: calc(100vh - 70px);
+  height: 100%;
+  margin-top: 10px;
 }
 
 .banner {
-  background-color: rgba(117, 125, 232, 0.4);
+  background: rgb(169,101,203);
+  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
   font-weight: bold;
-  margin-top: 1vw;
   margin-bottom: 1vw;
   border-bottom-style: outset;
   border-color: var(--accent);
   border-width: 10px;
-  margin-left: 0px; /*check if this actually works on mobile when added to develop
-  bc cant check rn*/
+  margin-left: 0px;
   margin-right: 0px;
+  margin-bottom: -1px;
 }
 
 .id{
@@ -290,14 +404,19 @@ h1, h2, p {
 
 .ol{
   list-style-type: none;
+  margin: 0;
 }
 
 .li{
   list-style-type: none;
+  margin: 0;
+
 }
 
 .ol li{
   list-style-type: none;
+  margin: 0;
+
 }
 
 .score {
@@ -326,30 +445,36 @@ h1, h2, p {
   text-align: center;
   vertical-align: middle;
   margin: auto;
+  margin-top: 3vh;
+}
+
+.timeNumber{
+  padding-top: 22%;
 }
 
 .dot{
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 7vw;
   width: 7vw;
   background-color: var(--accent);
   border-radius: 50%;
+  margin-top: 50%;
   margin: auto;
   margin-bottom: 1vw;
   align-self: center;
 }
 
 .question{
-  font-size: 3vw;
+  font-size: 1.5em;
   margin: auto;
   margin-bottom: 1vw;
 }
 
 .showAnswer{
-  font-size: 2.5vw;
+  font-size: 1.5em;
   margin: auto;
+  margin-top: 3vh;
   margin-bottom: 3vh;
 }
 
@@ -388,13 +513,13 @@ h1, h2, p {
   padding: 10px;
   color:var(--bg);
   border-radius: 5px;
-  width: 90vw;
-  height: 87vh;
+  height: 100%;
   vertical-align: middle;
   background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
 }
 
 .wait{
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -402,14 +527,13 @@ h1, h2, p {
   align-self: center;
   font-family: Inter, sans-serif;
   font-size: 1em;
-  margin:auto;
   text-align: center;
-  padding: 10px;
+  padding: 0px;
   color:var(--bg);
-  border-radius: 5px;
-  width: 90vw;
-  height: 87vh;
   vertical-align: middle;
+  margin: 0px;
+  height: 100%;
+  overflow: hidden;
   background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
 }
 
@@ -425,9 +549,8 @@ h1, h2, p {
   text-align: center;
   padding: 10px;
   color:var(--bg);
-  border-radius: 5px;
-  width: 90vw;
-  height: 87vh;
+  width: 100%;
+  height: 100%;
   vertical-align: middle;
   background: linear-gradient(98.3deg, rgb(0, 0, 0) 10.6%, rgb(255, 0, 0) 97.7%);
 }
@@ -476,9 +599,8 @@ h1, h2, p {
   text-align: center;
   padding: 10px;
   color:var(--bg);
-  border-radius: 5px;
-  width: 90vw;
-  height: 87vh;
+  width: 100%;
+  height: 100%;
   vertical-align: middle;
   background-color: #bdd4e7;
   background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
@@ -496,17 +618,19 @@ h1, h2, p {
   padding-left: 1vw;
   padding-right: 1vw;
   min-width: 100px;
+  font-weight: bold;
 }
 
 .secretButton{
   background: transparent;
     border: none !important;
     font-size:0;
+  margin-top: -40px !important;
 }
 
 .hourglass {
-  width: 50vw;
-  height: auto;
+  width: auto;
+  height: 50vw;
   margin: auto;
   margin-top: -10vh;
   margin-bottom: -10px;
@@ -563,6 +687,12 @@ h1, h2, p {
   60% {transform: translateY(-15px);} 
 } 
 
+
+.fillScreen{
+  height: 100vh;
+  overflow: hidden;
+}
+
 .vs{
   font-size: 8em;
   font-weight: bolder;
@@ -572,4 +702,21 @@ h1, h2, p {
 
 .tie{
   font-size: 1.5em;
+}
+
+.musicIcon{
+  width: 5vh;
+}
+
+.questionnaireInputs{
+  overflow-y: scroll;
+}
+
+.scroll{
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.css-k4qjio-MuiFormHelperText-root {
+  color: #d32f2f !important;
 }

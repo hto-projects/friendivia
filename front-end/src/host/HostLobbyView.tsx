@@ -2,6 +2,9 @@ import React from "react";
 import "../style.css";
 import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
+import Speak from "../Speak";
+import open from "../assets/audio/appopen.mp3";
+import PlayAudio from "../PlayAudio";
 
 interface ILobbyViewProps {
   playerNames: string[];
@@ -11,6 +14,19 @@ interface ILobbyViewProps {
 
 export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
+
+  const joinUrl = window.location.href
+    .replace("/host", "")
+    .replace("http://", "")
+    .replace("https://", "")
+    .replace("www.", "");
+  const joinMessage = `Join at ${joinUrl}`;
+  const textToSpeak = `Welcome to friendpardy! ${joinMessage}`;
+  const gameStr = gameId
+    .toString()
+    .split("")
+    .join(" ");
+  console.log(gameId, gameStr);
 
   async function onStart() {
     socket.emit("host-start", gameId);
@@ -22,15 +38,9 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <>
-      <h2>
-        Join at
-        {" " +
-          window.location.href
-            .replace("/host", "")
-            .replace("http://", "")
-            .replace("https://", "")
-            .replace("www.", "")}
-      </h2>
+      <h2>{joinMessage}</h2>
+      <Speak text={joinMessage + ". Use code: " + gameStr} />
+      <PlayAudio src={open} loop={false} />
       <Paper elevation={3} className="gameid">
         <p className="id">{gameId}</p>
       </Paper>

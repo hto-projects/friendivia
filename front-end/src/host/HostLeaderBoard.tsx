@@ -2,6 +2,7 @@ import * as React from "react";
 import "../style.css";
 import crown from "../assets/crown.png";
 import { Button } from "@mui/material";
+import Speak from "../Speak";
 
 interface ILeaderBoardProps {
   playerScores: Array<any>;
@@ -17,8 +18,15 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
     socket.emit("play-again");
   }
 
+  function winnerText() {
+    const winnerScore = playerScores[0].score;
+    const winnerName = playerScores[0].name;
+    return `The winner is "${winnerName}" with a score of "${winnerScore}"! Great job!`;
+  }
+
   return (
     <>
+      <Speak text={winnerText()} cloud={true} />
       <div
         style={{
           display: "flex",

@@ -33,6 +33,9 @@ export default (io: Server, socket: Socket) => {
             return;
           }
 
+          const updatedPlayer = await playerDb.getPlayer(newPlayerId);
+          io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
+
           io.to(currentGameData.hostSocketId).emit('players-updated', {
             gameId: gameId,
             players: allPlayersInGame
@@ -92,6 +95,8 @@ export default (io: Server, socket: Socket) => {
       const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
       if (allPlayersDone) {
         await hostHelpers.hostStartQuiz(gameId, io);
+      } else {
+        hostHelpers.onHostViewUpdate(gameId, io);
       }
     } catch (e) {
       socket.emit('player-submit-questionnaire-error', e);
@@ -129,6 +134,7 @@ export default (io: Server, socket: Socket) => {
         gameId: gameId,
         players: allPlayersInGame
       });
+      hostHelpers.onHostViewUpdate(gameId, io);
     } catch (e) {
       console.error("Failed to kick player: " + e);
     }}
