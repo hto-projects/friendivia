@@ -150,7 +150,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
+      return (
+        <>
+          <Speak text="The guesses are in!" />
+          <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>
+        </>
+      );
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -175,7 +180,7 @@ export default function HostApp(props: IHostProps) {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>
+          <p style={{fontSize: "1.5em"}}>Let's see who won...</p>
         </>
       );
     } else if (state === "leader-board") {

@@ -51,12 +51,12 @@ function HostShowQuestion(props: IShowQuestionProps) {
   function quizText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     var res = "";
-    res += part1 + playerName + part2;
+    res += part1 + `"${playerName}"` + part2 + " .... is it ";
     for (var i = 0; i < options.length; i++) {
       if (i == options.length - 1) {
-        res += " or " + options[i];
+        res += `or "${options[i]}"?`;
       } else {
-        res += ", " + options[i];
+        res += `"${options[i]}", `;
       }
     }
     return res;

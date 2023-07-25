@@ -1,11 +1,11 @@
 import * as React from "react";
+import { ttsApiKey } from "./environment";
 
 export default function Speak(props) {
   const textToSpeak = props.text;
   const textHasBeenSpoken = React.useRef(false);
 
   async function playElevenLabsAudio() {
-    const apiKey = "";
     const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
@@ -23,7 +23,7 @@ export default function Speak(props) {
         headers: {
           "Content-Type": "application/json",
           accept: "audio/mpeg",
-          "xi-api-key": apiKey,
+          "xi-api-key": ttsApiKey,
         },
         body: JSON.stringify(request),
       });
@@ -47,7 +47,7 @@ export default function Speak(props) {
     }
 
     textHasBeenSpoken.current = true;
-    if (true) {
+    if (ttsApiKey) {
       playElevenLabsAudio();
     } else {
       const msg = new SpeechSynthesisUtterance();
