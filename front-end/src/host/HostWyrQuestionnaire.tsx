@@ -14,6 +14,9 @@ interface IQuestionnaireProps {
 }
 
 function getPlayerNamesForState(players: IPlayer[], state: string) {
+  if (!players) {
+    return [];
+  }
   return players
     .filter((p) => p.playerState.state === state)
     .map((p) => p.name);
@@ -21,6 +24,7 @@ function getPlayerNamesForState(players: IPlayer[], state: string) {
 
 export default function HostQuestionnaire(props: IQuestionnaireProps) {
   const { socket, gameId, playersInGame } = props;
+
   const donePlayersStart = getPlayerNamesForState(
     playersInGame,
     "submitted-wyr-questionnaire"
@@ -43,7 +47,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
       setWaitingPlayers(playerStatusList[1]);
     }
 
-    socket.on("update-host-view", onStatusReceived);
+    socket.on("update-host-wyr-view", onStatusReceived);
 
     function onPlayersUpdated(playersObject: any) {
       console.log("players updated");
@@ -61,7 +65,7 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     socket.on("players-updated", onPlayersUpdated);
 
     return () => {
-      socket.off("update-host-view", onStatusReceived);
+      socket.off("update-host-wyr-view", onStatusReceived);
     };
   }, [socket]);
 

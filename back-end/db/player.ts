@@ -146,6 +146,16 @@ export default {
     }
   },
 
+  checkAllPlayersDoneWithWyrQuestionnaire: async (gameId: number): Promise<boolean> => {
+    try {
+      const allPlayersInGame = await Player.find({gameId: gameId});
+      return allPlayersInGame.every(p => p.playerState.state === PlayerStates.SubmittedWyrQuestionnaire);
+    } catch (e) {
+      console.error(`Issue checking if all players are done with wyr questionnaire: ${e}`);
+      return false;
+    }
+  },
+
   playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});

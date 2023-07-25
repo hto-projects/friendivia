@@ -109,11 +109,13 @@ export default (io: Server, socket: Socket) => {
       await playerDb.playerCompleteWyrQuestionnaire(player.id, answer);
       socket.emit('player-submit-wyr-questionnaire-success');
 
-      const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
+      const allPlayersDone = await playerDb.checkAllPlayersDoneWithWyrQuestionnaire(gameId);
       if (allPlayersDone) {
-        await hostHelpers.hostStartQuiz(gameId, io);
+        console.log("all players done with wyr questionnaire");
+        //start quiz here!
+        //await hostHelpers.hostStartQuiz(gameId, io);
       } else {
-        hostHelpers.onHostViewUpdate(gameId, io);
+        hostHelpers.onHostWyrViewUpdate(gameId, io);
       }
     } catch (e) {
       socket.emit('player-submit-wyr-questionnaire-error', e);

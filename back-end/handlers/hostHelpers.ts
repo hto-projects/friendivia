@@ -196,6 +196,23 @@ const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
   return [donePlayers, waitingPlayers]
 }
 
+const getWyrQuestionnaireStatus = async (gameId:number): Promise<any> => {
+  const allPlayersInGame = await playerDb.getPlayers(gameId);
+  let donePlayers: any = [];
+  let waitingPlayers: any = [];
+
+  for (let i = 0; i < allPlayersInGame.length; i++) {
+    const player = allPlayersInGame[i];
+    if (player.playerState.state === 'submitted-wyr-questionnaire'){
+      donePlayers.push(player.name);
+    } else if (player.playerState.state === "wyr-questionnaire"){
+      waitingPlayers.push(player.name);
+    }
+  }
+
+  return [donePlayers, waitingPlayers]
+}
+
 const onHostViewUpdate = async(gameId, io: Server) => {
   const gameData = await hostDb.getGameData(gameId);
 
@@ -214,4 +231,21 @@ const onHostViewUpdate = async(gameId, io: Server) => {
   }
 }
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer };
+const onHostWyrViewUpdate = async(gameId, io: Server) => {
+  const gameData = await hostDb.getGameData(gameId);
+
+  if (gameData === null) {
+    return;
+  }
+
+  try {
+    const allPlayersDone = await playerDb.checkAllPlayersDoneWithWyrQuestionnaire(gameId);
+    if(!allPlayersDone){
+      let playerStatusLists = await getWyrQuestionnaireStatus(gameId);
+      io.to(gameData.hostSocketId).emit('update-host-wyr-view', playerStatusLists);
+    }
+  } catch (e) {
+    io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);
+  }}
+
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, onHostWyrViewUpdate, hostShowNextQuestion, hostSkipTimer };
