@@ -15,6 +15,7 @@ import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
 import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
@@ -183,6 +184,8 @@ export default function HostApp(props: IHostProps) {
           quizLength={quizQuestionsLength}
         />
       );
+    } else if (state === "intermediary-leaderboard") {
+      return <HostIntLeaderBoard gameId = {gameId} socket = {socket} playerScores={playerScores}/>;
     } else if (state === "pre-leader-board") {
       return (
         <>
