@@ -208,13 +208,9 @@ export default function HostApp(props: IHostProps) {
           <img className="logohost" src={logo} />
         </div>
       </div>
-      {gameState == "lobby" ? (
-        <div className="hostFormat1">
-          {getElementForState(gameState, settingsState)}
-        </div>
-      ) : <div className="hostFormat">
-      {getElementForState(gameState, settingsState)}
-      </div>}
+      <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
+        {getElementForState(gameState, settingsState)}
+      </div>
       {gameState === "lobby" ? (
         <div className="bottomContainerHost">
           <p>
