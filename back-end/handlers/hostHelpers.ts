@@ -130,11 +130,7 @@ const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> =
     return;
   }
 
-
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
-
-  
-  //await hostGoNext(gameId, io);
 }
 
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
@@ -185,11 +181,7 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
     }
   });
 
-  // put player score code here to get them all
-  // and pass with the next emit, so upon doing the next itll update??
-
   const playerScores = await playerDb.getPlayerScores(gameId)
-
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
 }
 
