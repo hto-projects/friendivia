@@ -21,6 +21,7 @@ import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
+import { HostAnnouncementQueue, AddAnnouncementContext } from "./HostAnnouncementQueue";
 
 interface IHostProps {
   socket: Socket;
@@ -50,6 +51,12 @@ export default function HostApp(props: IHostProps) {
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
+
+  const [announcementAudioObjects, setAnnouncementAudioObjects] = React.useState<any>([]);
+  const addAnnouncement = newAnnouncementAudio => {
+    setAnnouncementAudioObjects(arr => [...arr, newAnnouncementAudio]);
+  };
+
   const { socket } = props;
 
   function muteMusic(muted: boolean) {
@@ -205,44 +212,47 @@ export default function HostApp(props: IHostProps) {
 
   return (
     <div className="scroll">
-      <PlayAudio src={theme} loop={true} />
-      <div className="banner">
-        <div className="musicButton">
-          <IconButton onClick={() => muteMusic(muted)}>
-            <img className="musicIcon" src={muted ? musicOff : musicOn} />
-          </IconButton>
+      <AddAnnouncementContext.Provider value={addAnnouncement}>
+        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
+        <PlayAudio src={theme} loop={true} />
+        <div className="banner">
+          <div className="musicButton">
+            <IconButton onClick={() => muteMusic(muted)}>
+              <img className="musicIcon" src={muted ? musicOff : musicOn} />
+            </IconButton>
+          </div>
+          <div className="hostFormat">
+            <img className="logohost" src={logo} />
+          </div>
         </div>
-        <div className="hostFormat">
-          <img className="logohost" src={logo} />
+        <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
+          {getElementForState(gameState, settingsState)}
         </div>
-      </div>
-      <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
-        {getElementForState(gameState, settingsState)}
-      </div>
-      {gameState === "lobby" ? (
-        <div className="bottomContainerHost">
-          <p>
-            <Button
-              className="LobbySettings"
-              variant="contained"
-              onClick={onSettings}
-            >
-              Game Settings
-            </Button>
-            <br></br>
-            <br></br>
-            <Button
-              className="LobbyAbout"
-              variant="contained"
-              href="/about"
-            >
-              About
-            </Button>
-          </p>
-        </div>
-      ) : (
-        ""
-      )}
+        {gameState === "lobby" ? (
+          <div className="bottomContainerHost">
+            <p>
+              <Button
+                className="LobbySettings"
+                variant="contained"
+                onClick={onSettings}
+              >
+                Game Settings
+              </Button>
+              <br></br>
+              <br></br>
+              <Button
+                className="LobbyAbout"
+                variant="contained"
+                href="/about"
+              >
+                About
+              </Button>
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
+      </AddAnnouncementContext.Provider>
     </div>
   );
 }
