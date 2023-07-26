@@ -115,7 +115,15 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
     await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
     nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
   } else {
-    await hostPreLeaderBoard(gameId, io);
+    if(await hostDb.nextQuestion(gameId, true)){
+      await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
+    await hostGoNext(gameId, io);
+    await playerHelpers.allPlayersGoToNextQuestion(gameId, io, true);
+    nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
+    }
+    else{
+      await hostPreLeaderBoard(gameId, io);
+    }
   }
 }
 
@@ -135,12 +143,12 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 }
 
 const hostStartWyr = async (gameId: number, io: Server): Promise<void> => {
-  await hostDb.setGameState(gameId, GameStates.PreWyrQuiz);
+  await hostDb.setGameState(gameId, GameStates.PreQuiz);
   console.log("prewyrquiz");
   await hostDb.buildWyrQuiz(gameId);
   console.log("quiz built");
   await hostGoNext(gameId, io);
-  setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
+  setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io, true);
 }
 
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {

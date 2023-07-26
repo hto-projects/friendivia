@@ -64,6 +64,7 @@ export default (io: Server, socket: Socket) => {
       const currentQuizQuestionIndex = gameData.currentQuestionIndex;
       const extraData = {
         questionnaireQuestionsText: gameData.questionnaireQuestions.map(q => q.text),
+        currentQuizQuestionIndex: currentQuizQuestionIndex,
         quizQuestionOptionsText: currentQuizQuestionIndex >= 0 ? gameData.quizQuestions[currentQuizQuestionIndex].optionsList : []
       };
 

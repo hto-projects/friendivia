@@ -38,6 +38,9 @@ export default function HostApp(props: IHostProps) {
   const [gameState, setGameState] = React.useState<string>("init");
   const [settingsState, setSettingsState] = React.useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = React.useState<IQuizQuestion[]>([]);
+  const [wyrQuizQuestions, setWyrQuizQuestions] = React.useState<
+    IQuizQuestion[]
+  >([]);
   const [
     currentQuizQuestionIndex,
     setCurrentQuizQuestionIndex,
@@ -84,6 +87,7 @@ export default function HostApp(props: IHostProps) {
       setGameId(data.id);
       setGameState(data.gameState.state);
       setQuizQuestions(data.quizQuestions);
+      setWyrQuizQuestions(data.wyrQuizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
       setPlayerScores(data.playerScores);
@@ -144,8 +148,19 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "pre-quiz") {
       return <HostPreQuiz />;
     } else if (state === "showing-question") {
-      const currentQuizQuestion: IQuizQuestion =
-        quizQuestions[currentQuizQuestionIndex];
+      var currentQuizQuestion;
+      if (currentQuizQuestionIndex != quizQuestions.length) {
+        currentQuizQuestion = quizQuestions[currentQuizQuestionIndex];
+        console.log("Normal question");
+      }
+      if (
+        currentQuizQuestionIndex == quizQuestions.length ||
+        !currentQuizQuestion
+      ) {
+        currentQuizQuestion = wyrQuizQuestions[0];
+        console.log("Wyr question");
+      }
+      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;

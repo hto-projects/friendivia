@@ -8,7 +8,6 @@ import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import question from '../db/question.ts';
-import IWyrQuizQuestion from '../interfaces/IWyrQuizQuestion.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -58,6 +57,8 @@ export default {
         hostSocketId: socketId,
         questionnaireQuestions: [],
         quizQuestions: [],
+        wyrQuizQuestions: [],
+        currentWyrQuestionIndex: -1,
         currentQuestionIndex: -1,
         settings: {
           timePerQuestion: timePerQuestion,
@@ -124,7 +125,7 @@ export default {
     return quizQuestions;
   },
 
-  buildWyrQuiz: async (gameId: number): Promise<IWyrQuizQuestion[]> => {
+  buildWyrQuiz: async (gameId: number): Promise<IQuizQuestion[]> => {
     const players = await playerDb.getPlayers(gameId);
     console.log("building quizz");
     const quizQuestions = await utilDb.generateWyrQuiz(players);
@@ -137,24 +138,40 @@ export default {
     return quizQuestions;
   },
 
-  nextQuestion: async function(gameId: number): Promise<boolean> {
+  nextQuestion: async function(gameId: number, wyr?: boolean): Promise<boolean> {
     const currentGame: IGame | null = await this.getGameData(gameId);
     if (currentGame === null) {
       return false;
     }
+    console.log(currentGame);
+    if(wyr){
+      const currentQuestionIndex = currentGame.currentWyrQuestionIndex;
+      const nextQuestionIndex = currentQuestionIndex + 1;
 
-    const currentQuestionIndex = currentGame.currentQuestionIndex;
-    const nextQuestionIndex = currentQuestionIndex + 1;
+      if (nextQuestionIndex === currentGame.wyrQuizQuestions.length) {
+        return false;
+      }
 
-    if (nextQuestionIndex === currentGame.quizQuestions.length) {
-      return false;
+      await Game.updateOne({ id: gameId }, {
+        $set: { 'currentWyrQuestionIndex': currentQuestionIndex + 1 }
+      });
+
+      return true;
+    } 
+    else{
+      const currentQuestionIndex = currentGame.currentQuestionIndex;
+      const nextQuestionIndex = currentQuestionIndex + 1;
+
+      await Game.updateOne({ id: gameId }, {
+        $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
+      });
+
+      if (nextQuestionIndex === currentGame.quizQuestions.length) {
+        return false;
+      }
+
+      return true;
     }
-
-    await Game.updateOne({ id: gameId }, {
-      $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
-    });
-
-    return true;
   },
 
   deleteAllGames: async (): Promise<any> => {

@@ -9,6 +9,8 @@ export default interface IGame {
 	hostSocketId: string,
 	questionnaireQuestions: IQuestionnaireQuestion[],
 	quizQuestions: IQuizQuestion[],
+	wyrQuizQuestions: IQuizQuestion[],
 	currentQuestionIndex: number,
+	currentWyrQuestionIndex: number,
 	settings: ISettings
 }

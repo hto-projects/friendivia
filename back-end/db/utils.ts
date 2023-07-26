@@ -2,9 +2,6 @@ import IPlayer from "../interfaces/IPlayer";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 import Question from "../db/question.ts";
-// import IWyrQuestionnaireQuestion from "../interfaces/IWyrQuestionnaireQuestion.ts";
-import IWyrQuizQuestion from "../interfaces/IWyrQuizQuestion.ts";
-// import question from "../db/question.ts";
 import wyrquestion from "./wyrquestion.ts";
 
 function getNumberOfQuestions(players) {
@@ -118,8 +115,8 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
     return questionsList;
   }
 
-  const generateWyrQuiz = async (players: IPlayer[]): Promise<IWyrQuizQuestion[]> => {
-    var questionsList: IWyrQuizQuestion[] = [];
+  const generateWyrQuiz = async (players: IPlayer[]): Promise<IQuizQuestion[]> => {
+    var questionsList: IQuizQuestion[] = [];
   
     for (let i = 0; i < players.length; i++) {
       if (players[i].wyrText && players[i].wyrAnswer) {
@@ -132,12 +129,17 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
         var answerB = await question[0].answerB;
         console.log("got B");
         console.log(question, answerA, answerB);
-        var qText = players[i].wyrText?.replace("you", players[i].name)
-        var currentQuestion: IWyrQuizQuestion = {
+        var qText = players[i].wyrText?.replace("you", "<PLAYER>");
+        var correctIndex;
+        if(players[i].wyrAnswer == "A"){
+          correctIndex = 0;
+        }
+        else{ correctIndex = 1; }
+        console.log([answerA, answerB]);
+        var currentQuestion: IQuizQuestion = {
           text: qText || "",
-          correctAnswer: players[i].wyrAnswer || "",
-          answerA: answerA,
-          answerB: answerB,
+          correctAnswerIndex: correctIndex,
+          optionsList: [answerA, answerB],
           playerId: players[i].id,
           playerName: players[i].name
         }

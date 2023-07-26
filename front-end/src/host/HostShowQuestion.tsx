@@ -71,30 +71,62 @@ function HostShowQuestion(props: IShowQuestionProps) {
       <App />
       <Speak text={quizText()} cloud={true} />
       {interpolatePlayerNameInQuestionText()}
-      <ul className="ul">
-        {options.map((o: String, i: number) => (
-          <Paper elevation={3} className="paper">
-            <li className="answer" key={i}>
-              {o}
-            </li>
-          </Paper>
-        ))}
-      </ul>
-      <div>
-        <Button
-          className="button"
-          variant="contained"
-          sx={{
-            bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
-            m: 2,
-          }}
-          onClick={onTimerSkipBtn}
-        >
-          Show Answers
-        </Button>
-      </div>
+      {options.length > 2 ? (
+        <>
+          {" "}
+          <ul className="ul">
+            {options.map((o: String, i: number) => (
+              <Paper elevation={3} className="paper">
+                <li className="answer" key={i}>
+                  {o}
+                </li>
+              </Paper>
+            ))}
+          </ul>
+          <div>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onTimerSkipBtn}
+            >
+              Show Answers
+            </Button>
+          </div>{" "}
+        </>
+      ) : (
+        <>
+          <ul className="ul">
+            {options.map((o: String, i: number) => (
+              <Paper elevation={3} className="paper">
+                <li className="answer" key={i}>
+                  {o}
+                </li>
+              </Paper>
+            ))}
+          </ul>
+          <div>
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onTimerSkipBtn}
+            >
+              Show Answers
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }
