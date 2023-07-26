@@ -231,17 +231,24 @@ export default function HostSettings(props: ISettingsProps) {
           }}
         />
         <p>
-          Hands-Free Mode:
+          Prioritize Custom Questions:
           <Switch
             className="idInput form"
-            id="handsFreeMode"
+            id="prioritizeCustomQ"
             size="medium"
             color="secondary"
-            defaultChecked={handsFreeMode}
+            defaultChecked={prioritizeCustomQs}
             onChange={(e, c) => {
-              setHandsFreeMode(Boolean(c));
+              setPrioritizeCustomQs(Boolean(c));
             }}
           />
+        </p>
+        <p>Custom Questions:</p>
+        <p className="exampleText">
+          Example: <br></br>
+          <u>Question Text:</u> "What is your favorite movie?"<br></br>
+          <u>Fake Answers:</u> "The Godfather","Despicable Me", "Into the
+          Spiderverse", "Star Wars: A New Hope"
         </p>
         {handsFreeMode ? (
           <>

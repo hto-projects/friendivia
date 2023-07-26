@@ -7,7 +7,6 @@ import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
-import question from '../db/question.ts';
 import Player from '../models/Player.ts';
 
 export default {
