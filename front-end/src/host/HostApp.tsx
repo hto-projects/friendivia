@@ -206,10 +206,6 @@ export default function HostApp(props: IHostProps) {
     }
   }
 
-  function onSettings() {
-    socket.emit("host-settings", gameId);
-  }
-
   return (
     <div className="scroll">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
@@ -226,33 +222,9 @@ export default function HostApp(props: IHostProps) {
           </div>
           <div className="bannerEdge">{/* Empty to take up space on the right side of the header*/}</div>
         </div>
-        <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
+        <div className="host-content">
           {getElementForState(gameState, settingsState)}
         </div>
-        {gameState === "lobby" ? (
-          <div className="bottomContainerHost">
-            <p>
-              <Button
-                className="LobbySettings"
-                variant="contained"
-                onClick={onSettings}
-              >
-                Game Settings
-              </Button>
-              <br></br>
-              <br></br>
-              <Button
-                className="LobbyAbout"
-                variant="contained"
-                href="/about"
-              >
-                About
-              </Button>
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
       </AddAnnouncementContext.Provider>
     </div>
   );

@@ -207,12 +207,26 @@ body {
   padding-left: 30px;
 }
 
-.HostLobby{
+.lobby-bottom-bar Button {
+  margin: 10px;
+}
+
+.joined-players {
+  height: 100%;
+}
+
+.host-lobby {
   background: rgb(229,184,237);
   background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.host-content {
   text-align: center;
-  padding-top: 50px;
-  padding-bottom: 40px;
+  height: 100%;
 }
 
 .LobbySettings{
@@ -243,16 +257,29 @@ body {
   padding: 0%;
 }
 
-.gameid{
-  font-family: Inter, sans-serif;
-  font-weight: 1000;
-  font-size: 3.5em;
-  margin-left: 30vw;
-  margin-right: 30vw;
-  padding: 10px;
-  background: var(--accent);
-  
+.join-instructions {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.join-instruction-edge {
+  width: 30vw;
+}
+
+.gameid {
+  padding: 10px 120px;
   border-radius: 10px;
+}
+
+.gameid p.id {
+  font-weight: 1000;
+  font-size: 7em;
+}
+
+.gameid p.label {
+  margin: 0;
 }
 
 .horizontal{
@@ -278,6 +305,7 @@ body {
   color:var(--text);
   background: var(--bg);
   border-radius: 5px;
+  font-weight: 100;
 }
 
 .player:hover{
@@ -358,8 +386,8 @@ body {
 }
 
 .lobby_player{
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .align_center {
@@ -633,6 +661,16 @@ body {
   flex-wrap: wrap;
   row-gap: 10px;
   justify-content: center;
+  max-height: 44vh;
+  max-width: 80vw;
+  margin: 0 auto;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.player-list::-webkit-scrollbar { 
+  display: none;
 }
 
 .lobby_player {
@@ -641,6 +679,8 @@ body {
   padding-right: 1vw;
   min-width: 100px;
   font-weight: bold;
+  font-size: 2em;
+  margin-bottom: 5px;
 }
 
 .secretButton{
@@ -735,8 +775,11 @@ body {
 }
 
 .scroll{
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .css-k4qjio-MuiFormHelperText-root {
