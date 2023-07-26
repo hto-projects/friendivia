@@ -38,8 +38,8 @@ export default function HostSettings(props: ISettingsProps) {
   React.useEffect(() => {
     if (numQuestionnaireQuestions < 2) {
       setNumQuestionnaireQuestions(2);
-    } else if (numQuestionnaireQuestions > 24) {
-      setNumQuestionnaireQuestions(24);
+    } else if (numQuestionnaireQuestions > 32) {
+      setNumQuestionnaireQuestions(32);
     }
   }, [numQuestionnaireQuestions, setNumQuestionnaireQuestions]);
 
@@ -93,10 +93,10 @@ export default function HostSettings(props: ISettingsProps) {
           variant="outlined"
           size="small"
           type="number"
-          inputProps={{ min: 2, max: 24 }}
+          inputProps={{ min: 2, max: 32 }}
           defaultValue={numQuestionnaireQuestions}
-          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24)}
-          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 24) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : ''}
+          error={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32)}
+          helperText={(numQuestionnaireQuestionsInput < 2) || (numQuestionnaireQuestionsInput > 32) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : ''}
           onChange={ (e) => {
             setNumQuestionnaireQuestions(Number(e.target.value));
             setNumQuestionnaireQuestionsInput(Number(e.target.value));}}
@@ -112,7 +112,7 @@ export default function HostSettings(props: ISettingsProps) {
           inputProps={{ min: 2 }}
           defaultValue={numQuizQuestions}
           error={(numQuizQuestionsInput < 2) }
-          helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions greater than 1 and less than 25' : 
+          helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : 
           ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '')}
           onChange={(e) => {
             setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length);

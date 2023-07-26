@@ -67,6 +67,7 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
         $set: { 'currentQuestionIndex': -1 }
       });
       let playersInGame = await playerDb.getPlayers(gameId);
+      playersInGame.map(p => p.quizGuesses = [])
       io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
@@ -119,6 +120,20 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }
 
+const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.InterLeaderboard);
+
+  const allPlayerScores = await playerDb.getPlayerScores(gameId);
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingRank, io, {playerScores: allPlayerScores});
+  
+  const gameData = await hostDb.getGameData(gameId);
+  if (gameData === null) {
+    return;
+  }
+
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
+}
+
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
@@ -135,19 +150,18 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const players = await playerDb.getPlayers(gameId);
+  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+
+
   players.forEach(async (player) => {
-    if (player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex) {
-      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
-    } else if(gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id){
+    if (gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id) {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
-    }
-    else
-    {
+    } else if(player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex){
+      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
+    } else {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
     }
   });
-
-  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
 
   let ScoreAdder = 0;
   let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
@@ -166,7 +180,9 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
       'score' : player.score + ScoreAdder
     }
   });
-  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
+
+  const playerScores = await playerDb.getPlayerScores(gameId)
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
 }
 
 const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
@@ -204,4 +220,4 @@ const onHostViewUpdate = async(gameId, io: Server) => {
   }
 }
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer };
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard };

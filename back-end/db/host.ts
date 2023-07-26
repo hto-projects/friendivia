@@ -8,6 +8,7 @@ import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import question from '../db/question.ts';
+import Player from '../models/Player.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -137,7 +138,7 @@ export default {
     }
 
     await Game.updateOne({ id: gameId }, {
-      $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
+      $set: { 'currentQuestionIndex': nextQuestionIndex }
     });
 
     return true;
@@ -160,9 +161,15 @@ export default {
     }
   },
 
-  deleteGame: async(gameId: number): Promise<any> => {
+  deleteGame: async(gameId: number, PreSettingsId: number): Promise<any> => {
     try{
+      const allPlayers = await Player.find({gameId: gameId});
+      for (const player of allPlayers) {
+        await Player.deleteOne({id: player.playerSocketId});
+      }
+      await question.deleteAllQuestions();
       await Game.deleteOne({id: gameId});
+      await PreGameSettings.deleteOne({id: PreSettingsId});
     }
     catch(e){
       console.error(`Issue deleting game: ${e}`);
