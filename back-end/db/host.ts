@@ -137,7 +137,7 @@ export default {
     }
 
     await Game.updateOne({ id: gameId }, {
-      $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
+      $set: { 'currentQuestionIndex': nextQuestionIndex }
     });
 
     return true;
