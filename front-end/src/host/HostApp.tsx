@@ -21,6 +21,7 @@ import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
+import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
 import { HostAnnouncementQueue, AddAnnouncementContext } from "./HostAnnouncementQueue";
 
 interface IHostProps {
@@ -48,6 +49,8 @@ export default function HostApp(props: IHostProps) {
   const [timePerQuestion, setTimePerQuestion] = React.useState(15);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState(5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
+  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState(true);
+  const [customQuestions, setCustomQuestions] = React.useState<IQuestionnaireQuestion[]>([]);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
@@ -96,6 +99,8 @@ export default function HostApp(props: IHostProps) {
       setTimePerQuestion(data.settings.timePerQuestion);
       setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
+      setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
+      setCustomQuestions(data.settings.customQuestions);
     }
 
     function onSettingsLoadSuccess(data: IPreGameSettings) {
@@ -104,6 +109,8 @@ export default function HostApp(props: IHostProps) {
       setTimePerQuestion(data.settings.timePerQuestion);
       setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
+      setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
+      setCustomQuestions(data.settings.customQuestions);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -198,11 +205,11 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else if (settingsState === true) {
-      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions}/>;
+      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
     } else {
       return <HostOpen socket={socket} />;
     }

@@ -3,6 +3,7 @@ import "../style.css";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
+import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
 import IPlayer from "back-end/interfaces/IPlayer";
@@ -14,18 +15,22 @@ interface ISettingsProps {
   timePerQuestionSetting: number;
   numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
+  prioritizeCustomQsSetting: boolean;
+  customQuestionsSetting: IQuestionnaireQuestion[];
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
+  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
   const [numQuestionnaireQuestionsInput, setNumQuestionnaireQuestionsInput] = React.useState<number>(numQuestionnaireQuestions);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
   const [numQuizQuestionsInput, setNumQuizQuestionsInput] = React.useState<number>(numQuizQuestions);
-  const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
-  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(5);
+  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState<boolean>(prioritizeCustomQsSetting);
+  const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>(customQuestionsSetting || []);
+  const [mappedQuestions, setMappedQuestions] = React.useState<IQuestionnaireQuestion[]>(addedQuestions || []);
+  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(numQuestionnaireQuestions * playersInGame.length || 5);
 
   React.useEffect(() => {
     if (timePerQuestion < 1) {
@@ -49,10 +54,14 @@ export default function HostSettings(props: ISettingsProps) {
     }
   }, [numQuizQuestions, setNumQuizQuestions]);
 
+  React.useEffect(() => {
+    setMappedQuestions(addedQuestions);
+  }, [addedQuestions, setAddedQuestions]);
+
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
-      ...prevQuestions,
-      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] },
+      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] }, 
+      ...prevQuestions
     ]);
   };
 
@@ -63,7 +72,7 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, prioritizeCustomQs, addedQuestions });
   }
 
   return (
@@ -120,103 +129,24 @@ export default function HostSettings(props: ISettingsProps) {
             setNumQuizQuestionsInput(Number(e.target.value));
           }}
         />
-        <p>Custom Questions:</p>
-        <p>
-          text: "What is your favorite movie?", quizText: "What is
-          &lt;PLAYER&gt;'s favorite movie?", fakeAnswers: ["The Godfather",
-          "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"]
+        <p>Prioritize Custom Questions:
+          <Switch
+            className="idInput form"
+            id="prioritizeCustomQ"
+            size="medium"
+            color="secondary"
+            defaultChecked={prioritizeCustomQs}
+            onChange={(e, c) => {
+              setPrioritizeCustomQs(Boolean(c));
+            }}
+          />
         </p>
-        {addedQuestions.map((question, index) => (
-          <div key={index} className="customQuestion">
-            <TextField
-              className="idInput form"
-              id="questionText"
-              label="Question Text"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].text = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="quizText"
-              label="Quiz Text"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].quizText = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer1"
-              label="Fake Answer 1"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[0] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer2"
-              label="Fake Answer 2"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[1] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer3"
-              label="Fake Answer 3"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[2] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer4"
-              label="Fake Answer 4"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[3] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <Button
-              onClick={() => removeCustomQuestion(index)}
-              variant="contained"
-              sx={{
-                bgcolor: "gray",
-              }}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
+        <p>Custom Questions:</p>
+        <p className='exampleText'>
+          Example: <br></br>
+          <u>Question Text:</u> "What is your favorite movie?"<br></br> 
+          <u>Fake Answers:</u> "The Godfather","Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"
+        </p>
         <Button
           onClick={() => addCustomQuestion()}
           variant="contained"
@@ -226,6 +156,98 @@ export default function HostSettings(props: ISettingsProps) {
         >
           Add Custom Question
         </Button>
+        {mappedQuestions.map((question, index) => {
+          if(addedQuestions[index] === question) {
+             return (
+             <div key={index} className="customQuestion">
+              <TextField
+                className="idInput form"
+                id="questionText"
+                label="Question Text"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.text}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].text = e.target.value;
+                  let newQuizText = e.target.value;
+                  if (newQuizText.includes('you') || newQuizText.includes('your')) {
+                    newQuizText = newQuizText.replace('do you', 'does <PLAYER>').replace('are you', 'is <PLAYER>').replace('your', '<PLAYER>\'s').replace('you', '<PLAYER>');
+                  } else {
+                    newQuizText = 'According to <PLAYER>, ' + newQuizText;
+                  }
+                  newQuestions[index].quizText = newQuizText;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer1"
+                label="Fake Answer 1"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[0]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[0] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer2"
+                label="Fake Answer 2"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[1]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[1] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer3"
+                label="Fake Answer 3"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[2]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[2] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer4"
+                label="Fake Answer 4"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[3]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[3] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <Button
+                onClick={() => removeCustomQuestion(index)}
+                variant="contained"
+                sx={{
+                  bgcolor: "gray",
+                }}
+              >
+                Remove
+              </Button>
+            </div>)} else {return ''}
+          })}
         <p>Click below to go back:</p>
         <Button
           variant="contained"

@@ -11,12 +11,12 @@ function getNumberOfQuestions(players) {
   else return players.length;
 }
 
-const createQuestionnaireQuestionsWithOptions = async (players, number?): Promise<IQuestionnaireQuestion[]> => {
+const createQuestionnaireQuestionsWithOptions = async (players, prioritizeCustomQs, number?, customQuestions?): Promise<IQuestionnaireQuestion[]> => {
   if(number){
-    const questions = await Question.getRandomQuestions(number);
+    const questions = await Question.getRandomQuestions(number, customQuestions, prioritizeCustomQs);
     return questions;
   }
-  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players));
+  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players), customQuestions, prioritizeCustomQs);
   return questions;
 }
 

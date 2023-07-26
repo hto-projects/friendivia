@@ -4,5 +4,6 @@ import IQuestionnaireQuestion from "./IQuestionnaireQuestion"
       timePerQuestion: number,
       numQuestionnaireQuestions: number,
       numQuizQuestions: number,
+      prioritizeCustomQs: boolean,
       customQuestions: IQuestionnaireQuestion[]
   }
