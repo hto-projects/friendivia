@@ -140,19 +140,11 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
 
   players.forEach(async (player) => {
-    //checks if the player id of the question (who q is abt?) is the same as this player
     if (gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id) {
-      //if so will see the playerstate as the gray screen
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
-      //var questionPlayerGuess = guesses.find(playerGuess => playerGuess.name === gameData?.quizQuestions[gameData!.currentQuestionIndex].playerName);
-      //questionPlayerGuess?.guess = undefined
-
     } else if(player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex){
-      //or if their guess is correct sets to green screen
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
-    }
-    else {
-      //or if guess incoreect sets player state to red screen
+    } else {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
     }
   });
