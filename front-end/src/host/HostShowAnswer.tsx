@@ -41,8 +41,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function onNext() {
-    currentQuizLength++;
-    socket.emit("next-question", gameId);
+    if (currentQuizLength < quizLength) {
+      currentQuizLength++;
+      socket.emit("go-to-int-leaderboard", gameId);
+    } else {
+      socket.emit("next-question", gameId);
+    }
   }
 
   function buttonText() {
@@ -51,7 +55,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function correctText() {
-    var res = "The correct answer was " + options[correctAnswerIndex];
+    var res = `The correct answer was "${options[correctAnswerIndex]}".`;
     var correctPlayers = playerGuesses.filter(
       (g) => g.guess === correctAnswerIndex
     );

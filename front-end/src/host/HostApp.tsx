@@ -15,12 +15,14 @@ import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
 import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import { HostAnnouncementQueue, AddAnnouncementContext } from "./HostAnnouncementQueue";
 
 interface IHostProps {
   socket: Socket;
@@ -52,6 +54,12 @@ export default function HostApp(props: IHostProps) {
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
+
+  const [announcementAudioObjects, setAnnouncementAudioObjects] = React.useState<any>([]);
+  const addAnnouncement = newAnnouncementAudio => {
+    setAnnouncementAudioObjects(arr => [...arr, newAnnouncementAudio]);
+  };
+
   const { socket } = props;
 
   function muteMusic(muted: boolean) {
@@ -157,7 +165,12 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "pre-answer") {
-      return <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>;
+      return (
+        <>
+          <Speak text="The guesses are in!" />
+          <p style={{ fontSize: "1.5em" }}>The guesses are in...</p>
+        </>
+      );
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
@@ -178,11 +191,13 @@ export default function HostApp(props: IHostProps) {
           quizLength={quizQuestionsLength}
         />
       );
+    } else if (state === "intermediary-leaderboard") {
+      return <HostIntLeaderBoard gameId = {gameId} socket = {socket} playerScores={playerScores}/>;
     } else if (state === "pre-leader-board") {
       return (
         <>
           <Speak text="Let's see who won" cloud={true} />
-          <p style={{fontSize: "1.5em"}}>Calculating final scores...</p>
+          <p style={{fontSize: "1.5em"}}>Let's see who won...</p>
         </>
       );
     } else if (state === "leader-board") {
@@ -204,50 +219,47 @@ export default function HostApp(props: IHostProps) {
 
   return (
     <div className="scroll">
-      <PlayAudio src={theme} loop={true} />
-      <div className="musicButton">
-        <IconButton onClick={() => muteMusic(muted)}>
-          <img className="musicIcon" src={muted ? musicOff : musicOn} />
-        </IconButton>
-      </div>
-      <div className="hostFormat">
-        <img className="logohost" src={logo} />
-        {getElementForState(gameState, settingsState)}
-      </div>
-      {gameState === "lobby" ? (
-        <div className="bottomContainerHost">
-          <p>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              onClick={onSettings}
-            >
-              Game Settings
-            </Button>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              href="/about"
-            >
-              About
-            </Button>
-          </p>
+      <AddAnnouncementContext.Provider value={addAnnouncement}>
+        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
+        <PlayAudio src={theme} loop={true} />
+        <div className="banner">
+          <div className="musicButton">
+            <IconButton onClick={() => muteMusic(muted)}>
+              <img className="musicIcon" src={muted ? musicOff : musicOn} />
+            </IconButton>
+          </div>
+          <div className="hostFormat">
+            <img className="logohost" src={logo} />
+          </div>
         </div>
-      ) : (
-        ""
-      )}
+        <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
+          {getElementForState(gameState, settingsState)}
+        </div>
+        {gameState === "lobby" ? (
+          <div className="bottomContainerHost">
+            <p>
+              <Button
+                className="LobbySettings"
+                variant="contained"
+                onClick={onSettings}
+              >
+                Game Settings
+              </Button>
+              <br></br>
+              <br></br>
+              <Button
+                className="LobbyAbout"
+                variant="contained"
+                href="/about"
+              >
+                About
+              </Button>
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
+      </AddAnnouncementContext.Provider>
     </div>
   );
 }

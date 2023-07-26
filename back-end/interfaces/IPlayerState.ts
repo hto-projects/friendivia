@@ -16,6 +16,7 @@ enum PlayerStates {
   RankTwo = 'rank-two',
   RankThree = 'rank-three',
   Tiebreaker = 'tiebreaker',
+  SeeingRank = 'seeing-rank',
 }
 
 interface IPlayerState {
