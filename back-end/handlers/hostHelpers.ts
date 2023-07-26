@@ -67,6 +67,7 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
         $set: { 'currentQuestionIndex': -1 }
       });
       let playersInGame = await playerDb.getPlayers(gameId);
+      playersInGame.map(p => p.quizGuesses = [])
       io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
@@ -149,19 +150,18 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const players = await playerDb.getPlayers(gameId);
+  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+
+
   players.forEach(async (player) => {
-    if (player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex) {
-      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
-    } else if(gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id){
+    if (gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id) {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
-    }
-    else
-    {
+    } else if(player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex){
+      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
+    } else {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
     }
   });
-
-  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
 
   let ScoreAdder = 0;
   let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
