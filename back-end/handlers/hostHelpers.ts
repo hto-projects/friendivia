@@ -149,8 +149,6 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
     }
   });
 
-  console.log(guesses)
-
   let ScoreAdder = 0;
   let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
   for (let i = 0; i < guesses.length; i++) {
