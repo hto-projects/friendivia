@@ -285,17 +285,17 @@ export default function HostApp(props: IHostProps) {
       );
     } else if (state === "tiebreaker") {
       return <HostTiebreaker />;
-    } else if (settingsState) {
-      return (
-        <HostPreSettings
-          socket={socket}
-          preSettingsId={preSettingsId}
-          timePerQuestionSetting={timePerQuestion}
-          numQuestionnaireQuestionsSetting={numQuestionnaireQuestions}
-          numQuizQuestionsSetting={numQuizQuestions}
-        />
-      );
-    } else if (state === "pre-wyr") {
+      // } else if (settingsState) {
+      //   return (
+      //     <HostPreSettings
+      //       socket={socket}
+      //       preSettingsId={preSettingsId}
+      //       timePerQuestionSetting={timePerQuestion}
+      //       numQuestionnaireQuestionsSetting={numQuestionnaireQuestions}
+      //       numQuizQuestionsSetting={numQuizQuestions}
+      //     />
+      //   );
+      // } else if (state === "pre-wyr") {
       return <HostPreWyr />;
     } else if (state === "wyr-questionnaire") {
       return (
