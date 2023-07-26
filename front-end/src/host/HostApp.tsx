@@ -60,7 +60,11 @@ export default function HostApp(props: IHostProps) {
   const { socket } = props;
 
   function muteMusic(muted: boolean) {
+    setMuted(localStorage.getItem('Music-Playing') === 'true' ? true : false);
+
     setMuted(!muted);
+    localStorage.setItem('Music-Playing', muted.toString());
+
     if (muted) {
       const audio = document.querySelector("audio");
       if (audio) {
