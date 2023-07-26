@@ -8,6 +8,7 @@ import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import question from '../db/question.ts';
+import IWyrQuizQuestion from '../interfaces/IWyrQuizQuestion.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -101,7 +102,7 @@ export default {
       const players = await playerDb.getPlayers(gameId);
       const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, questions);
       const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
-      await this.setGameState(gameId, GameStates.Questionnaire);
+      await this.setGameState(gameId, GameStates.Questionnaire); ///CHANGE
       await Game.updateOne({id: gameId}, {
         $set: { 'questionnaireQuestions': questionsWithOptions }
       });
@@ -120,6 +121,19 @@ export default {
       $set: { 'quizQuestions': quizQuestions }
     });
 
+    return quizQuestions;
+  },
+
+  buildWyrQuiz: async (gameId: number): Promise<IWyrQuizQuestion[]> => {
+    const players = await playerDb.getPlayers(gameId);
+    console.log("building quizz");
+    const quizQuestions = await utilDb.generateWyrQuiz(players);
+    console.log("qs" + quizQuestions);
+    await Game.updateOne({id: gameId}, {
+      $set: { 'wyrQuizQuestions': quizQuestions }
+    });
+
+    console.log("qs" + quizQuestions);
     return quizQuestions;
   },
 

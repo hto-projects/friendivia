@@ -121,12 +121,14 @@ export default {
     }
   },
 
-  playerCompleteWyrQuestionnaire: async (playerId: string, wyrAnswer: string): Promise<any> => {
+  playerCompleteWyrQuestionnaire: async (playerId: string, wyrText:string, wyrAnswer: string): Promise<any> => {
     try {
+      console.log(wyrText, wyrAnswer);
       await Player.updateOne({
         id: playerId
       }, {
         $set: {
+          'wyrText': wyrText,
           'wyrAnswer': wyrAnswer,
           'playerState.state': 'submitted-wyr-questionnaire'
         }

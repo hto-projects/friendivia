@@ -134,6 +134,15 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
 }
 
+const hostStartWyr = async (gameId: number, io: Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.PreWyrQuiz);
+  console.log("prewyrquiz");
+  await hostDb.buildWyrQuiz(gameId);
+  console.log("quiz built");
+  await hostGoNext(gameId, io);
+  setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io);
+}
+
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
@@ -253,4 +262,4 @@ const onHostWyrViewUpdate = async(gameId, io: Server) => {
     io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);
   }}
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, onHostWyrViewUpdate, hostShowNextQuestion, hostSkipTimer };
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, onHostWyrViewUpdate, hostShowNextQuestion, hostSkipTimer, hostStartWyr };

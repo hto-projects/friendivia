@@ -9,7 +9,9 @@ const playerSchema = new Schema<IPlayer>({
   score: { type: Number, required: true },
   gameId: { type: Number, required: true },
   playerState: { type: Object, required: true },
-  playerSocketId: { type: String, required: true }
+  playerSocketId: { type: String, required: true },
+  wyrText: { type: String },
+  wyrAnswer: { type: String },
 });
 
 const Player = model<IPlayer>('Player', playerSchema);

@@ -9,6 +9,13 @@ const arr = [{
     quizText: "Would <PLAYER> rather run at 100 mph or fly at ten mph?",
     answerA: "Run 100mph",
     answerB: "Fly 10mph"
-}];
+},
+{
+    text: "Would you rather eat pizza or a cheeseburger?",
+    quizText: "Would <PLAYER> rather eat pizza or a cheeseburger?",
+    answerA: "Pizza",
+    answerB: "Cheeseburger"
+}
+];
 
 export default arr;

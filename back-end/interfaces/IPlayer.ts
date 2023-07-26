@@ -8,5 +8,7 @@ export default interface IPlayer {
   score: number,
 	gameId: number,
 	playerState: IPlayerState,
-	playerSocketId: string
+	playerSocketId: string,
+	wyrText?: string,
+	wyrAnswer?: string,
 }

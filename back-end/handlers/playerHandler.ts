@@ -102,20 +102,23 @@ export default (io: Server, socket: Socket) => {
     }
   };
 
-  const onPlayerSubmitWyrQuestionnaire = async (answer: string) => {
+  const onPlayerSubmitWyrQuestionnaire = async (data: any) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
       const gameId = player.gameId;
-      await playerDb.playerCompleteWyrQuestionnaire(player.id, answer);
+      // console.log(data); Works
+      // console.log(data.question);
+      // console.log(data.answer);
+      await playerDb.playerCompleteWyrQuestionnaire(player.id, data.question, data.answer);
       socket.emit('player-submit-wyr-questionnaire-success');
 
       const allPlayersDone = await playerDb.checkAllPlayersDoneWithWyrQuestionnaire(gameId);
+      hostHelpers.onHostWyrViewUpdate(gameId, io);
       if (allPlayersDone) {
         console.log("all players done with wyr questionnaire");
+        await hostHelpers.hostStartWyr(gameId, io);
         //start quiz here!
         //await hostHelpers.hostStartQuiz(gameId, io);
-      } else {
-        hostHelpers.onHostWyrViewUpdate(gameId, io);
       }
     } catch (e) {
       socket.emit('player-submit-wyr-questionnaire-error', e);

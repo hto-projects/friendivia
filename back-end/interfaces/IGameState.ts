@@ -12,7 +12,8 @@ enum GameStates {
   Settings = 'settings',
   Tiebreaker = 'tiebreaker',
   PreWyr = 'pre-wyr',
-  WyrQuestionnaire = 'wyr-questionnaire'
+  WyrQuestionnaire = 'wyr-questionnaire',
+  PreWyrQuiz = 'pre-wyr-quiz',
 }
 
 interface IGameState {

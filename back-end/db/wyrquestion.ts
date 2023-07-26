@@ -2,6 +2,16 @@ import WyrQuestion from "../models/WyrQuestion.ts";
 import IWyrQuestionnaireQuestion from "../interfaces/IWyrQuestionnaireQuestion";
 
 export default {
+    getQuestion: async (questionText: string): Promise<any> => {
+        try {
+            const question = await WyrQuestion.find({text: questionText});
+            return question;
+        } catch (e) {
+            console.error(`Issue getting question: ${e}`);
+            return null;
+        }
+    },
+
     getQuestions: async (): Promise<any> => {
         try {
             const questions = await WyrQuestion.find();

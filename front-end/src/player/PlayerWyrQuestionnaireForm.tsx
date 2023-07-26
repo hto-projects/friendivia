@@ -22,11 +22,17 @@ export default function PlayerWyrQuestionnaireForm(
   const inMessage = `Submission accepted! Please wait for the other players to finish.`;
 
   function onAnswerA() {
-    socket.emit("player-submit-wyr-questionnaire", { answer: "A" });
+    socket.emit("player-submit-wyr-questionnaire", {
+      question: wyrQuestion,
+      answer: "A",
+    });
   }
 
   function onAnswerB() {
-    socket.emit("player-submit-wyr-questionnaire", { answer: "A" });
+    socket.emit("player-submit-wyr-questionnaire", {
+      question: wyrQuestion,
+      answer: "B",
+    });
   }
 
   const questionnaireInputs = (
@@ -66,6 +72,7 @@ export default function PlayerWyrQuestionnaireForm(
             background: "linear-gradient(45deg, #00008B 30%, #ADD8E6 90%)",
           }}
           elevation={3}
+          onClick={onAnswerB}
           className="questionnaireWyrPaper"
         >
           <h1

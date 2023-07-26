@@ -2,6 +2,10 @@ import IPlayer from "../interfaces/IPlayer";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 import Question from "../db/question.ts";
+// import IWyrQuestionnaireQuestion from "../interfaces/IWyrQuestionnaireQuestion.ts";
+import IWyrQuizQuestion from "../interfaces/IWyrQuizQuestion.ts";
+// import question from "../db/question.ts";
+import wyrquestion from "./wyrquestion.ts";
 
 function getNumberOfQuestions(players) {
   if(players.length <= 5)
@@ -114,4 +118,37 @@ const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaireQuestio
     return questionsList;
   }
 
-export default { createQuestionnaireQuestionsWithOptions, generateQuiz };
+  const generateWyrQuiz = async (players: IPlayer[]): Promise<IWyrQuizQuestion[]> => {
+    var questionsList: IWyrQuizQuestion[] = [];
+  
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].wyrText && players[i].wyrAnswer) {
+        console.log("getting q");
+        var question = await wyrquestion.getQuestion(players[i].wyrText || "");
+        console.log(question);
+        console.log("got q, getting A");
+        var answerA = await question[0].answerA;
+        console.log("got A, getting B");
+        var answerB = await question[0].answerB;
+        console.log("got B");
+        console.log(question, answerA, answerB);
+        var qText = players[i].wyrText?.replace("you", players[i].name)
+        var currentQuestion: IWyrQuizQuestion = {
+          text: qText || "",
+          correctAnswer: players[i].wyrAnswer || "",
+          answerA: answerA,
+          answerB: answerB,
+          playerId: players[i].id,
+          playerName: players[i].name
+        }
+        questionsList.push(currentQuestion);
+      }
+    }
+    console.log(questionsList);
+    shuffle(questionsList);
+    console.log(questionsList);
+    return questionsList;
+  }
+  
+
+export default { createQuestionnaireQuestionsWithOptions, generateQuiz, generateWyrQuiz };
