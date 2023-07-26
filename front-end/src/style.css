@@ -243,12 +243,26 @@ body {
   padding-left: 30px;
 }
 
-.HostLobby{
+.lobby-bottom-bar Button {
+  margin: 10px;
+}
+
+.joined-players {
+  height: 100%;
+}
+
+.host-lobby {
   background: rgb(229,184,237);
   background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.host-content {
   text-align: center;
-  padding-top: 50px;
-  padding-bottom: 40px;
+  height: 100%;
 }
 
 .LobbySettings{

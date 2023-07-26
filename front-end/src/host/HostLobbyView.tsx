@@ -43,12 +43,15 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       <PlayAudio src={open} loop={false} />
       <div className="join-instructions">
         <div className="join-instruction-edge">
-          <h2>Join at <span style={{"fontSize": "4vw", "color": "white"}}>{joinUrl}</span></h2>
+          <h2>
+            Join at{" "}
+            <span style={{ fontSize: "4vw", color: "white" }}>{joinUrl}</span>
+          </h2>
         </div>
-          <Paper elevation={3} className="gameid">
-            <p className="label">Game ID</p>
-            <p className="id">{gameId}</p>
-          </Paper>
+        <Paper elevation={3} className="gameid">
+          <p className="label">Game ID</p>
+          <p className="id">{gameId}</p>
+        </Paper>
         <div className="join-instruction-edge">
           <Button
             variant="contained"
@@ -56,7 +59,9 @@ export default function HostLobbyView(props: ILobbyViewProps) {
             sx={{
               fontSize: "2em",
               width: "90%",
-              bgcolor: getComputedStyle(document.body).getPropertyValue("--accent"),
+              bgcolor: getComputedStyle(document.body).getPropertyValue(
+                "--accent"
+              ),
             }}
             onClick={onStart}
           >
@@ -94,11 +99,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
         >
           Game Settings
         </Button>
-        <Button
-          className="LobbyAbout"
-          variant="contained"
-          href="/about"
-        >
+        <Button className="LobbyAbout" variant="contained" href="/about">
           About
         </Button>
       </div>
