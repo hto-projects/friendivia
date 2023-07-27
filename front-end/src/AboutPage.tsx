@@ -49,6 +49,20 @@ export default function AboutPage() {
           >
             Host a game
           </Button>
+          <Button
+            className="button"
+            variant="contained"
+            sx={{
+              bgcolor:
+                getComputedStyle(document.body).getPropertyValue("--accent") +
+                ";",
+              m: 2,
+            }}
+            href="https://forms.gle/ydNcBJAjrTYpurAt8"
+            target="_blank"
+          >
+            Report A Bug
+          </Button>
         </div>
       </div>
     </>
