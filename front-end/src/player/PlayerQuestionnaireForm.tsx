@@ -9,12 +9,13 @@ interface IQuestionnaireFormProps {
   socket: Socket;
   playerState: any;
   questions: string[];
+  bannerHeight: string;
 }
 
 export default function PlayerQuestionnaireForm(
   props: IQuestionnaireFormProps
 ) {
-  const { socket, playerState, questions } = props;
+  const { socket, playerState, questions, bannerHeight } = props;
 
   const [answers, setAnswers] = React.useState<string[]>(
     Array(questions.length).fill("")
@@ -48,7 +49,7 @@ export default function PlayerQuestionnaireForm(
   let maxAnswer = 40;
 
   const questionnaireInputs = (
-    <div className="questionnaireInputs">
+    <div className="questionnaireInputs" style={{height: `calc(100vh - ${bannerHeight} + 7px)`}}>
       {questions.map((q, i) => (
         <div key={i}>
           <p>{q}</p>

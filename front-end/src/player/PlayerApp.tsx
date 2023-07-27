@@ -23,6 +23,7 @@ interface PlayerAppProps {
 }
 
 export default function PlayerApp(props: PlayerAppProps) {
+  const [bHeight, setBHeight] = React.useState("");
   const playerIdFromStorage = localStorage.getItem("player-id") || "";
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
@@ -45,8 +46,21 @@ export default function PlayerApp(props: PlayerAppProps) {
     socket.emit("player-load", playerIdFromStorage);
   }
 
+  function generateBHeight() {
+    var height = '0px';
+    const banner = document.getElementById('playerBanner');
+    if (banner) {
+      const styleB = window.getComputedStyle(banner);
+      height = styleB.getPropertyValue('height');
+    }
+    return height;
+  }
+
+  window.addEventListener('resize', () => setBHeight(generateBHeight()));
+
   React.useEffect(() => {
     function onLoadSuccess(data: any) {
+      setBHeight(generateBHeight());
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
@@ -87,6 +101,7 @@ export default function PlayerApp(props: PlayerAppProps) {
           socket={socket}
           playerState={playerState}
           questionnaireQuestionsText={questionnaireQuestionsText}
+          bannerHeight={bHeight}
         />
       );
     } else if (
@@ -199,7 +214,7 @@ export default function PlayerApp(props: PlayerAppProps) {
       }
     >
       <div className="player_join">
-        <div className="banner">
+        <div className="banner" id="playerBanner">
           <Grid container spacing={2}>
             <Grid item xs={3}>
               {playerState!="init" ? (<div className="align_center">
