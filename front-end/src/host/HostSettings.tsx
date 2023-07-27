@@ -19,12 +19,13 @@ interface ISettingsProps {
   numQuizQuestionsSetting: number;
   handsFreeModeSetting: boolean;
   timePerAnswerSetting: number;
+  timePerLeaderboardSetting: number;
   prioritizeCustomQsSetting: boolean;
   customQuestionsSetting: IQuestionnaireQuestion[];
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
+  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, timePerLeaderboardSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
@@ -34,6 +35,8 @@ export default function HostSettings(props: ISettingsProps) {
   const [handsFreeMode, setHandsFreeMode] = React.useState<boolean>(handsFreeModeSetting);
   const [timePerAnswer, setTimePerAnswer] = React.useState<number>(timePerAnswerSetting || 10);
   const [timePerAnswerInput, setTimePerAnswerInput] = React.useState<number>(timePerAnswer);
+  const [timePerLeaderboard, setTimePerLeaderboard] = React.useState<number>(timePerLeaderboardSetting || 5);
+  const [timePerLeaderboardInput, setTimePerLeaderboardInput] = React.useState<number>(timePerLeaderboard);
   const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState<boolean>(prioritizeCustomQsSetting);
   const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>(customQuestionsSetting || []);
   const [mappedQuestions, setMappedQuestions] = React.useState<IQuestionnaireQuestion[]>(addedQuestions || []);
@@ -73,6 +76,14 @@ export default function HostSettings(props: ISettingsProps) {
     }
   }, [timePerAnswer, setTimePerAnswer]);
 
+  React.useEffect(() => {
+    if (timePerLeaderboard < 1) {
+      setTimePerLeaderboard(1);
+    } else if (timePerLeaderboard > 90) {
+      setTimePerLeaderboard(90);
+    }
+  }, [timePerLeaderboard, setTimePerLeaderboard]);
+
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
       { text: "", quizText: "", fakeAnswers: ["", "", "", ""] }, 
@@ -87,11 +98,11 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, timePerLeaderboard, prioritizeCustomQs, addedQuestions });
   }
 
   async function onPSBack() {
-    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions});
+    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, timePerLeaderboard, prioritizeCustomQs, addedQuestions});
   }
 
   return (
@@ -177,6 +188,22 @@ export default function HostSettings(props: ISettingsProps) {
               onChange={(e) => {
                 setTimePerAnswer(Number(e.target.value));
                 setTimePerAnswerInput(Number(e.target.value));}}
+            />
+          <p>Time To View Leaderboard:</p>
+            <TextField
+              className="idInput form"
+              id="leaderboardTime"
+              label="Time (In Seconds)"
+              variant="outlined"
+              size="small"
+              type="number"
+              inputProps={{ min: 1, max: 90 }}
+              defaultValue={timePerLeaderboard}
+              error={(timePerLeaderboardInput < 1) || (timePerLeaderboardInput > 90)}
+              helperText={(timePerLeaderboardInput < 1) || (timePerLeaderboardInput > 90) ? 'Warning: you must choose a time between 1 and 90 seconds' : ''}
+              onChange={(e) => {
+                setTimePerLeaderboard(Number(e.target.value));
+                setTimePerLeaderboardInput(Number(e.target.value));}}
             /> 
         </>: ''
         }
