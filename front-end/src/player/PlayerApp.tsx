@@ -123,6 +123,8 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "seeing-answer") {
       bottomButtons = false;
       return <PlayerIsSubject />;
+    } else if (playerState === "pre-wyr") {
+      return <PlayerWait message={`Time for round 2: Would you rather`} />;
     } else if (playerState === "wyr-questionnaire") {
       const random = Math.floor(Math.random() * wyrQuestion.length);
       return (
