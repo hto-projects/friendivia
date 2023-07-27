@@ -47,7 +47,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
   function buttonText() {
     if (currentQuizLength < quizLength) return "Next Question";
-    else return "Show Leaderboard";
+    else if (true) return "Next Round";
+    //else return "Show Leaderboard";
   }
 
   function correctText() {
@@ -117,98 +118,212 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
             margin: "auto",
           }}
         >
-          {options.map((o: String, i: number) => (
+          {options.length === 2 ? (
             <>
-              <div className="guesses">
-                <Paper
-                  style={{
-                    background:
-                      i === correctAnswerIndex
-                        ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
-                        : "white",
-                    boxShadow: i === correctAnswerIndex ? "0 0 10px green" : "",
-                    color: i === correctAnswerIndex ? "white" : "black",
-                    width: "30vw",
-                    margin: "auto",
-                    paddingTop: "0.1vh",
-                    paddingBottom: "0.1vh",
-                    height: "11vh",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: i === correctAnswerIndex ? "white" : "black",
-                      fontWeight:
-                        i === correctAnswerIndex ? "bolder" : "normal",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    {o}
-                  </p>
-                  {i === correctAnswerIndex ? (
+              {" "}
+              {options.map((o: String, i: number) => (
+                <>
+                  <div className="guesses">
                     <Paper
                       style={{
-                        width: "20%",
-                        padding: "0px",
-                        marginLeft: "23.5vw",
-                        marginTop: "-2.5vh",
+                        background:
+                          i === correctAnswerIndex
+                            ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
+                            : i === 0
+                            ? "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
+                            : "linear-gradient(45deg, #00008B 30%, #ADD8E6 90%)",
+                        boxShadow:
+                          i === correctAnswerIndex ? "0 0 10px green" : "",
+                        color: i === correctAnswerIndex ? "white" : "white",
+                        width: "35vw",
+                        height: "40vh",
+                        margin: "auto",
+                        paddingTop: "0.1vh",
+                        paddingBottom: "0.1vh",
+                        marginRight: "1vw",
+                        marginLeft: "1vw",
+                        display: "flex",
+                        verticalAlign: "middle",
+                        alignItems: "center",
+                        flexDirection: "column",
                       }}
                     >
-                      <p style={{ padding: "0px" }}>+200</p>
-                    </Paper>
-                  ) : (
-                    <></>
-                  )}
-                </Paper>
-                <Stack
-                  style={{
-                    backgroundColor:
-                      getComputedStyle(document.body).getPropertyValue(
-                        "--accent"
-                      ) + ";",
-                  }}
-                >
-                  {playerGuesses
-                    .filter((g) => g.guess === i)
-                    .map((g, j) => (
-                      <>
+                      <p
+                        style={{
+                          color: i === correctAnswerIndex ? "white" : "white",
+                          fontWeight:
+                            i === correctAnswerIndex ? "bolder" : "normal",
+                          fontSize: "2rem",
+                          alignSelf: "center",
+                          textAlign: "center",
+                          margin: "auto",
+                        }}
+                      >
+                        {o}
+                      </p>
+                      {i === correctAnswerIndex ? (
                         <Paper
-                          sx={{
-                            backgroundColor:
-                              getComputedStyle(document.body).getPropertyValue(
-                                "--accent"
-                              ) + ";",
-                            width: "10vw",
-                            paddingTop: "0.1vh",
-                            paddingBottom: "0.1vh",
-                            margin: "auto",
+                          style={{
+                            width: "20%",
+                            padding: "0px",
+                            marginLeft: "27vw",
+                            marginBottom: "0.5vh",
                           }}
                         >
-                          <p
-                            style={{
-                              background:
-                                getComputedStyle(
-                                  document.body
-                                ).getPropertyValue("--accent") + ";",
-                              color: "white",
-                              fontWeight: "bolder",
-                              alignSelf: "center",
-                              verticalAlign: "middle",
-                              margin: "auto",
-                            }}
-                            key={j}
-                          >
-                            {g.name}
-                          </p>
+                          <p style={{ padding: "0px" }}>+200</p>
                         </Paper>
-                        <div style={{ height: "0.4vh" }} />
-                      </>
-                    ))}
-                </Stack>
-                <br />
-              </div>
+                      ) : (
+                        <></>
+                      )}
+                    </Paper>
+                    <Stack
+                      style={{
+                        backgroundColor:
+                          getComputedStyle(document.body).getPropertyValue(
+                            "--accent"
+                          ) + ";",
+                      }}
+                    >
+                      {playerGuesses
+                        .filter((g) => g.guess === i)
+                        .map((g, j) => (
+                          <>
+                            <Paper
+                              sx={{
+                                backgroundColor:
+                                  getComputedStyle(
+                                    document.body
+                                  ).getPropertyValue("--accent") + ";",
+                                width: "10vw",
+                                paddingTop: "0.1vh",
+                                paddingBottom: "0.1vh",
+                                margin: "auto",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  background:
+                                    getComputedStyle(
+                                      document.body
+                                    ).getPropertyValue("--accent") + ";",
+                                  color: "white",
+                                  fontWeight: "bolder",
+                                  alignSelf: "center",
+                                  verticalAlign: "middle",
+                                  margin: "auto",
+                                }}
+                                key={j}
+                              >
+                                {g.name}
+                              </p>
+                            </Paper>
+                            <div style={{ height: "0.4vh" }} />
+                          </>
+                        ))}
+                    </Stack>
+                    <br />
+                  </div>
+                </>
+              ))}{" "}
             </>
-          ))}
+          ) : (
+            <>
+              {" "}
+              {options.map((o: String, i: number) => (
+                <>
+                  <div className="guesses">
+                    <Paper
+                      style={{
+                        background:
+                          i === correctAnswerIndex
+                            ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
+                            : "white",
+                        boxShadow:
+                          i === correctAnswerIndex ? "0 0 10px green" : "",
+                        color: i === correctAnswerIndex ? "white" : "black",
+                        width: "30vw",
+                        margin: "auto",
+                        paddingTop: "0.1vh",
+                        paddingBottom: "0.1vh",
+                        height: "11vh",
+                      }}
+                    >
+                      <p
+                        style={{
+                          color: i === correctAnswerIndex ? "white" : "black",
+                          fontWeight:
+                            i === correctAnswerIndex ? "bolder" : "normal",
+                          fontSize: "1.5rem",
+                        }}
+                      >
+                        {o}
+                      </p>
+                      {i === correctAnswerIndex ? (
+                        <Paper
+                          style={{
+                            width: "20%",
+                            padding: "0px",
+                            marginLeft: "23.5vw",
+                            marginTop: "-2.5vh",
+                          }}
+                        >
+                          <p style={{ padding: "0px" }}>+200</p>
+                        </Paper>
+                      ) : (
+                        <></>
+                      )}
+                    </Paper>
+                    <Stack
+                      style={{
+                        backgroundColor:
+                          getComputedStyle(document.body).getPropertyValue(
+                            "--accent"
+                          ) + ";",
+                      }}
+                    >
+                      {playerGuesses
+                        .filter((g) => g.guess === i)
+                        .map((g, j) => (
+                          <>
+                            <Paper
+                              sx={{
+                                backgroundColor:
+                                  getComputedStyle(
+                                    document.body
+                                  ).getPropertyValue("--accent") + ";",
+                                width: "10vw",
+                                paddingTop: "0.1vh",
+                                paddingBottom: "0.1vh",
+                                margin: "auto",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  background:
+                                    getComputedStyle(
+                                      document.body
+                                    ).getPropertyValue("--accent") + ";",
+                                  color: "white",
+                                  fontWeight: "bolder",
+                                  alignSelf: "center",
+                                  verticalAlign: "middle",
+                                  margin: "auto",
+                                }}
+                                key={j}
+                              >
+                                {g.name}
+                              </p>
+                            </Paper>
+                            <div style={{ height: "0.4vh" }} />
+                          </>
+                        ))}
+                    </Stack>
+                    <br />
+                  </div>
+                </>
+              ))}{" "}
+            </>
+          )}
         </div>
         <div>
           <Button
@@ -222,9 +337,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
             }}
             onClick={onNext}
           >
-            {buttonText() == "Next Question"
-              ? "Next Question"
-              : "Show Leaderboard"}
+            {buttonText()}
           </Button>
         </div>
       </div>

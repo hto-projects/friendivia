@@ -36,12 +36,30 @@ export default function PlayerWyrQuestionnaireForm(
   }
 
   const questionnaireInputs = (
-    <div className="questionnaireWyrInputs">
-      <h1 style={{ textAlign: "center" }}>{wyrQuestion}</h1>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      className="questionnaireWyrInputs"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        verticalAlign: "middle",
+      }}
+    >
+      <h1
+        style={{ textAlign: "center", marginLeft: "2vw", marginRight: "2vw" }}
+      >
+        {wyrQuestion}
+      </h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "75vh",
+          verticalAlign: "center",
+        }}
+      >
         <Paper
           style={{
-            height: "32vh",
+            height: "100%",
             margin: "5vw",
             display: "flex",
             justifyContent: "center",
@@ -64,7 +82,7 @@ export default function PlayerWyrQuestionnaireForm(
         </Paper>
         <Paper
           style={{
-            height: "32vh",
+            height: "100%",
             margin: "5vw",
             display: "flex",
             justifyContent: "center",
