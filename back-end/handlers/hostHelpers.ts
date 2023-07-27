@@ -144,7 +144,9 @@ const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
 
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
-  const gameData = await hostDb.getGameData(gameId);  
+  const gameData = await hostDb.getGameData(gameId); 
+  const handsFreeMode = gameData?.settings.handsFreeMode;
+  const timePerAnswer = (gameData?.settings.timePerAnswer || 10) * 1000;  
   if (gameData === null) {
     return;
   }
@@ -183,6 +185,10 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
   const playerScores = await playerDb.getPlayerScores(gameId)
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
+
+  if (handsFreeMode) {
+    setTimeout(hostShowNextQuestion, timePerAnswer, gameId, io);
+  }
 }
 
 const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
