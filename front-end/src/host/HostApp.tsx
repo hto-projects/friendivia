@@ -215,52 +215,25 @@ export default function HostApp(props: IHostProps) {
     }
   }
 
-  function onSettings() {
-    socket.emit("host-settings", gameId);
-  }
-
   return (
     <div className="scroll">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
         <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
         <PlayAudio src={theme} loop={true} />
-        <div className="banner">
-          <div className="musicButton">
+        <div id="host-banner">
+          <div className="musicButton bannerEdge">
             <IconButton onClick={() => muteMusic(muted)}>
               <img className="musicIcon" src={muted ? musicOff : musicOn} />
             </IconButton>
           </div>
           <div className="hostFormat">
-            <img className="logohost" src={logo} />
+            <img className="host-logo-img" src={logo} />
           </div>
+          <div className="bannerEdge">{/* Empty to take up space on the right side of the header*/}</div>
         </div>
-        <div className={gameState == "lobby" ? "HostLobby" : "hostFormat"}>
+        <div className="host-content">
           {getElementForState(gameState, settingsState)}
         </div>
-        {gameState === "lobby" ? (
-          <div className="bottomContainerHost">
-            <p>
-              <Button
-                className="LobbySettings"
-                variant="contained"
-                onClick={onSettings}
-              >
-                Game Settings
-              </Button>
-              <br></br>
-              <br></br>
-              <Button
-                className="LobbyAbout"
-                variant="contained"
-                href="/about"
-              >
-                About
-              </Button>
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
       </AddAnnouncementContext.Provider>
     </div>
   );
