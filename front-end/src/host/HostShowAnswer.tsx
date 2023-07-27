@@ -47,8 +47,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
   function buttonText() {
     if (currentQuizLength < quizLength) return "Next Question";
-    else if (true) return "Next Round";
-    //else return "Show Leaderboard";
+    else if (questionText.includes("rather")) return "Show Leaderboard";
+    else return "Next Round";
   }
 
   function correctText() {
