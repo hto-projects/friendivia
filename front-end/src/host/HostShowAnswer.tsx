@@ -14,6 +14,7 @@ interface IShowAnswerProps {
   socket: Socket;
   gameId: number;
   quizLength: number;
+  handsFreeMode: boolean;
 }
 
 var currentQuizLength = 1;
@@ -27,6 +28,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     socket,
     gameId,
     quizLength,
+    handsFreeMode
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -211,21 +213,23 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
           ))}
         </div>
         <div>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onNext}
-          >
-            {buttonText() == "Next Question"
-              ? "Next Question"
-              : "Show Leaderboard"}
-          </Button>
+          {!handsFreeMode? 
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onNext}
+            >
+              {buttonText() == "Next Question"
+                ? "Next Question"
+                : "Show Leaderboard"}
+            </Button> : ''
+          }
         </div>
       </div>
     </>

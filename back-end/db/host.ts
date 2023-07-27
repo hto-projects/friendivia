@@ -37,10 +37,11 @@ export default {
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
       const numQuestionnaireQuestions = settingsData?.settings.numQuestionnaireQuestions || 5;
       const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
+      var handsFreeMode;
+      if (settingsData?.settings.handsFreeMode != undefined) {handsFreeMode = settingsData?.settings.handsFreeMode;} else {handsFreeMode = false;}
+      const timePerAnswer = settingsData?.settings.timePerAnswer || 10;
       var prioritizeCustomQs;
-      if (settingsData?.settings.prioritizeCustomQs != undefined) {
-        prioritizeCustomQs = settingsData?.settings.prioritizeCustomQs;
-      } else {prioritizeCustomQs = true;}
+      if (settingsData?.settings.prioritizeCustomQs != undefined) {prioritizeCustomQs = settingsData?.settings.prioritizeCustomQs;} else {prioritizeCustomQs = true;}
       const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
 
@@ -67,6 +68,8 @@ export default {
           timePerQuestion: timePerQuestion,
           numQuestionnaireQuestions: numQuestionnaireQuestions,
           numQuizQuestions: numQuizQuestions,
+          handsFreeMode: handsFreeMode,
+          timePerAnswer: timePerAnswer,
           prioritizeCustomQs: prioritizeCustomQs,
           customQuestions: customQuestions
         }
@@ -189,6 +192,8 @@ export default {
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
+      const handsFreeMode = settingsData.handsFreeMode;
+      const timePerAnswer = settingsData.timePerAnswer;
       const prioritizeCustomQs = settingsData.prioritizeCustomQs;
       const customQuestions = settingsData.addedQuestions;
       customQuestions.forEach(question => {
@@ -203,6 +208,8 @@ export default {
           'settings.timePerQuestion': timePerQuestion,
           'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
+          'settings.handsFreeMode': handsFreeMode,
+          'settings.timePerAnswer': timePerAnswer,
           'settings.prioritizeCustomQs': prioritizeCustomQs,
           'settings.customQuestions': customQuestions
         }});
@@ -223,6 +230,8 @@ export default {
           timePerQuestion: 15,
           numQuestionnaireQuestions: 5,
           numQuizQuestions: 5,
+          handsFreeMode: false,
+          timePerAnswer: 10,
           prioritizeCustomQs: true,
           customQuestions: []
         }
@@ -243,6 +252,8 @@ export default {
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
+      const handsFreeMode = settingsData.handsFreeMode;
+      const timePerAnswer = settingsData.timePerAnswer;
       const prioritizeCustomQs = settingsData.prioritizeCustomQs;
       const customQuestions = settingsData.addedQuestions;
       customQuestions.forEach(question => {
@@ -258,6 +269,8 @@ export default {
           'settings.timePerQuestion': timePerQuestion,
           'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
+          'settings.handsFreeMode': handsFreeMode,
+          'settings.timePerAnswer': timePerAnswer,
           'settings.prioritizeCustomQs': prioritizeCustomQs,
           'settings.customQuestions': customQuestions
         }
