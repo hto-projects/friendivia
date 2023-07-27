@@ -101,10 +101,42 @@ function HostShowQuestion(props: IShowQuestionProps) {
         </>
       ) : (
         <>
-          <ul className="ul">
+          <ul
+            className="ul"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyItems: "center",
+              verticalAlign: "middle",
+            }}
+          >
             {options.map((o: String, i: number) => (
-              <Paper elevation={3} className="paper">
-                <li className="answer" key={i}>
+              <Paper
+                elevation={3}
+                className="paper"
+                style={{
+                  width: "40vw",
+                  height: "30vh",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyItems: "center",
+                  verticalAlign: "middle",
+                  background:
+                    i === 0
+                      ? "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
+                      : "linear-gradient(45deg, #00008B 30%, #ADD8E6 90%)",
+                }}
+              >
+                <li
+                  className="answer"
+                  style={{
+                    color: "white",
+                    fontSize: "2em",
+                    textAlign: "center",
+                    justifySelf: "center",
+                  }}
+                  key={i}
+                >
                   {o}
                 </li>
               </Paper>

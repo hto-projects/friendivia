@@ -164,18 +164,34 @@ export default {
       
       if (player === null) {
         throw `Player not found: ${playerId}`;
-      } else {    
-        const newQuizGuesses = player.quizGuesses;
-        newQuizGuesses[gameData.currentQuestionIndex] = guess;
-        await Player.updateOne({
-          id: playerId
-        }, { 
-          $set: {
-            'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
-            'quizGuesses': newQuizGuesses,
-            'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
-          }
-        });
+      } else {  
+        if(gameData.currentQuestionIndex >= gameData.quizQuestions.length){
+          const newWyrGuesses = player.quizGuesses;
+          console.log("guessed " + guess + " for question " + gameData.currentWyrQuestionIndex)
+          newWyrGuesses[gameData.currentWyrQuestionIndex] = guess;
+          await Player.updateOne({
+            id: playerId
+          }, { 
+            $set: {
+              'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
+              'quizGuesses': newWyrGuesses,
+              'score' : player.score + (guess == gameData.wyrQuizQuestions[gameData.currentWyrQuestionIndex].correctAnswerIndex ? 200 : 0)
+            }
+          });
+        } 
+        else{
+          const newQuizGuesses = player.quizGuesses;
+          newQuizGuesses[gameData.currentQuestionIndex] = guess;
+          await Player.updateOne({
+            id: playerId
+          }, { 
+            $set: {
+              'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
+              'quizGuesses': newQuizGuesses,
+              'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
+            }
+          });
+        } 
       }
     } catch (e) {
       console.error(`Issue answering question: ${e}`);

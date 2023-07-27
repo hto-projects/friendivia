@@ -117,9 +117,9 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
   } else {
     if(await hostDb.nextQuestion(gameId, true)){
       await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
-    await hostGoNext(gameId, io);
-    await playerHelpers.allPlayersGoToNextQuestion(gameId, io, true);
-    nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
+      await hostGoNext(gameId, io);
+      await playerHelpers.allPlayersGoToNextQuestion(gameId, io, true);
+      nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
     }
     else{
       await hostPreLeaderBoard(gameId, io);
@@ -167,35 +167,68 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
 
   const players = await playerDb.getPlayers(gameId);
-  players.forEach(async (player) => {
-    if (player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex) {
-      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
-    } else if(gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id){
-      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
+  var check;
+  var isYou;
+  var subjectPlayer;
+  var guesses;
+  if(gameData.quizQuestions.length <= gameData.currentQuestionIndex){
+    console.log(gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex]);
+    guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentWyrQuestionIndex);
+    //try to log the correct answer index
+    try{
+      console.log("1" + gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].correctAnswerIndex);
     }
-    else
-    {
-      await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
-    }
-  });
+    catch{}
+    check = gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].correctAnswerIndex;
+    isYou = gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].playerId;
+    subjectPlayer = await playerDb.getPlayer(gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].playerId);
+    players.forEach(async (player) => {
+      if (player.quizGuesses[gameData!.currentWyrQuestionIndex] == check) {
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
+      } else if(isYou == player.id){
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
+      }
+      else
+      {
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
+      }
+    });
+  }
+  else{
+    guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+    console.log("q length: " + gameData.quizQuestions.length + " q index: " + gameData.currentQuestionIndex);
+    check = gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex;
+    isYou = gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId;
+    subjectPlayer = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);
+    players.forEach(async (player) => {
+      if (player.quizGuesses[gameData!.currentQuestionIndex] == check) {
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerCorrect, io, {});
+      } else if(isYou == player.id){
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
+      }
+      else
+      {
+        await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswerIncorrect, io, {});
+      }
+    });
+  }
 
-  const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
+  
+
 
   let ScoreAdder = 0;
-  let correctGuess = gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex
+  let correctGuess = check;
   for (let i = 0; i < guesses.length; i++) {
-    if (guesses[i].guess === correctGuess) {
+    if (guesses[i].guess === correctGuess && guesses[i].name !== subjectPlayer.name) {
       ScoreAdder += 100;
     }
   }
 
-  let player = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);
-
  await Player.updateOne({
-    id: gameData.quizQuestions[gameData.currentQuestionIndex].playerId
+    id: subjectPlayer.id
   }, { 
     $set: {
-      'score' : player.score + ScoreAdder
+      'score' : subjectPlayer.score + ScoreAdder
     }
   });
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});

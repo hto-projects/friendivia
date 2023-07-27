@@ -36,7 +36,19 @@ export default (io, socket: Socket) => {
       const dataForGame: any = await hostDb.getGameData(gameId);
       if (dataForGame) {     
         const data = dataForGame;
-        const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
+        var quizQuestionGuesses;
+        if(data.currentQuestionIndex >= data.quizQuestions.length){
+          console.log("Wyr guess: :" + await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentWyrQuestionIndex));
+          quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentWyrQuestionIndex);
+          quizQuestionGuesses.forEach((guess) => {
+            console.log(guess);
+          });
+        }
+        else{
+          console.log("Normal guess");
+          quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
+        }
+
         const playerScores = await playerDb.getPlayerScores(gameId);
         
         const playersInGame = await playerDb.getPlayers(gameId);

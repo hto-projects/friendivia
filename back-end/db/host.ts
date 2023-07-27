@@ -153,8 +153,10 @@ export default {
       }
 
       await Game.updateOne({ id: gameId }, {
-        $set: { 'currentWyrQuestionIndex': currentQuestionIndex + 1 }
+        $set: { 'currentWyrQuestionIndex': nextQuestionIndex }
       });
+
+      console.log("New wyr index: " + nextQuestionIndex);
 
       return true;
     } 
@@ -166,7 +168,10 @@ export default {
         $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
       });
 
-      if (nextQuestionIndex === currentGame.quizQuestions.length) {
+      if (nextQuestionIndex === currentGame.quizQuestions.length || currentGame.quizQuestions.length === currentQuestionIndex) {
+        await Game.updateOne({ id: gameId }, {
+          $set: { 'currentQuestionIndex': currentQuestionIndex + 1 }
+        });
         return false;
       }
 

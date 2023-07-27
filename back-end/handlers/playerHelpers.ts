@@ -36,6 +36,7 @@ export default {
         io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}
     } else {
       currentQuestionIndex = currentGameData.currentQuestionIndex;
+      //TypeError: Cannot read properties of undefined (reading 'optionsList') at the below line currently
       quizQuestionOptionsText = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
       for (let i = 0; i < allPlayersInGame.length; i++) {
         const player = allPlayersInGame[i]
