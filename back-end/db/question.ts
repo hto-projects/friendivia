@@ -59,12 +59,7 @@ export default {
                     questions = await Question.aggregate([{ $sample: { size: numQuestions } }]);
                 }
             } else {
-                var allSize;
-                if (Question.count() instanceof Number) {
-                    allSize = Question.count()
-                } else {
-                    allSize = 24;
-                }
+                const allSize = await Question.count().count();
                 var allQuestions = await Question.aggregate([{ $sample: { size: allSize } }]);
                 customQuestions.forEach(question => {
                     allQuestions.push(question);

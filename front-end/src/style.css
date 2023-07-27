@@ -136,7 +136,7 @@ body {
   align-items: center;
   justify-content: center;
   display: grid;
-  margin: 5% auto;
+  margin: 2.5% auto;
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -778,6 +778,15 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.scrollEnabled{
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
   justify-content: space-between;
   align-items: stretch;
 }

@@ -11,6 +11,8 @@ import IPlayer from "back-end/interfaces/IPlayer";
 interface ISettingsProps {
   socket: Socket;
   gameId: number;
+  preSettingsId: string;
+  settingsState: boolean;
   playersInGame: IPlayer[];
   timePerQuestionSetting: number;
   numQuestionnaireQuestionsSetting: number;
@@ -22,7 +24,7 @@ interface ISettingsProps {
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
+  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
@@ -88,10 +90,14 @@ export default function HostSettings(props: ISettingsProps) {
     socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions });
   }
 
+  async function onPSBack() {
+    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions});
+  }
+
   return (
-    <div className="scroll">
+    <div className="scrollEnabled">
       <Stack className="joinForm" spacing={2}>
-        <p>Time Per Question:</p>
+        <p style={{margin: '0', marginTop: '16px'}}>Time Per Question:</p>
         <TextField
           className="idInput form"
           id="questionTime"
@@ -135,9 +141,9 @@ export default function HostSettings(props: ISettingsProps) {
           defaultValue={numQuizQuestions}
           error={(numQuizQuestionsInput < 2) }
           helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : 
-          ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '')}
+          (!settingsState ? ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '') : '')}
           onChange={(e) => {
-            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length);
+            (!settingsState ? setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length) : '');
             setNumQuizQuestions(Number(e.target.value));
             setNumQuizQuestionsInput(Number(e.target.value));
           }}
@@ -298,10 +304,9 @@ export default function HostSettings(props: ISettingsProps) {
           variant="contained"
           sx={{
             bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
+              getComputedStyle(document.body).getPropertyValue("--accent") + ";",
           }}
-          onClick={onBack}
+          onClick={(settingsState) ? onPSBack : onBack}
         >
           Save
         </Button>
