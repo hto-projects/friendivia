@@ -12,7 +12,7 @@ import wyrquestion from '../db/wyrquestion.ts';
 
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
-// const PRE_LEADER_BOARD_MS = 5000;
+const PRE_LEADER_BOARD_MS = 5000;
 let nextQuestionTimer;
 
 const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
@@ -24,34 +24,34 @@ const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   io.to(currentGameData.hostSocketId).emit('host-next', currentGameData);
 }
 
-// const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
-//   await hostDb.setGameState(gameId, GameStates.LeaderBoard);
+const hostShowLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.LeaderBoard);
 
-//   const playerScores = await playerDb.getPlayerScores(gameId);
-//   playerScores.sort((a, b) => b.score - a.score);
-//   const players = await playerDb.getPlayers(gameId);
-//   for(let i = 0; i < players.length; i++) {
-//     if (players[i].score === playerScores[0].score) {
-//       await playerDb.updatePlayerState(players[i].id, PlayerStates.RankOne, io, {});
-//     }
-//     else if (players[i].score === playerScores[1].score) {
-//       await playerDb.updatePlayerState(players[i].id, PlayerStates.RankTwo, io, {});
-//     }
-//     else if (players[i].score === playerScores[2].score) {
-//       await playerDb.updatePlayerState(players[i].id, PlayerStates.RankThree, io, {});
-//     }
-//     else{
-//       await playerDb.updatePlayerState(players[i].id, PlayerStates.LeaderBoard, io, {});
-//     }
-//   }
+  const playerScores = await playerDb.getPlayerScores(gameId);
+  playerScores.sort((a, b) => b.score - a.score);
+  const players = await playerDb.getPlayers(gameId);
+  for(let i = 0; i < players.length; i++) {
+    if (players[i].score === playerScores[0].score) {
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.RankOne, io, {});
+    }
+    else if (players[i].score === playerScores[1].score) {
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.RankTwo, io, {});
+    }
+    else if (players[i].score === playerScores[2].score) {
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.RankThree, io, {});
+    }
+    else{
+      await playerDb.updatePlayerState(players[i].id, PlayerStates.LeaderBoard, io, {});
+    }
+  }
 
-//   const gameData: IGame | null = await hostDb.getGameData(gameId);
-//   if (gameData === null) {
-//     return;
-//   }
+  const gameData: IGame | null = await hostDb.getGameData(gameId);
+  if (gameData === null) {
+    return;
+  }
   
-//   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores });
-// }
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores });
+}
 
 const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => {
   const playerScores = await playerDb.getPlayerScores(gameId);
@@ -74,15 +74,23 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
     }
   }
   else{
-    await hostDb.setGameState(gameId, GameStates.PreWyr);
-    await hostGoNext(gameId, io);
-    const wyrQuestion = await wyrquestion.getQuestions();
-    const text = wyrQuestion.map((question) => question.text);
-    const as = wyrQuestion.map((question) => question.answerA);
-    const bs = wyrQuestion.map((question) => question.answerB);
-    await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreWyr, io, {wyrQuestion: text, wyrA: as, wyrB: bs});
-    setTimeout(hostShowWyrQuestionnaire, 5000, gameId, io);
-    //setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
+    const currentGameData: IGame | null = await hostDb.getGameData(gameId);
+    if((currentGameData?.currentWyrQuestionIndex || 1) >= ((currentGameData?.wyrQuizQuestions.length|| 0) - 1)){
+      console.log("Showing leaderboard");
+      await hostDb.setGameState(gameId, GameStates.PreLeaderBoard);
+      setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
+    }
+    else{
+      console.log("Not showing leaderboard");
+      await hostDb.setGameState(gameId, GameStates.PreWyr);
+      await hostGoNext(gameId, io);
+      const wyrQuestion = await wyrquestion.getQuestions();
+      const text = wyrQuestion.map((question) => question.text);
+      const as = wyrQuestion.map((question) => question.answerA);
+      const bs = wyrQuestion.map((question) => question.answerB);
+      await playerDb.updateAllPlayerStates(gameId, PlayerStates.PreWyr, io, {wyrQuestion: text, wyrA: as, wyrB: bs});
+      setTimeout(hostShowWyrQuestionnaire, 5000, gameId, io);
+    }
   }
 }
 
@@ -122,6 +130,7 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
       nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
     }
     else{
+      console.log("leaderboard time");
       await hostPreLeaderBoard(gameId, io);
     }
   }
