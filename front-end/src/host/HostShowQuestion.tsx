@@ -11,6 +11,7 @@ interface IShowQuestionProps {
   socket: Socket;
   gameId: number;
   timePerQuestion: number;
+  handsFreeMode: boolean;
 }
 
 function HostShowQuestion(props: IShowQuestionProps) {
@@ -21,6 +22,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
     socket,
     gameId,
     timePerQuestion,
+    handsFreeMode,
   } = props;
 
   function App() {
@@ -31,7 +33,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
     return (
       <div className="dot">
         <div className="timer">
-          <div>{counter}</div>
+          <div className="timeNumber">{counter}</div>
         </div>
       </div>
     );
@@ -143,19 +145,24 @@ function HostShowQuestion(props: IShowQuestionProps) {
             ))}
           </ul>
           <div>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              onClick={onTimerSkipBtn}
-            >
-              Show Answers
-            </Button>
+            {!handsFreeMode ? (
+              <Button
+                className="button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                onClick={onTimerSkipBtn}
+              >
+                Show Answers
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
         </>
       )}

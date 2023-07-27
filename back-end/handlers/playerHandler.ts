@@ -66,7 +66,8 @@ export default (io: Server, socket: Socket) => {
         questionnaireQuestionsText: gameData.questionnaireQuestions.map(q => q.text),
         currentQuizQuestionIndex: currentQuizQuestionIndex,
         currentWyrQuestionIndex: gameData.currentWyrQuestionIndex,
-        quizQuestionOptionsText: currentQuizQuestionIndex >= 0 ? gameData.quizQuestions[currentQuizQuestionIndex].optionsList : []
+        quizQuestionOptionsText: currentQuizQuestionIndex >= 0 ? gameData.quizQuestions[currentQuizQuestionIndex].optionsList : [],
+        playerScores: await playerDb.getPlayerScores(gameData.id)
       };
 
       if (player) {

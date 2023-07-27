@@ -1,11 +1,48 @@
 import * as React from "react";
 import { ttsApiKey } from "./environment";
+import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
 export default function Speak(props) {
   const textToSpeak = props.text;
   const textHasBeenSpoken = React.useRef(false);
+  const addAnnouncement = React.useContext(AddAnnouncementContext);
 
-  async function playElevenLabsAudio() {
+  function speakFromBrowser() {
+    const msg = new SpeechSynthesisUtterance();
+    msg.text = textToSpeak;
+    msg.rate = 0.9;
+    window.speechSynthesis.speak(msg);
+  }
+
+  async function createAnnouncementAudioTikTok() {
+    console.log("ann")
+    const url = `https://tiktok-tts.weilnet.workers.dev/api/generation`;
+    const body = {
+        text: textToSpeak,
+        voice: 'en_us_rocket'
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      console.log(response);
+      const responseJson = await response.json();
+      const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
+      const audio = new Audio(audioUrl);
+      addAnnouncement(audio);
+    } catch (error) {
+      console.error("Error fetching or playing TikTok audio:", error);
+      speakFromBrowser();
+    }
+  }
+
+  async function createAnnouncementAudio() {
     const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
@@ -35,9 +72,10 @@ export default function Speak(props) {
       const audioBlob = await response.blob();
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
-      audio.play();
+      addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
+      createAnnouncementAudioTikTok();
     }
   }
 
@@ -48,15 +86,11 @@ export default function Speak(props) {
 
     textHasBeenSpoken.current = true;
     if (ttsApiKey) {
-      playElevenLabsAudio();
+      createAnnouncementAudio();
     } else {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = textToSpeak;
-      msg.rate = 0.9;
-      console.log("Speaking: " + textToSpeak);
-      window.speechSynthesis.speak(msg);
+      createAnnouncementAudioTikTok();
     }
-  }, [props.cloud, textToSpeak]);
+  }, [textToSpeak]);
 
   return null;
 }

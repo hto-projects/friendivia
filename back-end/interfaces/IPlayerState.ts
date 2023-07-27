@@ -18,7 +18,8 @@ enum PlayerStates {
   Tiebreaker = 'tiebreaker',
   PreWyr = 'pre-wyr',
   WyrQuestionnaire = 'wyr-questionnaire',
-  SubmittedWyrQuestionnaire = 'submitted-wyr-questionnaire'
+  SubmittedWyrQuestionnaire = 'submitted-wyr-questionnaire',
+  SeeingRank = 'seeing-rank',
 }
 
 interface IPlayerState {

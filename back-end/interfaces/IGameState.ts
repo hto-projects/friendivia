@@ -15,6 +15,7 @@ enum GameStates {
   WyrQuestionnaire = 'wyr-questionnaire',
   PreWyrQuiz = 'pre-wyr-quiz',
   ShowingWyrQuestion = 'showing-wyr-question',
+  InterLeaderboard = 'intermediary-leaderboard',
 }
 
 interface IGameState {

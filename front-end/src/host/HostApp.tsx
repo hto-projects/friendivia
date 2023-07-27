@@ -13,8 +13,8 @@ import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
-import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
+import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
 import theme from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
@@ -22,6 +22,13 @@ import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
 import HostPreWyr from "./HostPreWyr";
 import HostWyrQuestionnaire from "./HostWyrQuestionnaire";
+import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import HostPreSettings from "./HostPreSettings";
+
+import {
+  HostAnnouncementQueue,
+  AddAnnouncementContext,
+} from "./HostAnnouncementQueue";
 
 interface IHostProps {
   socket: Socket;
@@ -57,13 +64,30 @@ export default function HostApp(props: IHostProps) {
     setNumQuestionnaireQuestions,
   ] = React.useState(5);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
+  const [handsFreeMode, setHandsFreeMode] = React.useState(false);
+  const [timePerAnswer, setTimePerAnswer] = React.useState(10);
+  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState(true);
+  const [customQuestions, setCustomQuestions] = React.useState<
+    IQuestionnaireQuestion[]
+  >([]);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [muted, setMuted] = React.useState<boolean>(false);
+
+  const [
+    announcementAudioObjects,
+    setAnnouncementAudioObjects,
+  ] = React.useState<any>([]);
+  const addAnnouncement = (newAnnouncementAudio) => {
+    setAnnouncementAudioObjects((arr) => [...arr, newAnnouncementAudio]);
+  };
+
   const { socket } = props;
 
   function muteMusic(muted: boolean) {
     setMuted(!muted);
+    localStorage.setItem("Music-Playing", muted.toString());
+
     if (muted) {
       const audio = document.querySelector("audio");
       if (audio) {
@@ -99,6 +123,10 @@ export default function HostApp(props: IHostProps) {
       setTimePerQuestion(data.settings.timePerQuestion);
       setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
+      setHandsFreeMode(data.settings.handsFreeMode);
+      setTimePerAnswer(data.settings.timePerAnswer);
+      setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
+      setCustomQuestions(data.settings.customQuestions);
     }
 
     function onSettingsLoadSuccess(data: IPreGameSettings) {
@@ -107,6 +135,10 @@ export default function HostApp(props: IHostProps) {
       setTimePerQuestion(data.settings.timePerQuestion);
       setNumQuestionnaireQuestions(data.settings.numQuestionnaireQuestions);
       setNumQuizQuestions(data.settings.numQuizQuestions);
+      setHandsFreeMode(data.settings.handsFreeMode);
+      setTimePerAnswer(data.settings.timePerAnswer);
+      setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
+      setCustomQuestions(data.settings.customQuestions);
     }
 
     function onOpenSuccess(idFromServer: number) {
@@ -175,6 +207,7 @@ export default function HostApp(props: IHostProps) {
           socket={socket}
           gameId={gameId}
           timePerQuestion={timePerQuestion}
+          handsFreeMode={handsFreeMode}
         />
       );
     } else if (state === "pre-answer") {
@@ -206,6 +239,15 @@ export default function HostApp(props: IHostProps) {
           socket={socket}
           gameId={gameId}
           quizLength={quizQuestionsLength}
+          handsFreeMode={handsFreeMode}
+        />
+      );
+    } else if (state === "intermediary-leaderboard") {
+      return (
+        <HostIntLeaderBoard
+          gameId={gameId}
+          socket={socket}
+          playerScores={playerScores}
         />
       );
     } else if (state === "pre-leader-board") {
@@ -217,20 +259,26 @@ export default function HostApp(props: IHostProps) {
       );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
-    } else if (state === "settings") {
+    } else if (state === "settings" || settingsState === true) {
       return (
         <HostSettings
           socket={socket}
           gameId={gameId}
+          preSettingsId={preSettingsId}
+          settingsState={settingsState}
           playersInGame={playersInGame}
           timePerQuestionSetting={timePerQuestion}
           numQuestionnaireQuestionsSetting={numQuestionnaireQuestions}
           numQuizQuestionsSetting={numQuizQuestions}
+          handsFreeModeSetting={handsFreeMode}
+          timePerAnswerSetting={timePerAnswer}
+          prioritizeCustomQsSetting={prioritizeCustomQs}
+          customQuestionsSetting={customQuestions}
         />
       );
     } else if (state === "tiebreaker") {
       return <HostTiebreaker />;
-    } else if (settingsState === true) {
+    } else if (settingsState) {
       return (
         <HostPreSettings
           socket={socket}
@@ -255,56 +303,41 @@ export default function HostApp(props: IHostProps) {
     }
   }
 
-  function onSettings() {
-    socket.emit("host-settings", gameId);
-  }
-
   return (
     <div className="scroll">
-      <PlayAudio src={theme} loop={true} />
-      <div className="musicButton">
-        <IconButton onClick={() => muteMusic(muted)}>
-          <img className="musicIcon" src={muted ? musicOff : musicOn} />
-        </IconButton>
-      </div>
-      <div className="hostFormat">
-        <img className="logohost" src={logo} />
-        {getElementForState(gameState, settingsState)}
-      </div>
-      {gameState === "lobby" ? (
-        <div className="bottomContainerHost">
-          <p>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              onClick={onSettings}
-            >
-              Game Settings
-            </Button>
-            <Button
-              className="button"
-              variant="contained"
-              sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                m: 2,
-              }}
-              href="/about"
-            >
-              About
-            </Button>
-          </p>
+      <AddAnnouncementContext.Provider value={addAnnouncement}>
+        <HostAnnouncementQueue
+          announcementAudioObjects={announcementAudioObjects}
+        />
+        <PlayAudio src={theme} loop={true} />
+        <div id="host-banner">
+          <div className="musicButton bannerEdge">
+            <IconButton onClick={() => muteMusic(muted)}>
+              <img
+                className="musicIcon"
+                src={
+                  localStorage.getItem("Music-Playing")
+                    ? localStorage.getItem("Music-Playing") === "true"
+                      ? musicOn
+                      : musicOff
+                    : muted
+                    ? musicOff
+                    : musicOn
+                }
+              />
+            </IconButton>
+          </div>
+          <div className="hostFormat">
+            <img className="host-logo-img" src={logo} />
+          </div>
+          <div className="bannerEdge">
+            {/* Empty to take up space on the right side of the header*/}
+          </div>
         </div>
-      ) : (
-        ""
-      )}
+        <div className="host-content">
+          {getElementForState(gameState, settingsState)}
+        </div>
+      </AddAnnouncementContext.Provider>
     </div>
   );
 }

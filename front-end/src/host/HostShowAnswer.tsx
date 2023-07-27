@@ -14,6 +14,7 @@ interface IShowAnswerProps {
   socket: Socket;
   gameId: number;
   quizLength: number;
+  handsFreeMode: boolean;
 }
 
 var currentQuizLength = 1;
@@ -27,6 +28,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     socket,
     gameId,
     quizLength,
+    handsFreeMode,
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -41,8 +43,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function onNext() {
-    currentQuizLength++;
-    socket.emit("next-question", gameId);
+    if (currentQuizLength < quizLength) {
+      currentQuizLength++;
+      socket.emit("go-to-int-leaderboard", gameId);
+    } else {
+      socket.emit("next-question", gameId);
+    }
   }
 
   function buttonText() {
@@ -323,19 +329,23 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
           )}
         </div>
         <div>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onNext}
-          >
-            {buttonText()}
-          </Button>
+          {!handsFreeMode ? (
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onNext}
+            >
+              {buttonText()}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

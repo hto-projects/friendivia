@@ -24,7 +24,7 @@ export default function HostQuestionnaireView(
   React.useEffect(() => {
     setTimeout(() => {
       setWarningReached(true);
-    }, 10000)
+    }, 20000)
   }, [warningReached, setWarningReached])
 
   async function onPlayerKick(name: string) {

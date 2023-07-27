@@ -67,6 +67,7 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
         $set: { 'currentQuestionIndex': -1 }
       });
       let playersInGame = await playerDb.getPlayers(gameId);
+      playersInGame.map(p => p.quizGuesses = []);
       io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
@@ -155,6 +156,20 @@ const hostStartWyr = async (gameId: number, io: Server): Promise<void> => {
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io, true);
 }
 
+const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> => {
+  await hostDb.setGameState(gameId, GameStates.InterLeaderboard);
+
+  const allPlayerScores = await playerDb.getPlayerScores(gameId);
+  await playerDb.updateAllPlayerStates(gameId, PlayerStates.SeeingRank, io, {playerScores: allPlayerScores});
+  
+  const gameData = await hostDb.getGameData(gameId);
+  if (gameData === null) {
+    return;
+  }
+
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
+}
+
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreAnswer);
   await hostGoNext(gameId, io);
@@ -165,7 +180,9 @@ const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
 
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
-  const gameData = await hostDb.getGameData(gameId);  
+  const gameData = await hostDb.getGameData(gameId); 
+  const handsFreeMode = gameData?.settings.handsFreeMode;
+  const timePerAnswer = (gameData?.settings.timePerAnswer || 10) * 1000;  
   if (gameData === null) {
     return;
   }
@@ -228,7 +245,13 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
       'score' : subjectPlayer.score + ScoreAdder
     }
   });
-  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses});
+
+  const playerScores = await playerDb.getPlayerScores(gameId)
+  io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
+
+  if (handsFreeMode) {
+    setTimeout(hostShowNextQuestion, timePerAnswer, gameId, io);
+  }
 }
 
 const getQuestionnaireStatus = async (gameId:number): Promise<any> => {
@@ -300,4 +323,4 @@ const onHostWyrViewUpdate = async(gameId, io: Server) => {
     io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);
   }}
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, onHostWyrViewUpdate, hostShowNextQuestion, hostSkipTimer, hostStartWyr };
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, onHostWyrViewUpdate, hostShowNextQuestion, hostSkipTimer, hostStartWyr, hostShowIntLeaderboard };

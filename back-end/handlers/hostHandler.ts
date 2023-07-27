@@ -93,6 +93,7 @@ export default (io, socket: Socket) => {
       await playerDb.deleteAllPlayers();
       await hostDb.deleteAllGames();
       await questionDb.deleteAllQuestions();
+      PreSettingsId = null;
     } catch (e) {
       console.error("failed to delete all");
     }
@@ -114,10 +115,11 @@ export default (io, socket: Socket) => {
     }
   }
 
-  const playAgain = async (gameId) => {
+  const playAgain = async () => {
     try {
-      hostDb.deleteGame(gameId);
+      hostDb.deleteGame(GameId, PreSettingsId);
       onHostOpen();
+      playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
     } catch (e) {
       console.error(`Failed to delete game: ${e}`)
     }
@@ -160,6 +162,14 @@ export default (io, socket: Socket) => {
       }
     } catch(e) {
       console.error(`Failed to check if all players answered quiz question: ${e}`)
+    }
+  }
+
+  const onIntLeaderboard = async (gameId: number) => {
+    try {
+      hostHelpers.hostShowIntLeaderboard(gameId, io);
+    } catch (e) {
+      console.error(`Failed to move to intermediary leaderboard: ${e}`)
     }
   }
 
@@ -224,6 +234,7 @@ export default (io, socket: Socket) => {
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
   socket.on('next-question', onNextQuestion);
+  socket.on('go-to-int-leaderboard', onIntLeaderboard);
   socket.on('timer-skip', onTimerSkip);
   socket.on('check-all-players-answered', allPlayersAnsweredQuestion);
   socket.on('host-settings', onHostSettings);
