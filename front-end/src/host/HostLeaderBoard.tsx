@@ -18,6 +18,10 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
     socket.emit("play-again");
   }
 
+  function onPlayAgainWithSamePlayers() {
+    socket.emit("play-again-with-same-players");
+  }
+
   function winnerText() {
     const winnerScore = playerScores[0].score;
     const winnerName = playerScores[0].name;
@@ -85,6 +89,8 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           ))}
         </div>
       </div>
+      <br></br>
+      <br></br>
       <Button
         variant="contained"
         sx={{
@@ -95,6 +101,19 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
         onClick={onPlayAgain}
       >
         Play again
+      </Button>
+      <br></br>
+      <br></br>
+      <Button
+        variant="contained"
+        sx={{
+          bgcolor:
+            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+          margin: "16px auto",
+        }}
+        onClick={onPlayAgainWithSamePlayers}
+      >
+        Play again with same players
       </Button>
     </>
   );

@@ -15,11 +15,10 @@ interface IShowAnswerProps {
   gameId: number;
   quizLength: number;
   handsFreeMode: boolean;
-  handsFreeMode: boolean;
 }
 
-var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
+  var currentQuizLength = 1;
   const {
     options,
     questionText,

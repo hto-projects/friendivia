@@ -62,12 +62,12 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
     try {
       const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, 1);
       await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       await Game.updateOne({ id: gameId }, {
         $set: { 'currentQuestionIndex': -1 }
       });
       let playersInGame = await playerDb.getPlayers(gameId);
       playersInGame.map(p => p.quizGuesses = []);
+      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)

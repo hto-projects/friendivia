@@ -12,7 +12,6 @@ interface IShowQuestionProps {
   gameId: number;
   timePerQuestion: number;
   handsFreeMode: boolean;
-  handsFreeMode: boolean;
 }
 
 function HostShowQuestion(props: IShowQuestionProps) {
