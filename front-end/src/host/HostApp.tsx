@@ -13,7 +13,6 @@ import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
-import HostPreSettings from "./HostPreSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
