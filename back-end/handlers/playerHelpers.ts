@@ -15,7 +15,7 @@ export default {
     var currentQuestionIndex;
     var quizQuestionOptionsText;
     const allPlayersInGame = await playerDb.getPlayers(gameId);   
-    if(wyr){
+    if(wyr || currentGameData.currentQuestionIndex >= currentGameData.quizQuestions.length){
       currentQuestionIndex = currentGameData.currentWyrQuestionIndex;
       quizQuestionOptionsText = currentGameData.wyrQuizQuestions[currentQuestionIndex].optionsList || [];
       for (let i = 0; i < allPlayersInGame.length; i++) {

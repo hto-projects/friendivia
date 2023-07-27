@@ -144,7 +144,7 @@ export default {
       return false;
     }
     console.log(currentGame);
-    if(wyr){
+    if(wyr || currentGame.currentQuestionIndex >= currentGame.quizQuestions.length){
       const currentQuestionIndex = currentGame.currentWyrQuestionIndex;
       const nextQuestionIndex = currentQuestionIndex + 1;
 
