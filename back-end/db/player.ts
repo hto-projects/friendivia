@@ -185,6 +185,19 @@ export default {
     return playerScores;
   },
 
+  resetPlayerScores: async function(gameId: number){
+    const playersInGame = await this.getPlayers(gameId);
+    for (const player of playersInGame) {
+      await Player.updateOne({
+        id: player.id
+      }, { 
+        $set: {
+          'score' : 0
+        }
+      })
+    }
+  },
+
   deleteAllPlayers: async (): Promise<any> => {
     try {
       await Player.deleteMany({});
