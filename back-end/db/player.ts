@@ -123,7 +123,6 @@ export default {
 
   playerCompleteWyrQuestionnaire: async (playerId: string, wyrText:string, wyrAnswer: string): Promise<any> => {
     try {
-      console.log(wyrText, wyrAnswer);
       await Player.updateOne({
         id: playerId
       }, {
@@ -167,7 +166,6 @@ export default {
       } else {  
         if(gameData.currentQuestionIndex >= gameData.quizQuestions.length){
           const newWyrGuesses = player.quizGuesses;
-          console.log("guessed " + guess + " for question " + gameData.currentWyrQuestionIndex)
           newWyrGuesses[gameData.currentWyrQuestionIndex] = guess;
           await Player.updateOne({
             id: playerId

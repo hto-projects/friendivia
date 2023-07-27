@@ -50,7 +50,6 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     socket.on("update-host-wyr-view", onStatusReceived);
 
     function onPlayersUpdated(playersObject: any) {
-      console.log("players updated");
       const updatedDonePlayers = getPlayerNamesForState(
         playersObject.players,
         "submitted-wyr-questionnaire"

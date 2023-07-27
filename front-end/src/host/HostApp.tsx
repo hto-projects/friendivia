@@ -155,7 +155,6 @@ export default function HostApp(props: IHostProps) {
       var currentQuizQuestion;
       if (currentQuizQuestionIndex != quizQuestions.length) {
         currentQuizQuestion = quizQuestions[currentQuizQuestionIndex];
-        console.log("Normal question");
       }
       if (
         currentQuizQuestionIndex == quizQuestions.length ||
@@ -164,7 +163,6 @@ export default function HostApp(props: IHostProps) {
         currentQuizQuestion = wyrQuizQuestions[currentWyrQuestionIndex];
         console.log("Wyr question");
       }
-      console.log(currentQuizQuestion);
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;

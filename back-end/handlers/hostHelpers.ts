@@ -4,7 +4,6 @@ import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import playerHelpers from './playerHelpers.ts'
 import { Server } from 'socket.io';
-//import { Socket } from 'socket.io'
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Game from '../models/Game.ts';
@@ -76,7 +75,6 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
   else{
     const currentGameData: IGame | null = await hostDb.getGameData(gameId);
     if((currentGameData?.currentWyrQuestionIndex || 1) >= ((currentGameData?.wyrQuizQuestions.length|| 0) - 1)){
-      console.log("Showing leaderboard");
       await hostDb.setGameState(gameId, GameStates.PreLeaderBoard);
       setTimeout(hostShowLeaderBoard, PRE_LEADER_BOARD_MS, gameId, io);
     }
@@ -130,7 +128,6 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
       nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
     }
     else{
-      console.log("leaderboard time");
       await hostPreLeaderBoard(gameId, io);
     }
   }
@@ -153,9 +150,7 @@ const hostStartQuiz = async (gameId: number, io: Server): Promise<void> => {
 
 const hostStartWyr = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.PreQuiz);
-  console.log("prewyrquiz");
   await hostDb.buildWyrQuiz(gameId);
-  console.log("quiz built");
   await hostGoNext(gameId, io);
   setTimeout(hostShowNextQuestion, PRE_QUIZ_MS, gameId, io, true);
 }
@@ -181,13 +176,7 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   var subjectPlayer;
   var guesses;
   if(gameData.quizQuestions.length <= gameData.currentQuestionIndex){
-    console.log(gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex]);
     guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentWyrQuestionIndex);
-    //try to log the correct answer index
-    try{
-      console.log("1" + gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].correctAnswerIndex);
-    }
-    catch{}
     check = gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].correctAnswerIndex;
     isYou = gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].playerId;
     subjectPlayer = await playerDb.getPlayer(gameData?.wyrQuizQuestions[gameData!.currentWyrQuestionIndex].playerId);
@@ -205,7 +194,6 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   }
   else{
     guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
-    console.log("q length: " + gameData.quizQuestions.length + " q index: " + gameData.currentQuestionIndex);
     check = gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex;
     isYou = gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId;
     subjectPlayer = await playerDb.getPlayer(gameData.quizQuestions[gameData.currentQuestionIndex].playerId);

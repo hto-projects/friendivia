@@ -108,9 +108,6 @@ export default (io: Server, socket: Socket) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
       const gameId = player.gameId;
-      // console.log(data); Works
-      // console.log(data.question);
-      // console.log(data.answer);
       await playerDb.playerCompleteWyrQuestionnaire(player.id, data.question, data.answer);
       socket.emit('player-submit-wyr-questionnaire-success');
 
@@ -119,8 +116,6 @@ export default (io: Server, socket: Socket) => {
       if (allPlayersDone) {
         console.log("all players done with wyr questionnaire");
         await hostHelpers.hostStartWyr(gameId, io);
-        //start quiz here!
-        //await hostHelpers.hostStartQuiz(gameId, io);
       }
     } catch (e) {
       socket.emit('player-submit-wyr-questionnaire-error', e);

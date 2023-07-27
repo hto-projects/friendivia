@@ -38,14 +38,9 @@ export default (io, socket: Socket) => {
         const data = dataForGame;
         var quizQuestionGuesses;
         if(data.currentQuestionIndex >= data.quizQuestions.length){
-          console.log("Wyr guess: :" + await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentWyrQuestionIndex));
           quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentWyrQuestionIndex);
-          quizQuestionGuesses.forEach((guess) => {
-            console.log(guess);
-          });
         }
         else{
-          console.log("Normal guess");
           quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
         }
 
