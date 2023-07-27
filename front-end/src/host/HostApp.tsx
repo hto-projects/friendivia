@@ -204,12 +204,10 @@ export default function HostApp(props: IHostProps) {
       );
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
-    } else if (state === "settings") {
-      return <HostSettings socket={socket} gameId={gameId} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
+    } else if (state === "settings" || settingsState === true) {
+      return <HostSettings socket={socket} gameId={gameId} preSettingsId={preSettingsId} settingsState={settingsState} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
-    } else if (settingsState === true) {
-      return <HostPreSettings socket={socket} preSettingsId={preSettingsId} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
     } else {
       return <HostOpen socket={socket} />;
     }
