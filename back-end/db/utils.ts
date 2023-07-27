@@ -11,12 +11,12 @@ function getNumberOfQuestions(players) {
   else return players.length;
 }
 
-const createQuestionnaireQuestionsWithOptions = async (players, number?): Promise<IQuestionnaireQuestion[]> => {
+const createQuestionnaireQuestionsWithOptions = async (players, prioritizeCustomQs, number?, customQuestions?): Promise<IQuestionnaireQuestion[]> => {
   if(number){
-    const questions = await Question.getRandomQuestions(number);
+    const questions = await Question.getRandomQuestions(number, customQuestions, prioritizeCustomQs);
     return questions;
   }
-  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players));
+  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players), customQuestions, prioritizeCustomQs);
   return questions;
 }
 
@@ -28,10 +28,9 @@ const chooseRandomFromList = (listOfSomething: any[]): any => {
 
 const selectRandom = (mainList, newList, count) => {
     let mainCopy = [...mainList];
-    let newList_lower = newList.map(newList_item => newList_item.toLowerCase());
     while (newList.length < count) {
       let newValue = chooseRandomFromList(mainCopy);
-      if (!newList_lower.includes(newValue.toLowerCase())) {
+      if (!newList.some(s => s.toLowerCase() === newValue.toLowerCase())) {
         newList.push(newValue);
       }
     }

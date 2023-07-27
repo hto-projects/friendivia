@@ -86,6 +86,7 @@ export default (io, socket: Socket) => {
       await playerDb.deleteAllPlayers();
       await hostDb.deleteAllGames();
       await questionDb.deleteAllQuestions();
+      PreSettingsId = null;
     } catch (e) {
       console.error("failed to delete all");
     }
@@ -107,7 +108,7 @@ export default (io, socket: Socket) => {
     }
   }
 
-  const playAgain = async () => {
+  const playAgain = async () => { 
     try {
       hostDb.deleteGame(GameId, PreSettingsId);
       onHostOpen();
@@ -219,12 +220,37 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const playAgainWithSamePlayers = async () => {
+    try {
+      await playerDb.resetPlayerScores(GameId);
+      socket.emit("reset-quiz-length");
+      try {
+        await Game.updateOne({ id: GameId }, {
+          $set: { 'currentQuestionIndex': -1 }
+        });
+        const data: IGame | null = await hostDb.getGameData(GameId);
+        const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(GameId, data?.settings.numQuestionnaireQuestions);
+        await playerDb.updateAllPlayerStates(GameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
+        let playersInGame = await playerDb.getPlayers(GameId);
+        playersInGame.map(p => p.quizGuesses = []);
+        const currentGameData: IGame | null = await hostDb.getGameData(GameId);
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
+      } catch (e) {
+        console.error(`Failed to go to questionnaire: ${e}`)
+      }
+
+    } catch (e) {
+      console.error(`Failed to delete game: ${e}`)
+    }
+  }
+ 
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('settings-load', onSettingsLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
+  socket.on('play-again-with-same-players', playAgainWithSamePlayers)
   socket.on('next-question', onNextQuestion);
   socket.on('go-to-int-leaderboard', onIntLeaderboard);
   socket.on('timer-skip', onTimerSkip);

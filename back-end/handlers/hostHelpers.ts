@@ -62,12 +62,12 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
     try {
       const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, 1);
       await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       await Game.updateOne({ id: gameId }, {
         $set: { 'currentQuestionIndex': -1 }
       });
       let playersInGame = await playerDb.getPlayers(gameId);
-      playersInGame.map(p => p.quizGuesses = [])
+      playersInGame.map(p => p.quizGuesses = []);
+      const currentGameData: IGame | null = await hostDb.getGameData(gameId);
       io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
@@ -130,8 +130,13 @@ const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> =
   if (gameData === null) {
     return;
   }
-
+  const handsFreeMode = gameData.settings.handsFreeMode;
+  const timePerLeaderboard = gameData.settings.timePerLeaderboard * 1000;
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
+
+  if (handsFreeMode) {
+    setTimeout(hostShowNextQuestion, timePerLeaderboard, gameId, io)
+  }
 }
 
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
@@ -144,7 +149,11 @@ const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
 
 const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   await hostDb.setGameState(gameId, GameStates.ShowingAnswer);
-  const gameData = await hostDb.getGameData(gameId);  
+  const gameData = await hostDb.getGameData(gameId); 
+  const handsFreeMode = gameData?.settings.handsFreeMode;
+  const timePerAnswer = (gameData?.settings.timePerAnswer || 10) * 1000;  
+  const currentQuestionIndex = gameData?.currentQuestionIndex || -1;
+  const quizLength = gameData?.quizQuestions.length || 5;
   if (gameData === null) {
     return;
   }
@@ -183,6 +192,16 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
   const playerScores = await playerDb.getPlayerScores(gameId)
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
+
+  if (handsFreeMode) {
+    setTimeout(() => {
+      if ((currentQuestionIndex + 1) < quizLength) {
+        hostShowIntLeaderboard(gameId, io);
+      } else {
+        hostShowNextQuestion(gameId, io);
+      }
+    }, timePerAnswer);
+  }
 }
 
 const getQuestionnaireStatus = async (gameId:number): Promise<any> => {

@@ -14,10 +14,11 @@ interface IShowAnswerProps {
   socket: Socket;
   gameId: number;
   quizLength: number;
+  handsFreeMode: boolean;
 }
 
-var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
+  var currentQuizLength = 1;
   const {
     options,
     questionText,
@@ -27,6 +28,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     socket,
     gameId,
     quizLength,
+    handsFreeMode
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -38,7 +40,13 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         {part2}
       </p>
     );
-  }
+    }
+
+    socket.on("reset-quiz-length", resetQuizLength);
+
+    function resetQuizLength(){
+      currentQuizLength = 1;
+    }
 
   function onNext() {
     if (currentQuizLength < quizLength) {
@@ -211,21 +219,23 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
           ))}
         </div>
         <div>
-          <Button
-            className="button"
-            variant="contained"
-            sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
-              m: 2,
-            }}
-            onClick={onNext}
-          >
-            {buttonText() == "Next Question"
-              ? "Next Question"
-              : "Show Leaderboard"}
-          </Button>
+          {!handsFreeMode? 
+            <Button
+              className="button"
+              variant="contained"
+              sx={{
+                bgcolor:
+                  getComputedStyle(document.body).getPropertyValue("--accent") +
+                  ";",
+                m: 2,
+              }}
+              onClick={onNext}
+            >
+              {buttonText() == "Next Question"
+                ? "Next Question"
+                : "Show Leaderboard"}
+            </Button> : ''
+          }
         </div>
       </div>
     </>

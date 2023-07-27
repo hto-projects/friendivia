@@ -37,6 +37,12 @@ export default {
       const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
       const numQuestionnaireQuestions = settingsData?.settings.numQuestionnaireQuestions || 5;
       const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
+      var handsFreeMode;
+      if (settingsData?.settings.handsFreeMode != undefined) {handsFreeMode = settingsData?.settings.handsFreeMode;} else {handsFreeMode = false;}
+      const timePerAnswer = settingsData?.settings.timePerAnswer || 10;
+      const timePerLeaderboard = settingsData?.settings.timePerLeaderboard || 5;
+      var prioritizeCustomQs;
+      if (settingsData?.settings.prioritizeCustomQs != undefined) {prioritizeCustomQs = settingsData?.settings.prioritizeCustomQs;} else {prioritizeCustomQs = true;}
       const customQuestions = settingsData?.settings.customQuestions || [];
       this.deleteOneSettings(preSettingsId);
 
@@ -63,6 +69,10 @@ export default {
           timePerQuestion: timePerQuestion,
           numQuestionnaireQuestions: numQuestionnaireQuestions,
           numQuizQuestions: numQuizQuestions,
+          handsFreeMode: handsFreeMode,
+          timePerAnswer: timePerAnswer,
+          timePerLeaderboard: timePerLeaderboard,
+          prioritizeCustomQs: prioritizeCustomQs,
           customQuestions: customQuestions
         }
       };
@@ -99,8 +109,11 @@ export default {
 
   moveGameToQuestionnaire: async function(gameId: number, questions?: number): Promise<any> {
     try {
+      const data: IGame | null = await this.getGameData(gameId);
       const players = await playerDb.getPlayers(gameId);
-      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, questions);
+      const prioritizeCustomQs = data?.settings.prioritizeCustomQs;
+      const customQuestions = data?.settings.customQuestions;
+      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, prioritizeCustomQs, questions, customQuestions);
       const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
       await this.setGameState(gameId, GameStates.Questionnaire);
       await Game.updateOne({id: gameId}, {
@@ -181,19 +194,29 @@ export default {
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
+      const handsFreeMode = settingsData.handsFreeMode;
+      const timePerAnswer = settingsData.timePerAnswer;
+      const timePerLeaderboard = settingsData.timePerLeaderboard;
+      const prioritizeCustomQs = settingsData.prioritizeCustomQs;
       const customQuestions = settingsData.addedQuestions;
+      customQuestions.forEach(question => {
+        const somethingEmpty = question.text === "" || question.quizText === "" || question.fakeAnswers[0] === "" || question.fakeAnswers[1] === "" || question.fakeAnswers[2] === "" || question.fakeAnswers[3] === "";
+        if (somethingEmpty) {
+          customQuestions.splice(customQuestions.indexOf(question), 1);
+        }
+      });
 
       await Game.updateOne({id: gameId}, {
-        $set: { 
+        $set: {
           'settings.timePerQuestion': timePerQuestion,
           'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
+          'settings.handsFreeMode': handsFreeMode,
+          'settings.timePerAnswer': timePerAnswer,
+          'settings.timePerLeaderboard': timePerLeaderboard,
+          'settings.prioritizeCustomQs': prioritizeCustomQs,
           'settings.customQuestions': customQuestions
         }});
-
-      customQuestions.forEach(async (thisQuestion) => {
-        await question.addQuestion(thisQuestion);
-      });
 
     } catch (e) {
       console.error(`Issue updating settings: ${e}`);
@@ -211,6 +234,10 @@ export default {
           timePerQuestion: 15,
           numQuestionnaireQuestions: 5,
           numQuizQuestions: 5,
+          handsFreeMode: false,
+          timePerAnswer: 10,
+          timePerLeaderboard: 5,
+          prioritizeCustomQs: true,
           customQuestions: []
         }
       };
@@ -230,7 +257,17 @@ export default {
       const timePerQuestion = settingsData.timePerQuestion;
       const numQuestionnaireQuestions = settingsData.numQuestionnaireQuestions;
       const numQuizQuestions = settingsData.numQuizQuestions;
-      const customQuestions = settingsData.customQuestions;
+      const handsFreeMode = settingsData.handsFreeMode;
+      const timePerAnswer = settingsData.timePerAnswer;
+      const timePerLeaderboard = settingsData.timePerLeaderboard;
+      const prioritizeCustomQs = settingsData.prioritizeCustomQs;
+      const customQuestions = settingsData.addedQuestions;
+      customQuestions.forEach(question => {
+        const somethingEmpty = question.text === "" || question.quizText === "" || question.fakeAnswers[0] === "" || question.fakeAnswers[1] === "" || question.fakeAnswers[2] === "" || question.fakeAnswers[3] === "";
+        if (somethingEmpty) {
+          customQuestions.splice(customQuestions.indexOf(question), 1);
+        }
+      });
 
       await PreGameSettings.updateOne({id: preSettingsId}, {
         $set: { 
@@ -238,6 +275,10 @@ export default {
           'settings.timePerQuestion': timePerQuestion,
           'settings.numQuestionnaireQuestions': numQuestionnaireQuestions,
           'settings.numQuizQuestions': numQuizQuestions,
+          'settings.handsFreeMode': handsFreeMode,
+          'settings.timePerAnswer': timePerAnswer,
+          'settings.timePerLeaderboard': timePerLeaderboard,
+          'settings.prioritizeCustomQs': prioritizeCustomQs,
           'settings.customQuestions': customQuestions
         }
       });

@@ -3,6 +3,7 @@ import "../style.css";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
+import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
 import IPlayer from "back-end/interfaces/IPlayer";
@@ -10,22 +11,36 @@ import IPlayer from "back-end/interfaces/IPlayer";
 interface ISettingsProps {
   socket: Socket;
   gameId: number;
+  preSettingsId: string;
+  settingsState: boolean;
   playersInGame: IPlayer[];
   timePerQuestionSetting: number;
   numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
+  handsFreeModeSetting: boolean;
+  timePerAnswerSetting: number;
+  timePerLeaderboardSetting: number;
+  prioritizeCustomQsSetting: boolean;
+  customQuestionsSetting: IQuestionnaireQuestion[];
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting } = props;
+  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, timePerLeaderboardSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
   const [numQuestionnaireQuestionsInput, setNumQuestionnaireQuestionsInput] = React.useState<number>(numQuestionnaireQuestions);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
   const [numQuizQuestionsInput, setNumQuizQuestionsInput] = React.useState<number>(numQuizQuestions);
-  const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>([{ text: "", quizText: "", fakeAnswers: ["", "", "", ""] }]);
-  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(5);
+  const [handsFreeMode, setHandsFreeMode] = React.useState<boolean>(handsFreeModeSetting);
+  const [timePerAnswer, setTimePerAnswer] = React.useState<number>(timePerAnswerSetting || 10);
+  const [timePerAnswerInput, setTimePerAnswerInput] = React.useState<number>(timePerAnswer);
+  const [timePerLeaderboard, setTimePerLeaderboard] = React.useState<number>(timePerLeaderboardSetting || 5);
+  const [timePerLeaderboardInput, setTimePerLeaderboardInput] = React.useState<number>(timePerLeaderboard);
+  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState<boolean>(prioritizeCustomQsSetting);
+  const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>(customQuestionsSetting || []);
+  const [mappedQuestions, setMappedQuestions] = React.useState<IQuestionnaireQuestion[]>(addedQuestions || []);
+  const [maxNumQuizQuestions, setMaxNumQuizQuestions] = React.useState<number>(numQuestionnaireQuestions * playersInGame.length || 5);
 
   React.useEffect(() => {
     if (timePerQuestion < 1) {
@@ -49,10 +64,30 @@ export default function HostSettings(props: ISettingsProps) {
     }
   }, [numQuizQuestions, setNumQuizQuestions]);
 
+  React.useEffect(() => {
+    setMappedQuestions(addedQuestions);
+  }, [addedQuestions, setAddedQuestions]);
+
+  React.useEffect(() => {
+    if (timePerAnswer < 1) {
+      setTimePerAnswer(1);
+    } else if (timePerAnswer > 90) {
+      setTimePerAnswer(90);
+    }
+  }, [timePerAnswer, setTimePerAnswer]);
+
+  React.useEffect(() => {
+    if (timePerLeaderboard < 1) {
+      setTimePerLeaderboard(1);
+    } else if (timePerLeaderboard > 90) {
+      setTimePerLeaderboard(90);
+    }
+  }, [timePerLeaderboard, setTimePerLeaderboard]);
+
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
-      ...prevQuestions,
-      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] },
+      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] }, 
+      ...prevQuestions
     ]);
   };
 
@@ -63,13 +98,17 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, timePerLeaderboard, prioritizeCustomQs, addedQuestions });
+  }
+
+  async function onPSBack() {
+    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, timePerLeaderboard, prioritizeCustomQs, addedQuestions});
   }
 
   return (
-    <div className="scroll">
+    <div className="scrollEnabled">
       <Stack className="joinForm" spacing={2}>
-        <p>Time Per Question:</p>
+        <p style={{margin: '0', marginTop: '16px'}}>Time Per Question:</p>
         <TextField
           className="idInput form"
           id="questionTime"
@@ -113,110 +152,79 @@ export default function HostSettings(props: ISettingsProps) {
           defaultValue={numQuizQuestions}
           error={(numQuizQuestionsInput < 2) }
           helperText={(numQuizQuestionsInput < 2) ? 'Warning: you must choose a number of questionnaire questions between 1 and 32' : 
-          ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '')}
+          (!settingsState ? ((numQuizQuestionsInput > maxNumQuizQuestions) ?  'Warning: if you choose a number of Quiz Questions that is greater than the number of Questionaire Questions multiplied by the number of Players, the game will default to the maximum number of Quiz Questions possible.' : '') : '')}
           onChange={(e) => {
-            setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length);
+            (!settingsState ? setMaxNumQuizQuestions(numQuestionnaireQuestions * playersInGame.length) : '');
             setNumQuizQuestions(Number(e.target.value));
             setNumQuizQuestionsInput(Number(e.target.value));
           }}
         />
-        <p>Custom Questions:</p>
-        <p>
-          text: "What is your favorite movie?", quizText: "What is
-          &lt;PLAYER&gt;'s favorite movie?", fakeAnswers: ["The Godfather",
-          "Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"]
+        <p>Hands-Free Mode:
+          <Switch
+            className="idInput form"
+            id="handsFreeMode"
+            size="medium"
+            color="secondary"
+            defaultChecked={handsFreeMode}
+            onChange={(e, c) => {
+              setHandsFreeMode(Boolean(c));
+            }}
+          />
         </p>
-        {addedQuestions.map((question, index) => (
-          <div key={index} className="customQuestion">
+        {handsFreeMode? 
+        <>
+          <p>Time To View Correct Answers:</p>
             <TextField
               className="idInput form"
-              id="questionText"
-              label="Question Text"
+              id="answerTime"
+              label="Time (In Seconds)"
               variant="outlined"
               size="small"
-              type="text"
+              type="number"
+              inputProps={{ min: 1, max: 90 }}
+              defaultValue={timePerAnswer}
+              error={(timePerAnswerInput < 1) || (timePerAnswerInput > 90)}
+              helperText={(timePerAnswerInput < 1) || (timePerAnswerInput > 90) ? 'Warning: you must choose a time between 1 and 90 seconds' : ''}
               onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].text = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
+                setTimePerAnswer(Number(e.target.value));
+                setTimePerAnswerInput(Number(e.target.value));}}
             />
+          <p>Time To View Leaderboard:</p>
             <TextField
               className="idInput form"
-              id="quizText"
-              label="Quiz Text"
+              id="leaderboardTime"
+              label="Time (In Seconds)"
               variant="outlined"
               size="small"
-              type="text"
+              type="number"
+              inputProps={{ min: 1, max: 90 }}
+              defaultValue={timePerLeaderboard}
+              error={(timePerLeaderboardInput < 1) || (timePerLeaderboardInput > 90)}
+              helperText={(timePerLeaderboardInput < 1) || (timePerLeaderboardInput > 90) ? 'Warning: you must choose a time between 1 and 90 seconds' : ''}
               onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].quizText = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer1"
-              label="Fake Answer 1"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[0] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer2"
-              label="Fake Answer 2"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[1] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer3"
-              label="Fake Answer 3"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[2] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <TextField
-              className="idInput form"
-              id="fakeAnswer4"
-              label="Fake Answer 4"
-              variant="outlined"
-              size="small"
-              type="text"
-              onChange={(e) => {
-                const newQuestions = [...addedQuestions];
-                newQuestions[index].fakeAnswers[3] = e.target.value;
-                setAddedQuestions(newQuestions);
-              }}
-            />
-            <Button
-              onClick={() => removeCustomQuestion(index)}
-              variant="contained"
-              sx={{
-                bgcolor: "gray",
-              }}
-            >
-              Remove
-            </Button>
-          </div>
-        ))}
+                setTimePerLeaderboard(Number(e.target.value));
+                setTimePerLeaderboardInput(Number(e.target.value));}}
+            /> 
+        </>: ''
+        }
+        <p>Prioritize Custom Questions:
+          <Switch
+            className="idInput form"
+            id="prioritizeCustomQ"
+            size="medium"
+            color="secondary"
+            defaultChecked={prioritizeCustomQs}
+            onChange={(e, c) => {
+              setPrioritizeCustomQs(Boolean(c));
+            }}
+          />
+        </p>
+        <p>Custom Questions:</p>
+        <p className='exampleText'>
+          Example: <br></br>
+          <u>Question Text:</u> "What is your favorite movie?"<br></br> 
+          <u>Fake Answers:</u> "The Godfather","Despicable Me", "Into the Spiderverse", "Star Wars: A New Hope"
+        </p>
         <Button
           onClick={() => addCustomQuestion()}
           variant="contained"
@@ -226,15 +234,106 @@ export default function HostSettings(props: ISettingsProps) {
         >
           Add Custom Question
         </Button>
+        {mappedQuestions.map((question, index) => {
+          if(addedQuestions[index] === question) {
+             return (
+             <div key={index} className="customQuestion">
+              <TextField
+                className="idInput form"
+                id="questionText"
+                label="Question Text"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.text}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].text = e.target.value;
+                  let newQuizText = e.target.value;
+                  if (newQuizText.includes('you') || newQuizText.includes('your')) {
+                    newQuizText = newQuizText.replace('do you', 'does <PLAYER>').replace('are you', 'is <PLAYER>').replace('your', '<PLAYER>\'s').replace('you', '<PLAYER>');
+                  } else {
+                    newQuizText = 'According to <PLAYER>, ' + newQuizText;
+                  }
+                  newQuestions[index].quizText = newQuizText;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer1"
+                label="Fake Answer 1"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[0]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[0] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer2"
+                label="Fake Answer 2"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[1]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[1] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer3"
+                label="Fake Answer 3"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[2]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[2] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <TextField
+                className="idInput form"
+                id="fakeAnswer4"
+                label="Fake Answer 4"
+                variant="outlined"
+                size="small"
+                type="text"
+                defaultValue={question.fakeAnswers[3]}
+                onChange={(e) => {
+                  const newQuestions = [...addedQuestions];
+                  newQuestions[index].fakeAnswers[3] = e.target.value;
+                  setAddedQuestions(newQuestions);
+                }}
+              />
+              <Button
+                onClick={() => removeCustomQuestion(index)}
+                variant="contained"
+                sx={{
+                  bgcolor: "gray",
+                }}
+              >
+                Remove
+              </Button>
+            </div>)} else {return ''}
+          })}
         <p>Click below to go back:</p>
         <Button
           variant="contained"
           sx={{
             bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
+              getComputedStyle(document.body).getPropertyValue("--accent") + ";",
           }}
-          onClick={onBack}
+          onClick={(settingsState) ? onPSBack : onBack}
         >
           Save
         </Button>
