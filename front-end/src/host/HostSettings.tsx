@@ -17,18 +17,23 @@ interface ISettingsProps {
   timePerQuestionSetting: number;
   numQuestionnaireQuestionsSetting: number;
   numQuizQuestionsSetting: number;
+  handsFreeModeSetting: boolean;
+  timePerAnswerSetting: number;
   prioritizeCustomQsSetting: boolean;
   customQuestionsSetting: IQuestionnaireQuestion[];
 }
 
 export default function HostSettings(props: ISettingsProps) {
-  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
+  const { socket, gameId, preSettingsId, settingsState, playersInGame, timePerQuestionSetting, numQuestionnaireQuestionsSetting, numQuizQuestionsSetting, handsFreeModeSetting, timePerAnswerSetting, prioritizeCustomQsSetting, customQuestionsSetting } = props;
   const [timePerQuestion, setTimePerQuestion] = React.useState<number>(timePerQuestionSetting || 15);
   const [timePerQuestionInput, setTimePerQuestionInput] = React.useState<number>(timePerQuestion);
   const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(numQuestionnaireQuestionsSetting || 5);
   const [numQuestionnaireQuestionsInput, setNumQuestionnaireQuestionsInput] = React.useState<number>(numQuestionnaireQuestions);
   const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(numQuizQuestionsSetting || 5);
   const [numQuizQuestionsInput, setNumQuizQuestionsInput] = React.useState<number>(numQuizQuestions);
+  const [handsFreeMode, setHandsFreeMode] = React.useState<boolean>(handsFreeModeSetting);
+  const [timePerAnswer, setTimePerAnswer] = React.useState<number>(timePerAnswerSetting || 10);
+  const [timePerAnswerInput, setTimePerAnswerInput] = React.useState<number>(timePerAnswer);
   const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState<boolean>(prioritizeCustomQsSetting);
   const [addedQuestions, setAddedQuestions] = React.useState<IQuestionnaireQuestion[]>(customQuestionsSetting || []);
   const [mappedQuestions, setMappedQuestions] = React.useState<IQuestionnaireQuestion[]>(addedQuestions || []);
@@ -60,6 +65,14 @@ export default function HostSettings(props: ISettingsProps) {
     setMappedQuestions(addedQuestions);
   }, [addedQuestions, setAddedQuestions]);
 
+  React.useEffect(() => {
+    if (timePerAnswer < 1) {
+      setTimePerAnswer(1);
+    } else if (timePerAnswer > 90) {
+      setTimePerAnswer(90);
+    }
+  }, [timePerAnswer, setTimePerAnswer]);
+
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions) => [
       { text: "", quizText: "", fakeAnswers: ["", "", "", ""] }, 
@@ -74,11 +87,11 @@ export default function HostSettings(props: ISettingsProps) {
   };
 
   async function onBack() {
-    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, prioritizeCustomQs, addedQuestions });
+    socket.emit("host-back", gameId, { timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions });
   }
 
   async function onPSBack() {
-    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, prioritizeCustomQs, addedQuestions});
+    socket.emit("host-ps-back", preSettingsId, {timePerQuestion, numQuestionnaireQuestions, numQuizQuestions, handsFreeMode, timePerAnswer, prioritizeCustomQs, addedQuestions});
   }
 
   return (
@@ -135,6 +148,38 @@ export default function HostSettings(props: ISettingsProps) {
             setNumQuizQuestionsInput(Number(e.target.value));
           }}
         />
+        <p>Hands-Free Mode:
+          <Switch
+            className="idInput form"
+            id="handsFreeMode"
+            size="medium"
+            color="secondary"
+            defaultChecked={handsFreeMode}
+            onChange={(e, c) => {
+              setHandsFreeMode(Boolean(c));
+            }}
+          />
+        </p>
+        {handsFreeMode? 
+        <>
+          <p>Time To View Correct Answers:</p>
+            <TextField
+              className="idInput form"
+              id="answerTime"
+              label="Time (In Seconds)"
+              variant="outlined"
+              size="small"
+              type="number"
+              inputProps={{ min: 1, max: 90 }}
+              defaultValue={timePerAnswer}
+              error={(timePerAnswerInput < 1) || (timePerAnswerInput > 90)}
+              helperText={(timePerAnswerInput < 1) || (timePerAnswerInput > 90) ? 'Warning: you must choose a time between 1 and 90 seconds' : ''}
+              onChange={(e) => {
+                setTimePerAnswer(Number(e.target.value));
+                setTimePerAnswerInput(Number(e.target.value));}}
+            /> 
+        </>: ''
+        }
         <p>Prioritize Custom Questions:
           <Switch
             className="idInput form"
