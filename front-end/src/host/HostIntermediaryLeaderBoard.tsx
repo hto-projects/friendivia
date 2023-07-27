@@ -6,10 +6,12 @@ interface IntLeaderboardProps {
   gameId: number;
   socket: any;
   playerScores: Array<any>;
+  handsFreeMode: boolean;
 }
 
 export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
   const playerScores = props.playerScores;
+  const handsFreeMode = props.handsFreeMode;
   const ogPlayerScores = playerScores;
   playerScores.sort((p1, p2) => p2.score - p1.score);
 
@@ -72,16 +74,22 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
           ))}
         </div>
       </div>
-      <Button
-        variant="contained"
-        style={{ marginTop: "5vh" }}
-        sx={{
-          bgcolor: getComputedStyle(document.body).getPropertyValue("--accent"),
-        }}
-        onClick={onNext}
-      >
-        Go To Next Question
-      </Button>
+      {!handsFreeMode ? (
+        <Button
+          variant="contained"
+          style={{ marginTop: "5vh" }}
+          sx={{
+            bgcolor: getComputedStyle(document.body).getPropertyValue(
+              "--accent"
+            ),
+          }}
+          onClick={onNext}
+        >
+          Go To Next Question
+        </Button>
+      ) : (
+        ""
+      )}
     </>
   );
 }
