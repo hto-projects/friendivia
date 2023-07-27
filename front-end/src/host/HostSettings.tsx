@@ -231,6 +231,46 @@ export default function HostSettings(props: ISettingsProps) {
           }}
         />
         <p>
+          Hands-Free Mode:
+          <Switch
+            className="idInput form"
+            id="handsFreeMode"
+            size="medium"
+            color="secondary"
+            defaultChecked={handsFreeMode}
+            onChange={(e, c) => {
+              setHandsFreeMode(Boolean(c));
+            }}
+          />
+        </p>
+        {handsFreeMode ? (
+          <>
+            <p>Time To View Correct Answers:</p>
+            <TextField
+              className="idInput form"
+              id="answerTime"
+              label="Time (In Seconds)"
+              variant="outlined"
+              size="small"
+              type="number"
+              inputProps={{ min: 1, max: 90 }}
+              defaultValue={timePerAnswer}
+              error={timePerAnswerInput < 1 || timePerAnswerInput > 90}
+              helperText={
+                timePerAnswerInput < 1 || timePerAnswerInput > 90
+                  ? "Warning: you must choose a time between 1 and 90 seconds"
+                  : ""
+              }
+              onChange={(e) => {
+                setTimePerAnswer(Number(e.target.value));
+                setTimePerAnswerInput(Number(e.target.value));
+              }}
+            />
+          </>
+        ) : (
+          ""
+        )}
+        <p>
           Prioritize Custom Questions:
           <Switch
             className="idInput form"
