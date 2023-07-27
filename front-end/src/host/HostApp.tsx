@@ -231,7 +231,7 @@ export default function HostApp(props: IHostProps) {
         <div id="host-banner">
           <div className="musicButton bannerEdge">
             <IconButton onClick={() => muteMusic(muted)}>
-              <img className="musicIcon" src={muted ? musicOff : musicOn} />
+              <img className="musicIcon" src={localStorage.getItem("Music-Playing") ? (localStorage.getItem("Music-Playing") === "true" ? musicOn : musicOff ) : (muted ? musicOff : musicOn)} />
             </IconButton>
           </div>
           <div className="hostFormat">
