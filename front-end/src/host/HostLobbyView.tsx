@@ -25,8 +25,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   const gameStr = gameId
     .toString()
     .split("")
-    .join(" ");
-  console.log(gameId, gameStr);
+    .join(", ");
 
   async function onStart() {
     socket.emit("host-start", gameId);
