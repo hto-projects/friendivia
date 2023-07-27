@@ -45,12 +45,13 @@ export default function HostApp(props: IHostProps) {
   const [quizQuestionGuesses, setQuizQuestionGuesses] = React.useState([]);
   const [playerScores, setPlayerScores] = React.useState([]);
   const [playersInGame, setPlayersInGame] = React.useState([]);
-  const [timePerQuestion, setTimePerQuestion] = React.useState(15);
-  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState(5);
-  const [numQuizQuestions, setNumQuizQuestions] = React.useState(5);
-  const [handsFreeMode, setHandsFreeMode] = React.useState(false);
-  const [timePerAnswer, setTimePerAnswer] = React.useState(10);
-  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState(true);
+  const [timePerQuestion, setTimePerQuestion] = React.useState<number>(15);
+  const [numQuestionnaireQuestions, setNumQuestionnaireQuestions] = React.useState<number>(5);
+  const [numQuizQuestions, setNumQuizQuestions] = React.useState<number>(5);
+  const [handsFreeMode, setHandsFreeMode] = React.useState<boolean>(false);
+  const [timePerAnswer, setTimePerAnswer] = React.useState<number>(10);
+  const [timePerLeaderboard, setTimePerLeaderboard] = React.useState<number>(5);
+  const [prioritizeCustomQs, setPrioritizeCustomQs] = React.useState<boolean>(true);
   const [customQuestions, setCustomQuestions] = React.useState<IQuestionnaireQuestion[]>([]);
 
   const [loaded, setLoaded] = React.useState<boolean>(false);
@@ -102,6 +103,7 @@ export default function HostApp(props: IHostProps) {
       setNumQuizQuestions(data.settings.numQuizQuestions);
       setHandsFreeMode(data.settings.handsFreeMode);
       setTimePerAnswer(data.settings.timePerAnswer);
+      setTimePerLeaderboard(data.settings.timePerLeaderboard);
       setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
       setCustomQuestions(data.settings.customQuestions);
     }
@@ -114,6 +116,7 @@ export default function HostApp(props: IHostProps) {
       setNumQuizQuestions(data.settings.numQuizQuestions);
       setHandsFreeMode(data.settings.handsFreeMode);
       setTimePerAnswer(data.settings.timePerAnswer);
+      setTimePerLeaderboard(data.settings.timePerLeaderboard);
       setPrioritizeCustomQs(data.settings.prioritizeCustomQs);
       setCustomQuestions(data.settings.customQuestions);
     }
@@ -201,7 +204,7 @@ export default function HostApp(props: IHostProps) {
         />
       );
     } else if (state === "intermediary-leaderboard") {
-      return <HostIntLeaderBoard gameId = {gameId} socket = {socket} playerScores={playerScores}/>;
+      return <HostIntLeaderBoard gameId = {gameId} socket = {socket} playerScores={playerScores} handsFreeMode={handsFreeMode}/>;
     } else if (state === "pre-leader-board") {
       return (
         <>
@@ -212,7 +215,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "leader-board") {
       return <HostLeaderBoard playerScores={playerScores} socket={socket} />;
     } else if (state === "settings" || settingsState === true) {
-      return <HostSettings socket={socket} gameId={gameId} preSettingsId={preSettingsId} settingsState={settingsState} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} handsFreeModeSetting={handsFreeMode} timePerAnswerSetting={timePerAnswer} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
+      return <HostSettings socket={socket} gameId={gameId} preSettingsId={preSettingsId} settingsState={settingsState} playersInGame={playersInGame} timePerQuestionSetting={timePerQuestion} numQuestionnaireQuestionsSetting={numQuestionnaireQuestions} numQuizQuestionsSetting={numQuizQuestions} handsFreeModeSetting={handsFreeMode} timePerAnswerSetting={timePerAnswer} timePerLeaderboardSetting={timePerLeaderboard} prioritizeCustomQsSetting={prioritizeCustomQs} customQuestionsSetting={customQuestions}/>;
     } else if (state == "tiebreaker") {
       return <HostTiebreaker />;
     } else {

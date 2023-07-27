@@ -130,8 +130,13 @@ const hostShowIntLeaderboard = async(gameId: number, io:Server): Promise<void> =
   if (gameData === null) {
     return;
   }
-
+  const handsFreeMode = gameData.settings.handsFreeMode;
+  const timePerLeaderboard = gameData.settings.timePerLeaderboard * 1000;
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, playerScores: allPlayerScores});
+
+  if (handsFreeMode) {
+    setTimeout(hostShowNextQuestion, timePerLeaderboard, gameId, io)
+  }
 }
 
 const hostPreAnswer = async (gameId: number, io: Server): Promise<void> => {
@@ -147,6 +152,8 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   const gameData = await hostDb.getGameData(gameId); 
   const handsFreeMode = gameData?.settings.handsFreeMode;
   const timePerAnswer = (gameData?.settings.timePerAnswer || 10) * 1000;  
+  const currentQuestionIndex = gameData?.currentQuestionIndex || -1;
+  const quizLength = gameData?.quizQuestions.length || 5;
   if (gameData === null) {
     return;
   }
@@ -187,7 +194,13 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   io.to(gameData.hostSocketId).emit('host-next', { ...gameData, quizQuestionGuesses: guesses, playerScores: playerScores});
 
   if (handsFreeMode) {
-    setTimeout(hostShowNextQuestion, timePerAnswer, gameId, io);
+    setTimeout(() => {
+      if ((currentQuestionIndex + 1) < quizLength) {
+        hostShowIntLeaderboard(gameId, io);
+      } else {
+        hostShowNextQuestion(gameId, io);
+      }
+    }, timePerAnswer);
   }
 }
 

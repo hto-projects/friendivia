@@ -6,6 +6,7 @@ import IQuestionnaireQuestion from "./IQuestionnaireQuestion"
       numQuizQuestions: number,
       handsFreeMode: boolean,
       timePerAnswer: number,
+      timePerLeaderboard: number,
       prioritizeCustomQs: boolean,
       customQuestions: IQuestionnaireQuestion[]
   }
