@@ -8,6 +8,7 @@ import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import Player from '../models/Player.ts';
+import question from '../db/question.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
