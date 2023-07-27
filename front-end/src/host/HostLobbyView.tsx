@@ -20,13 +20,10 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     .replace("http://", "")
     .replace("https://", "")
     .replace("www.", "");
-  const joinMessage = `Join at ${joinUrl}`;
-  const textToSpeak = `Welcome to friendpardy! ${joinMessage}`;
   const gameStr = gameId
     .toString()
     .split("")
     .join(" ");
-  console.log(gameId, gameStr);
 
   async function onStart() {
     socket.emit("host-start", gameId);
@@ -42,7 +39,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <div className="host-lobby">
-      <Speak text={joinMessage + ". Use code: " + gameStr} />
+      <Speak text={`Join at ${joinUrl}!! Use game I.D. ${gameStr}`} />
       <PlayAudio src={open} loop={false} />
       <div className="join-instructions">
         <div className="join-instruction-edge">
