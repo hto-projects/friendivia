@@ -14,6 +14,34 @@ export default function Speak(props) {
     window.speechSynthesis.speak(msg);
   }
 
+  async function createAnnouncementAudioTikTok() {
+    console.log("ann")
+    const url = `https://tiktok-tts.weilnet.workers.dev/api/generation`;
+    const body = {
+        text: textToSpeak,
+        voice: 'en_us_rocket'
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      console.log(response);
+      const responseJson = await response.json();
+      const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
+      const audio = new Audio(audioUrl);
+      addAnnouncement(audio);
+    } catch (error) {
+      console.error("Error fetching or playing TikTok audio:", error);
+      speakFromBrowser();
+    }
+  }
+
   async function createAnnouncementAudio() {
     const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
@@ -47,7 +75,7 @@ export default function Speak(props) {
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
-      speakFromBrowser();
+      createAnnouncementAudioTikTok();
     }
   }
 
@@ -60,7 +88,7 @@ export default function Speak(props) {
     if (ttsApiKey) {
       createAnnouncementAudio();
     } else {
-      speakFromBrowser();
+      createAnnouncementAudioTikTok();
     }
   }, [textToSpeak]);
 

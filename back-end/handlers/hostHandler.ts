@@ -86,6 +86,7 @@ export default (io, socket: Socket) => {
       await playerDb.deleteAllPlayers();
       await hostDb.deleteAllGames();
       await questionDb.deleteAllQuestions();
+      PreSettingsId = null;
     } catch (e) {
       console.error("failed to delete all");
     }
