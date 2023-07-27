@@ -15,6 +15,7 @@ interface IShowAnswerProps {
   gameId: number;
   quizLength: number;
   handsFreeMode: boolean;
+  handsFreeMode: boolean;
 }
 
 var currentQuizLength = 1;
