@@ -23,7 +23,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   const gameStr = gameId
     .toString()
     .split("")
-    .join(", ");
+    .join(" ");
 
   async function onStart() {
     socket.emit("host-start", gameId);
@@ -39,7 +39,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
 
   return (
     <div className="host-lobby">
-      <Speak text={`Join at ${joinUrl}!! Use game I.D. ${gameStr}`} />
+      <Speak text={`Join at "${joinUrl}"!! Use game I.D.: ${gameStr}`} />
       <PlayAudio src={open} loop={false} />
       <div className="join-instructions">
         <div className="join-instruction-edge">
