@@ -472,7 +472,7 @@ const gptQuestions = [
     ]
   },
   {
-    text: "If you had unlimited resources, what would be for a costume party?",
+    text: "If you had unlimited resources, what would you be for a costume party?",
     quizText: "If <PLAYER> had unlimited resources, what would they be for a costume party?",
     fakeAnswers: [
       "a ghost",
@@ -482,8 +482,8 @@ const gptQuestions = [
     ]
   },
   {
-    text: "If you were to start your own business, what kind of business would you want?",
-    quizText: "If <PLAYER> were to start their own business, what kind of business would they want?",
+    text: "If you were to start your own business, what kind of business would it be?",
+    quizText: "If <PLAYER> were to start their own business, what kind of business would it be?",
     fakeAnswers: [
       "A software company",
       "restaurant",
