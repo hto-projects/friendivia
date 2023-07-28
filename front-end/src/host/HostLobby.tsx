@@ -3,6 +3,7 @@ import '../style.css';
 import { Socket } from 'socket.io-client';
 import HostLobbyView from './HostLobbyView';
 import Speak from '../Speak';
+import { pickOne } from '../util';
 
 interface ILobbyProps {
   socket: Socket,
@@ -30,7 +31,7 @@ export default function HostLobby(props: ILobbyProps) {
   return (
     <>
       <div>
-        {playerNames.map(p => <Speak text={`Welcome to the game, "${p}"!`} />)}
+        {playerNames.map(p => <Speak text={`${pickOne(["Welcome to the game,", "Nice to see you,", "Good to have you here,", "Look out, it's"])} "${p}"!`} />)}
       </div>
       <HostLobbyView playerNames={playerNames} gameId={gameId} socket={socket} />
     </>
