@@ -4,6 +4,7 @@ import { Paper, Stack } from "@mui/material";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
+import { pickOne } from "../util";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -67,7 +68,14 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     var correctPlayers = playerGuesses.filter(
       (g) => g.guess === correctAnswerIndex
     );
-    if (correctPlayers.length != 0) res += "! Nice guessing ";
+    if (correctPlayers.length != 0) {
+      const encourage = pickOne(["Nice guessing", "Good job", "Way to go", "Congrats"]);
+      res += `! ${encourage} `;
+    } else {
+      const sad = pickOne(["No points, no one got it", "I'm disappointed in all of you.", "I love you, but you're all terrible.", "Try again next time, everybody. No points for anyone this round."]);
+      res += `! ${sad}`;
+    }
+
     correctPlayers.forEach((e) => {
       if (
         e.name === correctPlayers[correctPlayers.length - 1].name &&
