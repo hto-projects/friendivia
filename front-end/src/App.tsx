@@ -10,7 +10,7 @@ import LoadingPage from "./LoadingPage";
 
 export default function App() {
   const [serverConnection, setServerConnection] = React.useState(
-    "Connecting to server..."
+    "Connecting to server (this could take a few minutes)..."
   );
 
   React.useEffect(() => {
@@ -30,13 +30,16 @@ export default function App() {
     checkServerConnection();
   }, []);
 
+  const loadingElement = <LoadingPage msg={serverConnection} />;
+  const isLoading = serverConnection !== "Connected!";
+
   let page = (
     <>
       <div className="fillScreen">
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<PlayerApp socket={socket} />} />
-            <Route path="/host" element={<HostApp socket={socket} />} />
+            <Route path="/" element={isLoading ? loadingElement : <PlayerApp socket={socket} />} />
+            <Route path="/host" element={isLoading ? loadingElement : <HostApp socket={socket} />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
         </BrowserRouter>
@@ -54,10 +57,6 @@ export default function App() {
       </div>
     </>
   );
-
-  if (serverConnection !== "Connected!") {
-    page = <LoadingPage msg={"Getting the party started..."} />;
-  }
 
   return page;
 }
