@@ -3,6 +3,7 @@ enum PlayerStates {
   JoinedWaiting = 'joined-waiting',
   FillingQuestionnaire = 'filling-questionnaire',
   DoneWithQuestionnaireWaiting = 'submitted-questionnaire-waiting',
+  QuestionBeingRead = 'question-being-read',
   SeeingQuestion = 'seeing-question',
   QuestionAboutMe = 'question-about-me',
   AnsweredQuizQuestionWaiting = 'answered-quiz-question-waiting',

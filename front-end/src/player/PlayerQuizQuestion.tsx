@@ -17,6 +17,12 @@ export default function PlayerQuizQuestion(props: IQuizQuestionProps) {
     message: ''
   });
 
+  React.useEffect(() => {
+    setQuizQuestionPlayerState({
+      state: playerState, 
+      message: ''
+    })
+  }, [playerState]);
 
   React.useEffect(() => {
     function onAnswerQuestionSuccess() {

@@ -3,6 +3,7 @@ import "../style.css";
 import { Button, Paper, Grid } from "@mui/material";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
+import { pickOne } from "../util";
 
 interface IShowQuestionProps {
   playerName: string;
@@ -25,15 +26,20 @@ function HostShowQuestion(props: IShowQuestionProps) {
     handsFreeMode
   } = props;
 
-  function App() {
+  const [timerStarted, setTimerStarted] = React.useState<boolean>(false);
+
+  function Timer(props) {
+    const started = props.started;
     const [counter, setCounter] = React.useState(timePerQuestion);
     React.useEffect(() => {
-      counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+      if (started && counter > 0) {
+        setTimeout(() => setCounter(counter - 1), 1000);
+      }
     }, [counter]);
     return (
       <div className="dot">
         <div className="timer">
-          <div className="timeNumber">{counter}</div>
+          <div className="timeNumber">{started ? counter : "⌛"}</div>
         </div>
       </div>
     );
@@ -61,7 +67,22 @@ function HostShowQuestion(props: IShowQuestionProps) {
         res += `"${options[i]}", `;
       }
     }
+
+    const instructions = [
+      " Answer on your devices now.",
+      " Give it your best guess.",
+      " What do you think?",
+      " Hurry up and answer.",
+      " Go ahead and answer now."
+    ];
+
+    res += pickOne(instructions);
     return res;
+  }
+
+  function startTimer() {
+    setTimerStarted(true);
+    socket.emit('host-start-quiz-timer', gameId);
   }
 
   function onTimerSkipBtn() {
@@ -70,8 +91,8 @@ function HostShowQuestion(props: IShowQuestionProps) {
 
   return (
     <>
-      <App />
-      <Speak text={quizText()} cloud={true} />
+      <Speak text={quizText()} cloud={true} callback={startTimer} />
+      <Timer started={timerStarted} />
       {interpolatePlayerNameInQuestionText()}
       <ul className="ul">
         {options.map((o: String, i: number) => (

@@ -60,6 +60,8 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
 
   if (playerState.state === "answered-quiz-question-waiting") {
     return <PlayerWait message={guessReceivedMessage} />;
+  } else if (playerState.state === "question-being-read") {
+    return <PlayerWait message="Get ready to answer..." />
   } else {
     return optionsForm;
   }

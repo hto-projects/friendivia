@@ -91,7 +91,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       );
     } else if (
       playerState === "seeing-question" ||
-      playerState === "answered-quiz-question-waiting"
+      playerState === "answered-quiz-question-waiting" ||
+      playerState === "question-being-read"
     ) {
       bottomButtons = false;
       return (
