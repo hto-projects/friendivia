@@ -4,6 +4,11 @@ export default function PlayAudio(props) {
     const audioUrl = props.src;
     React.useEffect(() => {
         let audio = document.querySelector("audio");
+        if (audio == null) {
+            return;
+        }
+
+        audio.volume = 0.42;
         let playing:boolean = (localStorage.getItem('Music-Playing') !== 'false' ? true : false);
         if (audio && playing) {
                 audio.play();
