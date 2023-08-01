@@ -41,6 +41,6 @@ export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
   }, [questionnairePlayerState, setQuestionnairePlayerState]);
 
   return (
-    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText}/>
+    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText} />
   )
 }
