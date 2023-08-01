@@ -800,3 +800,7 @@ body {
 .css-k4qjio-MuiFormHelperText-root {
   color: #d32f2f !important;
 }
+
+#fixScreen {
+  height: 101vh !important;
+}
