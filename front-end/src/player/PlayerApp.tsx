@@ -16,7 +16,7 @@ import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
-import PlayerNewRanking from "./PlayerNewRanking"
+import PlayerNewRanking from "./PlayerNewRanking";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -196,6 +196,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     <div
       className={
         playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
+      }
+      id={
+        playerState === 'question-about-me' || 'answered-quiz-question-waiting'|| 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
       }
     >
       <div className="player_join">
