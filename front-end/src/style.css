@@ -53,7 +53,7 @@ body {
 
   .questionnaireInputs{
     overflow-y: scroll;
-    height: calc(100vh - (100vw * 0.1003) - 12.49px);
+    height: calc(100vh - (100vw * 0.1003) - 19.49px);
   }
 
   .form{
@@ -100,7 +100,7 @@ body {
 
   .questionnaireInputs{
     overflow-y: scroll;
-    height: calc(100vh - (100vw * 0.07511) - 11.76px);
+    height: calc(100vh - (100vw * 0.07511) - 18.76px);
   }
 
   .form{
