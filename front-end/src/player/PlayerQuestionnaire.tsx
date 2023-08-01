@@ -6,12 +6,11 @@ import PlayerQuestionnaireForm from './PlayerQuestionnaireForm';
 interface IQuestionnaireProps {
   socket: Socket,
   playerState: string,
-  questionnaireQuestionsText: string[],
-  bannerHeight: string
+  questionnaireQuestionsText: string[]
 }
 
 export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
-  const { socket, playerState, questionnaireQuestionsText, bannerHeight } = props;
+  const { socket, playerState, questionnaireQuestionsText } = props;
   const [questionnairePlayerState, setQuestionnairePlayerState] = React.useState({
     state: playerState,
     message: ''
@@ -42,6 +41,6 @@ export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
   }, [questionnairePlayerState, setQuestionnairePlayerState]);
 
   return (
-    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText} bannerHeight={bannerHeight}/>
+    <PlayerQuestionnaireForm socket={socket} playerState={questionnairePlayerState} questions={questionnaireQuestionsText}/>
   )
 }
