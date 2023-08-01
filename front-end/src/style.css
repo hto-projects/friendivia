@@ -51,6 +51,11 @@ body {
     margin-bottom: 1%;
   }
 
+  .questionnaireInputs{
+    overflow-y: scroll;
+    height: calc(100vh - (100vw * 0.1003) - 19.49px);
+  }
+
   .form{
     width: 100%
   }
@@ -91,6 +96,11 @@ body {
     margin: auto;
     margin-top: 1%;
     margin-bottom: 1%;
+  }
+
+  .questionnaireInputs{
+    overflow-y: scroll;
+    height: calc(100vh - (100vw * 0.07511) - 18.76px);
   }
 
   .form{
@@ -768,10 +778,6 @@ body {
 
 .musicIcon{
   width: 5vh;
-}
-
-.questionnaireInputs{
-  overflow-y: scroll;
 }
 
 .scroll{
