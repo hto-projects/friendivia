@@ -17,6 +17,7 @@ import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
 import PlayerNewRanking from "./PlayerNewRanking";
+import Background from "./Background";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -202,6 +203,7 @@ export default function PlayerApp(props: PlayerAppProps) {
         playerState === 'question-about-me' || 'answered-quiz-question-waiting'|| 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
       }
     >
+      <Background />
       <div className="player_join">
         <div className="banner">
           <Grid container spacing={2}>
