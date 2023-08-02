@@ -163,6 +163,7 @@ export default function HostApp(props: IHostProps) {
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
+      console.log(announcementAudioObjects);
 
       return (
         <HostShowQuestion
@@ -226,7 +227,7 @@ export default function HostApp(props: IHostProps) {
   return (
     <div className="scroll">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
-        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
+        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} socket={socket} gameId={gameId} gameState={gameState}/>
         <PlayAudio src={theme} loop={true} />
         <div id="host-banner">
           <div className="musicButton bannerEdge">

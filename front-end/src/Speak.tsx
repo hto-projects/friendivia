@@ -38,6 +38,8 @@ export default function Speak(props) {
       const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
       const audio = new Audio(audioUrl);
       audio.addEventListener("ended", callback);
+      console.log('added announcement');
+      console.log(audio.onended);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing TikTok audio:", error);
@@ -76,6 +78,8 @@ export default function Speak(props) {
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
       audio.addEventListener("ended", callback);
+      console.log('added announcement');
+      console.log(audio.onended);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
