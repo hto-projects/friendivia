@@ -72,6 +72,7 @@ export default function PlayerQuestionnaireForm(
         sx={{
           bgcolor:
             getComputedStyle(document.body).getPropertyValue("--accent") + ";",
+          marginBottom: '10px',
         }}
         onClick={onSubmitQuestionnaire}
       >

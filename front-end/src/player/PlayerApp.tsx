@@ -17,7 +17,7 @@ import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
 import PlayerNewRanking from "./PlayerNewRanking"
-import PlayerKicked from "./PlayerKicked"
+import PlayerKicked from "./PlayerKicked";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -92,7 +92,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       );
     } else if (
       playerState === "seeing-question" ||
-      playerState === "answered-quiz-question-waiting"
+      playerState === "answered-quiz-question-waiting" ||
+      playerState === "question-being-read"
     ) {
       bottomButtons = false;
       return (
@@ -200,6 +201,9 @@ export default function PlayerApp(props: PlayerAppProps) {
     <div
       className={
         playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
+      }
+      id={
+        playerState === 'question-about-me' || 'answered-quiz-question-waiting'|| 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
       }
     >
       <div className="player_join">

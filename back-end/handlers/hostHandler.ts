@@ -126,6 +126,14 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const onHostStartQuizTimer = async (gameId) => {
+    try {
+      hostHelpers.hostStartQuizTimer(gameId, io);
+    } catch (e) {
+      console.error(`Failed to start timer: ${e}`);
+    }
+  }
+
   const onTimerSkip = async (gameId) => {
     try {
       hostHelpers.hostSkipTimer(gameId, io);
@@ -250,7 +258,8 @@ export default (io, socket: Socket) => {
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
   socket.on('play-again', playAgain);
-  socket.on('play-again-with-same-players', playAgainWithSamePlayers)
+  socket.on('play-again-with-same-players', playAgainWithSamePlayers);
+  socket.on('host-start-quiz-timer', onHostStartQuizTimer);
   socket.on('next-question', onNextQuestion);
   socket.on('go-to-int-leaderboard', onIntLeaderboard);
   socket.on('timer-skip', onTimerSkip);
