@@ -111,7 +111,7 @@ export default (io, socket: Socket) => {
   const playAgain = async () => { 
     try {
       hostDb.deleteGame(GameId, PreSettingsId);
-      onHostOpen();
+      await onHostOpen();
       playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
     } catch (e) {
       console.error(`Failed to delete game: ${e}`)

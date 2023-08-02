@@ -108,6 +108,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
           <Button
             className="button"
             variant="contained"
+            disabled={timerStarted? false : true}
             sx={{
               bgcolor:
                 getComputedStyle(document.body).getPropertyValue("--accent") +
