@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+.hostFormat {
+  font-size: 4.5em;
+  color: white;
+  font-family: "Concert One", sans-serif;
+  padding-bottom: 20px;
+}
+
+#host-banner {
+  background: #8080FF;
+  background: linear-gradient(45deg, #00FFFF 0%, #FF00FF 100%);
+  box-shadow: #9090FF 0px 1px 20px 0px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.host-lobby {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.join-instruction-edge, .above-instructions, .below-instructions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.badge-holding {
+  width: 100px;
+  height: 20px;
+  border: 1px solid pink;
+}

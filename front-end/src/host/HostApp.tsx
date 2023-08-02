@@ -16,12 +16,13 @@ import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
-import theme from "../assets/audio/theme.mp3";
+import lobbyMusic from "../assets/audio/lobby.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
 import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
 import { HostAnnouncementQueue, AddAnnouncementContext } from "./HostAnnouncementQueue";
+import "./HostStyles.css";
 
 interface IHostProps {
   socket: Socket;
@@ -227,7 +228,7 @@ export default function HostApp(props: IHostProps) {
     <div className="scroll">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
         <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
-        <PlayAudio src={theme} loop={true} />
+        <PlayAudio src={lobbyMusic} loop={true} />
         <div id="host-banner">
           <div className="musicButton bannerEdge">
             <IconButton onClick={() => muteMusic(muted)}>
@@ -235,7 +236,7 @@ export default function HostApp(props: IHostProps) {
             </IconButton>
           </div>
           <div className="hostFormat">
-            <img className="host-logo-img" src={logo} />
+            friendpardy
           </div>
           <div className="bannerEdge">{/* Empty to take up space on the right side of the header*/}</div>
         </div>
