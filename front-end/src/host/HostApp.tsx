@@ -9,14 +9,13 @@ import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import IPreGameSettings from "back-end/interfaces/IPreGameSettings";
 import HostShowAnswer from "./HostShowAnswer";
-import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
-import theme from "../assets/audio/theme.mp3";
+import lobbyMusic from "../assets/audio/lobby.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
@@ -25,6 +24,7 @@ import {
   HostAnnouncementQueue,
   AddAnnouncementContext,
 } from "./HostAnnouncementQueue";
+import "./HostStyles.css";
 
 interface IHostProps {
   socket: Socket;
@@ -275,7 +275,7 @@ export default function HostApp(props: IHostProps) {
           gameId={gameId}
           gameState={gameState}
         />
-        <PlayAudio src={theme} loop={true} />
+        <PlayAudio src={lobbyMusic} loop={true} />
         <div id="host-banner">
           <div className="musicButton bannerEdge">
             <IconButton onClick={() => muteMusic(muted)}>
@@ -293,22 +293,7 @@ export default function HostApp(props: IHostProps) {
               />
             </IconButton>
           </div>
-          <div className="hostFormat">
-            <p
-              style={{
-                fontFamily: "Inter",
-                fontSize: "4em",
-                color: "white",
-                fontWeight: "bold",
-                margin: "0px",
-                marginTop: "2vh",
-                marginBottom: "2vh",
-              }}
-            >
-              fri🥳ndivia
-            </p>
-            {/* <img className="host-logo-img" src={logo} /> */}
-          </div>
+          <div className="banner-text">friendivia</div>
           <div className="bannerEdge">
             {/* Empty to take up space on the right side of the header*/}
           </div>

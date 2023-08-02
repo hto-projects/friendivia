@@ -1,12 +1,23 @@
-import React, { useRef } from "react";
+import React from "react";
 import "../style.css";
 import { Button, Paper } from "@mui/material";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import open from "../assets/audio/appopen.mp3";
 import PlayAudio from "../PlayAudio";
-import meshgradient from "../assets/button.png";
-import nametag from "../assets/nametag.png";
+import PlayerBadge from "./PlayerBadge";
+import { pickOne } from "../util";
+
+const LEFT_BADGE_COUNT = 12;
+const TOP_BADGE_COUNT = 2;
+const RIGHT_BADGE_COUNT = 12;
+const BOTTOM_BADGE_COUNT = 4;
+
+const LEFT_BADGE_START = 0;
+const LEFT_BADGE_END = LEFT_BADGE_COUNT;
+const TOP_BADGE_END = LEFT_BADGE_END + TOP_BADGE_COUNT;
+const RIGHT_BADGE_END = TOP_BADGE_END + RIGHT_BADGE_COUNT;
+const BOTTOM_BADGE_END = RIGHT_BADGE_END + BOTTOM_BADGE_COUNT;
 
 interface ILobbyViewProps {
   playerNames: string[];
@@ -16,7 +27,54 @@ interface ILobbyViewProps {
 
 export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
-  const playerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  const [badgeSpots, setBadgeSpots] = React.useState<string[]>(
+    new Array(BOTTOM_BADGE_END).fill("")
+  );
+
+  const getSliceOfBadges = (start, end) => {
+    return badgeSpots.slice(start, end).map((name, i) => (
+      <div className="badge-holding" key={i}>
+        {name && <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />}
+      </div>
+    ));
+  };
+
+  const getOpenBadgeSpotIndices = () => {
+    const openSpots: number[] = [];
+    for (let i = 0; i < badgeSpots.length; i++) {
+      if (badgeSpots[i] === "") {
+        openSpots.push(i);
+      }
+    }
+
+    return openSpots;
+  };
+
+  React.useEffect(() => {
+    const updatedBadgeSpots = badgeSpots.slice();
+    for (let i = 0; i < badgeSpots.length; i++) {
+      let spot = badgeSpots[i];
+      const spotTaken = playerNames.some((name) => name === spot);
+
+      if (!spotTaken) {
+        updatedBadgeSpots[i] = "";
+      }
+    }
+
+    for (let i = 0; i < playerNames.length; i++) {
+      let name = playerNames[i];
+      const playerHeld = badgeSpots.some((spot) => spot === name);
+
+      if (!playerHeld) {
+        const possibleSpots = getOpenBadgeSpotIndices();
+        const randomOpenIndex = pickOne(possibleSpots);
+        updatedBadgeSpots[randomOpenIndex] = name;
+      }
+    }
+
+    setBadgeSpots(() => updatedBadgeSpots);
+  }, [playerNames]);
 
   const joinUrl = window.location.href
     .replace("/host", "")
@@ -40,339 +98,93 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     socket.emit("host-settings", gameId);
   }
 
-  function getRandomEmoji(): string {
-    const emojis = ["😀", "🎉", "🐶", "🍕", "🚀", "🎸", "🌈", "🦄", "🌻", "🏆"];
-    return emojis[Math.floor(Math.random() * emojis.length)];
-  }
-
-  function handlePlayerHover(name: string) {
-    const playerElement = playerRefs.current[name];
-    if (playerElement) {
-      playerElement.style.cursor = "pointer";
-      playerElement.style.boxShadow = "0px 0px 8px 0px rgba(0,0,0,0.75)";
-      playerElement.style.textDecoration = "line-through";
-    }
-  }
-
-  function handlePlayerLeave(name: string) {
-    const playerElement = playerRefs.current[name];
-    if (playerElement) {
-      playerElement.style.cursor = "default";
-      playerElement.style.boxShadow = "none";
-      playerElement.style.textDecoration = "none";
-    }
-  }
-
   return (
-    <>
-      <p></p>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          background: "#E2E2E2",
-          height: "100%",
-        }}
-      >
+    <div className="host-lobby">
+      <Speak text={`Join at "${joinUrl}"!! Use game I.D.: ${gameStr}`} />
+      <PlayAudio src={open} loop={false} />
+      <div className="join-instructions">
+        <div className="join-instruction-edge">
+          {getSliceOfBadges(LEFT_BADGE_START, LEFT_BADGE_END)}
+        </div>
         <div
+          className="lobby-middle"
           style={{
-            width: "33vw",
-            height: "90vh",
+            width: "30vw",
             display: "flex",
             flexDirection: "column",
-            margin: "auto",
+            height: "100%",
           }}
         >
-          {playerNames.map((name, index) => {
-            const rowStyle = {
+          <div className="above-instructions" style={{ height: "20vh" }}>
+            {getSliceOfBadges(LEFT_BADGE_END, TOP_BADGE_END)}
+          </div>
+          <div
+            style={{
               display: "flex",
-              flexDirection: "row" as const,
-              justifyContent: "center",
+              flexDirection: "column",
               alignItems: "center",
-              margin: "auto",
-              marginTop: "5vh",
-              zIndex: 9999,
-            };
-
-            if (index % 2 == 0) {
-              return (
-                <div key={name} style={rowStyle}>
-                  <div
-                    style={{
-                      height: "4vh",
-                      width: "auto",
-                      borderRadius: "10px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-                      margin: "auto",
-                      marginRight: "5vh",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      position: "relative",
-                      backgroundImage: `url(${nametag})`,
-                      backgroundSize: "cover",
-                      zIndex: 9999,
-                    }}
-                    ref={(ref) => (playerRefs.current[name] = ref)}
-                    onMouseEnter={() => handlePlayerHover(name)}
-                    onMouseLeave={() => handlePlayerLeave(name)}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 1000,
-                        backgroundImage: `url(${meshgradient})`,
-                        backgroundSize: "cover",
-                        borderRadius: "10px",
-                      }}
-                    ></div>
-                    <p
-                      style={{
-                        margin: "0px",
-                        padding: "0px",
-                        fontSize: "1.5em",
-                        fontWeight: "bold",
-                        color: "white",
-                        zIndex: 9999,
-                        paddingTop: "20px",
-                        paddingBottom: "25px",
-                        paddingLeft: "20px",
-                        paddingRight: "20px",
-                      }}
-                    >
-                      {name}
-                    </p>
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-45px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%",
-                        border: "2px solid purple",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "white",
-                        zIndex: 100,
-                      }}
-                    >
-                      <span
-                        role="img"
-                        aria-label="emoji"
-                        style={{ fontSize: "2.2em", zIndex: -1 }}
-                      >
-                        {getRandomEmoji()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return <></>;
-          })}
-        </div>
-
-        <div style={{ width: "33vw" }}>
-          <div className="host-lobby" style={{ background: "#E2E2E2" }}>
-            <Speak text={`Join at "${joinUrl}"!! Use game I.D.: ${gameStr}`} />
-            <PlayAudio src={open} loop={false} />
-            <div
-              style={{
-                height: "80vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-                marginTop: "5vh",
+            }}
+          >
+            <Paper
+              sx={{
+                width: "30vw",
+                maxWidth: "350px",
+                height: "20vh",
+                maxHeight: "180px",
+                position: "relative",
+                zIndex: "1",
+                borderRadius: "20px",
               }}
+              elevation={3}
+              className="gameid"
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                <Paper
-                  elevation={3}
-                  style={{
-                    margin: "0",
-                    width: "26vw",
-                    borderRadius: "10px",
-                    zIndex: 9999,
-                  }}
-                >
-                  <p
-                    style={{
-                      margin: "0px",
-                      padding: "0px",
-                      fontSize: "8em",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    {gameId}
-                  </p>
-                  <p
-                    style={{
-                      margin: "0px",
-                      padding: "0px",
-                      fontSize: "1.8em",
-                      fontWeight: "bold",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Join at {joinUrl}
-                  </p>
-                </Paper>
-                <Button
-                  variant="contained"
-                  disabled={playerNames.length < 2}
-                  sx={{
-                    fontSize: "2em",
-                    width: "100%",
-                    backgroundImage: `url(${meshgradient})`,
-                    backgroundSize: "cover",
-                    borderRadius: "10px",
-                    height: "10vh",
-                    marginTop: "-10px",
-                  }}
-                  onClick={onStart}
-                >
-                  Start
-                </Button>
-                <p style={{ fontSize: "2.5em" }}>
-                  {playerNames.length + " players"}
-                </p>
-              </div>
-            </div>
+              <p className="id">{gameId}</p>
+              <p style={{ fontSize: "1.8em", fontWeight: "bold", margin: 0 }}>
+                Join at {joinUrl}
+              </p>
+            </Paper>
+            <Button
+              variant="contained"
+              disabled={playerNames.length < 2}
+              sx={{
+                marginTop: "-30px",
+                paddingTop: "40px",
+                borderRadius: "20px",
+                maxWidth: "350px",
+                width: "30vw",
+                fontSize: "1.5em",
+                backgroundColor: "#8080FF",
+              }}
+              onClick={onStart}
+            >
+              Start
+            </Button>
+            <p>
+              There {playerNames.length !== 1 ? "are" : "is"} currently{" "}
+              {playerNames.length} player{playerNames.length !== 1 && "s"} in
+              the game.
+            </p>
+          </div>
+          <div className="below-instructions" style={{ flexGrow: 1 }}>
+            {getSliceOfBadges(RIGHT_BADGE_END, BOTTOM_BADGE_END)}
           </div>
         </div>
-
-        <div
-          style={{
-            width: "33vw",
-            height: "90vh",
-            display: "flex",
-            flexDirection: "column",
-            margin: "auto",
-          }}
-        >
-          {playerNames.map((name, index) => {
-            const rowStyle = {
-              display: "flex",
-              flexDirection: "row" as const,
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "auto",
-              marginTop: "5vh",
-              zIndex: 9999,
-            };
-
-            if (index % 2 !== 0) {
-              return (
-                <div key={name} style={rowStyle}>
-                  <div
-                    style={{
-                      height: "4vh",
-                      width: "auto",
-                      borderRadius: "10px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-                      margin: "auto",
-                      marginRight: "5vh",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      position: "relative",
-                      backgroundImage: `url(${nametag})`,
-                      backgroundSize: "cover",
-                      zIndex: 9999,
-                    }}
-                    ref={(ref) => (playerRefs.current[name] = ref)}
-                    onMouseEnter={() => handlePlayerHover(name)}
-                    onMouseLeave={() => handlePlayerLeave(name)}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 1000,
-                        backgroundImage: `url(${meshgradient})`,
-                        backgroundSize: "cover",
-                        borderRadius: "10px",
-                      }}
-                    ></div>
-                    <p
-                      style={{
-                        margin: "0px",
-                        padding: "0px",
-                        fontSize: "1.5em",
-                        fontWeight: "bold",
-                        color: "white",
-                        zIndex: 9999,
-                        paddingTop: "20px",
-                        paddingBottom: "25px",
-                        paddingLeft: "20px",
-                        paddingRight: "20px",
-                      }}
-                    >
-                      {name}
-                    </p>
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-45px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%",
-                        border: "2px solid purple",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "white",
-                        zIndex: 100,
-                      }}
-                    >
-                      <span
-                        role="img"
-                        aria-label="emoji"
-                        style={{ fontSize: "2.2em", zIndex: -1 }}
-                      >
-                        {getRandomEmoji()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return <></>;
-          })}
+        <div className="join-instruction-edge">
+          {getSliceOfBadges(TOP_BADGE_END, RIGHT_BADGE_END)}
         </div>
       </div>
-    </>
+      <div className="lobby-bottom-bar">
+        <Button
+          className="LobbySettings"
+          variant="contained"
+          onClick={onSettings}
+        >
+          Game Settings
+        </Button>
+        <Button className="LobbyAbout" variant="contained" href="/about">
+          About
+        </Button>
+      </div>
+    </div>
   );
 }
