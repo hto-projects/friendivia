@@ -143,6 +143,20 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerJoin socket={socket} playerState={playerState} />;
     }
   }
+  function PlayerQuit() {
+    if (confirm("Are you sure you want to quit?\nYou will be kicked from the game.")) {
+      //Player quits
+      let player_id = localStorage.getItem("player-id");
+      socket.emit("player-quit", player_id);
+      //go back to refresh
+      location.reload();
+    }
+    else {
+      //player does not quit
+      return;
+    }
+
+  }
 
   function getButtonsForState() {
     if (playerState === "init" || playerState === null || playerState === "") {
@@ -199,16 +213,16 @@ export default function PlayerApp(props: PlayerAppProps) {
         playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
       }
       id={
-        playerState === 'question-about-me' || 'answered-quiz-question-waiting'|| 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
+        playerState === 'question-about-me' || 'answered-quiz-question-waiting' || 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
       }
     >
       <div className="player_join">
         <div className="banner">
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              {playerState!="init" ? (<div className="align_center">
+              {playerState != "init" ? (<div className="align_center">
                 {/*if player name has not been inputted do not display username chip*/}
-                {playerName != "" ? <Chip style={{backgroundColor: "white"}} label={playerName} /> : ""}
+                {playerName != "" ? <Chip style={{ backgroundColor: "white" }} label={playerName} /> : ""}
               </div>) : ("")}
             </Grid>
             <Grid item xs={6}>
@@ -218,10 +232,10 @@ export default function PlayerApp(props: PlayerAppProps) {
             </Grid>
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
-              {playerState!="init" ? (<div className="align_center">
+              {playerState != "init" ? (<div className="align_center">
                 {playerState != "filling-questionnaire" ? (
                   playerName != "" ? (
-                    <Chip style={{backgroundColor: "white"}} label={playerScore} />
+                    <Chip style={{ backgroundColor: "white" }} label={playerScore} />
                   ) : (
                     ""
                   )
@@ -269,7 +283,23 @@ export default function PlayerApp(props: PlayerAppProps) {
             </p>
           </div>
         ) : (
-          ""
+          <div className="BottomBtnContainerDuringGame">
+            <Button
+                className="button Quit-Button"
+                variant="contained"
+                sx={{
+                  bgcolor:
+                    getComputedStyle(document.body).getPropertyValue(
+                      "--accent"
+                    ) + ";",
+                  m: 2,
+                }}
+                style={{ marginBottom: 0 }}
+              onClick={PlayerQuit}
+            >
+              Quit Game
+            </Button>
+          </div>
         )}
       </div>
     </div>

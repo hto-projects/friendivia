@@ -118,6 +118,26 @@ export default (io: Server, socket: Socket) => {
       socket.emit('player-answer-question-error', e);
     }
   };
+  const onPlayerQuit = async (playerId: string) => {
+    try {
+      const player: IPlayer = await playerDb.getPlayer(playerId);
+      const gameId = player.gameId;
+      const playerName = player.name;
+      await playerDb.kickPlayer(playerName, gameId);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+      const currentGameData = await hostDb.getGameData(gameId);
+      if (currentGameData === null) {
+        return;
+      }
+
+      io.to(currentGameData.hostSocketId).emit('players-updated', {
+        gameId: gameId,
+        players: allPlayersInGame
+      });
+      hostHelpers.onHostViewUpdate(gameId, io);
+    } catch (e) {
+      console.error("Failed to kick player: " + e);
+    }}
 
   const onHostKickPlayer = async (playerName: string) => {
     try {
@@ -144,4 +164,5 @@ export default (io: Server, socket: Socket) => {
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
   socket.on('player-answer-question', onPlayerAnswerQuestion);
+  socket.on('player-quit', onPlayerQuit)
 }

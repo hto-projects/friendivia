@@ -71,6 +71,13 @@ export default {
       }
     },
         
+    onPlayerQuit: async () => {
+      try {
+        //await kickPlayer(playerName, gameId);
+      } catch (e) {
+        console.error("failed to delete player");
+      }
+    },
 
   getPlayerBySocketId: async (socketId: string): Promise<any> => {
     try {
