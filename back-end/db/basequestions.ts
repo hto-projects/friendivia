@@ -138,6 +138,24 @@ const arr = [
       "What is one career field that <PLAYER> works in or is interested in?",
     fakeAnswers: ["Computer science", "Law", "biology", "Automotive"],
   },
+  {
+    text: "What is your favorite flower?",
+    quizText:"What is <PLAYER>'s favorite flower?",
+    fakeAnswers: ["Chrysanthemum", "Hydrangea", "Peony", "Marigold"]
+  },
+  {
+    text: "What is one question friendpardy should add?",
+    quizText:"What is one question <PLAYER> thinks friendpardy should add?",
+    fakeAnswers: ["Rick Roll Question","does player believe the earth is flat","Friendpardy is already perfect","Minecraft trivia"]
+  },
+  {
+    text: "What is one short fond memory you have?",
+    quizText:"What is one short fond memory <PLAYER> has?",
+    fakeAnswers: ["My dad teaching me to drive a car","Going to a roller coaster park","My whole team cheering on a teammate","watching a movie with my friends"]
+  },
+  {
+    text: ""
+  }
 ];
 
 const gptQuestions = [
@@ -500,7 +518,7 @@ const gptQuestions = [
       "aliens will visit",
       "Nothing will change"
     ]
-  }
+  },
 ];
 
 export default [...arr, ...gptQuestions];
