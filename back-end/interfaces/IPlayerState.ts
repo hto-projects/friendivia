@@ -1,6 +1,7 @@
 enum PlayerStates {
   Init = 'init',
   JoinedWaiting = 'joined-waiting',
+  PlayerKicked = 'kicked',
   FillingQuestionnaire = 'filling-questionnaire',
   DoneWithQuestionnaireWaiting = 'submitted-questionnaire-waiting',
   SeeingQuestion = 'seeing-question',

@@ -17,6 +17,7 @@ import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
 import PlayerNewRanking from "./PlayerNewRanking"
+import PlayerKicked from "./PlayerKicked"
 
 interface PlayerAppProps {
   socket: Socket;
@@ -134,9 +135,12 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "rank-three") {
       bottomButtons = false;
       return <PlayerOver rank={3} />;
-    } else if (playerState === "") {
+    } else if (playerState === "" || playerState === "init") {
       bottomButtons = true;
       return <PlayerJoin socket={socket} playerState={playerState} />;
+    } else if(playerState === "kicked"){
+      bottomButtons = true;
+      return <PlayerKicked socket={socket} />;
     } else {
       bottomButtons = false;
       return <PlayerJoin socket={socket} playerState={playerState} />;
@@ -144,7 +148,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   function getButtonsForState() {
-    if (playerState === "init" || playerState === null || playerState === "") {
+    if (playerState === "init" || playerState === null || playerState === "" || playerState === "kicked") {
       return (
         <div className="bottomContainer" id="btmContainPlayerApp">
           <p>
@@ -185,7 +189,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   function getScreenForState() {
-    if (playerState === "init" || playerState === null || playerState === "") {
+    if (playerState === "init" || playerState === null || playerState === "" || playerState === "kicked") {
       return "element";
     } else {
       return "noBtnElement";
@@ -202,7 +206,7 @@ export default function PlayerApp(props: PlayerAppProps) {
         <div className="banner">
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              {playerState!="init" ? (<div className="align_center">
+              {playerState!="init"  && playerState != "kicked" ? (<div className="align_center">
                 {/*if player name has not been inputted do not display username chip*/}
                 {playerName != "" ? <Chip style={{backgroundColor: "white"}} label={playerName} /> : ""}
               </div>) : ("")}
@@ -215,7 +219,7 @@ export default function PlayerApp(props: PlayerAppProps) {
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
               {playerState!="init" ? (<div className="align_center">
-                {playerState != "filling-questionnaire" ? (
+                {playerState != "filling-questionnaire" && playerState != "kicked" ? (
                   playerName != "" ? (
                     <Chip style={{backgroundColor: "white"}} label={playerScore} />
                   ) : (
