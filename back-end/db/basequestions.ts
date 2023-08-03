@@ -153,9 +153,6 @@ const arr = [
     quizText:"What is one short fond memory <PLAYER> has?",
     fakeAnswers: ["My dad teaching me to drive a car","Going to a roller coaster park","My whole team cheering on a teammate","watching a movie with my friends"]
   },
-  {
-    text: ""
-  }
 ];
 
 const gptQuestions = [
