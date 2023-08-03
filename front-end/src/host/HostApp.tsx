@@ -152,6 +152,7 @@ export default function HostApp(props: IHostProps) {
 
   function getElementForState(state: string, settingsState: boolean) {
     if (state === "lobby") {
+      socket.emit('reload-players');
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
       return <HostQuestionnaire socket={socket} gameId={gameId} playersInGame={playersInGame} />;
