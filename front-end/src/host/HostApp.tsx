@@ -153,6 +153,7 @@ export default function HostApp(props: IHostProps) {
 
   function getElementForState(state: string, settingsState: boolean) {
     if (state === "lobby") {
+      socket.emit('reload-players');
       return <HostLobby socket={socket} gameId={gameId} />;
     } else if (state === "questionnaire") {
       return <HostQuestionnaire socket={socket} gameId={gameId} playersInGame={playersInGame} />;
@@ -227,7 +228,7 @@ export default function HostApp(props: IHostProps) {
   return (
     <div className="scroll">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
-        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} />
+        <HostAnnouncementQueue announcementAudioObjects={announcementAudioObjects} socket={socket} gameId={gameId} gameState={gameState}/>
         <PlayAudio src={lobbyMusic} loop={true} />
         <div id="host-banner">
           <div className="musicButton bannerEdge">

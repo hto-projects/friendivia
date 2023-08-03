@@ -110,9 +110,10 @@ export default (io, socket: Socket) => {
 
   const playAgain = async () => { 
     try {
-      hostDb.deleteGame(GameId, PreSettingsId);
-      onHostOpen();
-      playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
+      await playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
+      await hostDb.deleteGame(GameId, PreSettingsId);
+      PreSettingsId = null;
+      await onHostOpen();
     } catch (e) {
       console.error(`Failed to delete game: ${e}`)
     }
@@ -128,6 +129,7 @@ export default (io, socket: Socket) => {
 
   const onHostStartQuizTimer = async (gameId) => {
     try {
+      socket.emit('start-timer-success');
       hostHelpers.hostStartQuizTimer(gameId, io);
     } catch (e) {
       console.error(`Failed to start timer: ${e}`);
@@ -251,7 +253,21 @@ export default (io, socket: Socket) => {
       console.error(`Failed to delete game: ${e}`)
     }
   }
+
+  const onHostReloadLobby = async () => {
+    const allPlayersInGame = await playerDb.getPlayers(GameId);
+    const currentGameData = await hostDb.getGameData(GameId);
+      if (currentGameData === null) {
+        return;
+      }
+    io.to(currentGameData.hostSocketId).emit('players-updated', {
+      gameId: GameId,
+      players: allPlayersInGame
+    });
+    await hostHelpers.onHostViewUpdate(GameId, io);
+  }
  
+  socket.on('reload-players', onHostReloadLobby);
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('settings-load', onSettingsLoad);
