@@ -251,7 +251,21 @@ export default (io, socket: Socket) => {
       console.error(`Failed to delete game: ${e}`)
     }
   }
+
+  const onHostReloadLobby = async () => {
+    const allPlayersInGame = await playerDb.getPlayers(GameId);
+    const currentGameData = await hostDb.getGameData(GameId);
+      if (currentGameData === null) {
+        return;
+      }
+    io.to(currentGameData.hostSocketId).emit('players-updated', {
+      gameId: GameId,
+      players: allPlayersInGame
+    });
+    await hostHelpers.onHostViewUpdate(GameId, io);
+  }
  
+  socket.on('reload-players', onHostReloadLobby);
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('settings-load', onSettingsLoad);
