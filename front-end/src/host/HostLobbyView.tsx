@@ -12,10 +12,6 @@ const LEFT_BADGE_COUNT = 12;
 const TOP_BADGE_COUNT = 2;
 const RIGHT_BADGE_COUNT = 12;
 const BOTTOM_BADGE_COUNT = 4;
-const LEFT_BADGE_COUNT = 12;
-const TOP_BADGE_COUNT = 2;
-const RIGHT_BADGE_COUNT = 12;
-const BOTTOM_BADGE_COUNT = 4;
 
 const LEFT_BADGE_START = 0;
 const LEFT_BADGE_END = LEFT_BADGE_COUNT;
@@ -44,15 +40,16 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     ));
   };
 
-    for (let i = 0; i < BOTTOM_BADGE_END; i++) {
-      badgeHolderStart.push({
-        occupyingPlayer: "",
-        index: i
-      });
+  const getOpenBadgeSpotIndices = () => {
+    const openSpots: number[] = [];
+    for (let i = 0; i < badgeSpots.length; i++) {
+      if (badgeSpots[i] === "") {
+        openSpots.push(i);
+      }
     }
 
-    return badgeHolderStart;
-  }, []);
+    return openSpots;
+  };
 
   React.useEffect(() => {
     const updatedBadgeSpots = badgeSpots.slice();
@@ -63,12 +60,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       if (!spotTaken) {
         updatedBadgeSpots[i] = "";
       }
-    });
-  }, [playerNames])
-
-  const getLeftBadges = () => {
-    return badgeHolders.slice(0, LEFT_BADGE_END);
-  }
+    }
 
     for (let i = 0; i < playerNames.length; i++) {
       let name = playerNames[i];

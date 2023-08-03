@@ -400,18 +400,25 @@ body {
 }
 
 .banner {
-  background-image: url("./assets/playerbanner.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat; 
-  box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
-  border-width: 10px;
-  height: 70px; 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0px;
+  background: #8080FF;
+  background: linear-gradient(-45deg, cyan, magenta);
+  box-shadow: #8080FF 0px 1px 20px 0px;
+  border-bottom: 4px solid #8080FF;
+  margin-bottom: 1vw;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: -1px;
+}
+
+.banner-text {
+  font-size: 4.5em;
+  color: white;
+  font-family: "Concert One", sans-serif;
+  padding-bottom: 20px;
+}
+
+.banner .banner-text {
+  font-size: 1.5em;
 }
 
 .bannerEdge {

@@ -15,22 +15,26 @@ interface HostQuestionnaireViewProps {
 export default function HostQuestionnaireView(
   props: HostQuestionnaireViewProps
 ) {
-  const { donePlayers, waitingPlayers, socket } = props;
+  let waitingPlayers = props.waitingPlayers;
+  let donePlayers = props.donePlayers;
+  let socket = props.socket;
   const [warningReached, setWarningReached] = React.useState(false);
-  const [spokenText, setSpokenText] = React.useState("");
+  let spokenText = "";
+
+  const [warning2Reached, setWarning2Reached] = React.useState(false);
+  let spokenText2 = "";
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setWarningReached(true);
     }, 20000);
-    return () => clearTimeout(timer);
-  }, []);
+  }, [warningReached, setWarningReached]);
 
   React.useEffect(() => {
-    if (warningReached && waitingPlayers.length > 0) {
-      setSpokenText(`Hurry up, "${waitingPlayers[0]}"!`);
-    }
-  }, [warningReached, waitingPlayers]);
+    setTimeout(() => {
+      setWarning2Reached(true);
+    }, 40000);
+  }, [warning2Reached, setWarning2Reached]);
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -40,48 +44,23 @@ export default function HostQuestionnaireView(
     }
   }
 
-  function getRandomEmoji(): string {
-    const emojis = ["😀", "🎉", "🐶", "🍕", "🚀", "🎸", "🌈", "🦄", "🌻", "🏆"];
-    return emojis[Math.floor(Math.random() * emojis.length)];
+  if (warningReached && waitingPlayers.length > 0) {
+    spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
   }
 
-  const playerRefs = React.useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  function handlePlayerHover(name: string) {
-    const playerElement = playerRefs.current[name];
-    if (playerElement) {
-      playerElement.style.cursor = "pointer";
-      playerElement.style.boxShadow = "0px 0px 8px 0px rgba(0, 0, 0, 0.75)";
-      playerElement.style.textDecoration = "line-through";
-    }
-  }
-
-  function handlePlayerLeave(name: string) {
-    const playerElement = playerRefs.current[name];
-    if (playerElement) {
-      playerElement.style.cursor = "default";
-      playerElement.style.boxShadow = "none";
-      playerElement.style.textDecoration = "none";
-    }
+  if (warning2Reached && waitingPlayers.length > 1) {
+    spokenText = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
   }
 
   return (
     <>
       {spokenText && <Speak text={spokenText} />}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          height: "90vh",
-          alignItems: "center",
-          justifyContent: "center",
-          verticalAlign: "middle",
-          alignContent: "center",
-          alignSelf: "center",
-          margin: "auto",
-        }}
-      >
-        <div>
+      {spokenText2 && <Speak text={spokenText2} />}
+      {waitingPlayers.length === 1 && (
+        <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />
+      )}
+      <div className="waiting">
+        <div className="waitingPlayers">
           <Paper
             elevation={3}
             sx={{
@@ -89,116 +68,39 @@ export default function HostQuestionnaireView(
               paddingLeft: "1vw",
               paddingRight: "1vw",
               margin: "auto",
-              width: "45vw",
-              height: "75vh",
-              marginRight: "3vw",
-              marginLeft: "1vw",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: "10px",
-              boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+              width: "18vw",
             }}
           >
-            <h1 style={{ color: "white", marginBottom: "5vh" }}>Waiting on</h1>
+            <h1 style={{ color: "white" }}>Waiting on</h1>
             <ul className="ul">
               {waitingPlayers.map((name: string, i: number) => (
-                <li
-                  className="li"
-                  key={i}
-                  style={{
-                    textDecoration: "none",
-                    transition: "text-decoration 0.3s ease-in-out",
-                  }}
-                >
-                  <div
-                    ref={(ref) => (playerRefs.current[name] = ref)}
-                    style={{
-                      height: "4vh",
-                      width: "auto",
-                      borderRadius: "10px",
-                      background: "#FFFFFF",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+                <li className="li" key={i}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      "&:hover": {
+                        cursor: "pointer",
+                        boxShadow: 8,
+                        textDecoration: "line-through",
+                      },
+                      color: "red",
+                      width: "10vw",
+                      paddingTop: "0.1vh",
+                      paddingBottom: "0.1vh",
                       margin: "auto",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      position: "relative",
-                      zIndex: 9999,
                     }}
                     onClick={() => onPlayerKick(name)}
-                    onMouseEnter={() => handlePlayerHover(name)}
-                    onMouseLeave={() => handlePlayerLeave(name)}
+                    className="playerbox"
                   >
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 1000,
-                        background: "#FFFFFF",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        alignContent: "center",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    ></div>
-                    <p
-                      style={{
-                        margin: "0px",
-                        padding: "0px",
-                        fontSize: "1.5em",
-                        fontWeight: "bold",
-                        color: "#000000",
-                        zIndex: 9999,
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {name}
-                    </p>
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-45px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%",
-                        border: "2px solid purple",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "white",
-                        zIndex: 100,
-                      }}
-                    >
-                      <span
-                        role="img"
-                        aria-label="emoji"
-                        style={{ fontSize: "2.2em", zIndex: -1 }}
-                      >
-                        {getRandomEmoji()}
-                      </span>
-                    </div>
-                  </div>
-                  <br />
-                  <br />
+                    <p className="player">{name}</p>
+                  </Paper>
                   <br />
                 </li>
               ))}
             </ul>
           </Paper>
         </div>
-        <div>
+        <div className="donePlayers">
           <Paper
             elevation={3}
             sx={{
@@ -206,103 +108,33 @@ export default function HostQuestionnaireView(
               paddingLeft: "1vw",
               paddingRight: "1vw",
               margin: "auto",
-              width: "45vw",
-              height: "75vh",
-              marginLeft: "1vw",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: "10px",
-              boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+              width: "18vw",
             }}
           >
-            <h1 style={{ color: "white", marginBottom: "5vh" }}>Done</h1>
+            <h1 style={{ color: "white" }}>Done</h1>
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
-                <li
-                  className="li"
-                  key={i}
-                  style={{
-                    textDecoration: "none",
-                    transition: "text-decoration 0.3s ease-in-out",
-                  }}
-                >
-                  <div
-                    ref={(ref) => (playerRefs.current[name] = ref)}
-                    style={{
-                      height: "4vh",
-                      width: "auto",
-                      borderRadius: "10px",
-                      background: "#FFFFFF",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
+                <li className="li" key={i}>
+                  {i === 0 && <Speak text={`Thank you, ${name}.`} />}
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      "&:hover": {
+                        cursor: "pointer",
+                        boxShadow: 8,
+                        textDecoration: "line-through",
+                      },
+                      color: "red",
+                      width: "10vw",
+                      paddingTop: "0.1vh",
+                      paddingBottom: "0.1vh",
                       margin: "auto",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      position: "relative",
-                      zIndex: 9999,
                     }}
+                    className="playerbox"
                     onClick={() => onPlayerKick(name)}
-                    onMouseEnter={() => handlePlayerHover(name)}
-                    onMouseLeave={() => handlePlayerLeave(name)}
                   >
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        zIndex: 1000,
-                        background: "#FFFFFF",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                      }}
-                    ></div>
-                    <p
-                      style={{
-                        margin: "0px",
-                        padding: "0px",
-                        fontSize: "1.5em",
-                        fontWeight: "bold",
-                        color: "#000000",
-                        zIndex: 9999,
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {name}
-                    </p>
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-45px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%",
-                        border: "2px solid purple",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "white",
-                        zIndex: 100,
-                      }}
-                    >
-                      <span
-                        role="img"
-                        aria-label="emoji"
-                        style={{ fontSize: "2.2em", zIndex: -1 }}
-                      >
-                        {getRandomEmoji()}
-                      </span>
-                    </div>
-                  </div>
+                    <p className="player">{name}</p>
+                  </Paper>
                   <br />
                 </li>
               ))}
