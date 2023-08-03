@@ -25,56 +25,56 @@ interface ILobbyViewProps {
   socket: Socket;
 }
 
-type BadgeHolding = {
-  occupyingPlayer: string;
-  index: number;
-};
-
 export default function HostLobbyView(props: ILobbyViewProps) {
   const { playerNames, gameId, socket } = props;
 
-  const badgeHolders = React.useMemo<BadgeHolding[]>(() => {
-    const badgeHolderStart: BadgeHolding[] = [];
+  const [badgeSpots, setBadgeSpots] = React.useState<string[]>(
+    new Array(BOTTOM_BADGE_END).fill("")
+  );
 
-    for (let i = 0; i < BOTTOM_BADGE_END; i++) {
-      badgeHolderStart.push({
-        occupyingPlayer: "",
-        index: i,
-      });
+  const getSliceOfBadges = (start, end) => {
+    return badgeSpots.slice(start, end).map((name, i) => (
+      <div className="badge-holding" key={i}>
+        {name && <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />}
+      </div>
+    ));
+  };
+
+  const getOpenBadgeSpotIndices = () => {
+    const openSpots: number[] = [];
+    for (let i = 0; i < badgeSpots.length; i++) {
+      if (badgeSpots[i] === "") {
+        openSpots.push(i);
+      }
     }
 
-    return badgeHolderStart;
-  }, []);
+    return openSpots;
+  };
 
   React.useEffect(() => {
-    playerNames.forEach((name) => {
-      const foundPlayer = badgeHolders.find(
-        (bh) => bh.occupyingPlayer === name
-      );
+    const updatedBadgeSpots = badgeSpots.slice();
+    for (let i = 0; i < badgeSpots.length; i++) {
+      let spot = badgeSpots[i];
+      const spotTaken = playerNames.some((name) => name === spot);
 
-      if (!foundPlayer) {
-        const possibleSpots = badgeHolders.filter((bh) => !bh.occupyingPlayer);
-        const randomBadgeHolding = pickOne(possibleSpots);
-        randomBadgeHolding.occupyingPlayer = name;
+      if (!spotTaken) {
+        updatedBadgeSpots[i] = "";
       }
-    });
+    }
+
+    for (let i = 0; i < playerNames.length; i++) {
+      let name = playerNames[i];
+      const playerHeld = badgeSpots.some((spot) => spot === name);
+
+      if (!playerHeld) {
+        const possibleSpots = getOpenBadgeSpotIndices();
+        const randomOpenIndex = pickOne(possibleSpots);
+        updatedBadgeSpots[randomOpenIndex] = name;
+      }
+    }
+
+    setBadgeSpots(() => updatedBadgeSpots);
   }, [playerNames]);
-
-  const getLeftBadges = () => {
-    return badgeHolders.slice(0, LEFT_BADGE_END);
-  };
-
-  const getTopBadges = () => {
-    return badgeHolders.slice(LEFT_BADGE_END, TOP_BADGE_END);
-  };
-
-  const getRightBadges = () => {
-    return badgeHolders.slice(TOP_BADGE_END, RIGHT_BADGE_END);
-  };
-
-  const getBottomBadges = () => {
-    return badgeHolders.slice(RIGHT_BADGE_END, BOTTOM_BADGE_END);
-  };
 
   const joinUrl = window.location.href
     .replace("/host", "")
@@ -104,13 +104,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
       <PlayAudio src={open} loop={false} />
       <div className="join-instructions">
         <div className="join-instruction-edge">
-          {getLeftBadges().map((b, i) => (
-            <div className="badge-holding" key={i}>
-              {b.occupyingPlayer && (
-                <PlayerBadge name={b.occupyingPlayer} onClick={onPlayerKick} />
-              )}
-            </div>
-          ))}
+          {getSliceOfBadges(LEFT_BADGE_START, LEFT_BADGE_END)}
         </div>
         <div
           className="lobby-middle"
@@ -122,16 +116,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           }}
         >
           <div className="above-instructions" style={{ height: "20vh" }}>
-            {getTopBadges().map((b, i) => (
-              <div className="badge-holding" key={i}>
-                {b.occupyingPlayer && (
-                  <PlayerBadge
-                    name={b.occupyingPlayer}
-                    onClick={onPlayerKick}
-                  />
-                )}
-              </div>
-            ))}
+            {getSliceOfBadges(LEFT_BADGE_END, TOP_BADGE_END)}
           </div>
           <div
             style={{
@@ -175,32 +160,17 @@ export default function HostLobbyView(props: ILobbyViewProps) {
               Start
             </Button>
             <p>
-              There {playerNames.length !== 1 ? "is" : "are"} currently{" "}
+              There {playerNames.length !== 1 ? "are" : "is"} currently{" "}
               {playerNames.length} player{playerNames.length !== 1 && "s"} in
               the game.
             </p>
           </div>
           <div className="below-instructions" style={{ flexGrow: 1 }}>
-            {getBottomBadges().map((b, i) => (
-              <div className="badge-holding" key={i}>
-                {b.occupyingPlayer && (
-                  <PlayerBadge
-                    name={b.occupyingPlayer}
-                    onClick={onPlayerKick}
-                  />
-                )}
-              </div>
-            ))}
+            {getSliceOfBadges(RIGHT_BADGE_END, BOTTOM_BADGE_END)}
           </div>
         </div>
         <div className="join-instruction-edge">
-          {getRightBadges().map((b, i) => (
-            <div className="badge-holding" key={i}>
-              {b.occupyingPlayer && (
-                <PlayerBadge name={b.occupyingPlayer} onClick={onPlayerKick} />
-              )}
-            </div>
-          ))}
+          {getSliceOfBadges(TOP_BADGE_END, RIGHT_BADGE_END)}
         </div>
       </div>
       <div
