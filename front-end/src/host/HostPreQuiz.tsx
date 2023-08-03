@@ -6,11 +6,11 @@ export default function HostPreQuiz() {
   return (
     <>
       <Speak
-        text="All questionnaires have been completed. Party time is imminent."
+        text="All questionnaires have been completed. It's time to start the quiz."
         cloud={true}
       />
       <p style={{ fontSize: "1.5em" }}>
-        All questionnaires have been completed! The quiz will begin soon...
+        All questionnaires have been completed! It's time to start the quiz.
       </p>
     </>
   );

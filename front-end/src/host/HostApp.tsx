@@ -294,9 +294,6 @@ export default function HostApp(props: IHostProps) {
             </IconButton>
           </div>
           <div className="banner-text">friendivia</div>
-          <div className="bannerEdge">
-            {/* Empty to take up space on the right side of the header*/}
-          </div>
         </div>
         <div className="host-content">
           {getElementForState(gameState, settingsState)}
