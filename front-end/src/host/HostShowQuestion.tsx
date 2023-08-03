@@ -72,7 +72,6 @@ function HostShowQuestion(props: IShowQuestionProps) {
       " Answer on your devices now.",
       " Give it your best guess.",
       " What do you think?",
-      " Hurry up and answer.",
       " Go ahead and answer now."
     ];
 

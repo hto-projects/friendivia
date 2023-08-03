@@ -21,11 +21,20 @@ export default function HostQuestionnaireView(
   const [warningReached, setWarningReached] = React.useState(false);
   let spokenText = "";
 
+  const [warning2Reached, setWarning2Reached] = React.useState(false);
+  let spokenText2 = "";
+
   React.useEffect(() => {
     setTimeout(() => {
       setWarningReached(true);
     }, 20000)
-  }, [warningReached, setWarningReached])
+  }, [warningReached, setWarningReached]);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setWarning2Reached(true);
+    }, 40000)
+  }, [warning2Reached, setWarning2Reached]);
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -36,12 +45,18 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
+    spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+  }
+
+  if (warning2Reached && waitingPlayers.length > 1) {
+    spokenText = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
   }
 
   return (
     <>
-      {spokenText && <Speak text={spokenText} />}
+    {spokenText && <Speak text={spokenText} />}
+    {spokenText2 && <Speak text={spokenText2} />}
+    {waitingPlayers.length === 1 && <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />}
       <div className="waiting">
         <div className="waitingPlayers">
           <Paper
@@ -98,6 +113,7 @@ export default function HostQuestionnaireView(
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
+                  {i === 0 && <Speak text={`Thank you, ${name}.`} />}
                   <Paper
                     elevation={3}
                     sx={{

@@ -72,7 +72,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       const encourage = pickOne(["Nice guessing", "Good job", "Way to go", "Congrats"]);
       res += `! ${encourage} `;
     } else {
-      const sad = pickOne(["No points, no one got it", "I'm disappointed in all of you.", "I love you, but you're all terrible.", "Try again next time, everybody. No points for anyone this round."]);
+      const sad = pickOne(["Unfortunately, no one received any points.", "I'm sorry, no points this round.", "No points this round. Please try to do better next time."]);
       res += `! ${sad}`;
     }
 

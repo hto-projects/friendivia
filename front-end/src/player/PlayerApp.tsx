@@ -212,8 +212,8 @@ export default function PlayerApp(props: PlayerAppProps) {
               </div>) : ("")}
             </Grid>
             <Grid item xs={6}>
-              <div className="align_center">
-                <img className="logo" src={logo} />
+              <div className="align_center banner-text">
+                friendpardy
               </div>
             </Grid>
             <Grid item xs={3}>

@@ -235,7 +235,7 @@ export default function HostApp(props: IHostProps) {
               <img className="musicIcon" src={localStorage.getItem("Music-Playing") ? (localStorage.getItem("Music-Playing") === "true" ? musicOn : musicOff ) : (muted ? musicOff : musicOn)} />
             </IconButton>
           </div>
-          <div className="hostFormat">
+          <div className="banner-text">
             friendpardy
           </div>
           <div className="bannerEdge">{/* Empty to take up space on the right side of the header*/}</div>

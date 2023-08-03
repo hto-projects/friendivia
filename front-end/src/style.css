@@ -400,16 +400,25 @@ body {
 }
 
 .banner {
-  background: rgb(169,101,203);
-  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
-  font-weight: bold;
+  background: #8080FF;
+  background: linear-gradient(-45deg, cyan, magenta);
+  box-shadow: #8080FF 0px 1px 20px 0px;
+  border-bottom: 4px solid #8080FF;
   margin-bottom: 1vw;
-  border-bottom-style: outset;
-  border-color: var(--accent);
-  border-width: 10px;
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: -1px;
+}
+
+.banner-text {
+  font-size: 4.5em;
+  color: white;
+  font-family: "Concert One", sans-serif;
+  padding-bottom: 20px;
+}
+
+.banner .banner-text {
+  font-size: 1.5em;
 }
 
 .bannerEdge {

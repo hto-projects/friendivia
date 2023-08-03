@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
-.hostFormat {
-  font-size: 4.5em;
-  color: white;
-  font-family: "Concert One", sans-serif;
-  padding-bottom: 20px;
-}
-
 #host-banner {
   background: #8080FF;
   background: linear-gradient(45deg, #00FFFF 0%, #FF00FF 100%);

@@ -23,25 +23,18 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
     let last = `"${lastPlayer.name}"`;
 
     const randomMessages = [
-      `${first} is in the top spot - let's see how long it lasts.`,
-      `Nice job at winning, ${first}.`,
-      `Wow! ${first} is heating up...`,
-      `Someone please try and stop ${first} from winning.`,
+      `${first} is in the top spot - nice job.`,
+      `Way to go, ${first}.`,
+      `Wow, ${first} is doing really well.`,
       `${first} is the one to watch`,
-      `Please do better ${last}`,
-      `I'm very disappointed in you, ${last}`,
-      `There's still hope, ${last}... but it's running out`,
-      `I wouldn't bet on ${last} at this point`,
-      `You're so close, ${second}!`,
-      `This is cool. ${first} is my best friend, and they're doing better than everyone else.`,
-      `${first} and ${second} are neck and neck! Meaning one of them is in first, and one of them is in second!`,
-      `Good luck, ${last}... you're gonna need it.`,
-      `${second} is in second place - keep grinding 😤`,
-      `${last} - you might want to try cheating next time`
+      `You're so close, ${second}.`,
+      `${first} and ${second} are neck and neck.`,
+      `Keep trying your best, ${last}.`,
+      `keep grinding, ${second}. you're almost in first.`
     ];
 
     if (firstPlayer.score === secondPlayer.score) {
-      randomMessages.push(`Looks like there's a tie at the top... but ${first} is still winning.`);
+      randomMessages.push(`Looks like there's a tie at the top.`);
     }
 
     return pickOne(randomMessages);
