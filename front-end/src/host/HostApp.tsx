@@ -163,7 +163,6 @@ export default function HostApp(props: IHostProps) {
       const quizQuestionOptions = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
-      console.log(announcementAudioObjects);
 
       return (
         <HostShowQuestion

@@ -30,7 +30,6 @@ function HostShowQuestion(props: IShowQuestionProps) {
 
   function Timer(props) {
     const started = props.started;
-    console.log('started: ' + started);
     const [counter, setCounter] = React.useState(timePerQuestion);
     React.useEffect(() => {
       if (started && counter > 0) {
@@ -82,7 +81,6 @@ function HostShowQuestion(props: IShowQuestionProps) {
   }
 
   function startTimer() {
-    console.log('Timer started back-end');
     setTimerStarted(true);
     socket.emit('host-start-quiz-timer', gameId );
   }

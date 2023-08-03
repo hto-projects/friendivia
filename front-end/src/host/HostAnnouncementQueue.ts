@@ -15,19 +15,15 @@ export function HostAnnouncementQueue(props: IHostAnnouncementProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   React.useEffect(() => {
-    console.log('Reading queue');
     const numAnnouncements = announcementAudioObjects.length;
     if (numAnnouncements > 0 && currentIndex < numAnnouncements) {
-      console.log(numAnnouncements + 'index:' + currentIndex)
       const currentAudio = announcementAudioObjects[currentIndex];
       currentAudio.onended = () => {
         setCurrentIndex(currentIndex+1);
       };
 
 
-      console.log(currentAudio);
       currentAudio.play().catch(() => {
-        console.log('caught error')
         if (gameState === 'showing-question') {
           socket.emit('host-start-quiz-timer', gameId);
           announcementAudioObjects.splice(0);

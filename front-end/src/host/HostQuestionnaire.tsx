@@ -46,7 +46,6 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     socket.on("update-host-view", onStatusReceived);
 
     function onPlayersUpdated(playersObject: any) {
-      console.log("players updated");
       const updatedDonePlayers = getPlayerNamesForState(
         playersObject.players,
         "submitted-questionnaire-waiting"
