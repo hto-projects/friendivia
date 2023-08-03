@@ -110,9 +110,10 @@ export default (io, socket: Socket) => {
 
   const playAgain = async () => { 
     try {
-      hostDb.deleteGame(GameId, PreSettingsId);
-      onHostOpen();
-      playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
+      await playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
+      await hostDb.deleteGame(GameId, PreSettingsId);
+      PreSettingsId = null;
+      await onHostOpen();
     } catch (e) {
       console.error(`Failed to delete game: ${e}`)
     }
@@ -128,6 +129,7 @@ export default (io, socket: Socket) => {
 
   const onHostStartQuizTimer = async (gameId) => {
     try {
+      socket.emit('start-timer-success');
       hostHelpers.hostStartQuizTimer(gameId, io);
     } catch (e) {
       console.error(`Failed to start timer: ${e}`);

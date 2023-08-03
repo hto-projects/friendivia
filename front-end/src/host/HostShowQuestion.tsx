@@ -23,7 +23,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
     socket,
     gameId,
     timePerQuestion,
-    handsFreeMode
+    handsFreeMode,
   } = props;
 
   const [timerStarted, setTimerStarted] = React.useState<boolean>(false);
@@ -82,8 +82,10 @@ function HostShowQuestion(props: IShowQuestionProps) {
 
   function startTimer() {
     setTimerStarted(true);
-    socket.emit('host-start-quiz-timer', gameId);
+    socket.emit('host-start-quiz-timer', gameId );
   }
+
+  socket.on('start-timer-success', () => setTimerStarted(true));
 
   function onTimerSkipBtn() {
     socket.emit("timer-skip", gameId);
@@ -108,6 +110,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
           <Button
             className="button"
             variant="contained"
+            disabled={timerStarted? false : true}
             sx={{
               bgcolor:
                 getComputedStyle(document.body).getPropertyValue("--accent") +
