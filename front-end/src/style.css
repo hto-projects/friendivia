@@ -259,7 +259,9 @@ body {
 
 .bottomContainer{
   display: flex;
-  justify-content: flex-start;
+  position: relative;
+  justify-content: center;
+  bottom: 4vmin;
 }
 
 .guesses{

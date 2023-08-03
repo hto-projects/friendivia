@@ -301,7 +301,7 @@ const gptQuestions = [
   {
     text: "How will society be different in 50 years?",
     quizText: "According to <PLAYER>, how will society be different in 50 years?",
-    fakeAnswers: ["hopefully there will be a better healthcare", "AI is taking over", "Climate change will escalate", "faster phones"]
+    fakeAnswers: ["hopefully there will be better healthcare", "AI is taking over", "Climate change will escalate", "faster phones"]
   },
   {
     text: "If you could swap lives with anyone, who would you want to be?",
