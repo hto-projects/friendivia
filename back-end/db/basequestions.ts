@@ -110,7 +110,7 @@ const arr = [
   {
     text: "What is your favorite word?",
     quizText: "What do you think is <PLAYER>'s favorite word?",
-    fakeAnswers: ["Indubitably", "Flabbergasted!", "Friendpardy", "asymmetry"],
+    fakeAnswers: ["Indubitably", "Flabbergasted!", "Friendivia", "asymmetry"],
   },
   // {
   //   text: "What is your favorite emoji?",

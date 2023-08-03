@@ -257,21 +257,7 @@ export default function PlayerApp(props: PlayerAppProps) {
               )}
             </Grid>
             <Grid item xs={6}>
-              <div className="align_center">
-                <p
-                  style={{
-                    fontFamily: "Inter",
-                    fontSize: "2em",
-                    color: "white",
-                    fontWeight: "bold",
-                    margin: "0px",
-                    marginTop: "2vh",
-                    marginBottom: "2vh",
-                  }}
-                >
-                  fri🥳ndivia
-                </p>
-              </div>
+              <div className="align_center banner-text">friendivia</div>
             </Grid>
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
