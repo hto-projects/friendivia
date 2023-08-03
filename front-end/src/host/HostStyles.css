@@ -27,13 +27,18 @@
 }
 
 .join-instruction-edge, .above-instructions, .below-instructions {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: stretch;
+	justify-content: center;
+	align-items: stretch;
 }
 
 .badge-holding {
-  width: 100px;
-  height: 20px;
-  border: 1px solid pink;
+	width: 15vw;
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+  justify-content: center;
 }

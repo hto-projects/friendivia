@@ -8,10 +8,10 @@ import PlayAudio from "../PlayAudio";
 import PlayerBadge from "./PlayerBadge";
 import { pickOne } from "../util";
 
-const LEFT_BADGE_COUNT = 5;
-const TOP_BADGE_COUNT = 5;
-const RIGHT_BADGE_COUNT = 5;
-const BOTTOM_BADGE_COUNT = 5;
+const LEFT_BADGE_COUNT = 12;
+const TOP_BADGE_COUNT = 2;
+const RIGHT_BADGE_COUNT = 12;
+const BOTTOM_BADGE_COUNT = 4;
 
 const LEFT_BADGE_START = 0;
 const LEFT_BADGE_END = LEFT_BADGE_COUNT;
@@ -37,18 +37,14 @@ export default function HostLobbyView(props: ILobbyViewProps) {
     const badgeHolderStart: BadgeHolding[] = [];
 
     for (let i = 0; i < BOTTOM_BADGE_END; i++) {
-      console.log("hm?");
       badgeHolderStart.push({
         occupyingPlayer: "",
         index: i
       });
     }
 
-    console.log(badgeHolderStart);
     return badgeHolderStart;
   }, []);
-
-  console.log(badgeHolders);
 
   React.useEffect(() => {
     playerNames.forEach(name => {
@@ -63,7 +59,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
   }, [playerNames])
 
   const getLeftBadges = () => {
-    console.log(badgeHolders);
     return badgeHolders.slice(0, LEFT_BADGE_END);
   }
 
