@@ -4,7 +4,6 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
-import logo from "../assets/friendpardylogo.png";
 import { Chip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -217,7 +216,7 @@ export default function PlayerApp(props: PlayerAppProps) {
             </Grid>
             <Grid item xs={6}>
               <div className="align_center banner-text">
-                friendpardy
+                friendivia
               </div>
             </Grid>
             <Grid item xs={3}>

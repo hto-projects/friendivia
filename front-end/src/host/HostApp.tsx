@@ -9,7 +9,6 @@ import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
 import IGame from "back-end/interfaces/IGame";
 import IPreGameSettings from "back-end/interfaces/IPreGameSettings";
 import HostShowAnswer from "./HostShowAnswer";
-import logo from "../assets/friendpardylogo.png";
 import HostLeaderBoard from "./HostLeaderBoard";
 import { Button, IconButton } from "@mui/material/";
 import HostSettings from "./HostSettings";
@@ -237,7 +236,7 @@ export default function HostApp(props: IHostProps) {
             </IconButton>
           </div>
           <div className="banner-text">
-            friendpardy
+            friendivia
           </div>
           <div className="bannerEdge">{/* Empty to take up space on the right side of the header*/}</div>
         </div>
