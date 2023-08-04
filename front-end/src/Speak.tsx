@@ -1,9 +1,10 @@
 import * as React from "react";
 import { ttsApiKey } from "./environment";
 import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
+import { replaceEmojiWithText } from "./EmojiToText";
 
 export default function Speak(props) {
-  const textToSpeak = props.text;
+  const textToSpeak = replaceEmojiWithText(props.text);
   const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
