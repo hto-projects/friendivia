@@ -425,17 +425,15 @@ body {
 }
 
 #host-banner {
-  background: rgb(169,101,203);
-  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
-  border-bottom-style: outset;
-  border-color: var(--accent);
+  background-image: url("./assets/meshgradient.png");
+  box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
   border-width: 10px;
-  padding: 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0px;
 }
 
 .bannerEdge {
