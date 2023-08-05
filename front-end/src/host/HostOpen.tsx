@@ -59,7 +59,7 @@ export default function HostOpen(props: IOpenProps) {
           }}
           onClick={onPreSettings}
         >
-          <p style={{ fontSize: "20em", margin: "0px", padding: "0px" }}>⚙️</p>
+          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>⚙️</p>
           <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
             Custom
           </h1>
@@ -96,7 +96,7 @@ export default function HostOpen(props: IOpenProps) {
           }}
           onClick={onHost}
         >
-          <p style={{ fontSize: "20em", margin: "0px", padding: "0px" }}>⚡</p>
+          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>⚡</p>
           <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
             Classic
           </h1>
@@ -132,7 +132,7 @@ export default function HostOpen(props: IOpenProps) {
             cursor: "pointer",
           }}
         >
-          <p style={{ fontSize: "20em", margin: "0px", padding: "0px" }}>🤖</p>
+          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>🤖</p>
           <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
             AI
           </h1>
