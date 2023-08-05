@@ -15,17 +15,22 @@ interface HostQuestionnaireViewProps {
 export default function HostQuestionnaireView(
   props: HostQuestionnaireViewProps
 ) {
-  let waitingPlayers = props.waitingPlayers;
-  let donePlayers = props.donePlayers;
-  let socket = props.socket;
+  const { donePlayers, waitingPlayers, socket } = props;
   const [warningReached, setWarningReached] = React.useState(false);
-  let spokenText = "";
+  const [spokenText, setSpokenText] = React.useState("");
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setWarningReached(true);
     }, 20000);
-  }, [warningReached, setWarningReached]);
+    return () => clearTimeout(timer);
+  }, []);
+
+  React.useEffect(() => {
+    if (warningReached && waitingPlayers.length > 0) {
+      setSpokenText(`Hurry up, "${waitingPlayers[0]}"!`);
+    }
+  }, [warningReached, waitingPlayers]);
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -35,13 +40,29 @@ export default function HostQuestionnaireView(
     }
   }
 
-  if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
-  }
-
   function getRandomEmoji(): string {
     const emojis = ["😀", "🎉", "🐶", "🍕", "🚀", "🎸", "🌈", "🦄", "🌻", "🏆"];
     return emojis[Math.floor(Math.random() * emojis.length)];
+  }
+
+  const playerRefs = React.useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  function handlePlayerHover(name: string) {
+    const playerElement = playerRefs.current[name];
+    if (playerElement) {
+      playerElement.style.cursor = "pointer";
+      playerElement.style.boxShadow = "0px 0px 8px 0px rgba(0, 0, 0, 0.75)";
+      playerElement.style.textDecoration = "line-through";
+    }
+  }
+
+  function handlePlayerLeave(name: string) {
+    const playerElement = playerRefs.current[name];
+    if (playerElement) {
+      playerElement.style.cursor = "default";
+      playerElement.style.boxShadow = "none";
+      playerElement.style.textDecoration = "none";
+    }
   }
 
   return (
@@ -76,14 +97,22 @@ export default function HostQuestionnaireView(
               flexDirection: "column",
               alignItems: "center",
               borderRadius: "10px",
-              boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+              boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
             }}
           >
             <h1 style={{ color: "white", marginBottom: "5vh" }}>Waiting on</h1>
             <ul className="ul">
               {waitingPlayers.map((name: string, i: number) => (
-                <li className="li" key={i}>
+                <li
+                  className="li"
+                  key={i}
+                  style={{
+                    textDecoration: "none",
+                    transition: "text-decoration 0.3s ease-in-out",
+                  }}
+                >
                   <div
+                    ref={(ref) => (playerRefs.current[name] = ref)}
                     style={{
                       height: "4vh",
                       width: "auto",
@@ -93,15 +122,16 @@ export default function HostQuestionnaireView(
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+                      boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
                       margin: "auto",
-
                       paddingLeft: "10px",
                       paddingRight: "10px",
                       position: "relative",
                       zIndex: 9999,
                     }}
                     onClick={() => onPlayerKick(name)}
+                    onMouseEnter={() => handlePlayerHover(name)}
+                    onMouseLeave={() => handlePlayerLeave(name)}
                   >
                     <div
                       style={{
@@ -113,6 +143,7 @@ export default function HostQuestionnaireView(
                         zIndex: 1000,
                         background: "#FFFFFF",
                         borderRadius: "10px",
+                        cursor: "pointer",
                         alignContent: "center",
                         justifyContent: "center",
                         alignItems: "center",
@@ -128,6 +159,7 @@ export default function HostQuestionnaireView(
                         zIndex: 9999,
                         paddingLeft: "10px",
                         paddingRight: "10px",
+                        cursor: "pointer",
                       }}
                     >
                       {name}
@@ -181,14 +213,22 @@ export default function HostQuestionnaireView(
               flexDirection: "column",
               alignItems: "center",
               borderRadius: "10px",
-              boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+              boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
             }}
           >
             <h1 style={{ color: "white", marginBottom: "5vh" }}>Done</h1>
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
-                <li className="li" key={i}>
+                <li
+                  className="li"
+                  key={i}
+                  style={{
+                    textDecoration: "none",
+                    transition: "text-decoration 0.3s ease-in-out",
+                  }}
+                >
                   <div
+                    ref={(ref) => (playerRefs.current[name] = ref)}
                     style={{
                       height: "4vh",
                       width: "auto",
@@ -198,7 +238,7 @@ export default function HostQuestionnaireView(
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
-                      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+                      boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.75)",
                       margin: "auto",
                       paddingLeft: "10px",
                       paddingRight: "10px",
@@ -206,6 +246,8 @@ export default function HostQuestionnaireView(
                       zIndex: 9999,
                     }}
                     onClick={() => onPlayerKick(name)}
+                    onMouseEnter={() => handlePlayerHover(name)}
+                    onMouseLeave={() => handlePlayerLeave(name)}
                   >
                     <div
                       style={{
@@ -217,6 +259,7 @@ export default function HostQuestionnaireView(
                         zIndex: 1000,
                         background: "#FFFFFF",
                         borderRadius: "10px",
+                        cursor: "pointer",
                       }}
                     ></div>
                     <p
@@ -229,6 +272,7 @@ export default function HostQuestionnaireView(
                         zIndex: 9999,
                         paddingLeft: "10px",
                         paddingRight: "10px",
+                        cursor: "pointer",
                       }}
                     >
                       {name}
