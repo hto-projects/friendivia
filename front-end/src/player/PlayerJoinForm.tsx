@@ -20,7 +20,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
 
   function onSubmitJoin() {
     var nameCheck = name.trim();
-    if (nameCheck == "") {
+    if (nameCheck === "") {
       alert("Please enter a name.");
       return;
     }
@@ -30,44 +30,81 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
 
   const joinInputs = (
     <>
-      <Stack className="joinForm" spacing={2}>
-        <p>Enter your name to join the game:</p>
-        <TextField
-          className="form"
-          id="name"
-          label="Name"
-          variant="outlined"
-          size="medium"
-          value={name}
-          inputProps={{ maxLength: 10 }}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          className="idInput form"
-          id="game-id"
-          label="Game ID"
-          variant="outlined"
-          size="medium"
-          type="number"
-          value={gameId || ""}
-          onChange={(e) => setGameId(Number(e.target.value))}
-        />
+      <br />
+      <br />
+      <Stack
+        className="joinForm"
+        spacing={2}
+        style={{
+          border: "5px solid #6963D8",
+          borderRadius: "20px",
+          background: "white",
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "stretch",
+          minHeight: "250px",
+        }}
+      >
+        <div style={{ marginBottom: "0px" }}>
+          <TextField
+            className="form"
+            id="name"
+            variant="outlined"
+            size="medium"
+            value={name}
+            inputProps={{ maxLength: 10 }}
+            placeholder="Name"
+            onChange={(e) => setName(e.target.value)}
+            sx={{
+              backgroundColor: "#E2E2E2",
+              width: "100%",
+              fontWeight: "bold",
+              fontSize: "18px",
+              fontFamily: "Inter",
+              marginBottom: "0px",
+            }}
+          />
+        </div>
+        <div style={{ marginBottom: "0px" }}>
+          <TextField
+            className="idInput form"
+            id="game-id"
+            variant="outlined"
+            size="medium"
+            type="number"
+            placeholder="Game ID"
+            value={gameId || ""}
+            onChange={(e) => setGameId(Number(e.target.value))}
+            sx={{
+              backgroundColor: "#E2E2E2",
+              width: "100%",
+              fontWeight: "bold",
+              fontSize: "18px",
+              fontFamily: "Inter",
+              marginBottom: "0px",
+            }}
+          />
+        </div>
         <Button
           className="form"
           disabled={!name || !gameId}
           variant="contained"
           size="large"
-          sx={{
-            bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
+          style={{
+            backgroundColor: "#955EC3",
+            color: "white",
+            width: "100%",
+            fontWeight: "bold",
+            fontFamily: "Inter",
           }}
           onClick={onSubmitJoin}
         >
-          Join
+          Join Game
         </Button>
       </Stack>
-      <p style={{ color: "red" }}>{playerState.message}</p>
+      <p style={{ color: "red", marginTop: "10px" }}>{playerState.message}</p>
     </>
   );
 

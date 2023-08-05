@@ -412,17 +412,21 @@ body {
 }
 
 .banner {
-  background: rgb(169,101,203);
-  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
-  font-weight: bold;
-  margin-bottom: 1vw;
-  border-bottom-style: outset;
-  border-color: var(--accent);
+  background-image: url("./assets/playerbanner.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat; 
+  box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
   border-width: 10px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-bottom: -1px;
+  height: 70px; 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
 }
+
+
 
 #host-banner {
   background-image: url("./assets/meshgradient.png");
