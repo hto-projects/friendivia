@@ -5,7 +5,8 @@ import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import open from "../assets/audio/appopen.mp3";
 import PlayAudio from "../PlayAudio";
-import meshgradient from "../assets/meshgradient.png";
+import meshgradient from "../assets/button.png";
+import nametag from "../assets/nametag.png";
 
 interface ILobbyViewProps {
   playerNames: string[];
@@ -103,7 +104,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                       height: "4vh",
                       width: "auto",
                       borderRadius: "10px",
-                      background: "#FFFFFF",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
@@ -114,6 +114,8 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                       paddingLeft: "10px",
                       paddingRight: "10px",
                       position: "relative",
+                      backgroundImage: `url(${nametag})`,
+                      backgroundSize: "cover",
                       zIndex: 9999,
                     }}
                     ref={(ref) => (playerRefs.current[name] = ref)}
@@ -129,7 +131,8 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                         width: "100%",
                         height: "100%",
                         zIndex: 1000,
-                        background: "#FFFFFF",
+                        backgroundImage: `url(${meshgradient})`,
+                        backgroundSize: "cover",
                         borderRadius: "10px",
                       }}
                     ></div>
@@ -139,10 +142,12 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                         padding: "0px",
                         fontSize: "1.5em",
                         fontWeight: "bold",
-                        color: "#000000",
+                        color: "white",
                         zIndex: 9999,
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
+                        paddingTop: "20px",
+                        paddingBottom: "25px",
+                        paddingLeft: "20px",
+                        paddingRight: "20px",
                       }}
                     >
                       {name}
