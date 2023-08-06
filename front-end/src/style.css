@@ -429,7 +429,7 @@ body {
 
 
 #host-banner {
-  background-image: url("./assets/meshgradient.png");
+  background-image: url("./assets/hostbanner.png");
   box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
   border-width: 10px;
   display: flex;

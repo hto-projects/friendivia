@@ -2,7 +2,7 @@ import * as React from "react";
 import "../style.css";
 import { Button } from "@mui/material";
 import { Socket } from "socket.io-client";
-import meshgradient from "../assets/meshgradient.png";
+import meshgradient from "../assets/card.png";
 
 interface IOpenProps {
   socket: Socket;
