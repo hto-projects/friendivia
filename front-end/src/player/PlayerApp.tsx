@@ -230,7 +230,10 @@ export default function PlayerApp(props: PlayerAppProps) {
       }
     >
       <div className="player_join">
-        <div className="banner">
+        <div
+          className="banner"
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={3}>
               {playerState != "init" && playerState != "kicked" ? (
@@ -238,7 +241,11 @@ export default function PlayerApp(props: PlayerAppProps) {
                   {/*if player name has not been inputted do not display username chip*/}
                   {playerName != "" ? (
                     <Chip
-                      style={{ backgroundColor: "white" }}
+                      style={{
+                        backgroundColor: "white",
+                        marginTop: "2vh",
+                        marginBottom: "2vh",
+                      }}
                       label={playerName}
                     />
                   ) : (
@@ -274,7 +281,11 @@ export default function PlayerApp(props: PlayerAppProps) {
                   playerState != "kicked" ? (
                     playerName != "" ? (
                       <Chip
-                        style={{ backgroundColor: "white" }}
+                        style={{
+                          backgroundColor: "white",
+                          marginTop: "2vh",
+                          marginBottom: "2vh",
+                        }}
                         label={playerScore}
                       />
                     ) : (
