@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ttsApiKey } from "./environment";
+import { ttsApiKey, googleTtsApiKey } from "./environment";
 import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
 export default function Speak(props) {
@@ -7,6 +7,44 @@ export default function Speak(props) {
   const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
+
+  async function createAnnouncementAudioGoogle() {
+    const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?alt=json&key=${googleTtsApiKey}`;
+
+    const body = {
+      input: {
+        text: textToSpeak
+      },
+      voice: {
+        languageCode: "en-GB",
+        name: "en-GB-Neural2-C"
+      },
+      audioConfig: {
+        audioEncoding: "LINEAR16",
+        pitch: -2.8,
+        speakingRate: 1.27
+      }
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      const responseJson = await response.json();
+      const audioUrl = `data:audio/wav;base64,${responseJson.audioContent}`;
+      const audio = new Audio(audioUrl);
+      audio.addEventListener("ended", callback);
+      addAnnouncement(audio);
+    } catch (e) {
+      console.error(`Error fetching or playing Google API TTS Audio: `, e);
+      createAnnouncementAudioTikTok();
+    }
+  }
 
   function speakFromBrowser() {
     const msg = new SpeechSynthesisUtterance();
@@ -79,7 +117,7 @@ export default function Speak(props) {
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
-      createAnnouncementAudioTikTok();
+      createAnnouncementAudioGoogle();
     }
   }
 
@@ -91,6 +129,8 @@ export default function Speak(props) {
     textHasBeenSpoken.current = true;
     if (ttsApiKey) {
       createAnnouncementAudio();
+    } else if (googleTtsApiKey) {
+      createAnnouncementAudioGoogle();
     } else {
       createAnnouncementAudioTikTok();
     }
