@@ -64,10 +64,12 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     };
   }, [socket]);
 
-
   return (
     <>
-      <Speak text={"Fill out your questionnaires on your devices now."} cloud={true} />
+      <Speak
+        text={"Fill out your questionnaires on your devices now."}
+        cloud={true}
+      />
       <PlayAudio src={theme} loop={true} />
       <HostQuestionnaireView
         donePlayers={donePlayers}
