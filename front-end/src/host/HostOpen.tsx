@@ -121,7 +121,7 @@ export default function HostOpen(props: IOpenProps) {
               textAlign: "left",
             }}
           >
-            Classic fun friendpardy gameplay. Let’s start the pardy!
+            Classic fun friendivia gameplay. Let’s start the game!
           </h1>
         </div>
         <div
