@@ -94,15 +94,19 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           variant="contained"
           size="large"
           style={{
-            backgroundColor: "#955EC3",
+            // backgroundColor: "#955EC3",
+            backgroundImage:
+              "linear-gradient(-45deg, rgba(0, 200, 200, 0.5), rgba(200, 0, 200, 0.5))",
             color: "white",
             width: "100%",
             fontWeight: "light",
             fontFamily: "Concert One",
+            fontSize: "1.3em",
+            textTransform: "none",
           }}
           onClick={onSubmitJoin}
         >
-          Join Game
+          join game
         </Button>
         <div
           className="gradient-border"

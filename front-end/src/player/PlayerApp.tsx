@@ -173,10 +173,11 @@ export default function PlayerApp(props: PlayerAppProps) {
                 bottom: "10px",
                 left: "10px",
                 fontFamily: "Concert One",
+                textTransform: "none",
               }}
               href="/host"
             >
-              Host
+              host
             </Button>
             <Button
               className="button"
@@ -189,10 +190,11 @@ export default function PlayerApp(props: PlayerAppProps) {
                 bottom: "10px",
                 right: "10px",
                 fontFamily: "Concert One",
+                textTransform: "none",
               }}
               href="/about"
             >
-              About
+              about
             </Button>
           </p>
         </div>
