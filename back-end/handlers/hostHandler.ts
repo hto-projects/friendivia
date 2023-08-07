@@ -37,6 +37,7 @@ export default (io, socket: Socket) => {
       if (dataForGame) {     
         const data = dataForGame;
         const quizQuestionGuesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, data.currentQuestionIndex);
+        console.log(quizQuestionGuesses, "in onHostLoad");
         const playerScores = await playerDb.getPlayerScores(gameId);
         
         const playersInGame = await playerDb.getPlayers(gameId);
@@ -242,9 +243,11 @@ export default (io, socket: Socket) => {
         const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(GameId, data?.settings.numQuestionnaireQuestions);
         await playerDb.updateAllPlayerStates(GameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
         let playersInGame = await playerDb.getPlayers(GameId);
-        playersInGame.map(p => p.quizGuesses = []);
+        playersInGame.forEach(p => p.quizGuesses = []);
+        let quizQuestionGuesses = [];
         const currentGameData: IGame | null = await hostDb.getGameData(GameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, quizQuestionGuesses, playersInGame});
+        console.log(quizQuestionGuesses, "in playAgainWithSamePlayers");
       } catch (e) {
         console.error(`Failed to go to questionnaire: ${e}`)
       }
