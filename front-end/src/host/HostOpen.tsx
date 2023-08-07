@@ -22,7 +22,6 @@ export default function HostOpen(props: IOpenProps) {
   return (
     <div
       style={{
-        backgroundColor: "#E2E2E2",
         height: "90vh",
         alignItems: "center",
         justifyContent: "center",
@@ -41,10 +40,10 @@ export default function HostOpen(props: IOpenProps) {
       >
         <div
           style={{
-            height: "75vh",
+            height: "71vh",
             width: "27vw",
-            backgroundImage: `url(${meshgradient})`,
-            backgroundSize: "cover",
+            backgroundImage:
+              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -52,20 +51,26 @@ export default function HostOpen(props: IOpenProps) {
             verticalAlign: "middle",
             justifyContent: "center",
             alignItems: "center",
-            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
             cursor: "pointer",
           }}
           onClick={onPreSettings}
         >
-          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>⚙️</p>
-          <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
+          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚙️</p>
+          <h1
+            style={{
+              color: "rgba(0,0,0,0.8)",
+              fontSize: "2.5em",
+              fontWeight: "bold",
+            }}
+          >
             Custom
           </h1>
           <h1
             style={{
-              color: "white",
+              color: "rgba(0,0,0,0.9)",
               fontSize: "1.5em",
               fontWeight: "normal",
               paddingLeft: "2vw",
@@ -78,10 +83,10 @@ export default function HostOpen(props: IOpenProps) {
         </div>
         <div
           style={{
-            height: "75vh",
+            height: "71vh",
             width: "27vw",
-            backgroundImage: `url(${meshgradient})`,
-            backgroundSize: "cover",
+            backgroundImage:
+              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -89,20 +94,26 @@ export default function HostOpen(props: IOpenProps) {
             verticalAlign: "middle",
             justifyContent: "center",
             alignItems: "center",
-            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
             cursor: "pointer",
           }}
           onClick={onHost}
         >
-          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>⚡</p>
-          <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
+          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚡</p>
+          <h1
+            style={{
+              color: "rgba(0,0,0,0.8)",
+              fontSize: "2.5em",
+              fontWeight: "bold",
+            }}
+          >
             Classic
           </h1>
           <h1
             style={{
-              color: "white",
+              color: "rgba(0,0,0,0.9)",
               fontSize: "1.5em",
               fontWeight: "normal",
               paddingLeft: "2vw",
@@ -115,10 +126,10 @@ export default function HostOpen(props: IOpenProps) {
         </div>
         <div
           style={{
-            height: "75vh",
+            height: "71vh",
             width: "27vw",
-            backgroundImage: `url(${meshgradient})`,
-            backgroundSize: "cover",
+            backgroundImage:
+              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -126,19 +137,25 @@ export default function HostOpen(props: IOpenProps) {
             verticalAlign: "middle",
             justifyContent: "center",
             alignItems: "center",
-            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
             cursor: "pointer",
           }}
         >
-          <p style={{ fontSize: "15em", margin: "0px", padding: "0px" }}>🤖</p>
-          <h1 style={{ color: "white", fontSize: "2.5em", fontWeight: "bold" }}>
+          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>🤖</p>
+          <h1
+            style={{
+              color: "rgba(0,0,0,0.8)",
+              fontSize: "2.5em",
+              fontWeight: "bold",
+            }}
+          >
             AI
           </h1>
           <h1
             style={{
-              color: "white",
+              color: "rgba(0,0,0,0.9)",
               fontSize: "1.5em",
               fontWeight: "normal",
               paddingLeft: "2vw",
