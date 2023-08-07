@@ -113,7 +113,8 @@ export default {
       }, { 
         $set: { 
           'questionnaireAnswers': questionnaireAnswers,
-          'playerState.state': 'submitted-questionnaire-waiting' 
+          'playerState.state': 'submitted-questionnaire-waiting',
+          'quizGuesses' : []
         }
       });
     } catch (e) {
