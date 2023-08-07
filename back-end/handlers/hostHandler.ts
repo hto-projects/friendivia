@@ -257,9 +257,9 @@ export default (io, socket: Socket) => {
   const onHostReloadLobby = async () => {
     const allPlayersInGame = await playerDb.getPlayers(GameId);
     const currentGameData = await hostDb.getGameData(GameId);
-      if (currentGameData === null) {
-        return;
-      }
+    if (!currentGameData) {
+      return;
+    }
     io.to(currentGameData.hostSocketId).emit('players-updated', {
       gameId: GameId,
       players: allPlayersInGame
