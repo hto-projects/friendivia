@@ -172,6 +172,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                 position: "absolute",
                 bottom: "10px",
                 left: "10px",
+                fontFamily: "Concert One",
               }}
               href="/host"
             >
@@ -187,6 +188,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                 position: "absolute",
                 bottom: "10px",
                 right: "10px",
+                fontFamily: "Concert One",
               }}
               href="/about"
             >

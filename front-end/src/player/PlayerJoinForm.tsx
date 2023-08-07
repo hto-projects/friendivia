@@ -36,7 +36,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
         className="joinForm"
         spacing={2}
         style={{
-          border: "5px solid #6963D8",
           borderRadius: "20px",
           background: "white",
           padding: "20px",
@@ -45,6 +44,8 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           justifyContent: "space-between",
           alignItems: "stretch",
           minHeight: "250px",
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+          position: "relative",
         }}
       >
         <div style={{ marginBottom: "0px" }}>
@@ -96,13 +97,26 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
             backgroundColor: "#955EC3",
             color: "white",
             width: "100%",
-            fontWeight: "bold",
-            fontFamily: "Inter",
+            fontWeight: "light",
+            fontFamily: "Concert One",
           }}
           onClick={onSubmitJoin}
         >
           Join Game
         </Button>
+        <div
+          className="gradient-border"
+          style={{
+            position: "absolute",
+            top: "-3vh",
+            left: "-0.5vh",
+            right: "-0.5vh",
+            bottom: "-0.7vh",
+            zIndex: -1,
+            background: "linear-gradient(-45deg, cyan, magenta)",
+            borderRadius: "25px",
+          }}
+        ></div>
       </Stack>
       <p style={{ color: "red", marginTop: "10px" }}>{playerState.message}</p>
     </>
