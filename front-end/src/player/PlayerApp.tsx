@@ -236,9 +236,13 @@ export default function PlayerApp(props: PlayerAppProps) {
       <div className="player_join">
         <div
           className="banner"
-          style={{ display: "flex", alignItems: "center" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "-1.3vh",
+          }}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={0}>
             <Grid item xs={3}>
               {playerState != "init" && playerState != "kicked" ? (
                 <div className="align_center">
