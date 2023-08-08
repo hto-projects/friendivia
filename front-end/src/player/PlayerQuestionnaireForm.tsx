@@ -51,7 +51,6 @@ export default function PlayerQuestionnaireForm(
     <>
       <div style={{ height: "5vh" }}></div>
       <div
-        className=""
         style={{
           width: "90%",
           margin: "auto",
@@ -60,6 +59,8 @@ export default function PlayerQuestionnaireForm(
           padding: "20px",
           boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           position: "relative",
+          height: "75vh",
+          overflowY: "scroll",
         }}
       >
         {questions.map((q, i) => (
@@ -115,20 +116,8 @@ export default function PlayerQuestionnaireForm(
           submit
         </Button>
         <p style={{ color: "red" }}>{playerState.message}</p>
-        <div
-          className="gradient-border"
-          style={{
-            position: "absolute",
-            top: "-1vh",
-            left: "-1vh",
-            right: "-1vh",
-            bottom: "-1vh",
-            zIndex: -1,
-            background: "linear-gradient(-45deg, cyan, magenta)",
-            borderRadius: "25px",
-          }}
-        ></div>
       </div>
+      <div style={{ height: "20vh" }}></div>
     </>
   );
 
