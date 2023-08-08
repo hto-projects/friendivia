@@ -239,7 +239,7 @@ export default function PlayerApp(props: PlayerAppProps) {
           style={{
             display: "flex",
             alignItems: "center",
-            marginTop: "-1.3vh",
+            marginTop: "-3vh",
           }}
         >
           <Grid container spacing={0}>
