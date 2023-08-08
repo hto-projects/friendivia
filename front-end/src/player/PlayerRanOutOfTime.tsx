@@ -7,7 +7,9 @@ export default function PlayerRanOutOfTime() {
     <>
       <div className="subject">
         <img className="correctImg" src={clock} alt="Ran Out Of Time" />
-        <p className="subjectTxt">Time's Up! Better Luck Next Time.</p>
+        <p className="subjectTxt" style={{ fontFamily: "Concert One" }}>
+          Time's up, better luck next time!
+        </p>
       </div>
     </>
   );
