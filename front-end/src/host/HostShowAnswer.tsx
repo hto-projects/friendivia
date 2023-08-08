@@ -146,10 +146,11 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               >
                 <p
                   style={{
-                    margin: 0,
-                    fontFamily: "Concert One",
                     color: i === correctAnswerIndex ? "white" : "black",
-                    fontSize: "1.2em",
+                    fontFamily: "Concert One",
+                    fontSize: "1.7em",
+                    paddingLeft: "0.5em",
+                    paddingRight: "0.5em",
                     textAlign: "center",
                   }}
                 >
