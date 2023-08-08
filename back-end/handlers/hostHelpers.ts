@@ -66,16 +66,8 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
         $set: { 'currentQuestionIndex': -1 }
       });
       var playersInGame = await playerDb.getPlayers(gameId);
-      let quizQuestionGuesses: number[] = [];
-      playersInGame.forEach(p => p.quizGuesses = []); //MIGHTVE BEEN FOREACH INSTEAD OF MAP BC MAP RETURNS
-      console.log("in tie-breaker code");
-      console.log(quizQuestionGuesses);
-      //playersInGame.forEach(p => console.log(p.quizGuesses));
-      for (var i = 0; i < playersInGame.length; i++) {
-        console.log(playersInGame[i].quizGuesses, playersInGame[i].name, "in tiebreaker (tech preleaderboard)");
-      }
       const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-      io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, quizQuestionGuesses: [], playersInGame});
+      io.to(currentGameData!.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
     } catch (e) {
       console.error(`Failed to go to questionnaire: ${e}`)
     }
@@ -170,12 +162,9 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
   const players = await playerDb.getPlayers(gameId);
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, gameData.currentQuestionIndex);
-  console.log("quizQuestionGuesses in hostShowAnswer: ", guesses);
 
 
   players.forEach(async (player) => {
-    //console.log(gameData?.quizQuestions[gameData!.currentQuestionIndex].playerName, gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId);
-    //console.log(player.name, player.id, player.quizGuesses);
     if (gameData?.quizQuestions[gameData!.currentQuestionIndex].playerId == player.id) {
       await playerDb.updatePlayerState(player.id, PlayerStates.SeeingAnswer, io, {});
     } else if(player.quizGuesses[gameData!.currentQuestionIndex] == gameData?.quizQuestions[gameData!.currentQuestionIndex].correctAnswerIndex){

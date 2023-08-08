@@ -93,11 +93,9 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
-      console.log("new then old game state", data.gameState.state, gameState)
       setQuizQuestions(data.quizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
-      console.log(data.quizQuestionGuesses, quizQuestionGuesses, "in load success");
       setPlayerScores(data.playerScores);
       setPlayersInGame(data.playersInGame);
       setTimePerQuestion(data.settings.timePerQuestion);

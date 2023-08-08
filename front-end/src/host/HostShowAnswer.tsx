@@ -32,7 +32,6 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     handsFreeMode
   } = props;
 
-  console.log(playerGuesses, correctAnswerIndex);
   
   function interpolatePlayerNameInQuestionText() {
     const [part1, part2] = questionText.split("<PLAYER>");
