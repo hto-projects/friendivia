@@ -128,23 +128,35 @@ export default function HostOpen(props: IOpenProps) {
         </div>
         <div
           style={{
+            position: "relative",
             height: "71vh",
             width: "27vw",
-            backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
-            alignContent: "center",
-            verticalAlign: "middle",
-            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "center",
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
-            cursor: "pointer",
+            cursor: "not-allowed",
+            filter: "grayscale(100%)",
+            pointerEvents: "none",
           }}
         >
+          <div
+            style={{
+              backgroundImage:
+                "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              borderRadius: "10px",
+              zIndex: -1,
+            }}
+          ></div>
           <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>🤖</p>
           <h1
             style={{
@@ -163,13 +175,15 @@ export default function HostOpen(props: IOpenProps) {
               fontWeight: "normal",
               paddingLeft: "2vw",
               paddingRight: "2vw",
-              textAlign: "left",
+              textAlign: "center",
             }}
           >
-            Pick a theme and get unique questions powered by OpenAI!
+            Coming Soon. Pick a theme and get unique questions powered by
+            OpenAI!
           </h1>
         </div>
       </div>
+
       {/* <Button
         variant="contained"
         sx={{
