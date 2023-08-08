@@ -87,7 +87,13 @@ export default function HostQuestionnaireView(
               height: "75vh",
             }}
           >
-            <h1 style={{ color: "white", fontFamily: "Concert One" }}>
+            <h1
+              style={{
+                color: "white",
+                fontFamily: "Concert One",
+                fontSize: "2.5em",
+              }}
+            >
               waiting on
             </h1>
             <ul className="ul">
@@ -103,8 +109,9 @@ export default function HostQuestionnaireView(
                       },
                       background: "linear-gradient(-45deg, cyan, magenta)",
                       borderRadius: "20px",
-                      width: "10vw",
+                      width: "15vw",
                       margin: "auto",
+                      marginBottom: "1.5vh",
                     }}
                     onClick={() => onPlayerKick(name)}
                   >
@@ -115,12 +122,12 @@ export default function HostQuestionnaireView(
                         color: "White",
                         paddingTop: "3px",
                         paddingBottom: "3px",
+                        fontSize: "1.5em",
                       }}
                     >
                       {name}
                     </p>
                   </Paper>
-                  <br />
                 </li>
               ))}
             </ul>
@@ -147,7 +154,15 @@ export default function HostQuestionnaireView(
               height: "75vh",
             }}
           >
-            <h1 style={{ color: "white", fontFamily: "Concert One" }}>done</h1>
+            <h1
+              style={{
+                color: "white",
+                fontFamily: "Concert One",
+                fontSize: "2.5em",
+              }}
+            >
+              done
+            </h1>
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
@@ -162,8 +177,9 @@ export default function HostQuestionnaireView(
                       },
                       background: "linear-gradient(-45deg, cyan, magenta)",
                       borderRadius: "20px",
-                      width: "10vw",
+                      width: "15vw",
                       margin: "auto",
+                      marginBottom: "1.5vh",
                     }}
                     className="playerbox"
                     onClick={() => onPlayerKick(name)}
@@ -175,6 +191,7 @@ export default function HostQuestionnaireView(
                         color: "White",
                         paddingTop: "3px",
                         paddingBottom: "3px",
+                        fontSize: "1.5em",
                       }}
                     >
                       {name}
