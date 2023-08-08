@@ -112,7 +112,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           className="gradient-border"
           style={{
             position: "absolute",
-            top: "-3vh",
+            top: "-2.7vh",
             left: "-0.5vh",
             right: "-0.5vh",
             bottom: "-0.7vh",
