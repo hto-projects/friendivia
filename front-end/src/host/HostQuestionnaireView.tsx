@@ -21,11 +21,20 @@ export default function HostQuestionnaireView(
   const [warningReached, setWarningReached] = React.useState(false);
   let spokenText = "";
 
+  const [warning2Reached, setWarning2Reached] = React.useState(false);
+  let spokenText2 = "";
+
   React.useEffect(() => {
     setTimeout(() => {
       setWarningReached(true);
-    }, 20000)
-  }, [warningReached, setWarningReached])
+    }, 20000);
+  }, [warningReached, setWarningReached]);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setWarning2Reached(true);
+    }, 40000);
+  }, [warning2Reached, setWarning2Reached]);
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -36,25 +45,51 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
+    spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+  }
+
+  if (warning2Reached && waitingPlayers.length > 1) {
+    spokenText = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
   }
 
   return (
     <>
       {spokenText && <Speak text={spokenText} />}
-      <div className="waiting">
-        <div className="waitingPlayers">
+      {spokenText2 && <Speak text={spokenText2} />}
+      {waitingPlayers.length === 1 && (
+        <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />
+      )}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flex: 1,
+            marginTop: "4vh",
+          }}
+        >
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-              paddingLeft: "1vw",
-              paddingRight: "1vw",
+              background: "linear-gradient(135deg, #F6C3C9, #EED1CC)",
+              borderRadius: "12px",
+              padding: "1vw",
               margin: "auto",
-              width: "18vw",
+              mx: "auto",
+              width: "46vw",
+              height: "75vh",
             }}
           >
-            <h1 style={{ color: "white" }}>Waiting on</h1>
+            <h1 style={{ color: "white", fontFamily: "Concert One" }}>
+              waiting on
+            </h1>
             <ul className="ul">
               {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
@@ -66,16 +101,24 @@ export default function HostQuestionnaireView(
                         boxShadow: 8,
                         textDecoration: "line-through",
                       },
-                      color: "red",
+                      background: "linear-gradient(-45deg, cyan, magenta)",
+                      borderRadius: "20px",
                       width: "10vw",
-                      paddingTop: "0.1vh",
-                      paddingBottom: "0.1vh",
                       margin: "auto",
                     }}
                     onClick={() => onPlayerKick(name)}
-                    className="playerbox"
                   >
-                    <p className="player">{name}</p>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "Concert One",
+                        color: "White",
+                        paddingTop: "3px",
+                        paddingBottom: "3px",
+                      }}
+                    >
+                      {name}
+                    </p>
                   </Paper>
                   <br />
                 </li>
@@ -83,21 +126,32 @@ export default function HostQuestionnaireView(
             </ul>
           </Paper>
         </div>
-        <div className="donePlayers">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flex: 1,
+            marginTop: "4vh",
+          }}
+        >
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(45deg, #61ed87 30%, #C7E5E2 100%)",
-              paddingLeft: "1vw",
-              paddingRight: "1vw",
+              background: "linear-gradient(135deg, #A8E6CF, #C2E9E4)",
+              borderRadius: "12px",
+              padding: "1vw",
               margin: "auto",
-              width: "18vw",
+              mx: "auto",
+              width: "46vw",
+              height: "75vh",
             }}
           >
-            <h1 style={{ color: "white" }}>Done</h1>
+            <h1 style={{ color: "white", fontFamily: "Concert One" }}>done</h1>
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
+                  {i === 0 && <Speak text={`Thank you, ${name}.`} />}
                   <Paper
                     elevation={3}
                     sx={{
@@ -106,16 +160,25 @@ export default function HostQuestionnaireView(
                         boxShadow: 8,
                         textDecoration: "line-through",
                       },
-                      color: "red",
+                      background: "linear-gradient(-45deg, cyan, magenta)",
+                      borderRadius: "20px",
                       width: "10vw",
-                      paddingTop: "0.1vh",
-                      paddingBottom: "0.1vh",
                       margin: "auto",
                     }}
                     className="playerbox"
                     onClick={() => onPlayerKick(name)}
                   >
-                    <p className="player">{name}</p>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "Concert One",
+                        color: "White",
+                        paddingTop: "3px",
+                        paddingBottom: "3px",
+                      }}
+                    >
+                      {name}
+                    </p>
                   </Paper>
                   <br />
                 </li>

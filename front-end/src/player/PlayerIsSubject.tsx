@@ -7,7 +7,9 @@ export default function PlayerIsSubject() {
     <>
       <div className="subject">
         <img className="eyesImg" src={incorrect} alt="You Are The Subject" />
-        <p className="subjectTxt">Who knows you best?</p>
+        <p className="subjectTxt" style={{ fontFamily: "Concert One" }}>
+          Who knows you best?
+        </p>
       </div>
     </>
   );

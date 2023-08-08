@@ -72,8 +72,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
       " Answer on your devices now.",
       " Give it your best guess.",
       " What do you think?",
-      " Hurry up and answer.",
-      " Go ahead and answer now."
+      " Go ahead and answer now.",
     ];
 
     res += pickOne(instructions);
@@ -82,10 +81,10 @@ function HostShowQuestion(props: IShowQuestionProps) {
 
   function startTimer() {
     setTimerStarted(true);
-    socket.emit('host-start-quiz-timer', gameId );
+    socket.emit("host-start-quiz-timer", gameId);
   }
 
-  socket.on('start-timer-success', () => setTimerStarted(true));
+  socket.on("start-timer-success", () => setTimerStarted(true));
 
   function onTimerSkipBtn() {
     socket.emit("timer-skip", gameId);
@@ -95,33 +94,74 @@ function HostShowQuestion(props: IShowQuestionProps) {
     <>
       <Speak text={quizText()} cloud={true} callback={startTimer} />
       <Timer started={timerStarted} />
-      {interpolatePlayerNameInQuestionText()}
-      <ul className="ul">
-        {options.map((o: String, i: number) => (
-          <Paper elevation={3} className="paper">
-            <li className="answer" key={i}>
+      <p style={{ marginBottom: "30px" }}>
+        {interpolatePlayerNameInQuestionText()}
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "1rem",
+          width: "100%",
+          alignContent: "center",
+          justifyContent: "center",
+          justifyItems: "center",
+          alignItems: "center",
+        }}
+      >
+        {options.map((o: string, i: number) => (
+          <Paper
+            elevation={3}
+            style={{
+              width: "95%",
+              height: "20vh",
+              padding: "1.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              // background: "linear-gradient(-45deg, cyan, magenta)",
+              border: "2px solid purple",
+              borderRadius: "20px",
+            }}
+            key={i}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "Concert One",
+                color: "black",
+                fontSize: "1.2em",
+                textAlign: "center",
+              }}
+            >
               {o}
-            </li>
+            </p>
           </Paper>
         ))}
-      </ul>
+      </div>
+
       <div>
-        {!handsFreeMode? 
+        {!handsFreeMode ? (
           <Button
             className="button"
             variant="contained"
-            disabled={timerStarted? false : true}
+            disabled={timerStarted ? false : true}
             sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
+              bgcolor: "#955EC3",
               m: 2,
+              margin: "auto",
+              marginTop: "2rem",
+              fontFamily: "Concert One",
+              textTransform: "none",
             }}
             onClick={onTimerSkipBtn}
           >
-            Show Answers
-          </Button> : ''
-        }
+            show answers
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
