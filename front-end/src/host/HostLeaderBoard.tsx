@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import "../style.css";
 import crown from "../assets/crown.png";
-import { Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import Speak from "../Speak";
 
 interface ILeaderBoardProps {
@@ -36,9 +36,11 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "100vh", // Ensure the content takes up at least the full viewport height
+          paddingBottom: "3rem", // Add space for the buttons at the bottom
         }}
       >
-        <h1>Leaderboard</h1>
+        <h1 style={{ fontFamily: "Concert One" }}>leaderboard</h1>
         <img
           src={crown}
           alt="Crown"
@@ -53,34 +55,49 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
                 alignItems: "center",
                 marginBottom: i < 9 ? "-15px" : "-20px",
                 width: "100%",
+                paddingBottom: "20px",
               }}
             >
-              <span
-                className="participant"
-                style={{
-                  fontSize: i === 0 ? "26px" : "16px",
-                  fontWeight: i === 0 ? "bold" : "normal",
+              <Paper
+                elevation={3}
+                className="lobby_player"
+                sx={{
                   background:
                     i === 0
-                      ? "linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)"
+                      ? "linear-gradient(-45deg, cyan, magenta)"
                       : "#757de8",
-                  boxShadow: i === 0 ? "0 0 10px #FFD700" : "none",
+                  borderRadius: "20px",
+                  marginRight: "10px",
                 }}
               >
-                {ps.name}
-              </span>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: "Concert One",
+                    color: "White",
+                    paddingTop: i === 0 ? "8px" : "3px",
+                    paddingBottom: i === 0 ? "8px" : "3px",
+                    fontSize: i === 0 ? "1.3em" : "1em",
+                  }}
+                >
+                  {ps.name}
+                </p>
+              </Paper>
               <span
                 className="score"
                 style={{
                   marginLeft: "-4px",
                   minWidth: "50px",
-                  fontSize: i === 0 ? "26px" : "16px",
+                  fontSize: i === 0 ? "1.3em" : "1em",
+                  padding: i === 0 ? "0.5em" : "3px",
                   fontWeight: i === 0 ? "bold" : "normal",
+                  borderRadius: "15px",
                   background:
                     i === 0
-                      ? "linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)"
+                      ? "linear-gradient(-45deg, cyan, magenta)"
                       : "#757de8",
                   boxShadow: i === 0 ? "0 0 10px #FFD700" : "none",
+                  width: "40%",
                 }}
               >
                 {ps.score}
@@ -89,32 +106,39 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           ))}
         </div>
       </div>
-      <br></br>
-      <br></br>
-      <Button
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-          margin: "16px auto",
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0, // Align at the bottom of the viewport
+          width: "100%", // Take full width of the viewport
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "1rem",
         }}
-        onClick={onPlayAgain}
       >
-        Play again
-      </Button>
-      <br></br>
-      <br></br>
-      <Button
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-          margin: "16px auto",
-        }}
-        onClick={onPlayAgainWithSamePlayers}
-      >
-        Play again with same players
-      </Button>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+          }}
+          onClick={onPlayAgain}
+        >
+          Play again
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor:
+              getComputedStyle(document.body).getPropertyValue("--accent") +
+              ";",
+          }}
+          onClick={onPlayAgainWithSamePlayers}
+        >
+          Play again with same players
+        </Button>
+      </div>
     </>
   );
 }
