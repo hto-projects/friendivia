@@ -94,7 +94,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
     <>
       <Speak text={quizText()} cloud={true} callback={startTimer} />
       <Timer started={timerStarted} />
-      <p style={{ marginBottom: "30px" }}>
+      <p style={{ marginBottom: "30px", fontSize: "1.3em" }}>
         {interpolatePlayerNameInQuestionText()}
       </p>
 
@@ -131,7 +131,9 @@ function HostShowQuestion(props: IShowQuestionProps) {
                 margin: 0,
                 fontFamily: "Concert One",
                 color: "black",
-                fontSize: "1.2em",
+                fontSize: "1.7em",
+                paddingLeft: "0.5em",
+                paddingRight: "0.5em",
                 textAlign: "center",
               }}
             >
