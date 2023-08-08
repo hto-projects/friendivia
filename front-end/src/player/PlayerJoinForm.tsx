@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { Socket } from "socket.io-client";
-import PlayerWait from "./PlayerWait";
+import PlayerWait from "./PlayerJoinWait";
 
 interface IJoinFormProps {
   socket: Socket;
@@ -126,9 +126,5 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
     </>
   );
 
-  return playerState.state === "joined-waiting" ? (
-    <PlayerWait message={inMessage} />
-  ) : (
-    joinInputs
-  );
+  return playerState.state === "joined-waiting" ? <PlayerWait /> : joinInputs;
 }
