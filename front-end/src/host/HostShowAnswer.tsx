@@ -103,7 +103,29 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       <Speak text={correctText()} cloud={true} />
       <div>
         {interpolatePlayerNameInQuestionText()}
-        <div style={{ marginBottom: "2rem", marginTop: "2rem" }}></div>
+
+        <Paper
+          sx={{
+            width: "20%",
+            alignSelf: "center",
+            justifyContent: "center",
+            margin: "auto",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "1.5em",
+              fontFamily: "Concert One",
+              paddingTop: "1vh",
+              paddingBottom: "1vh",
+            }}
+          >
+            {100 *
+              playerGuesses.filter((g) => g.guess === correctAnswerIndex)
+                .length}{" "}
+            points for {playerName}
+          </p>
+        </Paper>
         <div
           style={{
             display: "grid",
