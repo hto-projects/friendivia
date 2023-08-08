@@ -7,6 +7,7 @@ import { GameStates } from '../interfaces/IGameState.ts';
 import Game from '../models/Game.ts'
 import hostHelpers from './hostHelpers.ts';
 import Player from '../models/Player.ts';
+import { PlayerStates } from '../interfaces/IPlayerState.ts';
 
 export default (io: Server, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
@@ -123,6 +124,7 @@ export default (io: Server, socket: Socket) => {
     try {
       const player: IPlayer = await playerDb.getPlayerByName(playerName);
       const gameId = player.gameId;
+      await playerDb.updatePlayerState(player.id, PlayerStates.PlayerKicked, io, {});
       await playerDb.kickPlayer(playerName, gameId);
       const allPlayersInGame = await playerDb.getPlayers(gameId);
       const currentGameData = await hostDb.getGameData(gameId);

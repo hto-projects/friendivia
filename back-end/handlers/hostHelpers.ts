@@ -81,9 +81,8 @@ const hostPreLeaderBoard = async (gameId: number, io: Server): Promise<void> => 
   }
 }
 
-const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
+const hostStartQuizTimer = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-  const shouldContinue = await hostDb.nextQuestion(gameId);
   let timePerQuestionMS: number;
   if (currentGameData?.settings.timePerQuestion === undefined) {
     console.error("Error: time per question undefined. Defaulted to 15 seconds.");
@@ -92,14 +91,18 @@ const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> =
   else {
     timePerQuestionMS = currentGameData?.settings.timePerQuestion * 1000;
   }
-  const PLAYER_COMPLETE_QUIZ = timePerQuestionMS;
-  
+
+  playerHelpers.allPlayersQuizTimerStarted(gameId, io);
+  nextQuestionTimer = setTimeout(hostPreAnswer, timePerQuestionMS, gameId, io);
+}
+
+const hostShowNextQuestion = async (gameId: number, io: Server): Promise<void> => {
+  const shouldContinue = await hostDb.nextQuestion(gameId);
 
   if (shouldContinue) {
     await hostDb.setGameState(gameId, GameStates.ShowingQuestion);
     await hostGoNext(gameId, io);
     await playerHelpers.allPlayersGoToNextQuestion(gameId, io);
-    nextQuestionTimer = setTimeout(hostPreAnswer, PLAYER_COMPLETE_QUIZ, gameId, io);
   } else {
     await hostPreLeaderBoard(gameId, io);
   }
@@ -239,4 +242,4 @@ const onHostViewUpdate = async(gameId, io: Server) => {
   }
 }
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard };
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate, hostShowNextQuestion, hostSkipTimer, hostShowIntLeaderboard, hostStartQuizTimer };

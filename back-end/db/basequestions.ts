@@ -110,13 +110,13 @@ const arr = [
   {
     text: "What is your favorite word?",
     quizText: "What do you think is <PLAYER>'s favorite word?",
-    fakeAnswers: ["Indubitably", "Flabbergasted!", "Friendpardy", "asymmetry"],
+    fakeAnswers: ["Indubitably", "Flabbergasted!", "Friendivia", "asymmetry"],
   },
-  {
-    text: "What is your favorite emoji?",
-    quizText: "What is <PLAYER>'s favorite emoji?",
-    fakeAnswers: ["🦅", "poop emoji", "(。_。)", "🥱"],
-  },
+  // {
+  //   text: "What is your favorite emoji?",
+  //   quizText: "What is <PLAYER>'s favorite emoji?",
+  //   fakeAnswers: ["🦅", "poop emoji", "(。_。)", "🥱"],
+  // },
   {
     text: "What genre of music do you listen to the most?",
     quizText: "What genre of music does <PLAYER> listen to the most?",

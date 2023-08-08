@@ -4,6 +4,7 @@ import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
 export default function Speak(props) {
   const textToSpeak = props.text;
+  const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
 
@@ -12,6 +13,7 @@ export default function Speak(props) {
     msg.text = textToSpeak;
     msg.rate = 0.9;
     window.speechSynthesis.speak(msg);
+    callback();
   }
 
   async function createAnnouncementAudioTikTok() {
@@ -20,7 +22,7 @@ export default function Speak(props) {
     const updatedText = `${textToSpeak}`.replace(/([0-9])\s/g, "$1, ");
     const body = {
         text: updatedText,
-        voice: 'en_us_rocket'
+        voice: 'en_us_001'
     }
 
     try {
@@ -35,6 +37,7 @@ export default function Speak(props) {
       const responseJson = await response.json();
       const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
       const audio = new Audio(audioUrl);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing TikTok audio:", error);
@@ -43,14 +46,14 @@ export default function Speak(props) {
   }
 
   async function createAnnouncementAudio() {
-    const voiceId = "pNInz6obpgDQGcFmaJgB";
+    const voiceId = "ThT5KcBeYPX3keUQqHPh";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
       text: textToSpeak,
       model_id: "eleven_monolingual_v1",
       voice_settings: {
-        stability: 0.5,
-        similarity_boost: 0.5,
+        stability: 0.75,
+        similarity_boost: 0.75,
       },
     };
 
@@ -72,6 +75,7 @@ export default function Speak(props) {
       const audioBlob = await response.blob();
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);

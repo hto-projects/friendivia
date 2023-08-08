@@ -7,7 +7,9 @@ export default function PlayerCorrect() {
     <>
       <div className="incorrect">
         <img className="niceTryImg" src={incorrect} alt="Incorrect" />
-        <p className="correctTxt">Nice try</p>
+        <p className="correctTxt" style={{ fontFamily: "Concert One" }}>
+          Nice try!
+        </p>
       </div>
     </>
   );
