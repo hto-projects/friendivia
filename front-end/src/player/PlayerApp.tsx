@@ -247,8 +247,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                     <Chip
                       style={{
                         backgroundColor: "white",
-                        marginTop: "2vh",
-                        marginBottom: "2vh",
+                        marginTop: "1.8em",
                       }}
                       label={playerName}
                     />
@@ -273,8 +272,7 @@ export default function PlayerApp(props: PlayerAppProps) {
                       <Chip
                         style={{
                           backgroundColor: "white",
-                          marginTop: "2vh",
-                          marginBottom: "2vh",
+                          marginTop: "1.8em",
                         }}
                         label={playerScore}
                       />
