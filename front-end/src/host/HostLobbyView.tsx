@@ -127,7 +127,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           >
             <Paper
               sx={{
-                width: "30vw",
+                // width: "-32vw",
                 maxWidth: "350px",
                 height: "20vh",
                 maxHeight: "180px",
@@ -152,6 +152,8 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                   marginTop: "-20px",
                   marginBottom: "-20px",
                   padding: 0,
+                  paddingLeft: "2vw",
+                  paddingRight: "2vw",
                 }}
               >
                 {gameId}
@@ -175,7 +177,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                 paddingTop: "30px",
                 borderRadius: "20px",
                 maxWidth: "350px",
-                width: "30vw",
                 fontSize: "2em",
                 fontFamily: "Concert One",
                 textTransform: "none",
