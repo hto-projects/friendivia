@@ -160,16 +160,25 @@ export default function HostQuestionnaireView(
                         boxShadow: 8,
                         textDecoration: "line-through",
                       },
-                      color: "red",
+                      background: "linear-gradient(-45deg, cyan, magenta)",
+                      borderRadius: "20px",
                       width: "10vw",
-                      paddingTop: "0.1vh",
-                      paddingBottom: "0.1vh",
                       margin: "auto",
                     }}
                     className="playerbox"
                     onClick={() => onPlayerKick(name)}
                   >
-                    <p className="player">{name}</p>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "Concert One",
+                        color: "White",
+                        paddingTop: "3px",
+                        paddingBottom: "3px",
+                      }}
+                    >
+                      {name}
+                    </p>
                   </Paper>
                   <br />
                 </li>

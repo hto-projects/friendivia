@@ -13,7 +13,7 @@ export default function PlayerJoinWait() {
       }}
     >
       <img
-        style={{ width: "60vw", height: "50vh" }}
+        style={{ width: "100vw", height: "70vh", marginTop: "-10vh" }}
         src={hourglass}
         alt="Correct"
       />
