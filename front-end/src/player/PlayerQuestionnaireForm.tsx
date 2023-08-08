@@ -86,7 +86,7 @@ export default function PlayerQuestionnaireForm(
               inputProps={{ maxLength: maxAnswer }}
               onChange={(e) => onInputChange(e.target.value, i)}
               sx={{
-                backgroundColor: "#E2E2E2",
+                backgroundColor: "#f3f3ff",
                 width: "100%",
                 fontWeight: "bold",
                 fontSize: "18px",
