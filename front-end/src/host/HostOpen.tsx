@@ -171,11 +171,11 @@ export default function HostOpen(props: IOpenProps) {
           <h1
             style={{
               color: "rgba(0,0,0,0.9)",
-              fontSize: "1.5em",
+              fontSize: "1.4em",
               fontWeight: "normal",
               paddingLeft: "2vw",
               paddingRight: "2vw",
-              textAlign: "center",
+              textAlign: "left",
             }}
           >
             Coming Soon. Pick a theme and get unique questions powered by
