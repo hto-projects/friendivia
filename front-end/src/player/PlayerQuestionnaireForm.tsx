@@ -3,7 +3,7 @@ import "../style.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Socket } from "socket.io-client";
-import PlayerWait from "./PlayerWait";
+import PlayerWait from "./PlayerJoinWait";
 
 interface IQuestionnaireFormProps {
   socket: Socket;
@@ -72,7 +72,7 @@ export default function PlayerQuestionnaireForm(
         sx={{
           bgcolor:
             getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-          marginBottom: '10px',
+          marginBottom: "10px",
         }}
         onClick={onSubmitQuestionnaire}
       >
@@ -83,7 +83,7 @@ export default function PlayerQuestionnaireForm(
   );
 
   return playerState.state === "submitted-questionnaire-waiting" ? (
-    <PlayerWait message={inMessage} />
+    <PlayerWait />
   ) : (
     questionnaireInputs
   );
