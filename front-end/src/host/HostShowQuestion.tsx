@@ -148,15 +148,16 @@ function HostShowQuestion(props: IShowQuestionProps) {
             variant="contained"
             disabled={timerStarted ? false : true}
             sx={{
-              bgcolor:
-                getComputedStyle(document.body).getPropertyValue("--accent") +
-                ";",
+              bgcolor: "#955EC3",
               m: 2,
-              marginTop: "30px",
+              margin: "auto",
+              marginTop: "2rem",
+              fontFamily: "Concert One",
+              textTransform: "none",
             }}
             onClick={onTimerSkipBtn}
           >
-            Show Answers
+            show answers
           </Button>
         ) : (
           ""

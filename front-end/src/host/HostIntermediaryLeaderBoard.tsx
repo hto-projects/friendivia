@@ -122,18 +122,22 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
         </div>
       </div>
       {!handsFreeMode ? (
-        <Button
-          variant="contained"
-          style={{ marginTop: "5vh" }}
-          sx={{
-            bgcolor: getComputedStyle(document.body).getPropertyValue(
-              "--accent"
-            ),
-          }}
-          onClick={onNext}
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          Go To Next Question
-        </Button>
+          <Button
+            variant="contained"
+            style={{ marginTop: "5vh" }}
+            sx={{
+              bgcolor: "#955EC3",
+              fontFamily: "Concert One",
+              textTransform: "none",
+            }}
+            onClick={onNext}
+          >
+            next question
+          </Button>
+        </div>
       ) : (
         ""
       )}

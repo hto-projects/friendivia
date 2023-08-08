@@ -103,6 +103,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       <Speak text={correctText()} cloud={true} />
       <div>
         {interpolatePlayerNameInQuestionText()}
+        <div style={{ marginBottom: "2rem", marginTop: "2rem" }}></div>
         <div
           style={{
             display: "grid",
@@ -193,14 +194,16 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               className="button"
               variant="contained"
               sx={{
-                bgcolor: getComputedStyle(document.body).getPropertyValue(
-                  "--accent"
-                ),
+                bgcolor: "#955EC3",
                 m: 2,
+                margin: "auto",
+                marginTop: "2rem",
+                fontFamily: "Concert One",
+                textTransform: "none",
               }}
               onClick={onNext}
             >
-              Next Question
+              next question
             </Button>
           )}
         </div>

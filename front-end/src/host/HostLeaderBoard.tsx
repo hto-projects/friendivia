@@ -119,24 +119,26 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
         <Button
           variant="contained"
           sx={{
-            bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
+            bgcolor: "#955EC3",
+            m: 2,
+            fontFamily: "Concert One",
+            textTransform: "none",
           }}
           onClick={onPlayAgain}
         >
-          Play again
+          play again
         </Button>
         <Button
           variant="contained"
           sx={{
-            bgcolor:
-              getComputedStyle(document.body).getPropertyValue("--accent") +
-              ";",
+            bgcolor: "#955EC3",
+            m: 2,
+            fontFamily: "Concert One",
+            textTransform: "none",
           }}
           onClick={onPlayAgainWithSamePlayers}
         >
-          Play again with same players
+          play again with same players
         </Button>
       </div>
     </>
