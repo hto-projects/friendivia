@@ -29,7 +29,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     socket,
     gameId,
     quizLength,
-    handsFreeMode
+    handsFreeMode,
   } = props;
 
   function interpolatePlayerNameInQuestionText() {
@@ -41,13 +41,13 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         {part2}
       </p>
     );
-    }
+  }
 
-    socket.on("reset-quiz-length", resetQuizLength);
+  socket.on("reset-quiz-length", resetQuizLength);
 
-    function resetQuizLength(){
-      currentQuizLength = 1;
-    }
+  function resetQuizLength() {
+    currentQuizLength = 1;
+  }
 
   function onNext() {
     if (currentQuizLength < quizLength) {
@@ -69,10 +69,19 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       (g) => g.guess === correctAnswerIndex
     );
     if (correctPlayers.length != 0) {
-      const encourage = pickOne(["Nice guessing", "Good job", "Way to go", "Congrats"]);
+      const encourage = pickOne([
+        "Nice guessing",
+        "Good job",
+        "Way to go",
+        "Congrats",
+      ]);
       res += `! ${encourage} `;
     } else {
-      const sad = pickOne(["No points, no one got it", "I'm disappointed in all of you.", "I love you, but you're all terrible.", "Try again next time, everybody. No points for anyone this round."]);
+      const sad = pickOne([
+        "Unfortunately, no one received any points.",
+        "I'm sorry, no points this round.",
+        "No points this round. Please try to do better next time.",
+      ]);
       res += `! ${sad}`;
     }
 
@@ -94,156 +103,132 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       <Speak text={correctText()} cloud={true} />
       <div>
         {interpolatePlayerNameInQuestionText()}
-        <div
-          style={{
-            display: "flex",
-            alignContent: "center",
+
+        <Paper
+          sx={{
+            width: "20%",
             alignSelf: "center",
-            marginBottom: "4vh",
-          }}
-        >
-          <Paper
-            style={{
-              width: "auto",
-              height: "5vh",
-              margin: "auto",
-              paddingLeft: "1vw",
-              paddingRight: "1vw",
-              display: "flex",
-              alignContent: "center",
-            }}
-          >
-            <p style={{ alignSelf: "center" }}>
-              {playerGuesses.filter((g) => g.guess === correctAnswerIndex)
-                .length *
-                100 +
-                " "}
-              points for {playerName}
-            </p>
-          </Paper>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            width: "80vw",
-            alignContent: "center",
-            alignSelf: "center",
+            justifyContent: "center",
             margin: "auto",
           }}
         >
-          {options.map((o: String, i: number) => (
-            <>
-              <div className="guesses">
-                <Paper
+          <p
+            style={{
+              fontSize: "1.5em",
+              fontFamily: "Concert One",
+              paddingTop: "1vh",
+              paddingBottom: "1vh",
+            }}
+          >
+            {100 *
+              playerGuesses.filter((g) => g.guess === correctAnswerIndex)
+                .length}{" "}
+            points for {playerName}
+          </p>
+        </Paper>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "1rem",
+            width: "100%",
+            alignContent: "center",
+            justifyContent: "center",
+            justifyItems: "center",
+            alignItems: "center",
+          }}
+        >
+          {options.map((o: string, i: number) => (
+            <div
+              className="guesses"
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Paper
+                elevation={3}
+                sx={{
+                  width: "95%",
+                  height: "20vh",
+                  padding: "1.5rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background:
+                    i === correctAnswerIndex
+                      ? "linear-gradient(-45deg, cyan, magenta)"
+                      : "white",
+                  border: "2px solid purple",
+                  borderRadius: "20px",
+                }}
+                key={i}
+              >
+                <p
                   style={{
-                    background:
-                      i === correctAnswerIndex
-                        ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
-                        : "white",
-                    boxShadow: i === correctAnswerIndex ? "0 0 10px green" : "",
                     color: i === correctAnswerIndex ? "white" : "black",
-                    width: "30vw",
-                    margin: "auto",
-                    paddingTop: "0.1vh",
-                    paddingBottom: "0.1vh",
-                    height: "11vh",
+                    fontFamily: "Concert One",
+                    fontSize: "1.7em",
+                    paddingLeft: "0.5em",
+                    paddingRight: "0.5em",
+                    textAlign: "center",
                   }}
                 >
-                  <p
-                    style={{
-                      color: i === correctAnswerIndex ? "white" : "black",
-                      fontWeight:
-                        i === correctAnswerIndex ? "bolder" : "normal",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    {o}
-                  </p>
-                  {i === correctAnswerIndex ? (
-                    <Paper
-                      style={{
-                        width: "20%",
-                        padding: "0px",
-                        marginLeft: "23.5vw",
-                        marginTop: "-2.5vh",
-                      }}
-                    >
-                      <p style={{ padding: "0px" }}>+200</p>
-                    </Paper>
-                  ) : (
-                    <></>
-                  )}
-                </Paper>
-                <Stack
-                  style={{
-                    backgroundColor:
-                      getComputedStyle(document.body).getPropertyValue(
-                        "--accent"
-                      ) + ";",
-                  }}
-                >
-                  {playerGuesses
-                    .filter((g) => g.guess === i)
-                    .map((g, j) => (
-                      <>
-                        <Paper
-                          sx={{
-                            backgroundColor:
-                              getComputedStyle(document.body).getPropertyValue(
-                                "--accent"
-                              ) + ";",
-                            width: "10vw",
-                            paddingTop: "0.1vh",
-                            paddingBottom: "0.1vh",
-                            margin: "auto",
+                  {o}
+                </p>
+              </Paper>
+              <Stack>
+                {playerGuesses
+                  .filter((g) => g.guess === i)
+                  .map((g, j) => (
+                    <>
+                      <Paper
+                        elevation={3}
+                        className="lobby_player"
+                        sx={{
+                          background: "linear-gradient(-45deg, cyan, magenta)",
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <p
+                          style={{
+                            margin: 0,
+                            fontFamily: "Concert One",
+                            color: "White",
+                            paddingTop: "3px",
+                            paddingBottom: "3px",
                           }}
                         >
-                          <p
-                            style={{
-                              background:
-                                getComputedStyle(
-                                  document.body
-                                ).getPropertyValue("--accent") + ";",
-                              color: "white",
-                              fontWeight: "bolder",
-                              alignSelf: "center",
-                              verticalAlign: "middle",
-                              margin: "auto",
-                            }}
-                            key={j}
-                          >
-                            {g.name}
-                          </p>
-                        </Paper>
-                        <div style={{ height: "0.4vh" }} />
-                      </>
-                    ))}
-                </Stack>
-                <br />
-              </div>
-            </>
+                          {g.name}
+                        </p>
+                      </Paper>
+                      <div style={{ height: "0.4vh" }} />
+                    </>
+                  ))}
+              </Stack>
+            </div>
           ))}
         </div>
         <div>
-          {!handsFreeMode? 
+          {!handsFreeMode && (
             <Button
               className="button"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
+                bgcolor: "#955EC3",
                 m: 2,
+                margin: "auto",
+                marginTop: "2rem",
+                fontFamily: "Concert One",
+                textTransform: "none",
               }}
               onClick={onNext}
             >
-              {buttonText() == "Next Question"
-                ? "Next Question"
-                : "Show Leaderboard"}
-            </Button> : ''
-          }
+              next question
+            </Button>
+          )}
         </div>
       </div>
     </>

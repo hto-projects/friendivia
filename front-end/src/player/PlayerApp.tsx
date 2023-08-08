@@ -4,7 +4,6 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
-import logo from "../assets/friendpardylogo.png";
 import { Chip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,7 +15,7 @@ import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
 import Button from "@mui/material/Button";
-import PlayerNewRanking from "./PlayerNewRanking"
+import PlayerNewRanking from "./PlayerNewRanking";
 import PlayerKicked from "./PlayerKicked";
 
 interface PlayerAppProps {
@@ -120,7 +119,12 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-rank") {
       bottomButtons = false;
-      return <PlayerNewRanking playerScores={allPlayerScores} currentPlayerName={playerName} />
+      return (
+        <PlayerNewRanking
+          playerScores={allPlayerScores}
+          currentPlayerName={playerName}
+        />
+      );
     } else if (playerState === "pre-leader-board") {
       bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;
@@ -139,7 +143,7 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "" || playerState === "init") {
       bottomButtons = true;
       return <PlayerJoin socket={socket} playerState={playerState} />;
-    } else if(playerState === "kicked"){
+    } else if (playerState === "kicked") {
       bottomButtons = true;
       return <PlayerKicked socket={socket} />;
     } else {
@@ -149,7 +153,12 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   function getButtonsForState() {
-    if (playerState === "init" || playerState === null || playerState === "" || playerState === "kicked") {
+    if (
+      playerState === "init" ||
+      playerState === null ||
+      playerState === "" ||
+      playerState === "kicked"
+    ) {
       return (
         <div className="bottomContainer" id="btmContainPlayerApp">
           <p>
@@ -158,39 +167,50 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="HostPlayerApp"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
+                bgcolor: "#955EC3",
                 m: 2,
+                position: "absolute",
+                bottom: "10px",
+                left: "10px",
+                fontFamily: "Concert One",
+                textTransform: "none",
               }}
               href="/host"
             >
-              Host A Game
+              host
             </Button>
             <Button
               className="button"
               id="AboutPlayerApp"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
+                bgcolor: "#955EC3",
                 m: 2,
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
+                fontFamily: "Concert One",
+                textTransform: "none",
               }}
               href="/about"
             >
-              About
+              about
             </Button>
           </p>
         </div>
       );
     } else {
-      return <></>;
+      return <div className="bottomContainer" id="btmContainPlayerApp"></div>;
     }
   }
 
   function getScreenForState() {
-    if (playerState === "init" || playerState === null || playerState === "" || playerState === "kicked") {
+    if (
+      playerState === "init" ||
+      playerState === null ||
+      playerState === "" ||
+      playerState === "kicked"
+    ) {
       return "element";
     } else {
       return "noBtnElement";
@@ -203,78 +223,78 @@ export default function PlayerApp(props: PlayerAppProps) {
         playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
       }
       id={
-        playerState === 'question-about-me' || 'answered-quiz-question-waiting'|| 'did-not-answer-question-waiting' || 'seeing-answer' || 'seeing-answer-correct' || 'seeing-answer-incorrect' ? "fixScreen" : ""
+        playerState === "question-about-me" ||
+        "answered-quiz-question-waiting" ||
+        "did-not-answer-question-waiting" ||
+        "seeing-answer" ||
+        "seeing-answer-correct" ||
+        "seeing-answer-incorrect"
+          ? "fixScreen"
+          : ""
       }
     >
       <div className="player_join">
-        <div className="banner">
-          <Grid container spacing={2}>
+        <div
+          className="banner"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "-3vh",
+          }}
+        >
+          <Grid container spacing={0}>
             <Grid item xs={3}>
-              {playerState!="init"  && playerState != "kicked" ? (<div className="align_center">
-                {/*if player name has not been inputted do not display username chip*/}
-                {playerName != "" ? <Chip style={{backgroundColor: "white"}} label={playerName} /> : ""}
-              </div>) : ("")}
+              {playerState != "init" && playerState != "kicked" ? (
+                <div className="align_center">
+                  {/*if player name has not been inputted do not display username chip*/}
+                  {playerName != "" ? (
+                    <Chip
+                      style={{
+                        backgroundColor: "white",
+                        marginTop: "1.8em",
+                      }}
+                      label={playerName}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </Grid>
             <Grid item xs={6}>
-              <div className="align_center">
-                <img className="logo" src={logo} />
-              </div>
+              <div className="align_center banner-text">friendivia</div>
             </Grid>
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
-              {playerState!="init" ? (<div className="align_center">
-                {playerState != "filling-questionnaire" && playerState != "kicked" ? (
-                  playerName != "" ? (
-                    <Chip style={{backgroundColor: "white"}} label={playerScore} />
+              {playerState != "init" ? (
+                <div className="align_center">
+                  {playerState != "filling-questionnaire" &&
+                  playerState != "kicked" ? (
+                    playerName != "" ? (
+                      <Chip
+                        style={{
+                          backgroundColor: "white",
+                          marginTop: "1.8em",
+                        }}
+                        label={playerScore}
+                      />
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}
-              </div>) : ("")}
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </Grid>
           </Grid>
         </div>
         <div className={getScreenForState()}>{getElementForState()}</div>
-        {bottomButtons ? (
-          <div className="bottomContainer">
-            <p>
-              <Button
-                className="button"
-                variant="contained"
-                sx={{
-                  bgcolor:
-                    getComputedStyle(document.body).getPropertyValue(
-                      "--accent"
-                    ) + ";",
-                  m: 2,
-                }}
-                style={{ marginBottom: 0 }}
-                href="/host"
-              >
-                Host A Game
-              </Button>
-              <Button
-                className="button"
-                variant="contained"
-                sx={{
-                  bgcolor:
-                    getComputedStyle(document.body).getPropertyValue(
-                      "--accent"
-                    ) + ";",
-                  m: 2,
-                }}
-                style={{ marginBottom: 0 }}
-                href="/about"
-              >
-                About
-              </Button>
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
+        {getButtonsForState()}
       </div>
     </div>
   );

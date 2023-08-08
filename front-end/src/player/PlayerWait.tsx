@@ -10,7 +10,9 @@ export default function PlayerWait(props: IWaitProps) {
   return (
     <div className="wait">
       <img className="hourglass" src={hourglass} alt="Correct" />
-      <p className="waitTxt">{props.message}</p>
+      <p className="waitTxt" style={{ fontFamily: "Concert One" }}>
+        {props.message}
+      </p>
     </div>
   );
 }
