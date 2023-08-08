@@ -314,22 +314,6 @@ export default function HostApp(props: IHostProps) {
             </Button>
           </div>
         </div>
-        <div className="host-content">
-          {getElementForState(gameState, settingsState)}
-          <div className="clearDataButton">
-            <Button
-              onClick={() => socket.emit("delete-please")}
-              className="secretButton"
-              sx={{
-                background: "transparent",
-                fontSize: "0.1em",
-                color: "transparent",
-              }}
-            >
-              Clear Data
-            </Button>
-          </div>
-        </div>
       </AddAnnouncementContext.Provider>
     </div>
   );
