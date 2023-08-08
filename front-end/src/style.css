@@ -256,6 +256,11 @@ body {
   height: 100%;
 }
 
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
 .LobbySettings{
   margin-left: 100px;
   background-color: #5e00ff;
