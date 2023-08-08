@@ -135,29 +135,57 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                 zIndex: "1",
                 borderRadius: "20px",
               }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
               elevation={3}
-              className="gameid"
+              className=""
             >
-              <p className="id">{gameId}</p>
-              <p style={{ fontSize: "1.8em", fontWeight: "bold", margin: 0 }}>
+              <p
+                className=""
+                style={{
+                  fontFamily: "Concert One",
+                  fontSize: "8em",
+                  margin: 0,
+                  marginTop: "-20px",
+                  marginBottom: "-20px",
+                  padding: 0,
+                }}
+              >
+                {gameId}
+              </p>
+              <p
+                style={{
+                  fontSize: "1.4em",
+                  fontWeight: "bold",
+                  margin: 0,
+                }}
+              >
                 Join at {joinUrl}
               </p>
+              <br />
             </Paper>
             <Button
               variant="contained"
               disabled={playerNames.length < 2}
               sx={{
                 marginTop: "-30px",
-                paddingTop: "40px",
+                paddingTop: "30px",
                 borderRadius: "20px",
                 maxWidth: "350px",
                 width: "30vw",
-                fontSize: "1.5em",
-                backgroundColor: "#8080FF",
+                fontSize: "2em",
+                fontFamily: "Concert One",
+                textTransform: "none",
+                marginBottom: "10px",
+                backgroundImage:
+                  "linear-gradient(-45deg, rgba(0, 200, 200, 0.7), rgba(200, 0, 200, 0.7))",
               }}
               onClick={onStart}
             >
-              Start
+              start
             </Button>
             <p>
               There {playerNames.length !== 1 ? "are" : "is"} currently{" "}
@@ -173,16 +201,39 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           {getSliceOfBadges(TOP_BADGE_END, RIGHT_BADGE_END)}
         </div>
       </div>
-      <div className="lobby-bottom-bar">
+      <div
+        className=""
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Button
           className="LobbySettings"
           variant="contained"
           onClick={onSettings}
+          sx={{
+            backgroundColor: "#955EC3",
+            textTransform: "none",
+            fontFamily: "Concert One",
+            fontSize: "1em",
+            marginLeft: "10px",
+            marginBottom: "10px",
+          }}
         >
-          Game Settings
+          settings
         </Button>
-        <Button className="LobbyAbout" variant="contained" href="/about">
-          About
+        <Button
+          className="LobbySettings"
+          variant="contained"
+          href="/about"
+          sx={{
+            backgroundColor: "#955EC3",
+            textTransform: "none",
+            fontFamily: "Concert One",
+            fontSize: "1em",
+            marginRight: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          about
         </Button>
       </div>
     </div>

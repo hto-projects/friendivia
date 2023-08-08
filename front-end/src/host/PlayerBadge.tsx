@@ -9,8 +9,10 @@ export default function PlayerBadge(props): React.ReactElement {
     "&:hover": {
       cursor: "pointer",
       boxShadow: 8,
-      textDecoration: "line-through"
-    }
+      textDecoration: "line-through",
+    },
+    background: "linear-gradient(-45deg, cyan, magenta)",
+    borderRadius: "20px",
   };
 
   return (
@@ -19,8 +21,18 @@ export default function PlayerBadge(props): React.ReactElement {
       className="lobby_player"
       sx={badgeStyles}
       onClick={onClick}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontFamily: "Concert One",
+          color: "White",
+          paddingTop: "3px",
+          paddingBottom: "3px",
+        }}
       >
-        <p style={{margin: 0}}>{name}</p>
-      </Paper>
+        {name}
+      </p>
+    </Paper>
   );
 }

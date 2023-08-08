@@ -62,11 +62,12 @@ export default function HostOpen(props: IOpenProps) {
           <h1
             style={{
               color: "rgba(0,0,0,0.8)",
-              fontSize: "2.5em",
+              fontSize: "3em",
               fontWeight: "bold",
+              fontFamily: "Concert One",
             }}
           >
-            Custom
+            custom
           </h1>
           <h1
             style={{
@@ -105,11 +106,12 @@ export default function HostOpen(props: IOpenProps) {
           <h1
             style={{
               color: "rgba(0,0,0,0.8)",
-              fontSize: "2.5em",
+              fontSize: "3em",
               fontWeight: "bold",
+              fontFamily: "Concert One",
             }}
           >
-            Classic
+            classic
           </h1>
           <h1
             style={{
@@ -147,11 +149,12 @@ export default function HostOpen(props: IOpenProps) {
           <h1
             style={{
               color: "rgba(0,0,0,0.8)",
-              fontSize: "2.5em",
+              fontSize: "3em",
               fontWeight: "bold",
+              fontFamily: "Concert One",
             }}
           >
-            AI
+            ai
           </h1>
           <h1
             style={{
