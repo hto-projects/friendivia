@@ -51,7 +51,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
                 textTransform: "none",
                 fontFamily: "Concert One",
                 width: "90%",
-                height: "17vh",
+                height: "15vh",
                 background:
                   "linear-gradient(-45deg, rgba(0, 200, 200, 0.7), rgba(200, 0, 200, 0.7))",
                 border: "2px solid black",
