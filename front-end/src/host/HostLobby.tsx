@@ -31,7 +31,7 @@ export default function HostLobby(props: ILobbyProps) {
   return (
     <>
       <div>
-        {playerNames.map(p => <Speak text={`${pickOne(["Welcome to the game,", "Nice to see you,", "Good to have you here,", "Thanks for joining, "])} "${p}"`} />)}
+        {playerNames.map(p => <Speak text={`${pickOne(["Welcome to the game,", "Nice to see you,", "Good to have you here,", "Thanks for joining, ", "Watch out it's"])} "${p}"`} />)}
       </div>
       <HostLobbyView playerNames={playerNames} gameId={gameId} socket={socket} />
     </>

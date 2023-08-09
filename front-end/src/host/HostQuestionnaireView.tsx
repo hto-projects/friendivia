@@ -45,7 +45,9 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+    //spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
+    //(Math.floor(waitingPlayers.length * Math.random()))
   }
 
   if (warning2Reached && waitingPlayers.length > 1) {
@@ -96,7 +98,13 @@ export default function HostQuestionnaireView(
             >
               waiting on
             </h1>
-            <ul className="ul">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "0rem",
+              }}
+            >
               {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   <Paper
@@ -130,7 +138,7 @@ export default function HostQuestionnaireView(
                   </Paper>
                 </li>
               ))}
-            </ul>
+            </div>
           </Paper>
         </div>
         <div
@@ -163,7 +171,13 @@ export default function HostQuestionnaireView(
             >
               done
             </h1>
-            <ul className="ul">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "0rem",
+              }}
+            >
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   {i === 0 && <Speak text={`Thank you, ${name}.`} />}
@@ -181,7 +195,6 @@ export default function HostQuestionnaireView(
                       margin: "auto",
                       marginBottom: "1.5vh",
                     }}
-                    className="playerbox"
                     onClick={() => onPlayerKick(name)}
                   >
                     <p
@@ -197,10 +210,9 @@ export default function HostQuestionnaireView(
                       {name}
                     </p>
                   </Paper>
-                  <br />
                 </li>
               ))}
-            </ul>
+            </div>
           </Paper>
         </div>
       </div>

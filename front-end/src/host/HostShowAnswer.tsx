@@ -58,10 +58,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     }
   }
 
-  function buttonText() {
-    if (currentQuizLength < quizLength) return "Next Question";
-    else return "Show Leaderboard";
-  }
+  // function buttonText() {
+  //   if (currentQuizLength < quizLength) return "Next Question";
+  //   else return "Show Leaderboard";
+  // }
 
   function correctText() {
     var res = `The correct answer was "${options[correctAnswerIndex]}".`;
@@ -101,12 +101,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   return (
     <>
       <Speak text={correctText()} cloud={true} />
-      <div>
+      <div className="hostAnswerScroll">
         {interpolatePlayerNameInQuestionText()}
 
         <Paper
           sx={{
-            width: "20%",
+            width: "30%",
             alignSelf: "center",
             justifyContent: "center",
             margin: "auto",
@@ -179,7 +179,15 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   {o}
                 </p>
               </Paper>
-              <Stack>
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  marginTop: "5px",
+                }}
+              >
                 {playerGuesses
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
@@ -226,7 +234,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               }}
               onClick={onNext}
             >
-              next question
+              next
             </Button>
           )}
         </div>
