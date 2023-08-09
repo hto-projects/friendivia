@@ -98,7 +98,13 @@ export default function HostQuestionnaireView(
             >
               waiting on
             </h1>
-            <ul className="ul">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "0rem",
+              }}
+            >
               {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   <Paper
@@ -132,7 +138,7 @@ export default function HostQuestionnaireView(
                   </Paper>
                 </li>
               ))}
-            </ul>
+            </div>
           </Paper>
         </div>
         <div
@@ -165,7 +171,13 @@ export default function HostQuestionnaireView(
             >
               done
             </h1>
-            <ul className="ul">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "0rem",
+              }}
+            >
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   {i === 0 && <Speak text={`Thank you, ${name}.`} />}
@@ -200,7 +212,7 @@ export default function HostQuestionnaireView(
                   </Paper>
                 </li>
               ))}
-            </ul>
+            </div>
           </Paper>
         </div>
       </div>
