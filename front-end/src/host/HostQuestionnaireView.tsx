@@ -45,7 +45,9 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+    //spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
+    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
+    //(Math.floor(waitingPlayers.length * Math.random()))
   }
 
   if (warning2Reached && waitingPlayers.length > 1) {
