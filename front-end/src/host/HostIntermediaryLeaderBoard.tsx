@@ -135,7 +135,7 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
             }}
             onClick={onNext}
           >
-            next question
+            next
           </Button>
         </div>
       ) : (

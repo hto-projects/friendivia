@@ -58,10 +58,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     }
   }
 
-  function buttonText() {
-    if (currentQuizLength < quizLength) return "Next Question";
-    else return "Show Leaderboard";
-  }
+  // function buttonText() {
+  //   if (currentQuizLength < quizLength) return "Next Question";
+  //   else return "Show Leaderboard";
+  // }
 
   function correctText() {
     var res = `The correct answer was "${options[correctAnswerIndex]}".`;
@@ -234,7 +234,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               }}
               onClick={onNext}
             >
-              next question
+              next
             </Button>
           )}
         </div>
