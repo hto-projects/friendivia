@@ -183,6 +183,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                 sx={{
                   display: "flex",
                   flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
                   marginTop: "5px",
                 }}
               >
