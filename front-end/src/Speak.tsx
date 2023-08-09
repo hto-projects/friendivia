@@ -22,7 +22,7 @@ export default function Speak(props) {
     const updatedText = `${textToSpeak}`.replace(/([0-9])\s/g, "$1, ");
     const body = {
         text: updatedText,
-        voice: 'en_us_001'
+        voice: 'en_us_rocket'
     }
 
     try {
@@ -46,14 +46,14 @@ export default function Speak(props) {
   }
 
   async function createAnnouncementAudio() {
-    const voiceId = "ThT5KcBeYPX3keUQqHPh";
+    const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
       text: textToSpeak,
       model_id: "eleven_monolingual_v1",
       voice_settings: {
-        stability: 0.75,
-        similarity_boost: 0.75,
+        stability: 0.5,
+        similarity_boost: 0.5,
       },
     };
 
