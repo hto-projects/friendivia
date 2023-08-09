@@ -8,9 +8,17 @@ interface IWaitProps {
 
 export default function PlayerWait(props: IWaitProps) {
   return (
-    <div className="wait">
-      <img className="hourglass" src={hourglass} alt="Correct" />
-      <p className="waitTxt" style={{ fontFamily: "Concert One" }}>
+    <div className="wait" style={{ overflow: "hidden" }}>
+      <img
+        className="hourglass"
+        style={{ height: "50vh", marginTop: "-10vh" }}
+        src={hourglass}
+        alt="Correct"
+      />
+      <p
+        className="waitTxt"
+        style={{ fontFamily: "Concert One", marginTop: "10vh" }}
+      >
         {props.message}
       </p>
     </div>
