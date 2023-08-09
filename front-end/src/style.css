@@ -461,6 +461,10 @@ body {
   margin:0;
 }
 
+.hostAnswerScroll{
+  overflow-y: auto;
+  height: calc(100vh - (4.5em + 50px));
+}
 
 .participant{
   font-family: Inter, sans-serif;

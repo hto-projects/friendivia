@@ -101,7 +101,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   return (
     <>
       <Speak text={correctText()} cloud={true} />
-      <div>
+      <div className="hostAnswerScroll">
         {interpolatePlayerNameInQuestionText()}
 
         <Paper
