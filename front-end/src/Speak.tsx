@@ -46,7 +46,7 @@ export default function Speak(props) {
   }
 
   async function createAnnouncementAudio() {
-    const voiceId = "ThT5KcBeYPX3keUQqHPh";
+    const voiceId = "pNInz6obpgDQGcFmaJgB";
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const request = {
       text: textToSpeak,
