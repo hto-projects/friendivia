@@ -181,7 +181,6 @@ export default function HostQuestionnaireView(
                       margin: "auto",
                       marginBottom: "1.5vh",
                     }}
-                    className="playerbox"
                     onClick={() => onPlayerKick(name)}
                   >
                     <p
@@ -197,7 +196,6 @@ export default function HostQuestionnaireView(
                       {name}
                     </p>
                   </Paper>
-                  <br />
                 </li>
               ))}
             </ul>
