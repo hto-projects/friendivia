@@ -166,6 +166,7 @@ export default function HostQuestionnaireView(
             <ul className="ul">
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
+                  {i === 0 && <Speak text={`Thank you, ${name}.`} />}
                   <Paper
                     elevation={3}
                     sx={{
