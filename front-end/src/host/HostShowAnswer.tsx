@@ -106,7 +106,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
         <Paper
           sx={{
-            width: "20%",
+            width: "30%",
             alignSelf: "center",
             justifyContent: "center",
             margin: "auto",
@@ -179,7 +179,13 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   {o}
                 </p>
               </Paper>
-              <Stack>
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "5px",
+                }}
+              >
                 {playerGuesses
                   .filter((g) => g.guess === i)
                   .map((g, j) => (
