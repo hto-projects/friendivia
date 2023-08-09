@@ -106,10 +106,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
         <Paper
           sx={{
-            width: "20%",
             alignSelf: "center",
             justifyContent: "center",
             margin: "auto",
+            width: "30%",
           }}
         >
           <p

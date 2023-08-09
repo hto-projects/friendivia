@@ -267,7 +267,7 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <div className="scroll">
+    <div style={{ height: "100%", background: "#8080ff10" }}>
       <AddAnnouncementContext.Provider value={addAnnouncement}>
         <HostAnnouncementQueue
           announcementAudioObjects={announcementAudioObjects}
@@ -298,8 +298,24 @@ export default function HostApp(props: IHostProps) {
             {/* Empty to take up space on the right side of the header*/}
           </div>
         </div>
-        <div className="host-content">
-          {getElementForState(gameState, settingsState)}
+        <div
+          style={{
+            background: "#8080ff10",
+            height: "100vh",
+            overflowY: "scroll",
+          }}
+        >
+          <div
+            style={{
+              // overflowY: "scroll",
+              background: "#8080ff10",
+              textAlign: "center",
+              height: "100%",
+            }}
+          >
+            {getElementForState(gameState, settingsState)}
+          </div>
+
           <div className="clearDataButton">
             <Button
               onClick={() => socket.emit("delete-please")}
@@ -308,6 +324,7 @@ export default function HostApp(props: IHostProps) {
                 background: "transparent",
                 fontSize: "0.1em",
                 color: "transparent",
+                margin: "0",
               }}
             >
               Clear Data
