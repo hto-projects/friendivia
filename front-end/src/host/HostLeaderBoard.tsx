@@ -47,7 +47,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           style={{ width: "8vw", paddingBottom: "1vh", paddingTop: "1vh" }}
         />
         <div className="leaderboard">
-          {playerScores.map((ps, i) => (
+          {playerScores.slice(0, 5).map((ps, i) => (
             <div
               key={i}
               style={{

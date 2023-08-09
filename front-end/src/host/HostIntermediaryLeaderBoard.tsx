@@ -37,7 +37,7 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
       `${first} and ${second} are neck and neck! Meaning one of them is in first, and one of them is in second!`,
       `Good luck, ${last}... you're gonna need it.`,
       `${second} is in second place - keep grinding 😤`,
-      `${last} - you might want to try cheating next time`
+      `${last} - you might want to try cheating next time`,
     ];
 
     // const randomMessagesFemale = [
@@ -80,7 +80,7 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
       >
         <h1 style={{ fontFamily: "Concert One" }}>leaderboard</h1>
         <div className="leaderboard">
-          {playerScores.map((ps, i) => (
+          {playerScores.slice(0, 5).map((ps, i) => (
             <div
               key={i}
               style={{
