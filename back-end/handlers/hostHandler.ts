@@ -241,10 +241,11 @@ export default (io, socket: Socket) => {
         const data: IGame | null = await hostDb.getGameData(GameId);
         const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(GameId, data?.settings.numQuestionnaireQuestions);
         await playerDb.updateAllPlayerStates(GameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-        let playersInGame = await playerDb.getPlayers(GameId);
-        playersInGame.map(p => p.quizGuesses = []);
+        let players = await playerDb.getPlayers(GameId);
+        players.forEach(p => p.quizGuesses = []);
+        let quizQuestionGuesses = [];
         const currentGameData: IGame | null = await hostDb.getGameData(GameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
+        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, quizQuestionGuesses, playersInGame: players});
       } catch (e) {
         console.error(`Failed to go to questionnaire: ${e}`)
       }
