@@ -7,6 +7,7 @@ import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
+import Player from '../models/Player.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -168,6 +169,15 @@ export default {
       await PreGameSettings.deleteMany({});
     } catch (e) {
       console.error(`Issue deleting all games: ${e}`);
+    }
+  },
+
+  startDbFresh: async () => {
+    try {
+      await Game.deleteMany({});
+      await Player.deleteMany({});
+    } catch (e) {
+      console.error(`Issue deleting all game data: ${e}`);
     }
   },
 
