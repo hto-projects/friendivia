@@ -173,7 +173,7 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="HostPlayerApp"
               variant="contained"
               sx={{
-                bgcolor: "#955EC3",
+                bgcolor: "#8080ff",
                 m: 2,
                 position: "absolute",
                 bottom: "10px",
@@ -190,7 +190,7 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="AboutPlayerApp"
               variant="contained"
               sx={{
-                bgcolor: "#955EC3",
+                bgcolor: "#8080ff",
                 m: 2,
                 position: "absolute",
                 bottom: "10px",
