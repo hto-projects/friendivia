@@ -78,6 +78,10 @@ body {
     height: 78%;
     margin: 0px;
   }
+
+  div.about-body {
+    font-size: 1.1em;
+  }
 }
 
 /* Styles for desktop screens */
@@ -151,14 +155,54 @@ body {
   margin-right: 10%;
 }
 
-.about{
-  background-repeat: repeat;
-  background-size: 60% auto;
-  background-clip: cover;
-  size: 100%;
-  justify-content: center;
+.about {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #8080ff10;
+}
+
+.about-text {
+  padding: 10px;
+}
+
+.friendivia {
+  font-family: "Concert One", sans-serif;
+  font-size: 1.4em;
+  background: #8080ff;
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-text h1 {
+  font-size: 2em;
+  font-family: "Concert One", sans-serif;
+}
+
+.about-body {
+  margin: 0 auto;
+  max-width: 800px;
+  font-size: 1.5em;
   text-align: center;
-  margin: 10% auto;
+}
+
+.about-banner-text {
+  font-size: 4.5em;
+  color: white;
+  font-family: "Concert One", sans-serif;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+  margin: 0;
+}
+
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
 }
 
 .hostFormat{
@@ -311,9 +355,8 @@ body {
 
 .horizontal{
   display: flex;
-  justify-content: center;
-  margin: 5% auto;
-  padding: auto;
+  justify-content: space-between;
+  margin: 0 20px;
 }
 
 .players{
@@ -882,13 +925,13 @@ body {
 }
 
 .css-sghohy-MuiButtonBase-root-MuiButton-root.display-button {
-  background-color: #b3b3ff;
+  background: #8080ff;
   text-transform: lowercase;
   font-family: "Concert One", sans-serif;
 }
 
 .css-sghohy-MuiButtonBase-root-MuiButton-root.display-button:hover {
-  background-color: #8080ff;
+  background: #7070ff;
 }
 
 .css-sghohy-MuiButtonBase-root-MuiButton-root.about-button {
