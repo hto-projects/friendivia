@@ -15,7 +15,7 @@ import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
 import Speak from "../Speak";
-import lobbyMusic from "../assets/audio/theme.mp3";
+import lobbyMusic from "../assets/audio/lobby.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
