@@ -226,9 +226,16 @@ export default function HostQuestionnaireView(
         fontSize: "1.2em"
       }}>
         <Button
-          className="display-button"
+          
           variant="contained"
-          style={{fontSize: "1.1em"}}
+          sx={{fontSize: "1.1em",
+            background: "#8080ff",
+            textTransform: "lowercase",
+            fontFamily: `"Concert One", sans-serif`,
+            "&:hover": {
+              background: "#7070ff"
+            }
+          }}
           disabled={donePlayers.length < 1}
           onClick={() => socket.emit("host-skip-questionnaire")}>
             next

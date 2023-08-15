@@ -923,17 +923,3 @@ body {
   flex-direction: row-reverse;
   padding: 5px;
 }
-
-.css-sghohy-MuiButtonBase-root-MuiButton-root.display-button {
-  background: #8080ff;
-  text-transform: lowercase;
-  font-family: "Concert One", sans-serif;
-}
-
-.css-sghohy-MuiButtonBase-root-MuiButton-root.display-button:hover {
-  background: #7070ff;
-}
-
-.css-sghohy-MuiButtonBase-root-MuiButton-root.about-button {
-  margin-top: 3vh;
-}

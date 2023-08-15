@@ -315,7 +315,21 @@ export default function HostApp(props: IHostProps) {
           {getElementForState(gameState, settingsState)}
         </div>
         <div className="host-footer">
-          {gameState !== "init" && <Button variant="contained" className="display-button" onClick={onEndGameClicked}>end game</Button>}
+          {gameState !== "init" &&
+            <Button
+              variant="contained"
+              onClick={onEndGameClicked}
+              sx={{
+                background: "#8080ff",
+                textTransform: "lowercase",
+                fontFamily: `"Concert One", sans-serif`,
+                "&:hover": {
+                  background: "#7070ff"
+                },
+              }}
+            >
+              end game
+            </Button>}
         </div>
       </AddAnnouncementContext.Provider>
     </div>

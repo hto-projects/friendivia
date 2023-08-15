@@ -15,18 +15,31 @@ export default function AboutPage() {
           </div>
           <div className="bottom-bar">
             <Button
-              className="button display-button"
+              className="button"
               variant="contained"
               href="/"
-              style={{fontSize: "1.29em"}}
+              sx={{
+                fontSize: "1.29em",
+                background: "#8080ff",
+                textTransform: "lowercase",
+                fontFamily: `"Concert One", sans-serif`,
+                "&:hover": {
+                  background: "#7070ff"
+                },
+              }}
             >
               Join a game
             </Button>
             <Button
-              className="button display-button"
+              className="button"
               variant="contained"
               href="/host"
-              style={{fontSize: "1.29em"}}
+              sx={{
+                fontSize: "1.29em",
+                background: "#8080ff",
+                textTransform: "lowercase",
+                fontFamily: `"Concert One", sans-serif`
+              }}
             >
               Host a game
             </Button>

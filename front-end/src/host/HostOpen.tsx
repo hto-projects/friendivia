@@ -185,7 +185,19 @@ export default function HostOpen(props: IOpenProps) {
         </div>
       </div>
       <div>
-        <Button variant="contained" className="about-button display-button" href="/about">about</Button>
+        <Button variant="contained" className="about-button" href="/about"
+          sx={{
+            background: "#8080ff",
+            textTransform: "lowercase",
+            fontFamily: `"Concert One", sans-serif`,
+            marginTop: "3vh",
+            "&:hover": {
+              background: "#7070ff"
+            }
+          }}
+          >
+            about
+          </Button>
       </div>
     </div>
   );
