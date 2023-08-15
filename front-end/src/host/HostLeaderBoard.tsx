@@ -36,7 +36,6 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          minHeight: "100vh", // Ensure the content takes up at least the full viewport height
           paddingBottom: "3rem", // Add space for the buttons at the bottom
         }}
       >
