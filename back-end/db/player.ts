@@ -198,6 +198,14 @@ export default {
     }
   },
 
+  deletePlayer: async function (playerId): Promise<any> {
+    try {
+      await Player.deleteOne({id: playerId});
+    } catch (e) {
+      console.error(`Issue deleting player ${playerId}: ${e}`)
+    }
+  },
+
   deleteAllPlayers: async (): Promise<any> => {
     try {
       await Player.deleteMany({});
