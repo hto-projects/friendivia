@@ -233,9 +233,11 @@ const onHostViewUpdate = async(gameId, io: Server) => {
 
   try {
     const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
-    if(!allPlayersDone){
-      let playerStatusLists = await getQuestionnaireStatus(gameId);
+    if (!allPlayersDone) {
+      const playerStatusLists = await getQuestionnaireStatus(gameId);
       io.to(gameData.hostSocketId).emit('update-host-view', playerStatusLists);
+    } else {
+      await hostStartQuiz(gameId, io);
     }
   } catch (e) {
     io.to(gameData.hostSocketId).emit("onHostViewUpdate-error", e);

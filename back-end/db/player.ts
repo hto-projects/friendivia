@@ -17,6 +17,17 @@ export default {
       return [];
     }
   },
+
+  getPlayersWithQuestionnairesCompleted: async (gameId: number, qLength: number): Promise<IPlayer[]> => {
+    try {
+      const players = await Player.find({gameId: gameId});
+      return players.filter(p => p.questionnaireAnswers.length === qLength);
+    } catch (e) {
+      console.error(`Issue getting players with completed questionnaires: ${e}`);
+      return [];
+    }
+  },
+
   addPlayer: async (playerName: string, gameId: number, socketId: string): Promise<string> => {
     try {
       const playerId = `player_${uuid.v4()}`;
@@ -53,9 +64,9 @@ export default {
     }
   },
 
-  getPlayerByName: async (playerName: string): Promise<any> => {
+  getPlayerByName: async (playerName: string, gameId: number): Promise<any> => {
     try {
-      const player = await Player.findOne({name: playerName});
+      const player = await Player.findOne({name: playerName, gameId: gameId});
       return player;
     } catch (e) {
       console.error(`Issue getting player state: ${e}`);
@@ -65,7 +76,6 @@ export default {
     kickPlayer: async (playerName: string, gameId: number): Promise<any> => {
       try {
         await Player.deleteOne({name: playerName, gameId: gameId});
-        console.error('Need at least two players in game!');
       } catch (e) {
         console.error(`Issue kicking player: ${e}`);
       }

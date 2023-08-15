@@ -236,6 +236,24 @@ export default (io, socket: Socket) => {
       console.error(`Failed to go back: ${e}`)
     }
   }
+
+  const onHostSkipQuestionnaire = async () => {
+    try {
+      const gameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
+      if (gameData === null) {
+        return;
+      }
+
+      const playersInGame: IPlayer[] = await playerDb.getPlayers(gameData.id);
+      if (!playersInGame.some(p => p.playerState.state === PlayerStates.DoneWithQuestionnaireWaiting)) {
+        return;
+      }
+
+      await hostHelpers.hostStartQuiz(gameData.id, io);
+    } catch (e) {
+      console.error(`Error skipping past questionnaire: ${e}`);
+    }
+  }
  
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
@@ -245,6 +263,7 @@ export default (io, socket: Socket) => {
   socket.on('host-end-game', onHostEndGame);
   socket.on('host-start-quiz-timer', onHostStartQuizTimer);
   socket.on('next-question', onNextQuestion);
+  socket.on('host-skip-questionnaire', onHostSkipQuestionnaire);
   socket.on('go-to-int-leaderboard', onIntLeaderboard);
   socket.on('timer-skip', onTimerSkip);
   socket.on('check-all-players-answered', allPlayersAnsweredQuestion);

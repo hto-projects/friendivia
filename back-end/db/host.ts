@@ -134,7 +134,7 @@ export default {
   },
 
   buildQuiz: async (gameId: number, questionnaireQuestions: any, numQuizQuestions: number): Promise<IQuizQuestion[]> => {
-    const players = await playerDb.getPlayers(gameId);
+    const players = await playerDb.getPlayersWithQuestionnairesCompleted(gameId, questionnaireQuestions.length);
     const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions, numQuizQuestions);
     await Game.updateOne({ id: gameId }, {
       $set: { 'quizQuestions': quizQuestions }
