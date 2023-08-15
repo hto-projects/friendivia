@@ -106,41 +106,6 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           ))}
         </div>
       </div>
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0, // Align at the bottom of the viewport
-          width: "100%", // Take full width of the viewport
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "1rem",
-        }}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            bgcolor: "#955EC3",
-            m: 2,
-            fontFamily: "Concert One",
-            textTransform: "none",
-          }}
-          onClick={onPlayAgain}
-        >
-          play again
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            bgcolor: "#955EC3",
-            m: 2,
-            fontFamily: "Concert One",
-            textTransform: "none",
-          }}
-          onClick={onPlayAgainWithSamePlayers}
-        >
-          play again with same players
-        </Button>
-      </div>
     </>
   );
 }

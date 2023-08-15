@@ -99,6 +99,12 @@ export default function HostApp(props: IHostProps) {
     socket.emit("settings-load", settingsIdFromStorage);
   }
 
+  function onEndGameClicked() {
+    if (confirm("Are you sure you want to end this game?")) {
+      socket.emit("host-end-game");
+    }
+  }
+
   React.useEffect(() => {
     function onLoadSuccess(
       data: IGame & { quizQuestionGuesses; playerScores; playersInGame }
@@ -146,12 +152,19 @@ export default function HostApp(props: IHostProps) {
       setSettingsState(true);
     }
 
+    function onHostGameEnded() {
+      localStorage.setItem("game-id", "");
+      window.location.reload();
+    }
+
     socket.on("host-open-success", onOpenSuccess);
     socket.on("host-load-success", onLoadSuccess);
     socket.on("host-next", onLoadSuccess);
     socket.on("presettings-close", onSettingsLoadSuccess);
     socket.on("host-presettings-success", onPresettingsSuccess);
     socket.on("settings-load-success", onSettingsLoadSuccess);
+
+    socket.on("host-game-ended", onHostGameEnded);
 
     return () => {
       socket.off("host-open-success", onOpenSuccess);
@@ -267,7 +280,7 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <div className="scroll">
+    <div className="scroll host-screen">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
         <HostAnnouncementQueue
           announcementAudioObjects={announcementAudioObjects}
@@ -300,19 +313,9 @@ export default function HostApp(props: IHostProps) {
         </div>
         <div className="host-content">
           {getElementForState(gameState, settingsState)}
-          <div className="clearDataButton">
-            <Button
-              onClick={() => socket.emit("delete-please")}
-              className="secretButton"
-              sx={{
-                background: "transparent",
-                fontSize: "0.1em",
-                color: "transparent",
-              }}
-            >
-              Clear Data
-            </Button>
-          </div>
+        </div>
+        <div className="host-footer">
+          <Button variant="contained" className="end-game-button" onClick={onEndGameClicked}>end game</Button>
         </div>
       </AddAnnouncementContext.Provider>
     </div>

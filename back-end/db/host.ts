@@ -7,8 +7,6 @@ import utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
-import question from '../db/question.ts';
-import Player from '../models/Player.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -31,22 +29,18 @@ export default {
     }
   },
 
-  hostOpenGame: async function(socketId: string, preSettingsId: string): Promise<number> {
+  hostOpenGame: async function(socketId: string): Promise<number> {
     try {
-      const settingsData = await this.getPreSettingsData(preSettingsId);
-      const timePerQuestion = settingsData?.settings.timePerQuestion || 15;
-      const numQuestionnaireQuestions = settingsData?.settings.numQuestionnaireQuestions || 5;
-      const numQuizQuestions = settingsData?.settings.numQuizQuestions || 5;
-      var handsFreeMode;
-      if (settingsData?.settings.handsFreeMode != undefined) {handsFreeMode = settingsData?.settings.handsFreeMode;} else {handsFreeMode = false;}
-      const timePerAnswer = settingsData?.settings.timePerAnswer || 10;
-      const timePerLeaderboard = settingsData?.settings.timePerLeaderboard || 5;
-      var prioritizeCustomQs;
-      if (settingsData?.settings.prioritizeCustomQs != undefined) {prioritizeCustomQs = settingsData?.settings.prioritizeCustomQs;} else {prioritizeCustomQs = true;}
-      const customQuestions = settingsData?.settings.customQuestions || [];
-      this.deleteOneSettings(preSettingsId);
+      const timePerQuestion = 15;
+      const numQuestionnaireQuestions = 5;
+      const numQuizQuestions = 5;
+      const handsFreeMode = false;
+      const timePerAnswer = 10;
+      const timePerLeaderboard = 5;
+      const prioritizeCustomQs = false;
+      const customQuestions = [];
 
-      var newId = -1;
+      let newId = -1;
       while (true) {
         const testId = Math.floor(Math.random() * 9000 + 1000);
         const gameExists = await Game.exists({id: testId});
@@ -55,6 +49,7 @@ export default {
           break;
         }
       }
+
       const newGameObject: IGame = {
         id: newId,
         gameState: {
@@ -93,6 +88,16 @@ export default {
       return gameData?.toObject();
     } catch (e) {
       console.error(`Issue getting game data: ${e}`);
+      return null;
+    }
+  },
+
+  getGameDataFromSocketId: async (socketId: string): Promise<IGame | null> => {
+    try {
+      const gameData: any = await Game.findOne({hostSocketId: socketId});
+      return gameData?.toObject();
+    } catch (e) {
+      console.error(`Issue getting game data from Host SocketId ${socketId}: ${e}`);
       return null;
     }
   },
@@ -174,19 +179,13 @@ export default {
     }
   },
 
-  deleteGame: async(gameId: number, PreSettingsId: number): Promise<any> => {
-    try{
-      const allPlayers = await Player.find({gameId: gameId});
-      for (const player of allPlayers) {
-        await Player.deleteOne({id: player.playerSocketId});
-      }
-      await question.deleteAllQuestions();
+  deleteGame: async(gameId: number): Promise<any> => {
+    try {
       await Game.deleteOne({id: gameId});
-      await PreGameSettings.deleteOne({id: PreSettingsId});
-    }
-    catch(e){
+    } catch(e) {
       console.error(`Issue deleting game: ${e}`);
-    }},
+    }
+  },
 
   updateSettings: async(gameId: number, settingsData: any): Promise<any> => {
     try {

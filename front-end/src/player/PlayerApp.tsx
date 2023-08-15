@@ -67,6 +67,12 @@ export default function PlayerApp(props: PlayerAppProps) {
       }
     }
 
+    function onPlayerGameEnded() {
+      localStorage.setItem("player-id", "");
+      window.location.reload();
+    }
+
+    socket.on("player-game-ended", onPlayerGameEnded)
     socket.on("player-load-success", onLoadSuccess);
     socket.on("player-next", onLoadSuccess);
 

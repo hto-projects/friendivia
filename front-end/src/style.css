@@ -226,7 +226,6 @@ body {
 }
 
 .host-content {
-  background: #8080ff10;
   text-align: center;
   height: 100%;
 }
@@ -870,4 +869,24 @@ body {
 
 #fixScreen {
   height: 101vh !important;
+}
+
+.host-screen {
+  background: #8080ff10;
+}
+
+.host-footer {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 5px;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.end-game-button {
+  background-color: #b3b3ff;
+  text-transform: lowercase;
+  font-family: "Concert One", sans-serif;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.end-game-button:hover {
+  background-color: #8080ff;
 }
