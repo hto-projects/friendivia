@@ -4,6 +4,7 @@ import IPlayer from "back-end/interfaces/IPlayer";
 import Paper from "@mui/material/Paper";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
+import { Button } from "@mui/material";
 
 interface HostQuestionnaireViewProps {
   donePlayers: any;
@@ -86,7 +87,7 @@ export default function HostQuestionnaireView(
               margin: "auto",
               mx: "auto",
               width: "46vw",
-              height: "75vh",
+              height: "68vh",
             }}
           >
             <h1
@@ -159,7 +160,7 @@ export default function HostQuestionnaireView(
               margin: "auto",
               mx: "auto",
               width: "46vw",
-              height: "75vh",
+              height: "68vh",
             }}
           >
             <h1
@@ -215,6 +216,23 @@ export default function HostQuestionnaireView(
             </div>
           </Paper>
         </div>
+      </div>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: "20px",
+        marginRight: "5px",
+        fontSize: "1.2em"
+      }}>
+        <Button
+          className="display-button"
+          variant="contained"
+          style={{fontSize: "1.1em"}}
+          disabled={donePlayers.length < 1}
+          onClick={() => socket.emit("host-skip-questionnaire")}>
+            next
+        </Button>
       </div>
     </>
   );
