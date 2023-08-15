@@ -881,12 +881,16 @@ body {
   padding: 5px;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root.end-game-button {
+.css-sghohy-MuiButtonBase-root-MuiButton-root.display-button {
   background-color: #b3b3ff;
   text-transform: lowercase;
   font-family: "Concert One", sans-serif;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root.end-game-button:hover {
+.css-sghohy-MuiButtonBase-root-MuiButton-root.display-button:hover {
   background-color: #8080ff;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.about-button {
+  margin-top: 3vh;
 }

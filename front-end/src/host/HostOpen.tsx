@@ -22,7 +22,6 @@ export default function HostOpen(props: IOpenProps) {
   return (
     <div
       style={{
-        height: "90vh",
         alignItems: "center",
         justifyContent: "center",
         verticalAlign: "middle",
@@ -40,7 +39,7 @@ export default function HostOpen(props: IOpenProps) {
       >
         <div
           style={{
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             backgroundImage:
               "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
@@ -86,7 +85,7 @@ export default function HostOpen(props: IOpenProps) {
         </div>
         <div
           style={{
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             backgroundImage:
               "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
@@ -131,7 +130,7 @@ export default function HostOpen(props: IOpenProps) {
         <div
           style={{
             position: "relative",
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             borderRadius: "10px",
             display: "flex",
@@ -184,6 +183,9 @@ export default function HostOpen(props: IOpenProps) {
             OpenAI!
           </h1>
         </div>
+      </div>
+      <div>
+        <Button variant="contained" className="about-button display-button" href="/about">about</Button>
       </div>
     </div>
   );

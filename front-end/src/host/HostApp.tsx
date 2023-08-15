@@ -315,7 +315,7 @@ export default function HostApp(props: IHostProps) {
           {getElementForState(gameState, settingsState)}
         </div>
         <div className="host-footer">
-          <Button variant="contained" className="end-game-button" onClick={onEndGameClicked}>end game</Button>
+          {gameState !== "init" && <Button variant="contained" className="display-button" onClick={onEndGameClicked}>end game</Button>}
         </div>
       </AddAnnouncementContext.Provider>
     </div>
