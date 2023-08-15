@@ -2,8 +2,12 @@ import * as React from "react";
 import { ttsApiKey } from "./environment";
 import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
+function replaceFriendivia(text: string) {
+  return text.replace("friendivia", " friend divvy-uh ");
+}
+
 export default function Speak(props) {
-  const textToSpeak = props.text;
+  const textToSpeak = replaceFriendivia(props.text);
   const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
