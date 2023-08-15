@@ -202,41 +202,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
           {getSliceOfBadges(TOP_BADGE_END, RIGHT_BADGE_END)}
         </div>
       </div>
-      <div
-        className=""
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <Button
-          className="LobbySettings"
-          variant="contained"
-          onClick={onSettings}
-          sx={{
-            backgroundColor: "#955EC3",
-            textTransform: "none",
-            fontFamily: "Concert One",
-            fontSize: "1em",
-            marginLeft: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          settings
-        </Button>
-        <Button
-          className="LobbySettings"
-          variant="contained"
-          href="/about"
-          sx={{
-            backgroundColor: "#955EC3",
-            textTransform: "none",
-            fontFamily: "Concert One",
-            fontSize: "1em",
-            marginRight: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          about
-        </Button>
-      </div>
     </div>
   );
 }
