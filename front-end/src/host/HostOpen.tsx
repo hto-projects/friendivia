@@ -54,9 +54,11 @@ export default function HostOpen(props: IOpenProps) {
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
-            cursor: "pointer",
+            filter: "grayscale(100%)",
+            cursor: "not-allowed",
+            pointerEvents: "none"
           }}
-          onClick={onPreSettings}
+          // onClick={onPreSettings}
         >
           <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚙️</p>
           <h1
@@ -79,7 +81,7 @@ export default function HostOpen(props: IOpenProps) {
               textAlign: "left",
             }}
           >
-            Add custom questions, change time settings, and more!
+            Coming Soon. Add custom questions, change time settings, and more!
           </h1>
         </div>
         <div
@@ -123,7 +125,7 @@ export default function HostOpen(props: IOpenProps) {
               textAlign: "left",
             }}
           >
-            Classic fun friendivia gameplay. Let’s start the game!
+            Classic fun friendivia gameplay. Let's start the game!
           </h1>
         </div>
         <div
@@ -183,29 +185,6 @@ export default function HostOpen(props: IOpenProps) {
           </h1>
         </div>
       </div>
-
-      {/* <Button
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-        }}
-        onClick={onHost}
-      >
-        Host
-      </Button>
-      <Button
-        className="button"
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-          m: 2,
-        }}
-        onClick={onPreSettings}
-      >
-        Game Settings
-      </Button> */}
     </div>
   );
 }
