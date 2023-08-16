@@ -27,6 +27,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState(0);
+  const [scoreDiff, setScoreDiff] = React.useState(0);
   const [allPlayerScores, setAllPlayerScores] = React.useState([]);
   const [
     questionnaireQuestionsText,
@@ -50,6 +51,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
+
+      setScoreDiff(data.player.score - playerScore);
       setPlayerScore(data.player.score);
 
       if (data && data.extraData && data.extraData.playerScores) {
@@ -116,10 +119,10 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-answer-correct") {
       bottomButtons = false;
-      return <PlayerCorrect />;
+      return <PlayerCorrect pts={scoreDiff} />;
     } else if (playerState === "seeing-answer-incorrect") {
       bottomButtons = false;
-      return <PlayerIncorrect />;
+      return <PlayerIncorrect consolationPts={scoreDiff} />;
     } else if (playerState === "seeing-answer") {
       bottomButtons = false;
       return <PlayerIsSubject />;
