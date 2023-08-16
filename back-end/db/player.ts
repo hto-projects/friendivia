@@ -3,8 +3,8 @@ import IPlayer from '../interfaces/IPlayer.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Player from '../models/Player.ts'
 import IGame from '../interfaces/IGame.ts';
+import IGuess from '../interfaces/IGuess.ts';
 
-type Guess = { name: string, guess: number };
 type Score = { name: string, score: number };
 
 export default {
@@ -141,6 +141,37 @@ export default {
     }
   },
 
+  awardAllPlayersConsolationPoints: async function(guessingPlayers: IPlayer[], quizQIndex: number): Promise<any> {
+    const guessTime = p => p.quizGuesses[quizQIndex].timestamp;
+    const timeBetweenPlayerGuesses = (a: IPlayer, b: IPlayer) => guessTime(b) - guessTime(a);
+
+    guessingPlayers.sort(timeBetweenPlayerGuesses);
+    for (let i = 0; i < guessingPlayers.length; i++) {
+      const currentPlayer = guessingPlayers[i];
+      await this.awardPlayerConsolationPoints(currentPlayer.id, 25 * (i+1));
+    }
+  },
+
+  awardPlayerConsolationPoints: async (playerId: string, points: number): Promise<any> => {
+    try {
+      const player: IPlayer | null = await Player.findOne({id: playerId});
+      
+      if (player === null) {
+        throw `Player not found: ${playerId}`;
+      } else {
+        await Player.updateOne({
+          id: playerId
+        }, { 
+          $set: {
+            'score' : player.score + points
+          }
+        });
+      }
+    } catch (e) {
+      console.error(`Issue awarding consolation points: ${e}`);
+    }
+  },
+
   playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
@@ -149,7 +180,11 @@ export default {
         throw `Player not found: ${playerId}`;
       } else {    
         const newQuizGuesses = player.quizGuesses;
-        newQuizGuesses[gameData.currentQuestionIndex] = guess;
+        newQuizGuesses[gameData.currentQuestionIndex] = {
+          name: player.name,
+          guess: guess,
+          timestamp: Date.now()
+        };
         await Player.updateOne({
           id: playerId
         }, { 
@@ -175,14 +210,9 @@ export default {
     }
   },
 
-  getPlayerGuessesForQuizQuestion: async function(gameId: number, questionIndex: number): Promise<Guess[]> {
+  getPlayerGuessesForQuizQuestion: async function(gameId: number, questionIndex: number): Promise<IGuess[]> {
     const playersInGame = await this.getPlayers(gameId);
-    const playerGuesses = playersInGame.map(p => ({
-      name: p.name,
-      guess: p.quizGuesses[questionIndex]
-    }));
-
-    return playerGuesses;
+    return playersInGame.map(p => p.quizGuesses[questionIndex]);
   },
 
   getPlayerScores: async function(gameId: number): Promise<Score[]> {
