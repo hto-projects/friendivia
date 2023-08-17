@@ -4,10 +4,7 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
-import { Chip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+import { Chip, Menu, MenuItem } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import PlayerCorrect from "./PlayerCorrect";
 import PlayerIncorrect from "./PlayerIncorrect";
@@ -28,6 +25,7 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState(0);
   const [scoreDiff, setScoreDiff] = React.useState(0);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const [allPlayerScores, setAllPlayerScores] = React.useState([]);
   const [
     questionnaireQuestionsText,
@@ -226,6 +224,13 @@ export default function PlayerApp(props: PlayerAppProps) {
     }
   }
 
+  function playerQuit() {
+    if (confirm("Are you sure you want to quit?")) {
+      localStorage.setItem("player-id", "");
+      socket.emit("player-quit");
+    }
+  }
+
   return (
     <div
       className={
@@ -251,6 +256,18 @@ export default function PlayerApp(props: PlayerAppProps) {
             marginTop: "-3vh",
           }}
         >
+          <Menu
+            id="player-menu"
+            open={menuOpen}
+            anchorEl={document.querySelector("#player-chip")}
+            onClose={() => setMenuOpen(false)}
+            MenuListProps={{
+              'aria-labelledby': 'player-chip'
+            }}
+          >
+            <MenuItem onClick={playerQuit}>Quit</MenuItem>
+          </Menu>
+
           <Grid container spacing={0}>
             <Grid item xs={3}>
               {playerState != "init" && playerState != "kicked" ? (
@@ -262,7 +279,12 @@ export default function PlayerApp(props: PlayerAppProps) {
                         backgroundColor: "white",
                         marginTop: "1.8em",
                       }}
+                      onClick={() => setMenuOpen(!menuOpen)}
                       label={playerName}
+                      id="player-chip"
+                      aria-controls={menuOpen ? 'player-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={menuOpen ? 'true' : undefined}
                     />
                   ) : (
                     ""

@@ -69,7 +69,7 @@ export default function PlayerNewRanking(props: RankingProps) {
 
   return (
     <>
-      <div>{getPlayerRankDisplay()}</div>
+      <div>{playerScores.length > 1 ? getPlayerRankDisplay() : "What are you doing here?"}</div>
     </>
   );
 }

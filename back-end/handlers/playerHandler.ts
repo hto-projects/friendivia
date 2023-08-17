@@ -141,11 +141,29 @@ export default (io: Server, socket: Socket) => {
       await hostHelpers.onHostViewUpdate(gameId, io);
     } catch (e) {
       console.error("Failed to kick player: " + e);
-    }}
+    }
+  };
+
+  const onPlayerQuit = async () => {
+    const player: IPlayer | null = await playerDb.getPlayerBySocketId(socket.id);
+    if (!player) {
+      socket.emit('player-game-ended');
+      return;
+    }
+
+    const game: IGame | null = await hostDb.getGameData(player.gameId);
+    if (!game) {
+      return;
+    }
+
+    await hostHelpers.handlePlayerQuit(player, game, io);
+    socket.emit('player-game-ended');
+  }
   
   socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
   socket.on('player-answer-question', onPlayerAnswerQuestion);
+  socket.on('player-quit', onPlayerQuit);
 }
