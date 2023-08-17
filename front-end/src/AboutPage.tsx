@@ -45,6 +45,24 @@ export default function AboutPage() {
             </Button>
           </div>
         </div>
+        <div style={{marginBottom: "2vh", maxWidth: "100%", width: "100%", position: "absolute", bottom: "0px", textAlign: "center"}}>
+            <Button
+                className="button"
+                variant="contained"
+                href="https://forms.gle/6UjvVEJ1JHqf9tmx9"
+                sx={{
+                  fontSize: "1.1em",
+                  background: "#a0a0ff",
+                  textTransform: "lowercase",
+                  fontFamily: `"Concert One", sans-serif`,
+                  "&:hover": {
+                    background: "#9090ff"
+                  },
+                }}
+              >
+                submit feedback
+              </Button>
+          </div>
       </div>
   );
 }
