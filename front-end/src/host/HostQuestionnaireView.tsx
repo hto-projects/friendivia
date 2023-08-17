@@ -25,6 +25,9 @@ export default function HostQuestionnaireView(
   const [warning2Reached, setWarning2Reached] = React.useState(false);
   let spokenText2 = "";
 
+  const [warning3Reached, setWarning3Reached] = React.useState(false);
+  let spokenText3= "";
+
   React.useEffect(() => {
     setTimeout(() => {
       setWarningReached(true);
@@ -37,6 +40,12 @@ export default function HostQuestionnaireView(
     }, 40000);
   }, [warning2Reached, setWarning2Reached]);
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      setWarning3Reached(true);
+    }, 60000);
+  }, [warning3Reached, setWarning3Reached]);
+
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
       socket.emit("host-kick-player", name);
@@ -46,19 +55,22 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    //spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
     spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
-    //(Math.floor(waitingPlayers.length * Math.random()))
   }
 
   if (warning2Reached && waitingPlayers.length > 1) {
-    spokenText = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
+    spokenText2 = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
+  }
+
+  if (warning3Reached && waitingPlayers.length > 0) {
+    spokenText3 = `Ok seriously, let's go "${waitingPlayers[0]}". I have places to be.`;
   }
 
   return (
     <>
       {spokenText && <Speak text={spokenText} />}
       {spokenText2 && <Speak text={spokenText2} />}
+      {spokenText3 && <Speak text={spokenText3} />}
       {waitingPlayers.length === 1 && (
         <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />
       )}
