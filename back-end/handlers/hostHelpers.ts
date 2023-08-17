@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
+import IGuess from '../interfaces/IGuess.ts';
 
 const PRE_QUIZ_MS = 5000;
 const PRE_ANSWER_MS = 5000;
@@ -159,7 +160,8 @@ const handleTiebreakerAnswers = async (allPlayers: IPlayer[], quizQIndex, correc
   let bonusPlayer: IPlayer = bottomPlayersBySpeed[0];
   for (let i = 1; i < bottomPlayersBySpeed.length; i++) {
     const currentPlayer = bottomPlayersBySpeed[i];
-    if (currentPlayer.quizGuesses[quizQIndex].guess === correctQIndex) {
+    const currentGuess = currentPlayer.quizGuesses[quizQIndex];
+    if (currentGuess && currentGuess.guess === correctQIndex) {
       bonusPlayer = currentPlayer;
     }
   }
@@ -182,7 +184,8 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
   const players = await playerDb.getPlayers(gameId);
   const subjectPlayerId = gameData.quizQuestions[currentQuestionIndex].playerId;
 
-  const guessingPlayers = players.filter(p => p.id !== subjectPlayerId && p.quizGuesses[currentQuestionIndex]);
+  const nonSubjectPlayers = players.filter(p => p.id !== subjectPlayerId);
+  const guessingPlayers = players.filter(p => p.quizGuesses[currentQuestionIndex]);
   const guesses = await playerDb.getPlayerGuessesForQuizQuestion(gameId, currentQuestionIndex);
 
   const correctGuess = gameData.quizQuestions[currentQuestionIndex].correctAnswerIndex;
@@ -191,14 +194,16 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
 
   if (subjectPlayerId === "friends") {
     await handleTiebreakerAnswers(players, currentQuestionIndex, correctGuess);
-  } else if (numCorrect === 0) {
+  } else if (totalGuesses === 0 || numCorrect === 0) {
     playerDb.awardAllPlayersConsolationPoints(guessingPlayers, currentQuestionIndex);
   }
 
   const subjectPlayer = await playerDb.getPlayer(subjectPlayerId);
-  const subjectBonus = Math.floor(300 * (numCorrect / totalGuesses));
+  let subjectBonus = Math.floor(300 * (numCorrect / totalGuesses));
 
   if (subjectPlayer) {
+    subjectBonus = isNaN(subjectBonus) ? 0 : subjectBonus;
+
     await Player.updateOne({
       id: subjectPlayer.id
     }, { 
@@ -211,11 +216,11 @@ const hostShowAnswer = async (gameId: number, io: Server): Promise<void> => {
     playerDb.updatePlayerState(subjectPlayer.id, newSubjectPlayerState, io, {});
   }
 
-  for (let i = 0; i < guessingPlayers.length; i++) {
-    const currentPlayer = guessingPlayers[i];
-    const currentPlayerCurrentGuess = currentPlayer.quizGuesses[currentQuestionIndex].guess;
-    const playerCorrect = currentPlayerCurrentGuess === correctGuess;
-    const currentPlayerNewState = playerCorrect ? PlayerStates.SeeingAnswerCorrect : PlayerStates.SeeingAnswerIncorrect;
+  for (let i = 0; i < nonSubjectPlayers.length; i++) {
+    const currentPlayer: IPlayer = nonSubjectPlayers[i];
+    const currentPlayerCurrentGuess: IGuess = currentPlayer.quizGuesses[currentQuestionIndex];
+    const playerCorrect: boolean = currentPlayerCurrentGuess && currentPlayerCurrentGuess.guess === correctGuess;
+    const currentPlayerNewState: PlayerStates = playerCorrect ? PlayerStates.SeeingAnswerCorrect : PlayerStates.SeeingAnswerIncorrect;
 
     await playerDb.updatePlayerState(currentPlayer.id, currentPlayerNewState, io, {});
   }
@@ -263,7 +268,7 @@ const onHostViewUpdate = async(gameId, io: Server) => {
     if (!allPlayersDone) {
       const playerStatusLists = await getQuestionnaireStatus(gameId);
       io.to(gameData.hostSocketId).emit('update-host-view', playerStatusLists);
-    } else {
+    } else if (gameData.gameState.state === GameStates.Questionnaire) {
       await hostStartQuiz(gameId, io);
     }
   } catch (e) {
@@ -271,4 +276,16 @@ const onHostViewUpdate = async(gameId, io: Server) => {
   }
 }
 
-export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate,  hostNextQuestionOrLeaderboard, hostSkipTimer, hostShowIntLeaderboard, hostStartQuizTimer, hostPreLeaderBoard };
+const handlePlayerQuit = async function(player: IPlayer, game: IGame, io: Server) {
+  await playerDb.kickPlayer(player.name, game.id);
+  const allPlayersInGame = await playerDb.getPlayers(game.id);
+
+  await io.to(game.hostSocketId).emit('players-updated', {
+    gameId: game.id,
+    players: allPlayersInGame
+  });
+  
+  await onHostViewUpdate(game.id, io);
+}
+
+export default { hostStartQuiz, hostPreAnswer, onHostViewUpdate,  hostNextQuestionOrLeaderboard, hostSkipTimer, hostShowIntLeaderboard, hostStartQuizTimer, hostPreLeaderBoard, handlePlayerQuit };

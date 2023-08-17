@@ -142,7 +142,7 @@ export default {
   },
 
   getPlayersSortedByGuessSpeed: function(guessingPlayers: IPlayer[], quizQIndex: number): IPlayer[] {
-    const guessTime = p => p.quizGuesses[quizQIndex].timestamp;
+    const guessTime = p => p.quizGuesses[quizQIndex] ? p.quizGuesses[quizQIndex].timestamp : 0;
     const timeBetweenPlayerGuesses = (a: IPlayer, b: IPlayer) => guessTime(b) - guessTime(a);
     guessingPlayers.sort(timeBetweenPlayerGuesses);
 

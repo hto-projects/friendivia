@@ -58,11 +58,18 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
     return pickOne(randomMessages);
   };
 
-  const randomMessage = randomMessageGenerator(
-    playerScores[0],
-    playerScores[1],
-    playerScores[playerScores.length - 1]
-  );
+  let randomMessage;
+  if (playerScores.length > 1) {
+    randomMessage = randomMessageGenerator(
+      playerScores[0],
+      playerScores[1],
+      playerScores[playerScores.length - 1]
+    );
+  } else if (playerScores.length === 1) {
+    randomMessage = "Congrats on being the only player here, " + playerScores[0].name;
+  } else {
+    randomMessage = "Please end the game. No one is here.";
+  }
 
   function onNext() {
     props.socket.emit("next-question", props.gameId);
