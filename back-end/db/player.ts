@@ -141,18 +141,24 @@ export default {
     }
   },
 
-  awardAllPlayersConsolationPoints: async function(guessingPlayers: IPlayer[], quizQIndex: number): Promise<any> {
+  getPlayersSortedByGuessSpeed: function(guessingPlayers: IPlayer[], quizQIndex: number): IPlayer[] {
     const guessTime = p => p.quizGuesses[quizQIndex].timestamp;
     const timeBetweenPlayerGuesses = (a: IPlayer, b: IPlayer) => guessTime(b) - guessTime(a);
-
     guessingPlayers.sort(timeBetweenPlayerGuesses);
-    for (let i = 0; i < guessingPlayers.length; i++) {
-      const currentPlayer = guessingPlayers[i];
-      await this.awardPlayerConsolationPoints(currentPlayer.id, 25 * (i+1));
+
+    return guessingPlayers;
+  },
+
+  awardAllPlayersConsolationPoints: async function(guessingPlayers: IPlayer[], quizQIndex: number): Promise<any> {
+    const sortedPlayers = this.getPlayersSortedByGuessSpeed(guessingPlayers, quizQIndex);
+
+    for (let i = 0; i < sortedPlayers.length; i++) {
+      const currentPlayer = sortedPlayers[i];
+      await this.awardPlayerPoints(currentPlayer.id, 25 * (i+1));
     }
   },
 
-  awardPlayerConsolationPoints: async (playerId: string, points: number): Promise<any> => {
+  awardPlayerPoints: async (playerId: string, points: number): Promise<any> => {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
       
@@ -168,11 +174,11 @@ export default {
         });
       }
     } catch (e) {
-      console.error(`Issue awarding consolation points: ${e}`);
+      console.error(`Issue awarding points: ${e}`);
     }
   },
 
-  playerAnswerQuestion: async (playerId: string, guess: number, gameData: IGame): Promise<any> => {
+  playerAnswerQuestion: async function(playerId: string, guess: number, gameData: IGame): Promise<any> {
     try {
       const player: IPlayer | null = await Player.findOne({id: playerId});
       
@@ -180,6 +186,16 @@ export default {
         throw `Player not found: ${playerId}`;
       } else {    
         const newQuizGuesses = player.quizGuesses;
+        const correctGuess = guess === gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex;
+        let scoreAdd = 0;
+        if (correctGuess) {
+          scoreAdd += 200;
+          const currentGuesses = await this.getPlayerGuessesForQuizQuestion(gameData.id, gameData.currentQuestionIndex);
+          const numGuesses = currentGuesses.filter(g => !!g).length;
+          if (numGuesses < 3) {
+            scoreAdd += (75 - numGuesses*25);
+          }
+        }
         newQuizGuesses[gameData.currentQuestionIndex] = {
           name: player.name,
           guess: guess,
@@ -191,7 +207,7 @@ export default {
           $set: {
             'playerState.state': PlayerStates.AnsweredQuizQuestionWaiting,
             'quizGuesses': newQuizGuesses,
-            'score' : player.score + (guess == gameData.quizQuestions[gameData.currentQuestionIndex].correctAnswerIndex ? 200 : 0)
+            'score' : player.score + scoreAdd
           }
         });
       }
