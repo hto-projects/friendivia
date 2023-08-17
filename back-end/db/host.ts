@@ -8,6 +8,7 @@ import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import Player from '../models/Player.ts';
+import friendsQuestions from './friendsTriviaQuestions.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -143,24 +144,28 @@ export default {
     return quizQuestions;
   },
 
+  questionsRemaining: function(game: IGame): boolean {
+    const currentQuestionIndex = game.currentQuestionIndex;
+    const nextQuestionIndex = currentQuestionIndex + 1;
+
+    return nextQuestionIndex < game.quizQuestions.length;
+  },
+
   nextQuestion: async function(gameId: number): Promise<boolean> {
     const currentGame: IGame | null = await this.getGameData(gameId);
     if (currentGame === null) {
       return false;
     }
 
-    const currentQuestionIndex = currentGame.currentQuestionIndex;
-    const nextQuestionIndex = currentQuestionIndex + 1;
+    if (this.questionsRemaining(currentGame)) {
+      await Game.updateOne({ id: gameId }, {
+        $set: { 'currentQuestionIndex': currentGame.currentQuestionIndex + 1 }
+      });
 
-    if (nextQuestionIndex === currentGame.quizQuestions.length) {
-      return false;
+      return true;
     }
 
-    await Game.updateOne({ id: gameId }, {
-      $set: { 'currentQuestionIndex': nextQuestionIndex }
-    });
-
-    return true;
+    return false;
   },
 
   deleteAllGames: async (): Promise<any> => {
@@ -306,4 +311,16 @@ export default {
       console.error(`Issue setting settings state: ${e}`);
     }
   },
+
+  addTiebreakerQuestion: async (gameId: number): Promise<void> => {
+    const randomFriendsQuestion = friendsQuestions[Math.floor(Math.random()*friendsQuestions.length)];
+
+    try {
+      await Game.updateOne({ id: gameId }, {
+        $push: { quizQuestions:  randomFriendsQuestion }
+      });
+    } catch (e) {
+      console.error(`Issue adding tiebreaker question: ${e}`);
+    }
+  }
 }

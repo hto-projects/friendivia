@@ -18,7 +18,6 @@ interface IShowAnswerProps {
   handsFreeMode: boolean;
 }
 
-var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
   const {
     options,
@@ -49,19 +48,8 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     );
   }
 
-  socket.on("reset-quiz-length", resetQuizLength);
-
-  function resetQuizLength() {
-    currentQuizLength = 1;
-  }
-
   function onNext() {
-    if (currentQuizLength < quizLength) {
-      currentQuizLength++;
-      socket.emit("go-to-int-leaderboard", gameId);
-    } else {
-      socket.emit("next-question", gameId);
-    }
+    socket.emit("next-from-quiz-answer");
   }
 
   function correctText() {

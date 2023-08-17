@@ -126,9 +126,24 @@ export default (io, socket: Socket) => {
     }
   }
 
+  const onNextFromQuizAnswer = async () => {
+    const gameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
+    if (!gameData) {
+      return;
+    }
+
+    const questionsRemaining = await hostDb.questionsRemaining(gameData);
+
+    if (questionsRemaining) {
+      await hostHelpers.hostShowIntLeaderboard(gameData.id, io);
+    } else {
+      await hostHelpers.hostPreLeaderBoard(gameData.id, io);
+    }
+  }
+
   const onNextQuestion = async (gameId) => {
     try {
-      hostHelpers.hostShowNextQuestion(gameId, io);
+      hostHelpers.hostNextQuestionOrLeaderboard(gameId, io);
     } catch (e) {
       console.error(`Failed to move to next question: ${e}`)
     }
@@ -172,14 +187,6 @@ export default (io, socket: Socket) => {
       }
     } catch(e) {
       console.error(`Failed to check if all players answered quiz question: ${e}`)
-    }
-  }
-
-  const onIntLeaderboard = async (gameId: number) => {
-    try {
-      hostHelpers.hostShowIntLeaderboard(gameId, io);
-    } catch (e) {
-      console.error(`Failed to move to intermediary leaderboard: ${e}`)
     }
   }
 
@@ -264,7 +271,7 @@ export default (io, socket: Socket) => {
   socket.on('host-start-quiz-timer', onHostStartQuizTimer);
   socket.on('next-question', onNextQuestion);
   socket.on('host-skip-questionnaire', onHostSkipQuestionnaire);
-  socket.on('go-to-int-leaderboard', onIntLeaderboard);
+  socket.on('next-from-quiz-answer', onNextFromQuizAnswer);
   socket.on('timer-skip', onTimerSkip);
   socket.on('check-all-players-answered', allPlayersAnsweredQuestion);
   socket.on('host-settings', onHostSettings);
