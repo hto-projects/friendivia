@@ -4,7 +4,7 @@ import incorrect from "../assets/incorrect.png";
 
 export default function PlayerIncorrect(props) {
   const { consolationPts } = props;
-  const ptsMsg = consolationPts  ? `+${consolationPts}pts because no one got it` : `No points!`;
+  const ptsMsg = consolationPts  ? `+${consolationPts}pts because no one got it` : "";
 
   return (
     <>
