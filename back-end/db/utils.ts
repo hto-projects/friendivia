@@ -1,22 +1,103 @@
 import IPlayer from "../interfaces/IPlayer";
 import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
 import IQuizQuestion from "../interfaces/IQuizQuestion";
-import Question from "../db/question.ts";
+import questionDb from "../db/question.ts";
 
 function getNumberOfQuestions(players) {
-  if(players.length <= 5)
+  if(players.length <= 4)
   {
-    return 5;
+    return 4;
   }
   else return players.length;
 }
 
+type PlayerQuestionnaireQuestion = {
+  questionId: string;
+  subjectQuestion: boolean;
+  answer?: string;
+}
+
+type PlayerQuestionnaire = {
+  playerId: string;
+  playerName: string;
+  questions: PlayerQuestionnaireQuestion[];
+}
+
+async function createQuestionnairesForPlayers(players: IPlayer[]): Promise<PlayerQuestionnaire[]> {
+  const allQuestionsForQuiz: IQuestionnaireQuestion[] = await questionDb.getRandomQuestions(getNumberOfQuestions(players), [], false);
+  const playerQuestionnaires: PlayerQuestionnaire[] = [];
+
+  for (let i = 0; i < players.length; i++) {
+    const player: IPlayer = players[i];
+    const questionIds: PlayerQuestionnaireQuestion[] = [];
+    
+    for (let j = 0; j < 4; j++) {
+      const questionForPlayer: IQuestionnaireQuestion = allQuestionsForQuiz[(i + j) % players.length];
+      questionIds.push({
+        questionId: questionForPlayer.id,
+        subjectQuestion: j === 0
+      });
+    }
+
+    playerQuestionnaires.push({
+      playerId: player.id,
+      playerName: player.name,
+      questions: questionIds
+    });
+  }
+
+  return playerQuestionnaires;
+}
+
+async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[]): Promise<IQuizQuestion[]> {
+  const quizQuestions: IQuizQuestion[] = [];
+
+  for (let i = 0; i < playerQuestionnaires.length; i++) {
+    const playerQuestionnaire: PlayerQuestionnaire = playerQuestionnaires[i];
+    const playerQuestion: PlayerQuestionnaireQuestion = playerQuestionnaire.questions.filter(q => q.subjectQuestion)[0];
+    const questionnaireQuestion: IQuestionnaireQuestion = await questionDb.getQuestionById(playerQuestion.questionId);
+
+    const correctAnswer: string = playerQuestion.answer || "<NO ANSWER>";
+    const options: string[] = [correctAnswer];
+    const otherPlayerOptions: string[] = [];
+
+    for (let j = 0; j < playerQuestionnaires.length; j++) {
+      if (j === i) continue;
+
+      const optionPlayerQp = playerQuestionnaires[j];
+      const optionPlayerQ = optionPlayerQp.questions.find(q => q.questionId === playerQuestion.questionId);
+      if (optionPlayerQ && optionPlayerQ.answer) {
+        otherPlayerOptions.push(optionPlayerQ.answer);
+      }
+    }
+
+    selectRandom(options, otherPlayerOptions, 4);
+
+    if (options.length < 4) {
+      const fakeAnswerOptions = questionnaireQuestion.fakeAnswers;
+      selectRandom(options, fakeAnswerOptions, 4);
+    }
+
+    shuffle(options);
+    quizQuestions.push({
+      text: questionnaireQuestion.quizText,
+      playerId: playerQuestionnaire.playerId,
+      optionsList: options,
+      correctAnswerIndex: options.indexOf(correctAnswer),
+      playerName: playerQuestionnaire.playerName
+    });
+  }
+
+  shuffle(quizQuestions);
+  return quizQuestions;
+}
+
 const createQuestionnaireQuestionsWithOptions = async (players, prioritizeCustomQs, number?, customQuestions?): Promise<IQuestionnaireQuestion[]> => {
   if(number){
-    const questions = await Question.getRandomQuestions(number, customQuestions, prioritizeCustomQs);
+    const questions = await questionDb.getRandomQuestions(number, customQuestions, prioritizeCustomQs);
     return questions;
   }
-  const questions = await Question.getRandomQuestions(getNumberOfQuestions(players), customQuestions, prioritizeCustomQs);
+  const questions = await questionDb.getRandomQuestions(getNumberOfQuestions(players), customQuestions, prioritizeCustomQs);
   return questions;
 }
 
