@@ -10,7 +10,8 @@ import IGame from "back-end/interfaces/IGame";
 import IPreGameSettings from "back-end/interfaces/IPreGameSettings";
 import HostShowAnswer from "./HostShowAnswer";
 import HostLeaderBoard from "./HostLeaderBoard";
-import { Button, IconButton } from "@mui/material/";
+import { IconButton } from "@mui/material/";
+import { Button } from "../extra/FrdvButton";
 import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
@@ -24,6 +25,7 @@ import {
   HostAnnouncementQueue,
   AddAnnouncementContext,
 } from "./HostAnnouncementQueue";
+import "../style.css";
 import "./HostStyles.css";
 
 interface IHostProps {
@@ -319,14 +321,6 @@ export default function HostApp(props: IHostProps) {
             <Button
               variant="contained"
               onClick={onEndGameClicked}
-              sx={{
-                background: "#8080ff",
-                textTransform: "lowercase",
-                fontFamily: `"Concert One", sans-serif`,
-                "&:hover": {
-                  background: "#7070ff"
-                },
-              }}
             >
               end game
             </Button>}

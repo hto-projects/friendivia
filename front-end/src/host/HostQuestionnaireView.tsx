@@ -4,7 +4,8 @@ import IPlayer from "back-end/interfaces/IPlayer";
 import Paper from "@mui/material/Paper";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
+import PlayerBadge from "./PlayerBadge";
 
 interface HostQuestionnaireViewProps {
   donePlayers: any;
@@ -93,7 +94,7 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(135deg, #F6C3C9, #EED1CC)",
+              background: "linear-gradient(127deg, var(--main), var(--main-light))",
               borderRadius: "12px",
               padding: "1vw",
               margin: "auto",
@@ -120,35 +121,7 @@ export default function HostQuestionnaireView(
             >
               {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        boxShadow: 8,
-                        textDecoration: "line-through",
-                      },
-                      background: "linear-gradient(-45deg, cyan, magenta)",
-                      borderRadius: "20px",
-                      width: "15vw",
-                      margin: "auto",
-                      marginBottom: "1.5vh",
-                    }}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <p
-                      style={{
-                        margin: 0,
-                        fontFamily: "Concert One",
-                        color: "White",
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        fontSize: "1.5em",
-                      }}
-                    >
-                      {name}
-                    </p>
-                  </Paper>
+                  <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
               ))}
             </div>
@@ -166,7 +139,7 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(135deg, #A8E6CF, #C2E9E4)",
+              background: "linear-gradient(127deg, var(--main-light), var(--main))",
               borderRadius: "12px",
               padding: "1vw",
               margin: "auto",
@@ -194,35 +167,7 @@ export default function HostQuestionnaireView(
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   {i === 0 && <Speak text={`Thank you, ${name}.`} />}
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        boxShadow: 8,
-                        textDecoration: "line-through",
-                      },
-                      background: "linear-gradient(-45deg, cyan, magenta)",
-                      borderRadius: "20px",
-                      width: "15vw",
-                      margin: "auto",
-                      marginBottom: "1.5vh",
-                    }}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <p
-                      style={{
-                        margin: 0,
-                        fontFamily: "Concert One",
-                        color: "White",
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        fontSize: "1.5em",
-                      }}
-                    >
-                      {name}
-                    </p>
-                  </Paper>
+                  <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
               ))}
             </div>
@@ -241,12 +186,6 @@ export default function HostQuestionnaireView(
           
           variant="contained"
           sx={{fontSize: "1.1em",
-            background: "#8080ff",
-            textTransform: "lowercase",
-            fontFamily: `"Concert One", sans-serif`,
-            "&:hover": {
-              background: "#7070ff"
-            }
           }}
           disabled={donePlayers.length < 1}
           onClick={() => socket.emit("host-skip-questionnaire")}>

@@ -1,8 +1,7 @@
 import * as React from "react";
 import "../style.css";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
-import meshgradient from "../assets/card.png";
 
 interface IOpenProps {
   socket: Socket;
@@ -42,7 +41,7 @@ export default function HostOpen(props: IOpenProps) {
             height: "68vh",
             width: "27vw",
             backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+              "linear-gradient(-45deg, var(--left-light), var(--right-light))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -65,7 +64,7 @@ export default function HostOpen(props: IOpenProps) {
               color: "rgba(0,0,0,0.8)",
               fontSize: "3em",
               fontWeight: "bold",
-              fontFamily: "Concert One",
+              fontFamily: "var(--action-font)",
             }}
           >
             custom
@@ -88,7 +87,7 @@ export default function HostOpen(props: IOpenProps) {
             height: "68vh",
             width: "27vw",
             backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+              "radial-gradient(circle, var(--main-super-light), var(--main-light))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -148,7 +147,7 @@ export default function HostOpen(props: IOpenProps) {
           <div
             style={{
               backgroundImage:
-                "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+                "linear-gradient(-45deg, var(--left-light), var(--right-light))",
               position: "absolute",
               top: 0,
               left: 0,
@@ -187,13 +186,7 @@ export default function HostOpen(props: IOpenProps) {
       <div>
         <Button variant="contained" className="about-button" href="/about"
           sx={{
-            background: "#8080ff",
-            textTransform: "lowercase",
-            fontFamily: `"Concert One", sans-serif`,
             marginTop: "3vh",
-            "&:hover": {
-              background: "#7070ff"
-            }
           }}
           >
             about
