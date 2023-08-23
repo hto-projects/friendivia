@@ -1,6 +1,7 @@
 import React from "react";
 import "../style.css";
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import open from "../assets/audio/appopen.mp3";
@@ -146,7 +147,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
               <p
                 className=""
                 style={{
-                  fontFamily: "Concert One",
+                  fontFamily: "var(--action-font)",
                   fontSize: "8em",
                   margin: 0,
                   marginTop: "-20px",
@@ -178,11 +179,7 @@ export default function HostLobbyView(props: ILobbyViewProps) {
                 borderRadius: "20px",
                 maxWidth: "350px",
                 fontSize: "2em",
-                fontFamily: "Concert One",
-                textTransform: "none",
                 marginBottom: "10px",
-                backgroundImage:
-                  "linear-gradient(-45deg, rgba(0, 200, 200, 0.7), rgba(200, 0, 200, 0.7))",
               }}
               onClick={onStart}
             >
@@ -201,41 +198,6 @@ export default function HostLobbyView(props: ILobbyViewProps) {
         <div className="join-instruction-edge">
           {getSliceOfBadges(TOP_BADGE_END, RIGHT_BADGE_END)}
         </div>
-      </div>
-      <div
-        className=""
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <Button
-          className="LobbySettings"
-          variant="contained"
-          onClick={onSettings}
-          sx={{
-            backgroundColor: "#955EC3",
-            textTransform: "none",
-            fontFamily: "Concert One",
-            fontSize: "1em",
-            marginLeft: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          settings
-        </Button>
-        <Button
-          className="LobbySettings"
-          variant="contained"
-          href="/about"
-          sx={{
-            backgroundColor: "#955EC3",
-            textTransform: "none",
-            fontFamily: "Concert One",
-            fontSize: "1em",
-            marginRight: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          about
-        </Button>
       </div>
     </div>
   );

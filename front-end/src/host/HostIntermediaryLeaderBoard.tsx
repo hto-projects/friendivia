@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../style.css";
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import Speak from "../Speak";
 import { pickOne } from "../util";
 
@@ -58,11 +59,18 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
     return pickOne(randomMessages);
   };
 
-  const randomMessage = randomMessageGenerator(
-    playerScores[0],
-    playerScores[1],
-    playerScores[playerScores.length - 1]
-  );
+  let randomMessage;
+  if (playerScores.length > 1) {
+    randomMessage = randomMessageGenerator(
+      playerScores[0],
+      playerScores[1],
+      playerScores[playerScores.length - 1]
+    );
+  } else if (playerScores.length === 1) {
+    randomMessage = "Congrats on being the only player here, " + playerScores[0].name;
+  } else {
+    randomMessage = "Please end the game. No one is here.";
+  }
 
   function onNext() {
     props.socket.emit("next-question", props.gameId);
@@ -78,7 +86,7 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
           alignItems: "center",
         }}
       >
-        <h1 style={{ fontFamily: "Concert One" }}>leaderboard</h1>
+        <h1 style={{ fontFamily: "var(--action-font)" }}>leaderboard</h1>
         <div className="leaderboard">
           {playerScores.slice(0, 5).map((ps, i) => (
             <div
@@ -97,8 +105,8 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
                 sx={{
                   background:
                     i === 0
-                      ? "linear-gradient(-45deg, cyan, magenta)"
-                      : "#757de8",
+                      ? "var(--main-gradient-rev)"
+                      : "white",
                   borderRadius: "20px",
                   marginRight: "10px",
                 }}
@@ -106,8 +114,8 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
                 <p
                   style={{
                     margin: 0,
-                    fontFamily: "Concert One",
-                    color: "White",
+                    fontFamily: "var(--action-font)",
+                    color: i === 0 ? "white" : "black",
                     paddingTop: i === 0 ? "8px" : "3px",
                     paddingBottom: i === 0 ? "8px" : "3px",
                     fontSize: i === 0 ? "1.3em" : "1em",
@@ -116,7 +124,8 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
                   {ps.name}
                 </p>
               </Paper>
-              <span
+              <Paper
+                elevation={3}
                 className="score"
                 style={{
                   marginLeft: "-4px",
@@ -125,16 +134,16 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
                   padding: i === 0 ? "0.5em" : "3px",
                   fontWeight: i === 0 ? "bold" : "normal",
                   borderRadius: "15px",
+                  color: i === 0 ? "white" : "black",
                   background:
                     i === 0
-                      ? "linear-gradient(-45deg, cyan, magenta)"
-                      : "#757de8",
-                  boxShadow: i === 0 ? "0 0 10px #FFD700" : "none",
+                      ? "var(--main-gradient-rev)"
+                      : "white",
                   width: "40%",
                 }}
               >
                 {ps.score}
-              </span>
+              </Paper>
             </div>
           ))}
         </div>
@@ -146,11 +155,6 @@ export default function HostIntLeaderBoard(props: IntLeaderboardProps) {
           <Button
             variant="contained"
             style={{ marginTop: "5vh" }}
-            sx={{
-              bgcolor: "#955EC3",
-              fontFamily: "Concert One",
-              textTransform: "none",
-            }}
             onClick={onNext}
           >
             next

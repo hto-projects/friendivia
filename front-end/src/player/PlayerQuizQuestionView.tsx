@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../style.css";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerWait";
 
@@ -40,20 +40,12 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
           <>
             <br />
             <Button
-              style={{ textTransform: "none" }}
               className="answerButton"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
-                fontSize: "1.2em",
-                textTransform: "none",
-                fontFamily: "Concert One",
+                fontSize: "1.5em",
                 width: "90%",
                 height: "15vh",
-                background:
-                  "linear-gradient(-45deg, rgba(0, 200, 200, 0.7), rgba(200, 0, 200, 0.7))",
                 border: "2px solid black",
               }}
               key={i}

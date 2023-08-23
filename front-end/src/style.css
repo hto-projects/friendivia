@@ -1,19 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=DynaPuff&family=Inter&display=swap');
 
 :root {
-  /*Screen background color, button text color*/
-  --bg: #ffffff;
-  /*All text color except button text*/
-  --text: #000000;
-  /*Button background colors*/
-  --accent: #757de8;
-  color: var(--text);
-  background-color: var(--bg);
+  --bg: #FFFFFF;
+  --main-rgb: 255, 128, 0;
+  --main: rgb(var(--main-rgb));
+  --main-light: color-mix(in lch, var(--main) 50%, #FFFFFF);
+  --main-super-light: color-mix(in lch, var(--main) 5%, #FFFFFF);
+  --main-dark: color-mix(in lch, var(--main) 80%, #000000);
+  --left-rgb: 255, 0, 170;
+  --left-rgb-subtle: 255, 120, 170;
+  --left: rgb(var(--left-rgb));
+  --left-subtle: rgb(var(--left-rgb-subtle));
+  --left-light: rgba(var(--left-rgb), 35%);
+  --left-dark: color-mix(in lch, var(--left) 80%, #000000);
+  --right-rgb: 0, 255, 170;
+  --right-rgb-subtle: 170, 255, 120;
+  --right: rgb(var(--right-rgb));
+  --right-subtle: rgb(var(--right-rgb-subtle));
+  --right-light: rgba(var(--right-rgb), 35%);
+  --right-dark: color-mix(in lch, var(--right) 80%, #000000);
+  --main-gradient: linear-gradient(45deg, var(--left) 0%, var(--main) 50%, var(--right) 100%);
+  --main-gradient-rev: linear-gradient(45deg, var(--right-subtle) 0%, var(--main) 50%, var(--left-subtle) 100%);
+  --main-gradient-light: linear-gradient(45deg, var(--left-light) 0%, var(--main-light) 50%, var(--right-light) 100%);
+  --main-gradient-dark: linear-gradient(215deg, var(--left-dark) 0%, var(--main-dark) 50%, var(--right-dark) 100%);
+  --title-font: "DynaPuff", sans-serif;
+  --action-font: "Concert One", sans-serif;
+  --legible-font: "Inter", sans-serif;
 }
 
 h1, h2, p {
   font-family: Inter, sans-serif;
-  color: var(--text);
+  color: black;
 }
 
 html, body {
@@ -77,6 +94,10 @@ body {
   .element{
     height: 78%;
     margin: 0px;
+  }
+
+  div.about-body {
+    font-size: 1.1em;
   }
 }
 
@@ -151,14 +172,55 @@ body {
   margin-right: 10%;
 }
 
-.about{
-  background-repeat: repeat;
-  background-size: 60% auto;
-  background-clip: cover;
-  size: 100%;
-  justify-content: center;
+.about {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff10;
+}
+
+.about-text {
+  padding: 10px;
+}
+
+.friendivia {
+  font-family: "Concert One", sans-serif;
+  font-size: 1.4em;
+  background: var(--main);
+  background: var(--main-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-text h1 {
+  font-size: 2em;
+  font-family: "Concert One", sans-serif;
+}
+
+.about-body {
+  margin: 0 auto;
+  max-width: 800px;
+  font-size: 1.5em;
   text-align: center;
-  margin: 10% auto;
+}
+
+.banner-text {
+  font-size: 4.5em;
+  color: white;
+  font-family: var(--title-font);
+  text-shadow: 0px 0px 10px #FFFFFF80;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+  margin: 0;
+}
+
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
 }
 
 .hostFormat{
@@ -226,7 +288,6 @@ body {
 }
 
 .host-content {
-  background: #8080ff10;
   text-align: center;
   height: 100%;
 }
@@ -312,9 +373,8 @@ body {
 
 .horizontal{
   display: flex;
-  justify-content: center;
-  margin: 5% auto;
-  padding: auto;
+  justify-content: space-between;
+  margin: 0 20px;
 }
 
 .players{
@@ -426,30 +486,19 @@ body {
 .player_join {
   text-align: center;
   height: 100%;
-  margin-top: 10px;
 }
 
 .banner {
-  background: #8080FF;
-  background: linear-gradient(-45deg, cyan, magenta);
-  box-shadow: #8080FF 0px 1px 20px 0px;
-  border-bottom: 4px solid #8080FF;
+  background: var(--main);
+  background: var(--main-gradient);
+  box-shadow: var(--main-light) 0px 1px 20px 0px;
   margin-bottom: 1vw;
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: -1px;
 }
 
-.banner-text {
-  font-size: 4.5em;
-  color: white;
-  font-family: "Concert One", sans-serif;
-  padding-bottom: 15px;
-  padding-top: 15px;
-  text-align: center;
-}
-
-.banner .banner-text {
+.player-banner-text {
   font-size: 2.5em;
 }
 
@@ -536,7 +585,7 @@ body {
   align-items: center;
   height: 7vw;
   width: 7vw;
-  background-color: var(--accent);
+  background-color: var(--main);
   border-radius: 50%;
   margin-top: 50%;
   margin: auto;
@@ -870,4 +919,18 @@ body {
 
 #fixScreen {
   height: 101vh !important;
+}
+
+.host-screen {
+  background: var(--main-super-light);
+}
+
+.host-footer {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 5px;
+}
+
+.leaderboard > div:first-child > .MuiPaper-root {
+  box-shadow: 0 0 10px var(--main-light);
 }

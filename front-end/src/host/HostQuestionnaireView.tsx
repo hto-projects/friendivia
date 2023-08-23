@@ -4,6 +4,8 @@ import IPlayer from "back-end/interfaces/IPlayer";
 import Paper from "@mui/material/Paper";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
+import { Button } from "../extra/FrdvButton";
+import PlayerBadge from "./PlayerBadge";
 
 interface HostQuestionnaireViewProps {
   donePlayers: any;
@@ -24,6 +26,9 @@ export default function HostQuestionnaireView(
   const [warning2Reached, setWarning2Reached] = React.useState(false);
   let spokenText2 = "";
 
+  const [warning3Reached, setWarning3Reached] = React.useState(false);
+  let spokenText3= "";
+
   React.useEffect(() => {
     setTimeout(() => {
       setWarningReached(true);
@@ -36,6 +41,12 @@ export default function HostQuestionnaireView(
     }, 40000);
   }, [warning2Reached, setWarning2Reached]);
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      setWarning3Reached(true);
+    }, 60000);
+  }, [warning3Reached, setWarning3Reached]);
+
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
       socket.emit("host-kick-player", name);
@@ -45,19 +56,22 @@ export default function HostQuestionnaireView(
   }
 
   if (warningReached && waitingPlayers.length > 0) {
-    //spokenText = `Looks like we're still waiting on "${waitingPlayers[0]}". Please complete your questionnaire in a timely fashion.`;
     spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
-    //(Math.floor(waitingPlayers.length * Math.random()))
   }
 
   if (warning2Reached && waitingPlayers.length > 1) {
-    spokenText = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
+    spokenText2 = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
+  }
+
+  if (warning3Reached && waitingPlayers.length > 0) {
+    spokenText3 = `Ok seriously, let's go "${waitingPlayers[0]}". I have places to be.`;
   }
 
   return (
     <>
       {spokenText && <Speak text={spokenText} />}
       {spokenText2 && <Speak text={spokenText2} />}
+      {spokenText3 && <Speak text={spokenText3} />}
       {waitingPlayers.length === 1 && (
         <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />
       )}
@@ -80,13 +94,13 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(135deg, #F6C3C9, #EED1CC)",
+              background: "linear-gradient(127deg, var(--main), var(--main-light))",
               borderRadius: "12px",
               padding: "1vw",
               margin: "auto",
               mx: "auto",
               width: "46vw",
-              height: "75vh",
+              height: "68vh",
             }}
           >
             <h1
@@ -107,35 +121,7 @@ export default function HostQuestionnaireView(
             >
               {waitingPlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        boxShadow: 8,
-                        textDecoration: "line-through",
-                      },
-                      background: "linear-gradient(-45deg, cyan, magenta)",
-                      borderRadius: "20px",
-                      width: "15vw",
-                      margin: "auto",
-                      marginBottom: "1.5vh",
-                    }}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <p
-                      style={{
-                        margin: 0,
-                        fontFamily: "Concert One",
-                        color: "White",
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        fontSize: "1.5em",
-                      }}
-                    >
-                      {name}
-                    </p>
-                  </Paper>
+                  <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
               ))}
             </div>
@@ -153,13 +139,13 @@ export default function HostQuestionnaireView(
           <Paper
             elevation={3}
             sx={{
-              background: "linear-gradient(135deg, #A8E6CF, #C2E9E4)",
+              background: "linear-gradient(127deg, var(--main-light), var(--main))",
               borderRadius: "12px",
               padding: "1vw",
               margin: "auto",
               mx: "auto",
               width: "46vw",
-              height: "75vh",
+              height: "68vh",
             }}
           >
             <h1
@@ -181,40 +167,30 @@ export default function HostQuestionnaireView(
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
                   {i === 0 && <Speak text={`Thank you, ${name}.`} />}
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        boxShadow: 8,
-                        textDecoration: "line-through",
-                      },
-                      background: "linear-gradient(-45deg, cyan, magenta)",
-                      borderRadius: "20px",
-                      width: "15vw",
-                      margin: "auto",
-                      marginBottom: "1.5vh",
-                    }}
-                    onClick={() => onPlayerKick(name)}
-                  >
-                    <p
-                      style={{
-                        margin: 0,
-                        fontFamily: "Concert One",
-                        color: "White",
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        fontSize: "1.5em",
-                      }}
-                    >
-                      {name}
-                    </p>
-                  </Paper>
+                  <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
               ))}
             </div>
           </Paper>
         </div>
+      </div>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: "20px",
+        marginRight: "5px",
+        fontSize: "1.2em"
+      }}>
+        <Button
+          
+          variant="contained"
+          sx={{fontSize: "1.1em",
+          }}
+          disabled={donePlayers.length < 1}
+          onClick={() => socket.emit("host-skip-questionnaire")}>
+            next
+        </Button>
       </div>
     </>
   );

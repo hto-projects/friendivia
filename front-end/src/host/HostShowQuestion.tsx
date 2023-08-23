@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../style.css";
-import { Button, Paper, Grid } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
@@ -59,7 +60,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
   function quizText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     var res = "";
-    res += part1 + `"${playerName}"` + part2 + " .... is it ";
+    res += part1 + `${playerName}` + part2 + " .... is it ";
     for (var i = 0; i < options.length; i++) {
       if (i == options.length - 1) {
         res += `or "${options[i]}"?`;
@@ -120,7 +121,6 @@ function HostShowQuestion(props: IShowQuestionProps) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              // background: "linear-gradient(-45deg, cyan, magenta)",
               border: "2px solid purple",
               borderRadius: "20px",
             }}
@@ -131,7 +131,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
                 margin: 0,
                 fontFamily: "Concert One",
                 color: "black",
-                fontSize: "1.7em",
+                fontSize: "2em",
                 paddingLeft: "0.5em",
                 paddingRight: "0.5em",
                 textAlign: "center",
@@ -150,12 +150,9 @@ function HostShowQuestion(props: IShowQuestionProps) {
             variant="contained"
             disabled={timerStarted ? false : true}
             sx={{
-              bgcolor: "#955EC3",
               m: 2,
               margin: "auto",
               marginTop: "2rem",
-              fontFamily: "Concert One",
-              textTransform: "none",
             }}
             onClick={onTimerSkipBtn}
           >

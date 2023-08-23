@@ -1,8 +1,7 @@
 import * as React from "react";
 import "../style.css";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
-import meshgradient from "../assets/card.png";
 
 interface IOpenProps {
   socket: Socket;
@@ -22,7 +21,6 @@ export default function HostOpen(props: IOpenProps) {
   return (
     <div
       style={{
-        height: "90vh",
         alignItems: "center",
         justifyContent: "center",
         verticalAlign: "middle",
@@ -40,10 +38,10 @@ export default function HostOpen(props: IOpenProps) {
       >
         <div
           style={{
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+              "linear-gradient(-45deg, var(--left-light), var(--right-light))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -54,9 +52,11 @@ export default function HostOpen(props: IOpenProps) {
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             margin: "auto",
             marginTop: "5vh",
-            cursor: "pointer",
+            filter: "grayscale(100%)",
+            cursor: "not-allowed",
+            pointerEvents: "none"
           }}
-          onClick={onPreSettings}
+          // onClick={onPreSettings}
         >
           <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚙️</p>
           <h1
@@ -64,7 +64,7 @@ export default function HostOpen(props: IOpenProps) {
               color: "rgba(0,0,0,0.8)",
               fontSize: "3em",
               fontWeight: "bold",
-              fontFamily: "Concert One",
+              fontFamily: "var(--action-font)",
             }}
           >
             custom
@@ -79,15 +79,15 @@ export default function HostOpen(props: IOpenProps) {
               textAlign: "left",
             }}
           >
-            Add custom questions, change time settings, and more!
+            Coming Soon. Add custom questions, change time settings, and more!
           </h1>
         </div>
         <div
           style={{
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+              "radial-gradient(circle, var(--main-super-light), var(--main-light))",
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
@@ -123,13 +123,13 @@ export default function HostOpen(props: IOpenProps) {
               textAlign: "left",
             }}
           >
-            Classic fun friendivia gameplay. Let’s start the game!
+            Classic fun friendivia gameplay. Let's start the game!
           </h1>
         </div>
         <div
           style={{
             position: "relative",
-            height: "71vh",
+            height: "68vh",
             width: "27vw",
             borderRadius: "10px",
             display: "flex",
@@ -147,7 +147,7 @@ export default function HostOpen(props: IOpenProps) {
           <div
             style={{
               backgroundImage:
-                "linear-gradient(-45deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3))",
+                "linear-gradient(-45deg, var(--left-light), var(--right-light))",
               position: "absolute",
               top: 0,
               left: 0,
@@ -183,29 +183,15 @@ export default function HostOpen(props: IOpenProps) {
           </h1>
         </div>
       </div>
-
-      {/* <Button
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-        }}
-        onClick={onHost}
-      >
-        Host
-      </Button>
-      <Button
-        className="button"
-        variant="contained"
-        sx={{
-          bgcolor:
-            getComputedStyle(document.body).getPropertyValue("--accent") + ";",
-          m: 2,
-        }}
-        onClick={onPreSettings}
-      >
-        Game Settings
-      </Button> */}
+      <div>
+        <Button variant="contained" className="about-button" href="/about"
+          sx={{
+            marginTop: "3vh",
+          }}
+          >
+            about
+          </Button>
+      </div>
     </div>
   );
 }

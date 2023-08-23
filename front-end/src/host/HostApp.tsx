@@ -10,7 +10,8 @@ import IGame from "back-end/interfaces/IGame";
 import IPreGameSettings from "back-end/interfaces/IPreGameSettings";
 import HostShowAnswer from "./HostShowAnswer";
 import HostLeaderBoard from "./HostLeaderBoard";
-import { Button, IconButton } from "@mui/material/";
+import { IconButton } from "@mui/material/";
+import { Button } from "../extra/FrdvButton";
 import HostSettings from "./HostSettings";
 import HostTiebreaker from "./HostTiebreaker";
 import HostIntLeaderBoard from "./HostIntermediaryLeaderBoard";
@@ -24,6 +25,7 @@ import {
   HostAnnouncementQueue,
   AddAnnouncementContext,
 } from "./HostAnnouncementQueue";
+import "../style.css";
 import "./HostStyles.css";
 
 interface IHostProps {
@@ -99,6 +101,12 @@ export default function HostApp(props: IHostProps) {
     socket.emit("settings-load", settingsIdFromStorage);
   }
 
+  function onEndGameClicked() {
+    if (confirm("Are you sure you want to end this game?")) {
+      socket.emit("host-end-game");
+    }
+  }
+
   React.useEffect(() => {
     function onLoadSuccess(
       data: IGame & { quizQuestionGuesses; playerScores; playersInGame }
@@ -146,12 +154,19 @@ export default function HostApp(props: IHostProps) {
       setSettingsState(true);
     }
 
+    function onHostGameEnded() {
+      localStorage.setItem("game-id", "");
+      window.location.reload();
+    }
+
     socket.on("host-open-success", onOpenSuccess);
     socket.on("host-load-success", onLoadSuccess);
     socket.on("host-next", onLoadSuccess);
     socket.on("presettings-close", onSettingsLoadSuccess);
     socket.on("host-presettings-success", onPresettingsSuccess);
     socket.on("settings-load-success", onSettingsLoadSuccess);
+
+    socket.on("host-game-ended", onHostGameEnded);
 
     return () => {
       socket.off("host-open-success", onOpenSuccess);
@@ -267,7 +282,7 @@ export default function HostApp(props: IHostProps) {
   }
 
   return (
-    <div className="scroll">
+    <div className="scroll host-screen">
       <AddAnnouncementContext.Provider value={addAnnouncement}>
         <HostAnnouncementQueue
           announcementAudioObjects={announcementAudioObjects}
@@ -300,19 +315,15 @@ export default function HostApp(props: IHostProps) {
         </div>
         <div className="host-content">
           {getElementForState(gameState, settingsState)}
-          <div className="clearDataButton">
+        </div>
+        <div className="host-footer">
+          {gameState !== "init" &&
             <Button
-              onClick={() => socket.emit("delete-please")}
-              className="secretButton"
-              sx={{
-                background: "transparent",
-                fontSize: "0.1em",
-                color: "transparent",
-              }}
+              variant="contained"
+              onClick={onEndGameClicked}
             >
-              Clear Data
-            </Button>
-          </div>
+              end game
+            </Button>}
         </div>
       </AddAnnouncementContext.Provider>
     </div>

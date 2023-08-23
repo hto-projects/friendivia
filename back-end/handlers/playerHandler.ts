@@ -122,28 +122,48 @@ export default (io: Server, socket: Socket) => {
 
   const onHostKickPlayer = async (playerName: string) => {
     try {
-      const player: IPlayer = await playerDb.getPlayerByName(playerName);
-      const gameId = player.gameId;
-      await playerDb.updatePlayerState(player.id, PlayerStates.PlayerKicked, io, {});
-      await playerDb.kickPlayer(playerName, gameId);
-      const allPlayersInGame = await playerDb.getPlayers(gameId);
-      const currentGameData = await hostDb.getGameData(gameId);
+      const currentGameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
       if (currentGameData === null) {
         return;
       }
 
-      io.to(currentGameData.hostSocketId).emit('players-updated', {
+      const gameId = currentGameData.id;
+      const player: IPlayer = await playerDb.getPlayerByName(playerName, gameId);
+      await playerDb.updatePlayerState(player.id, PlayerStates.PlayerKicked, io, {});
+      await playerDb.kickPlayer(playerName, gameId);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+
+      await io.to(currentGameData.hostSocketId).emit('players-updated', {
         gameId: gameId,
         players: allPlayersInGame
       });
-      hostHelpers.onHostViewUpdate(gameId, io);
+      
+      await hostHelpers.onHostViewUpdate(gameId, io);
     } catch (e) {
       console.error("Failed to kick player: " + e);
-    }}
+    }
+  };
+
+  const onPlayerQuit = async () => {
+    const player: IPlayer | null = await playerDb.getPlayerBySocketId(socket.id);
+    if (!player) {
+      socket.emit('player-game-ended');
+      return;
+    }
+
+    const game: IGame | null = await hostDb.getGameData(player.gameId);
+    if (!game) {
+      return;
+    }
+
+    await hostHelpers.handlePlayerQuit(player, game, io);
+    socket.emit('player-game-ended');
+  }
   
   socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
   socket.on('player-answer-question', onPlayerAnswerQuestion);
+  socket.on('player-quit', onPlayerQuit);
 }

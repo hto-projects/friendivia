@@ -1,10 +1,11 @@
 import * as React from "react";
 import "../style.css";
 import { Paper, Stack } from "@mui/material";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
+import PlayerBadge from "./PlayerBadge";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -18,7 +19,6 @@ interface IShowAnswerProps {
   handsFreeMode: boolean;
 }
 
-var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
   const {
     options,
@@ -32,6 +32,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     handsFreeMode,
   } = props;
 
+  const totalGuesses = playerGuesses.length - 1;
+  const correctPlayers = playerGuesses.filter(g => g && g.guess === correctAnswerIndex);
+  const numCorrect = correctPlayers.length;
+  const pctCorrect = Math.floor(100 * (numCorrect / totalGuesses));
+  const subjectBonus = Math.floor(300 * (numCorrect / totalGuesses));
+
   function interpolatePlayerNameInQuestionText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     return (
@@ -43,31 +49,12 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     );
   }
 
-  socket.on("reset-quiz-length", resetQuizLength);
-
-  function resetQuizLength() {
-    currentQuizLength = 1;
-  }
-
   function onNext() {
-    if (currentQuizLength < quizLength) {
-      currentQuizLength++;
-      socket.emit("go-to-int-leaderboard", gameId);
-    } else {
-      socket.emit("next-question", gameId);
-    }
+    socket.emit("next-from-quiz-answer");
   }
-
-  // function buttonText() {
-  //   if (currentQuizLength < quizLength) return "Next Question";
-  //   else return "Show Leaderboard";
-  // }
 
   function correctText() {
     var res = `The correct answer was "${options[correctAnswerIndex]}".`;
-    var correctPlayers = playerGuesses.filter(
-      (g) => g.guess === correctAnswerIndex
-    );
     if (correctPlayers.length != 0) {
       const encourage = pickOne([
         "Nice guessing",
@@ -78,9 +65,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       res += `! ${encourage} `;
     } else {
       const sad = pickOne([
-        "Unfortunately, no one received any points.",
-        "I'm sorry, no points this round.",
-        "No points this round. Please try to do better next time.",
+        "Unfortunately, no one got it. Luckily, you still get points for failing.",
+        "I'm sorry, this is sad. No one won, but guessers get consolation points for fast answers.",
+        `No points for ${playerName}. Please try to do better next time.`,
+        `Looks like no one knows ${playerName} at all. But if you were wrong faster, you get more points.`
       ]);
       res += `! ${sad}`;
     }
@@ -106,25 +94,22 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
 
         <Paper
           sx={{
-            width: "30%",
+            width: "50%",
             alignSelf: "center",
             justifyContent: "center",
             margin: "auto",
+            marginBottom: "2vh",
+            fontSize: "1.6em",
+            paddingTop: "1vh",
+            paddingBottom: "1vh",
+            maxWidth: "600px"
           }}
         >
-          <p
-            style={{
-              fontSize: "1.5em",
-              fontFamily: "Concert One",
-              paddingTop: "1vh",
-              paddingBottom: "1vh",
-            }}
-          >
-            {100 *
-              playerGuesses.filter((g) => g.guess === correctAnswerIndex)
-                .length}{" "}
-            points for {playerName}
-          </p>
+          {numCorrect > 0 ?
+            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>{pctCorrect}% correct = <span style={{fontWeight: "bold", color: "var(--main)"}}>{subjectBonus} points</span> for {playerName}!</p> :
+            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>0% correct ☹ = consolation points based on speed</p>
+          }
+
         </Paper>
         <div
           style={{
@@ -159,7 +144,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   justifyContent: "center",
                   background:
                     i === correctAnswerIndex
-                      ? "linear-gradient(-45deg, cyan, magenta)"
+                      ? "var(--main-gradient-rev)"
                       : "white",
                   border: "2px solid purple",
                   borderRadius: "20px",
@@ -170,7 +155,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   style={{
                     color: i === correctAnswerIndex ? "white" : "black",
                     fontFamily: "Concert One",
-                    fontSize: "1.7em",
+                    fontSize: "2em",
                     paddingLeft: "0.5em",
                     paddingRight: "0.5em",
                     textAlign: "center",
@@ -189,29 +174,10 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                 }}
               >
                 {playerGuesses
-                  .filter((g) => g.guess === i)
+                  .filter((g) => g && g.guess === i)
                   .map((g, j) => (
                     <>
-                      <Paper
-                        elevation={3}
-                        className="lobby_player"
-                        sx={{
-                          background: "linear-gradient(-45deg, cyan, magenta)",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        <p
-                          style={{
-                            margin: 0,
-                            fontFamily: "Concert One",
-                            color: "White",
-                            paddingTop: "3px",
-                            paddingBottom: "3px",
-                          }}
-                        >
-                          {g.name}
-                        </p>
-                      </Paper>
+                      <PlayerBadge name={g.name} />
                       <div style={{ height: "0.4vh" }} />
                     </>
                   ))}
@@ -225,12 +191,9 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               className="button"
               variant="contained"
               sx={{
-                bgcolor: "#955EC3",
                 m: 2,
                 margin: "auto",
                 marginTop: "2rem",
-                fontFamily: "Concert One",
-                textTransform: "none",
               }}
               onClick={onNext}
             >

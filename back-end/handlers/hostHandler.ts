@@ -13,13 +13,11 @@ import Player from '../models/Player.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
 import PreGameSettings from '../models/PreGameSettings.ts';
 
-var GameId ;
 var PreSettingsId;
 export default (io, socket: Socket) => {
   const onHostOpen = async () => {
     try {
-      const newGameId = await hostDb.hostOpenGame(socket.id, PreSettingsId);
-      GameId = newGameId;
+      const newGameId = await hostDb.hostOpenGame(socket.id);
       await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
@@ -108,20 +106,44 @@ export default (io, socket: Socket) => {
     }
   }
 
-  const playAgain = async () => { 
+  const onHostEndGame = async () => { 
     try {
-      await playerDb.updateAllPlayerStates(GameId, PlayerStates.Init, io, {});
-      await hostDb.deleteGame(GameId, PreSettingsId);
-      PreSettingsId = null;
-      await onHostOpen();
+      const gameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
+      if (!gameData) {
+        return;
+      }
+
+      await hostDb.deleteGame(gameData.id);;
+      socket.emit("host-game-ended");
+
+      const allPlayersInGame: IPlayer[] = await playerDb.getPlayers(gameData.id);
+      for (const player of allPlayersInGame) {
+        await playerDb.deletePlayer(player.id);
+        io.to(player.playerSocketId).emit("player-game-ended");
+      }
     } catch (e) {
-      console.error(`Failed to delete game: ${e}`)
+      console.error(`Failed to end game: ${e}`)
+    }
+  }
+
+  const onNextFromQuizAnswer = async () => {
+    const gameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
+    if (!gameData) {
+      return;
+    }
+
+    const questionsRemaining = await hostDb.questionsRemaining(gameData);
+
+    if (questionsRemaining) {
+      await hostHelpers.hostShowIntLeaderboard(gameData.id, io);
+    } else {
+      await hostHelpers.hostPreLeaderBoard(gameData.id, io);
     }
   }
 
   const onNextQuestion = async (gameId) => {
     try {
-      hostHelpers.hostShowNextQuestion(gameId, io);
+      hostHelpers.hostNextQuestionOrLeaderboard(gameId, io);
     } catch (e) {
       console.error(`Failed to move to next question: ${e}`)
     }
@@ -153,7 +175,7 @@ export default (io, socket: Socket) => {
       }
       await playerDb.playerAnswerQuestion(player.id, guess, gameData);
       var ContinueGame = true;
-      const allPlayersInGame = await Player.find({gameId: GameId});
+      const allPlayersInGame = await Player.find({gameId: gameData.id});
       for(let p=0; p<allPlayersInGame.length; p++){
         if(allPlayersInGame[p].playerState.state != PlayerStates.AnsweredQuizQuestionWaiting && allPlayersInGame[p].playerState.state != PlayerStates.QuestionAboutMe){
           ContinueGame = false;
@@ -161,18 +183,10 @@ export default (io, socket: Socket) => {
         }
       }
       if(ContinueGame){
-        await hostHelpers.hostSkipTimer(GameId, io);
+        await hostHelpers.hostSkipTimer(gameData.id, io);
       }
     } catch(e) {
       console.error(`Failed to check if all players answered quiz question: ${e}`)
-    }
-  }
-
-  const onIntLeaderboard = async (gameId: number) => {
-    try {
-      hostHelpers.hostShowIntLeaderboard(gameId, io);
-    } catch (e) {
-      console.error(`Failed to move to intermediary leaderboard: ${e}`)
     }
   }
 
@@ -230,57 +244,38 @@ export default (io, socket: Socket) => {
     }
   }
 
-  const playAgainWithSamePlayers = async () => {
+  const onHostSkipQuestionnaire = async () => {
     try {
-      await playerDb.resetPlayerScores(GameId);
-      socket.emit("reset-quiz-length");
-      try {
-        await Game.updateOne({ id: GameId }, {
-          $set: { 'currentQuestionIndex': -1 }
-        });
-        const data: IGame | null = await hostDb.getGameData(GameId);
-        const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(GameId, data?.settings.numQuestionnaireQuestions);
-        await playerDb.updateAllPlayerStates(GameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-        let playersInGame = await playerDb.getPlayers(GameId);
-        playersInGame.map(p => p.quizGuesses = []);
-        const currentGameData: IGame | null = await hostDb.getGameData(GameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
-      } catch (e) {
-        console.error(`Failed to go to questionnaire: ${e}`)
+      const gameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
+      if (gameData === null) {
+        return;
       }
 
-    } catch (e) {
-      console.error(`Failed to delete game: ${e}`)
-    }
-  }
+      const playersInGame: IPlayer[] = await playerDb.getPlayers(gameData.id);
+      if (!playersInGame.some(p => p.playerState.state === PlayerStates.DoneWithQuestionnaireWaiting)) {
+        return;
+      }
 
-  const onHostReloadLobby = async () => {
-    const allPlayersInGame = await playerDb.getPlayers(GameId);
-    const currentGameData = await hostDb.getGameData(GameId);
-    if (!currentGameData) {
-      return;
+      await hostHelpers.hostStartQuiz(gameData.id, io);
+    } catch (e) {
+      console.error(`Error skipping past questionnaire: ${e}`);
     }
-    io.to(currentGameData.hostSocketId).emit('players-updated', {
-      gameId: GameId,
-      players: allPlayersInGame
-    });
-    await hostHelpers.onHostViewUpdate(GameId, io);
   }
  
-  socket.on('reload-players', onHostReloadLobby);
   socket.on('host-open', onHostOpen);
   socket.on('host-load', onHostLoad);
   socket.on('settings-load', onSettingsLoad);
   socket.on('delete-please', onDeletePlease);
   socket.on('host-start', onHostStart);
-  socket.on('play-again', playAgain);
-  socket.on('play-again-with-same-players', playAgainWithSamePlayers);
+  socket.on('host-end-game', onHostEndGame);
   socket.on('host-start-quiz-timer', onHostStartQuizTimer);
   socket.on('next-question', onNextQuestion);
-  socket.on('go-to-int-leaderboard', onIntLeaderboard);
+  socket.on('host-skip-questionnaire', onHostSkipQuestionnaire);
+  socket.on('next-from-quiz-answer', onNextFromQuizAnswer);
   socket.on('timer-skip', onTimerSkip);
   socket.on('check-all-players-answered', allPlayersAnsweredQuestion);
   socket.on('host-settings', onHostSettings);
   socket.on('host-back', onHostBack);
   socket.on('host-pre-settings', onHostPreSettings);
-  socket.on('host-ps-back', onHostPSBack);}
+  socket.on('host-ps-back', onHostPSBack);
+}
