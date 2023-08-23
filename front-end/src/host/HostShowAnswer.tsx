@@ -1,10 +1,11 @@
 import * as React from "react";
 import "../style.css";
 import { Paper, Stack } from "@mui/material";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
+import PlayerBadge from "./PlayerBadge";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -105,7 +106,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
           }}
         >
           {numCorrect > 0 ?
-            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>{pctCorrect}% correct = <span style={{fontWeight: "bold", color: "#8080ff"}}>{subjectBonus} points</span> for {playerName}!</p> :
+            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>{pctCorrect}% correct = <span style={{fontWeight: "bold", color: "var(--main)"}}>{subjectBonus} points</span> for {playerName}!</p> :
             <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>0% correct ☹ = consolation points based on speed</p>
           }
 
@@ -143,7 +144,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   justifyContent: "center",
                   background:
                     i === correctAnswerIndex
-                      ? "linear-gradient(-45deg, cyan, magenta)"
+                      ? "var(--main-gradient-rev)"
                       : "white",
                   border: "2px solid purple",
                   borderRadius: "20px",
@@ -154,7 +155,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   style={{
                     color: i === correctAnswerIndex ? "white" : "black",
                     fontFamily: "Concert One",
-                    fontSize: "1.7em",
+                    fontSize: "2em",
                     paddingLeft: "0.5em",
                     paddingRight: "0.5em",
                     textAlign: "center",
@@ -176,26 +177,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   .filter((g) => g && g.guess === i)
                   .map((g, j) => (
                     <>
-                      <Paper
-                        elevation={3}
-                        className="lobby_player"
-                        sx={{
-                          background: "linear-gradient(-45deg, cyan, magenta)",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        <p
-                          style={{
-                            margin: 0,
-                            fontFamily: "Concert One",
-                            color: "White",
-                            paddingTop: "3px",
-                            paddingBottom: "3px",
-                          }}
-                        >
-                          {g.name}
-                        </p>
-                      </Paper>
+                      <PlayerBadge name={g.name} />
                       <div style={{ height: "0.4vh" }} />
                     </>
                   ))}
@@ -209,12 +191,9 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
               className="button"
               variant="contained"
               sx={{
-                bgcolor: "#955EC3",
                 m: 2,
                 margin: "auto",
                 marginTop: "2rem",
-                fontFamily: "Concert One",
-                textTransform: "none",
               }}
               onClick={onNext}
             >

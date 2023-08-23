@@ -44,7 +44,6 @@ export default function PlayerNewRanking(props: RankingProps) {
           justifyContent: "center",
           height: "90vh",
           verticalAlign: "center",
-          // background: "linear-gradient(-45deg, cyan, magenta)",
         }}
       >
         <p
@@ -52,7 +51,7 @@ export default function PlayerNewRanking(props: RankingProps) {
             fontFamily: "Concert One",
             fontSize: "2.4em",
             margin: "auto",
-            background: "linear-gradient(-45deg, cyan, magenta)",
+            background: "var(--main-gradient-rev)",
             borderRadius: "20px",
             padding: "1em",
             marginLeft: "1em",

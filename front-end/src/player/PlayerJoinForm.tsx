@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../style.css";
-import Button from "@mui/material/Button";
+import { Button } from "../extra/FrdvButton";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { Socket } from "socket.io-client";
@@ -59,7 +59,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
             sx={{
-              backgroundColor: "#E2E2E2",
               width: "100%",
               fontWeight: "bold",
               fontSize: "18px",
@@ -79,7 +78,6 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
             value={gameId || ""}
             onChange={(e) => setGameId(Number(e.target.value))}
             sx={{
-              backgroundColor: "#E2E2E2",
               width: "100%",
               fontWeight: "bold",
               fontSize: "18px",
@@ -94,15 +92,10 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
           variant="contained"
           size="large"
           style={{
-            // backgroundColor: "#955EC3",
-            backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 200, 200, 0.5), rgba(200, 0, 200, 0.5))",
             color: "white",
             width: "100%",
             fontWeight: "light",
-            fontFamily: "Concert One",
-            fontSize: "1.3em",
-            textTransform: "none",
+            fontSize: "1.29em"
           }}
           onClick={onSubmitJoin}
         >
@@ -117,7 +110,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
             right: "-0.5vh",
             bottom: "-0.7vh",
             zIndex: -1,
-            background: "linear-gradient(-45deg, cyan, magenta)",
+            background: "var(--main-gradient-rev)",
             borderRadius: "25px",
           }}
         ></div>

@@ -1,7 +1,8 @@
 import React from "react";
 import "../style.css";
 import crown from "../assets/crown.png";
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import Speak from "../Speak";
 
 interface ILeaderBoardProps {
@@ -39,7 +40,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           paddingBottom: "3rem", // Add space for the buttons at the bottom
         }}
       >
-        <h1 style={{ fontFamily: "Concert One" }}>leaderboard</h1>
+        <h1 style={{ fontFamily: "var(--action-font)" }}>leaderboard</h1>
         <img
           src={crown}
           alt="Crown"
@@ -63,8 +64,8 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
                 sx={{
                   background:
                     i === 0
-                      ? "linear-gradient(-45deg, cyan, magenta)"
-                      : "#757de8",
+                      ? "var(--main-gradient-rev)"
+                      : "white",
                   borderRadius: "20px",
                   marginRight: "10px",
                 }}
@@ -72,8 +73,8 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
                 <p
                   style={{
                     margin: 0,
-                    fontFamily: "Concert One",
-                    color: "White",
+                    fontFamily: "var(--action-font)",
+                    color: i === 0 ? "white" : "black",
                     paddingTop: i === 0 ? "8px" : "3px",
                     paddingBottom: i === 0 ? "8px" : "3px",
                     fontSize: i === 0 ? "1.3em" : "1em",
@@ -82,7 +83,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
                   {ps.name}
                 </p>
               </Paper>
-              <span
+              <Paper
                 className="score"
                 style={{
                   marginLeft: "-4px",
@@ -93,14 +94,14 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
                   borderRadius: "15px",
                   background:
                     i === 0
-                      ? "linear-gradient(-45deg, cyan, magenta)"
-                      : "#757de8",
-                  boxShadow: i === 0 ? "0 0 10px #FFD700" : "none",
+                      ? "var(--main-gradient-rev)"
+                      : "white",
                   width: "40%",
+                  color: i === 0 ? "white" : "black"
                 }}
               >
                 {ps.score}
-              </span>
+              </Paper>
             </div>
           ))}
         </div>
