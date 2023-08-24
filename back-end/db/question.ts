@@ -3,6 +3,7 @@ import Question from "../models/Question.ts";
 import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestion } from "../interfaces/IQuestionnaireQuestion";
 import baseQuestions from "../db/basequestions.ts";
 import questionDb from "../db/question.ts";
+import { shuffle } from './utils.ts';
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -51,8 +52,16 @@ export default {
             return [];
         }
     },
-    getQuestionsForQuiz: async (numQuestions: number): Promise<IQuestionnaireQuestion[]> => {
-        return await Question.aggregate().sample(numQuestions);
+    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<IQuestionnaireQuestion[]> => {
+        let questions: IQuestionnaireQuestion[] = [];
+        if (customMode) {
+            questions = await Question.find({ tags: customMode });
+        } else {
+            questions = await Question.find();
+        }
+        
+        shuffle(questions);
+        return questions.slice(0, numQuestions);
     },
     getRandomQuestions: async (numQuestions: number, customQuestions: IQuestionnaireQuestion[], prioritizeCustomQs: boolean): Promise<any> => {
         try {
@@ -99,6 +108,7 @@ export default {
                     text: thisQuestion.text,
                     quizText: thisQuestion.quizText,
                     fakeAnswers: thisQuestion.fakeAnswers,
+                    tags: thisQuestion.tags,
                     id: `question_${uuid.v4()}`
                   }
                 questionDb.addQuestion(formattedQuestion);

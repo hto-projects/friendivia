@@ -41,6 +41,7 @@ export default function HostApp(props: IHostProps) {
     settingsIdFromStorage
   );
   const [gameState, setGameState] = React.useState<string>("init");
+  const [customMode, setCustomMode] = React.useState<string>("classic");
   const [settingsState, setSettingsState] = React.useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = React.useState<IQuizQuestion[]>([]);
   const [
@@ -114,6 +115,7 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
+      setCustomMode(data.customMode);
       setQuizQuestions(data.quizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
@@ -190,7 +192,7 @@ export default function HostApp(props: IHostProps) {
 
     if (state === "lobby") {
       socket.emit("reload-players");
-      return <HostLobby socket={socket} gameId={gameId} />;
+      return <HostLobby socket={socket} gameId={gameId} classroomGame={customMode === "classroom"} />;
     } else if (state === "questionnaire") {
       return (
         <HostQuestionnaire

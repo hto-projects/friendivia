@@ -33,7 +33,7 @@ export default {
     }
   },
 
-  hostOpenGame: async function(socketId: string): Promise<number> {
+  hostOpenGame: async function(socketId: string, customMode: string): Promise<number> {
     try {
       const timePerQuestion = 15;
       const numQuestionnaireQuestions = 5;
@@ -73,7 +73,8 @@ export default {
           timePerLeaderboard: timePerLeaderboard,
           prioritizeCustomQs: prioritizeCustomQs,
           customQuestions: customQuestions
-        }
+        },
+        customMode: customMode
       };
 
       const newGame = new Game(newGameObject);
@@ -119,7 +120,12 @@ export default {
   moveGameToQuestionnaire: async function(gameId: number): Promise<PlayerQuestionnaire[]> {
     try {
       const players: IPlayer[] = await playerDb.getPlayers(gameId);
-      const questionnaires: PlayerQuestionnaire[] = await utilDb.createQuestionnairesForPlayers(players);
+      const game: IGame | null = await this.getGameData(gameId);
+      if (!game) {
+        return [];
+      }
+
+      const questionnaires: PlayerQuestionnaire[] = await utilDb.createQuestionnairesForPlayers(players, game.customMode);
       await this.setGameState(gameId, GameStates.Questionnaire);
 
       await Game.updateOne({id: gameId}, {
