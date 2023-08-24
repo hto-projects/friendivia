@@ -12,12 +12,14 @@
   --left: rgb(var(--left-rgb));
   --left-subtle: rgb(var(--left-rgb-subtle));
   --left-light: rgba(var(--left-rgb), 35%);
+  --left-super-light: color-mix(in lch, var(--left) 5%, #FFFFFF);
   --left-dark: color-mix(in lch, var(--left) 80%, #000000);
   --right-rgb: 0, 255, 170;
   --right-rgb-subtle: 170, 255, 120;
   --right: rgb(var(--right-rgb));
   --right-subtle: rgb(var(--right-rgb-subtle));
   --right-light: rgba(var(--right-rgb), 35%);
+  --right-super-light: color-mix(in lch, var(--right) 5%, #FFFFFF);
   --right-dark: color-mix(in lch, var(--right) 80%, #000000);
   --main-gradient: linear-gradient(45deg, var(--left) 0%, var(--main) 50%, var(--right) 100%);
   --main-gradient-rev: linear-gradient(45deg, var(--right-subtle) 0%, var(--main) 50%, var(--left-subtle) 100%);

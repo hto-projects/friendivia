@@ -8,9 +8,9 @@ function getNumberOfQuestions(players) {
   return Math.max(4, players.length);
 }
 
-export async function createQuestionnairesForPlayers(players: IPlayer[]): Promise<PlayerQuestionnaire[]> {
+export async function createQuestionnairesForPlayers(players: IPlayer[], customMode: string): Promise<PlayerQuestionnaire[]> {
   const totalQuestions = getNumberOfQuestions(players);
-  const allQuestionsForQuiz: IQuestionnaireQuestion[] = await questionDb.getQuestionsForQuiz(totalQuestions);
+  const allQuestionsForQuiz: IQuestionnaireQuestion[] = await questionDb.getQuestionsForQuiz(totalQuestions, customMode);
   const playerQuestionnaires: PlayerQuestionnaire[] = [];
 
   for (let i = 0; i < players.length; i++) {
@@ -115,7 +115,7 @@ const selectRandom = (mainList, newList, count) => {
   return mainListCopy;
 }
 
-const shuffle = (array: any[]): void => {
+export const shuffle = (array: any[]): void => {
   let currentIndex = array.length;
   let temporaryValue;
   let randomIndex;

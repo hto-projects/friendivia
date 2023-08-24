@@ -10,5 +10,6 @@ export default interface IGame {
 	playerQuestionnaires: PlayerQuestionnaire[],
 	quizQuestions: IQuizQuestion[],
 	currentQuestionIndex: number,
+	customMode: string,
 	settings: ISettings
 }

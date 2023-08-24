@@ -2,6 +2,7 @@ export interface IQuestionnaireQuestion {
   id: string;
   text: string;
   quizText: string;
+  tags: string[];
   fakeAnswers: string[];
 }
 

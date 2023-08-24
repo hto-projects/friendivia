@@ -8,7 +8,8 @@ const gameSchema = new Schema<IGame>({
   playerQuestionnaires: [{type: Object}],
   quizQuestions: [{type: Object }],
   currentQuestionIndex: { type: Number, required: true },
-	settings: { type: Object, required: true}
+	settings: { type: Object, required: true},
+  customMode: { type: String }
 });
 
 const Game = model<IGame>('Game', gameSchema);

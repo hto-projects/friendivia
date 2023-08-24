@@ -5,6 +5,7 @@ const questionSchema = new Schema<IQuestionnaireQuestion>({
     id: { type: String, required: true },
     text: { type: String, required: true },
     quizText: { type: String, required: true },
+    tags: [{ type: String }],
     fakeAnswers: [{ type: String }]
 });
 

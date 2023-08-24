@@ -86,7 +86,7 @@ export default function HostSettings(props: ISettingsProps) {
 
   const addCustomQuestion = () => {
     setAddedQuestions((prevQuestions: IQuestionnaireQuestion[]) =>
-      [{ id: "", text: "", quizText: "", fakeAnswers: [] }, ...prevQuestions]
+      [{ id: "", text: "", quizText: "", fakeAnswers: [], tags: [] }, ...prevQuestions]
     );
   };
 

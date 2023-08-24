@@ -15,9 +15,9 @@ import PreGameSettings from '../models/PreGameSettings.ts';
 
 var PreSettingsId;
 export default (io, socket: Socket) => {
-  const onHostOpen = async () => {
+  const onHostOpen = async (customMode: string) => {
     try {
-      const newGameId = await hostDb.hostOpenGame(socket.id);
+      const newGameId = await hostDb.hostOpenGame(socket.id, customMode);
       await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
