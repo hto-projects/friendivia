@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../style.css";
-import Button from "@mui/material/Button";
+import { Button } from "../extra/FrdvButton"
 import TextField from "@mui/material/TextField";
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerJoinWait";
@@ -86,7 +86,6 @@ export default function PlayerQuestionnaireForm(
               inputProps={{ maxLength: maxAnswer }}
               onChange={(e) => onInputChange(e.target.value, i)}
               sx={{
-                backgroundColor: "#f3f3ff",
                 width: "100%",
                 fontWeight: "bold",
                 fontSize: "18px",
@@ -100,14 +99,10 @@ export default function PlayerQuestionnaireForm(
           variant="contained"
           disabled={answers.some((a) => a.length === 0)}
           sx={{
-            backgroundImage:
-              "linear-gradient(-45deg, rgba(0, 200, 200, 0.5), rgba(200, 0, 200, 0.5))",
             color: "white",
             width: "100%",
             fontWeight: "light",
-            fontFamily: "Concert One",
-            fontSize: "1.3em",
-            textTransform: "none",
+            fontSize: "1.29em",
             marginBottom: "0px",
             marginTop: "10px",
           }}

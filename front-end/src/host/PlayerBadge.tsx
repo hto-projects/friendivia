@@ -11,7 +11,8 @@ export default function PlayerBadge(props): React.ReactElement {
       boxShadow: 8,
       textDecoration: "line-through",
     },
-    background: "linear-gradient(-45deg, cyan, magenta)",
+    background: "white",
+    color: "black",
     borderRadius: "20px",
   };
 
@@ -25,10 +26,9 @@ export default function PlayerBadge(props): React.ReactElement {
       <p
         style={{
           margin: 0,
-          fontFamily: "Concert One",
-          color: "White",
-          paddingTop: "3px",
-          paddingBottom: "3px",
+          fontFamily: "var(--action-font)",
+          paddingTop: "5px",
+          paddingBottom: "5px",
         }}
       >
         {name}

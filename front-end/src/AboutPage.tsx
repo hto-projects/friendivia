@@ -1,12 +1,12 @@
 import * as React from "react";
 import "./style.css";
-import { Button } from "@mui/material";
+import { Button } from "./extra/FrdvButton";
 
 export default function AboutPage() {
   return (
       <div className="about">
         <div className="banner">
-          <p className="about-banner-text">friendivia</p>
+          <p className="banner-text">friendivia</p>
         </div>
         <div className="about-body">
           <div className="about-text">
@@ -20,12 +20,6 @@ export default function AboutPage() {
               href="/"
               sx={{
                 fontSize: "1.29em",
-                background: "#8080ff",
-                textTransform: "lowercase",
-                fontFamily: `"Concert One", sans-serif`,
-                "&:hover": {
-                  background: "#7070ff"
-                },
               }}
             >
               Join a game
@@ -36,9 +30,6 @@ export default function AboutPage() {
               href="/host"
               sx={{
                 fontSize: "1.29em",
-                background: "#8080ff",
-                textTransform: "lowercase",
-                fontFamily: `"Concert One", sans-serif`
               }}
             >
               Host a game
@@ -51,13 +42,8 @@ export default function AboutPage() {
                 variant="contained"
                 href="https://forms.gle/6UjvVEJ1JHqf9tmx9"
                 sx={{
+                  opacity: "80%",
                   fontSize: "1.1em",
-                  background: "#a0a0ff",
-                  textTransform: "lowercase",
-                  fontFamily: `"Concert One", sans-serif`,
-                  "&:hover": {
-                    background: "#9090ff"
-                  },
                 }}
               >
                 submit feedback

@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=DynaPuff&family=Inter&display=swap');
 
 #host-banner {
-  background: #8080FF;
-  background: linear-gradient(45deg, #00FFFF 0%, #FF00FF 100%);
-  box-shadow: #9090FF 0px 1px 20px 0px;
+  background: var(--main);
+  background: var(--main-gradient);
+  box-shadow: var(--main-light) 0px 1px 20px 0px;
   padding: 10px;
   display: flex;
   flex-direction: row;

@@ -11,7 +11,7 @@ import PlayerIncorrect from "./PlayerIncorrect";
 import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
-import Button from "@mui/material/Button";
+import { Button } from "../extra/FrdvButton";
 import PlayerNewRanking from "./PlayerNewRanking";
 import PlayerKicked from "./PlayerKicked";
 
@@ -174,13 +174,10 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="HostPlayerApp"
               variant="contained"
               sx={{
-                bgcolor: "#8080ff",
                 m: 2,
                 position: "absolute",
                 bottom: "10px",
                 left: "10px",
-                fontFamily: "Concert One",
-                textTransform: "none",
               }}
               href="/host"
             >
@@ -191,13 +188,10 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="AboutPlayerApp"
               variant="contained"
               sx={{
-                bgcolor: "#8080ff",
                 m: 2,
                 position: "absolute",
                 bottom: "10px",
                 right: "10px",
-                fontFamily: "Concert One",
-                textTransform: "none",
               }}
               href="/about"
             >
@@ -253,7 +247,6 @@ export default function PlayerApp(props: PlayerAppProps) {
           style={{
             display: "flex",
             alignItems: "center",
-            marginTop: "-3vh",
           }}
         >
           <Menu
@@ -295,7 +288,7 @@ export default function PlayerApp(props: PlayerAppProps) {
               )}
             </Grid>
             <Grid item xs={6}>
-              <div className="align_center banner-text">friendivia</div>
+              <div className="align_center banner-text player-banner-text">friendivia</div>
             </Grid>
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
