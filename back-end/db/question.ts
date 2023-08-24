@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 import Question from "../models/Question.ts";
-import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
+import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestion } from "../interfaces/IQuestionnaireQuestion";
 import baseQuestions from "../db/basequestions.ts";
 import questionDb from "../db/question.ts";
 
@@ -14,7 +14,7 @@ export default {
             return [];
         }
     },
-    getQuestionById: async (questionId: string): Promise<any> => {
+    getQuestionById: async (questionId: string): Promise<IQuestionnaireQuestion | null> => {
         try {
             const question = await Question.findOne({id: questionId});
             return question;
@@ -50,6 +50,9 @@ export default {
             console.error(`Issue getting random questions: ${e}`);
             return [];
         }
+    },
+    getQuestionsForQuiz: async (numQuestions: number): Promise<IQuestionnaireQuestion[]> => {
+        return await Question.aggregate().sample(numQuestions);
     },
     getRandomQuestions: async (numQuestions: number, customQuestions: IQuestionnaireQuestion[], prioritizeCustomQs: boolean): Promise<any> => {
         try {
@@ -107,9 +110,19 @@ export default {
         } catch (e) {
           console.error(`Issue deleting all games: ${e}`);
         }
-      }
+      },
+    getQuestionnaireQuestionsText: async function(questionnaire: PlayerQuestionnaire): Promise<string[]> {
+        const questionnaireQuestionsText: Array<string> = [];
+        for (let j = 0; j < questionnaire.questions.length; j++) {
+          const pqq: PlayerQuestionnaireQuestion = questionnaire.questions[j];
+          const question: IQuestionnaireQuestion | null = await questionDb.getQuestionById(pqq.questionId);
+          if (!question) {
+            continue;
+          }
+
+          questionnaireQuestionsText.push(question.text);
+        }
+
+        return questionnaireQuestionsText;
+    }
 };
-
-
-
-

@@ -20,7 +20,7 @@ import lobbyMusic from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
-import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import { IQuestionnaireQuestion } from "back-end/interfaces/IQuestionnaireQuestion";
 import {
   HostAnnouncementQueue,
   AddAnnouncementContext,
@@ -179,6 +179,15 @@ export default function HostApp(props: IHostProps) {
   }, [gameId, setGameId, gameState, setGameState]);
 
   function getElementForState(state: string, settingsState: boolean) {
+    if (state === "pre-questionnaire") {
+      return (
+        <>
+          <Speak text="Get ready..." />
+          <p style={{ fontSize: "1.5em" }}>Get ready...</p>
+        </>
+      );
+    }
+
     if (state === "lobby") {
       socket.emit("reload-players");
       return <HostLobby socket={socket} gameId={gameId} />;
