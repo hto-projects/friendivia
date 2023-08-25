@@ -3,7 +3,6 @@ import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestio
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 import questionDb from "../db/question.ts";
 import playerDb from "../db/player.ts";
-import mongoose from "mongoose";
 
 function getNumberOfQuestions(players) {
   return Math.max(4, players.length);
