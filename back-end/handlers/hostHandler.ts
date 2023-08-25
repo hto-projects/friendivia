@@ -7,7 +7,6 @@ import { GameStates } from '../interfaces/IGameState.ts';
 import IGame from '../interfaces/IGame.ts';
 import IPreGameSettings from '../interfaces/IPreGameSettings.ts';
 import Game from '../models/Game.ts';
-import q from '../db/question.ts';
 import * as hostHelpers from './hostHelpers.ts';
 import Player from '../models/Player.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
@@ -18,7 +17,6 @@ export default (io, socket: Socket) => {
   const onHostOpen = async (customMode: string) => {
     try {
       const newGameId = await hostDb.hostOpenGame(socket.id, customMode);
-      await q.addBaseQuestions();
       socket.emit('host-open-success', newGameId);
     } catch (e) {
       socket.emit('host-open-error', e);

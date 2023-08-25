@@ -1,5 +1,6 @@
+import { Schema } from "mongoose";
+
 export interface IQuestionnaireQuestion {
-  id: string;
   text: string;
   quizText: string;
   tags: string[];
@@ -7,7 +8,7 @@ export interface IQuestionnaireQuestion {
 }
 
 export type PlayerQuestionnaireQuestion = {
-  questionId: string;
+  questionId: Schema.Types.ObjectId;
   subjectQuestion: boolean;
   answer: string;
 }

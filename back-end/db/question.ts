@@ -1,9 +1,8 @@
-import * as uuid from 'uuid';
 import Question from "../models/Question.ts";
 import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestion } from "../interfaces/IQuestionnaireQuestion";
-import baseQuestions from "../db/basequestions.ts";
 import questionDb from "../db/question.ts";
 import { shuffle } from './utils.ts';
+import { ObjectId } from "mongoose";
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -15,9 +14,9 @@ export default {
             return [];
         }
     },
-    getQuestionById: async (questionId: string): Promise<IQuestionnaireQuestion | null> => {
+    getQuestionById: async (questionId: ObjectId): Promise<IQuestionnaireQuestion | null> => {
         try {
-            const question = await Question.findOne({id: questionId});
+            const question: IQuestionnaireQuestion | null = await Question.findById(questionId);
             return question;
         } catch (e) {
             console.error(`Issue getting question: ${e}`);
@@ -52,10 +51,13 @@ export default {
             return [];
         }
     },
-    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<IQuestionnaireQuestion[]> => {
-        let questions: IQuestionnaireQuestion[] = [];
+    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<any> => {
+        let questions = [];
         if (customMode) {
             questions = await Question.find({ tags: customMode });
+            if (questions.length < numQuestions) {
+                questions = await Question.find();
+            }
         } else {
             questions = await Question.find();
         }
@@ -101,18 +103,6 @@ export default {
             console.error(`Issue getting random questions: ${e}`);
             return [];
         }
-    },
-    addBaseQuestions: async (): Promise<any> => {      
-            baseQuestions.forEach(async (thisQuestion) => {
-                var formattedQuestion: IQuestionnaireQuestion = {
-                    text: thisQuestion.text,
-                    quizText: thisQuestion.quizText,
-                    fakeAnswers: thisQuestion.fakeAnswers,
-                    tags: thisQuestion.tags,
-                    id: `question_${uuid.v4()}`
-                  }
-                questionDb.addQuestion(formattedQuestion);
-            });
     },
     deleteAllQuestions: async (): Promise<any> => {
         try {
