@@ -64,7 +64,7 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[]): P
       if (j === i) continue;
 
       const optionPlayerQp = playerQuestionnaires[j];
-      const optionPlayerQ: PlayerQuestionnaireQuestion | undefined = optionPlayerQp.questions.find(q => q.questionId === playerQuestion.questionId);
+      const optionPlayerQ: PlayerQuestionnaireQuestion | undefined = optionPlayerQp.questions.find(q => q.questionId.toString() === playerQuestion.questionId.toString());
       if (optionPlayerQ && optionPlayerQ.answer) {
         otherPlayerOptions.push(optionPlayerQ.answer);
       }
