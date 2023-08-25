@@ -147,6 +147,8 @@ body {
   .element{
     height: 64%;
     margin: 0px;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 

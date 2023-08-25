@@ -2,7 +2,7 @@ const arr = [
   {
     text: "What is your favorite movie?",
     quizText: "What is <PLAYER>'s favorite movie?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     fakeAnswers: [
       "The Godfather",
       "Despicable Me",
@@ -13,7 +13,7 @@ const arr = [
   {
     text: "What do you do for fun?",
     quizText: "What does <PLAYER> do for fun?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     fakeAnswers: ["Nothing", "watch tv", "play music", "Minecraft"],
   },
   {
@@ -30,7 +30,7 @@ const arr = [
   },
   {
     text: "What's your greatest fear?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What's <PLAYER>'s greatest fear?",
     fakeAnswers: ["spiders", "no fears", "Worms", "DEATH"],
   },
@@ -44,7 +44,7 @@ const arr = [
     text: "If you could go anywhere in the world, where would you go?",
     quizText:
       "If <PLAYER> could go anywhere in the world, where would they go?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     fakeAnswers: ["Eiffel Tower", "dubai", "Japan", "Home"],
   },
   {
@@ -66,7 +66,7 @@ const arr = [
   },
   {
     text: "If you could spend $5000 only at one place, where would you spend it?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText:
       "If <PLAYER> could spend $5000 only at one place, where would they spend it?",
     fakeAnswers: ["kohl's", "target", "amazon", "Apple Store"],
@@ -85,19 +85,19 @@ const arr = [
   },
   {
     text: "If there were no consequences, what law would you break?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "If there were no consequences, what law would <PLAYER> break?",
     fakeAnswers: ["NO TAXES", "Share netflix password", "jaywalking"],
   },
   {
     text: "What is the name of your best friend?",
-    tags: ["classroom", "fun"],
+    tags: ["classroom", "fun", "frp"],
     quizText: "What is the name of <PLAYER>'s best friend?",
     fakeAnswers: ["Laura", "Jonathan", "Emmanuel", "Eliza"],
   },
   {
     text: "If you could remain the same age forever, what would it be?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "fun", "frp"],
     quizText:
       "If <PLAYER> could remain the same age forever, what would it be?",
     fakeAnswers: ["8", "25", "two", "21"],
@@ -127,7 +127,7 @@ const arr = [
   },
   {
     text: "What is your favorite word?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What do you think is <PLAYER>'s favorite word?",
     fakeAnswers: ["Indubitably", "Flabbergasted!", "Friendivia", "asymmetry"],
   },
@@ -139,7 +139,7 @@ const arr = [
   },
   {
     text: "What is your favorite place that you have ever been?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is <PLAYER>'s favorite place that they have ever been?",
     fakeAnswers: ["Home", "Niagara Falls", "Chipotle", "Kauai Hawaii"],
   },
@@ -161,7 +161,7 @@ const arr = [
 const gptQuestions = [
   {
     text: "What is your earliest memory?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What is <PLAYER>'s earliest memory?",
     fakeAnswers: ["christmas morning 1997", "My second birthday", "a weird nightmare I had", "my stuffed bunny"],
   },
@@ -173,31 +173,31 @@ const gptQuestions = [
   },
   {
     text: "What is your number one priority in life?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What is <PLAYER>'s number one priority in life?",
     fakeAnswers: ["family", "Career success", "Personal growth", "to be happy"],
   },
   {
     text: "Who had the biggest impact on you in your youth?",
-    tags: ["classic", "fun"],
+    tags: ["classic"],
     quizText: "Who had the biggest impact on <PLAYER> in their youth?",
     fakeAnswers: ["my dad", "Mr. Johnson", "My friend Alan", "my grandma"],
   },
   {
     text: "If you were president, what executive order would you enact?",
-    tags: ["classic", "classroom", "fun"],
+    tags: ["classic", "classroom", "fun", "frp"],
     quizText: "If <PLAYER> were president, what executive order would they enact?",
     fakeAnswers: ["Universal healthcare", "climate change legislation", "UBI", "free pizza for everyone"],
   },
   {
     text: "What's one topic you could do a 15-minute presentation about without any preparation?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's one topic <PLAYER> could do a 15-minute presentation about without any preparation?",
     fakeAnswers: ["The power of meditation", "The history of Nintendo", "90s cartoons", "local wildlife"],
   },
   {
     text: "If aliens visited earth, what would you show them to best represent humanity?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "If aliens visited earth, what would <PLAYER> show them to best represent humanity?",
     fakeAnswers: ["works of art", "classical music", "live music, movies, art", "Paris then Tokyo then New Zealand"],
   },
@@ -209,37 +209,37 @@ const gptQuestions = [
   },
   {
     text: "If you had to flee the country, where would you go?",
-    tags: ["classic", "fun"],
+    tags: ["frp"],
     quizText: "If <PLAYER> had to flee the country, where would they go?",
     fakeAnswers: ["Canada", "New Zealand", "Sweden", "Costa Rica"],
   },
   {
     text: "What are you thinking about right now?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What is <PLAYER> thinking about right now?",
     fakeAnswers: ["food", "Weekend plans", "Work", "this question"],
   },
   {
     text: "What's a slang word you think will be big in the 2040s?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's a slang word <PLAYER> thinks will be big in the 2040s?",
     fakeAnswers: ["zinko", "Fluzzled", "Ziggity", "Glimpse"],
   },
   {
     text: "What would you tweet if you knew everyone would see it?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What would <PLAYER> tweet if they knew everyone would see it?",
     fakeAnswers: ["be kind", "i am so cool", "This too shall pass", "life is worth living"],
   },
   {
     text: "If you could instantly become an expert in any field, which one would you choose?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could instantly become an expert in any field, which one would they choose?",
     fakeAnswers: ["Quantum physics", "AI", "architecture", "Culinary arts"],
   },
   {
     text: "What would your walk-up song be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What would <PLAYER>'s walk-up song be?",
     fakeAnswers: [
       "bad guy by Billie Eilish",
@@ -250,7 +250,7 @@ const gptQuestions = [
   },
   {
     text: "What is your favorite quote?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is <PLAYER>'s favorite quote?",
     fakeAnswers: [
       "To be or not to be, that is the question",
@@ -312,7 +312,7 @@ const gptQuestions = [
   },
   {
     text: "What trend do you hope makes a comeback?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What trend does <PLAYER> hope makes a comeback?",
     fakeAnswers: [
       "flared jeans",
@@ -334,25 +334,25 @@ const gptQuestions = [
   },
   {
     text: "What's your most used app on your phone?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's <PLAYER>'s most used app on their phone?",
     fakeAnswers: ["insta", "snapchat", "TikTok", "the calculator application"],
   },
   {
     text: "How will society be different in 50 years?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "According to <PLAYER>, how will society be different in 50 years?",
     fakeAnswers: ["hopefully there will be a better healthcare", "AI is taking over", "Climate change will escalate", "faster phones"]
   },
   {
     text: "If you could swap lives with anyone, who would you want to be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could swap lives with anyone, who would they want to be?",
     fakeAnswers: ["LeBron James", "Taylor swift", "Joe Biden", "anyone else"]
   },
   {
     text: "What song brings tears to your eyes every time you hear it?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What song brings tears to <PLAYER>'s eyes every time they hear it?",
     fakeAnswers: [
       "Hallelujah by Leonard Cohen",
@@ -363,7 +363,7 @@ const gptQuestions = [
   },
   {
     text: "If you could relive one day of your life, what day would you choose?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "If <PLAYER> could relive one day of their life, what day would they choose?",
     fakeAnswers: [
       "July 9, 2019",
@@ -385,7 +385,7 @@ const gptQuestions = [
   },
   {
     text: "To whom in your life are you the most grateful?",
-    tags: ["classic"],
+    tags: ["frp"],
     quizText: "To whom in their life is <PLAYER> the most grateful?",
     fakeAnswers: [
       "My mom",
@@ -396,7 +396,7 @@ const gptQuestions = [
   },
   {
     text: "What sport impresses you the most?",
-    tags: ["classic", "corporate"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What sport impresses <PLAYER> the most?",
     fakeAnswers: [
       "Golf",
@@ -418,7 +418,7 @@ const gptQuestions = [
   },
   {
     text: "If you came across a leprechaun, how would you stop him from stealing your gold coins?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "If <PLAYER> came across a leprechaun, how would they stop him from stealing their gold coins?",
     fakeAnswers: [
       "through trickery",
@@ -429,7 +429,7 @@ const gptQuestions = [
   },
   {
     text: "What do you think about artificial intelligence?",
-    tags: ["corporate", "fun"],
+    tags: ["corporate", "frp"],
     quizText: "What does <PLAYER> think about artificial intelligence?",
     fakeAnswers: [
       "Its power is overblown",
@@ -440,7 +440,7 @@ const gptQuestions = [
   },
   {
     text: "What do you think about aliens?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What does <PLAYER> think about aliens?",
     fakeAnswers: [
       "they are definitely real",
@@ -451,7 +451,7 @@ const gptQuestions = [
   },
   {
     text: "What do you think about time travel?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What does <PLAYER> think about time travel?",
     fakeAnswers: [
       "it can never be possible",
@@ -462,7 +462,7 @@ const gptQuestions = [
   },
   {
     text: "What are your thoughts on parallel universes?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What does <PLAYER> think about parallel universes?",
     fakeAnswers: [
       "they're just a fun theory",
@@ -473,7 +473,7 @@ const gptQuestions = [
   },
   {
     text: "What's your favorite conspiracy theory?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What's <PLAYER>'s favorite conspiracy theory?",
     fakeAnswers: [
       "aliens built the pyramids",
@@ -486,7 +486,7 @@ const gptQuestions = [
   },
   {
     text: "What's your favorite urban legend or cryptid?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What's <PLAYER>'s favorite urban legend or cryptid?",
     fakeAnswers: [
       "slenderman",
@@ -497,7 +497,7 @@ const gptQuestions = [
   },
   {
     text: "If you could time travel to any era, where would you go?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could time travel to any era, where would they go?",
     fakeAnswers: [
       "the roaring twenties",
@@ -508,7 +508,7 @@ const gptQuestions = [
   },
   {
     text: "What's one feature you would want for your dream home?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's one feature <PLAYER> would want for their dream home?",
     fakeAnswers: [
       "mid-century modern appointments",
@@ -520,7 +520,7 @@ const gptQuestions = [
   },
   {
     text: "If you were to design an amusement park, what theme would you choose for it?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> were to design an amusement park, what theme would they choose for it?",
     fakeAnswers: [
       "Horror / haunted house",
@@ -531,7 +531,7 @@ const gptQuestions = [
   },
   {
     text: "If you had unlimited resources, what would you be for a costume party?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> had unlimited resources, what would they be for a costume party?",
     fakeAnswers: [
       "a ghost",
@@ -542,7 +542,7 @@ const gptQuestions = [
   },
   {
     text: "If you were to start your own business, what kind of business would it be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> were to start their own business, what kind of business would it be?",
     fakeAnswers: [
       "A software company",
@@ -553,7 +553,7 @@ const gptQuestions = [
   },
   {
     text: "What's one thing you predict will happen in the next ten years?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's one thing <PLAYER> predicts will happen in the next ten years?",
     fakeAnswers: [
       "the end of the world",
@@ -623,7 +623,7 @@ const gptQuestions2 = [
   },
   {
     text: "What's your favorite way to unwind?",
-    tags: ["classic", "corporate"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What's <PLAYER>'s favorite way to unwind?",
     fakeAnswers: [
       "listening to music",
@@ -678,7 +678,7 @@ const gptQuestions2 = [
   },
   {
     text: "Wat is your dream vacation destination?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's <PLAYER>'s dream vacation destination?",
     fakeAnswers: [
       "Bora Bora",
@@ -689,7 +689,7 @@ const gptQuestions2 = [
   },
   {
     text: "What is your go-to karaoke song?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's <PLAYER>'s go-to karaoke song?",
     fakeAnswers: [
       "Bohemian Rhapsody",
@@ -722,7 +722,7 @@ const gptQuestions2 = [
   },
   {
     text: "What is a hobby you'd like to try?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is a hobby <PLAYER> would like to try?",
     fakeAnswers: [
       "painting",
@@ -734,7 +734,7 @@ const gptQuestions2 = [
   },
   {
     text: "How do you spend your Saturdays?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "How does <PLAYER> spend their Saturdays?",
     fakeAnswers: [
       "sleeping in",
@@ -745,7 +745,7 @@ const gptQuestions2 = [
   },
   {
     text: "How would you like to spend your Saturdays?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "How would <PLAYER> like to spend their Saturdays?",
     fakeAnswers: [
       "sleeping in",
@@ -779,7 +779,7 @@ const gptQuestions2 = [
   },
   {
     text: "What TV show do you watch as a guilty pleasure?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What TV show does <PLAYER> watch as a guilty pleasure?",
     fakeAnswers: [
       "The Bachelor",
@@ -801,7 +801,7 @@ const gptQuestions2 = [
   },
   {
     text: "What song always makes you want to dance?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What song always makes <PLAYER> want to dance?",
     fakeAnswers: [
       "none, i hate dancing",
@@ -812,7 +812,7 @@ const gptQuestions2 = [
   },
   {
     text: "What do you think about exotic cuisines?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What does <PLAYER> think about exotic cuisines?",
     fakeAnswers: [
       "I love trying new things!",
@@ -823,7 +823,7 @@ const gptQuestions2 = [
   },
   {
     text: "What do you think about contemporary art?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What does <PLAYER> think about contemporary art?",
     fakeAnswers: [
       "it sucks",
@@ -848,7 +848,7 @@ const gptQuestions2 = [
   },
   {
     text: "What's one piece of advice you would give to your younger self?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What's one piece of advice <PLAYER> would give to their younger self?",
     fakeAnswers: [
       "don't be afraid to take risks",
@@ -859,7 +859,7 @@ const gptQuestions2 = [
   }, 
   {
     text: "If you could solve one global problem, what would it be?",
-    tags: ["corporate"],
+    tags: ["corporate", "frp"],
     quizText: "If <PLAYER> could solve one global problem, what would it be?",
     fakeAnswers: [
       "End world hunger",
@@ -870,7 +870,7 @@ const gptQuestions2 = [
   },
   {
     text: "If you could have a conversation with a famous work of art, which one would it be?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "If <PLAYER> could have a conversation with a famous work of art, which one would it be?",
     fakeAnswers: [
       "Mona Lisa",
@@ -881,7 +881,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's your favorite scent?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What's <PLAYER>'s favorite scent?",
     fakeAnswers: [
       "fresh cut grass",
@@ -892,7 +892,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's the last great TV show or movie you watched?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's the last great TV show or movie <PLAYER> watched?",
     fakeAnswers: [
       "Breaking Bad",
@@ -903,7 +903,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's the best book you've ever read?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's the best book <PLAYER> has ever read?",
     fakeAnswers: [
       "Little Women",
@@ -914,7 +914,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's the most impactful book you've ever read?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's the most impactful book <PLAYER> has ever read?",
     fakeAnswers: [
       "Blink",
@@ -925,7 +925,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is your favorite form of exercise?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What is <PLAYER>'s favorite form of exercise?",
     fakeAnswers: [
       "running",
@@ -936,7 +936,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What did you eat for breakfast this morning?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What did <PLAYER> eat for breakfast this morning?",
     fakeAnswers: [
       "a banana",
@@ -947,7 +947,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had a podcast, who would you want as a guest?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> had a podcast, who would they want as a guest?",
     fakeAnswers: [
       "Joe BRiggs",
@@ -958,7 +958,7 @@ const gptQuestions2 = [
   },
   { 
     text: "In which decade would you most like to live?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "In which decade would <PLAYER> most like to live?",
     fakeAnswers: [
       "2090's",
@@ -969,7 +969,7 @@ const gptQuestions2 = [
   },
   { 
     text: "Which class did you enjoy the most in your life?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "Which class did <PLAYER> enjoy the most in their life?",
     fakeAnswers: [
       "english",
@@ -980,7 +980,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What kind of sandwich do you like most?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What kind of sandwich does <PLAYER> like most?",
     fakeAnswers: [
       "burgers",
@@ -991,7 +991,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had to perform in a talent show tonight, what would you do for it?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> had to perform in a talent show tonight, what would they do for it?",
     fakeAnswers: [
       "probably sing",
@@ -1002,7 +1002,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What would you wear if you had to wear the same thing for the rest of your life?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What would <PLAYER> wear if they had to wear the same thing for the rest of their life?",
     fakeAnswers: [
       "a hat",
@@ -1013,7 +1013,7 @@ const gptQuestions2 = [
   },
   { 
     text: "Who would you add to Mount Rushmore?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "Who would <PLAYER> add to Mount Rushmore?",
     fakeAnswers: [
       "George Washington",
@@ -1024,7 +1024,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What olympic sport would be the hardest for you?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What olympic sport would be the hardest for <PLAYER>?",
     fakeAnswers: [
       "swimming",
@@ -1035,7 +1035,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is your favorite time of day?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "frp"],
     quizText: "What is <PLAYER>'s favorite time of day?",
     fakeAnswers: [
       "morning",
@@ -1057,7 +1057,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is one thing no one knows about you?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What is one thing no one knows about <PLAYER>?",
     fakeAnswers: [
       "I am secretly mean",
@@ -1068,7 +1068,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is your phone wallpaper?",
-    tags: ["corporate", "fun"],
+    tags: ["corporate", "fun", "frp"],
     quizText: "What is <PLAYER>'s phone wallpaper?",
     fakeAnswers: [
       "my wife",
@@ -1079,7 +1079,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could have an unlimited supply of one thing, what would it be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could have an unlimited supply of one thing, what would it be?",
     fakeAnswers: [
       "money",
@@ -1090,7 +1090,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you were immortal, what would you do?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "If <PLAYER> were immortal, what would they do?",
     fakeAnswers: [
       "wait",
@@ -1101,7 +1101,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could teleport anywhere right now, where would you go?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could teleport anywhere right now, where would they go?",
     fakeAnswers: [
       "not sure",
@@ -1112,7 +1112,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the hardest you can ever remember laughing?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is the hardest <PLAYER> can ever remember laughing?",
     fakeAnswers: [
       "watching family guy",
@@ -1123,7 +1123,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the best dish you can cook?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What is the best dish <PLAYER> can cook?",
     fakeAnswers: [
       "Hot Dog",
@@ -1134,7 +1134,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What do you like to eat as a midnight snack?",
-    tags: ["classic", "corporate"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What does <PLAYER> like to eat as a midnight snack?",
     fakeAnswers: [
       "graham crackers",
@@ -1145,7 +1145,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could have any career, what would you choose to be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"], 
     quizText: "If <PLAYER> could have any career, what would they choose to be?",
     fakeAnswers: [
       "Architect",
@@ -1156,7 +1156,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could take a class on anything, what subject would you choose?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could take a class on anything, what subject would they choose?",
     fakeAnswers: [
       "Marketing",
@@ -1167,7 +1167,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could only eat one dessert for the rest of your life, what would it be?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could only eat one dessert for the rest of their life, what would it be?",
     fakeAnswers: [
       "oreos",
@@ -1178,7 +1178,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had a million dollars, what unconventional thing would you buy?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> had a million dollars, what unconventional thing would they buy?",
     fakeAnswers: [
       "an unconventional house",
@@ -1200,7 +1200,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the biggest problem facing humanity today?",
-    tags: ["classic", "corporate"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "According to <PLAYER>, what is the biggest problem facing humanity today?",
     fakeAnswers: [
       "bad stuff",
@@ -1211,7 +1211,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's something you've learned about yourself in the past three months?",
-    tags: ["corporate"],
+    tags: ["corporate", "frp"],
     quizText: "What's something <PLAYER> has learned about themselves in the past three months?",
     fakeAnswers: [
       "nothing",
@@ -1222,7 +1222,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is your most impressive skill?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is <PLAYER>'s most impressive skill?",
     fakeAnswers: [
       "Beatboxing",
@@ -1233,7 +1233,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What makes you feel nostalgic?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "frp"],
     quizText: "What makes <PLAYER> feel nostalgic?",
     fakeAnswers: [
       "the autumn",
@@ -1244,7 +1244,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What inspires you?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What inspires <PLAYER>?",
     fakeAnswers: [
       "nothing",
@@ -1255,7 +1255,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What mobile game do you play the most?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What mobile game does <PLAYER> play the most?",
     fakeAnswers: [
       "Candy Crush",
@@ -1266,7 +1266,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What video game do you play the most?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What video game does <PLAYER> play the most?",
     fakeAnswers: [
       "Zelda",
@@ -1277,7 +1277,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What game did you play the most as a kid?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What game did <PLAYER> play the most as a kid?",
     fakeAnswers: [
       "Monopoly",
@@ -1299,7 +1299,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had to become a plant, which plant would you be?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "fun", "frp"],
     quizText: "If <PLAYER> had to become a plant, which plant would they be?",
     fakeAnswers: [
       "tree",
@@ -1310,7 +1310,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the first thing you thought when you woke up this morning?",
-    tags: [ "fun"],
+    tags: ["fun", "frp"],
     quizText: "What is the first thing <PLAYER> thought when they woke up this morning?",
     fakeAnswers: [
       "I'm hungry",
@@ -1332,7 +1332,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What trivia category could you absolutely crush?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What trivia category could <PLAYER> absolutely crush?",
     fakeAnswers: [
       "US History",
@@ -1343,7 +1343,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What are you planning to eat next?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "fun", "frp"],
     quizText: "What is <PLAYER> planning to eat next?",
     fakeAnswers: [
       "dinner",
@@ -1354,7 +1354,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had to become a supernatural creature, which creature would you choose?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "fun", "frp"],
     quizText: "If <PLAYER> had to become a supernatural creature, which creature would they choose?",
     fakeAnswers: [
       "vampire",
@@ -1365,7 +1365,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What non-alcoholic drink best represents you as a person?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What non-alcoholic drink best represents <PLAYER> as a person?",
     fakeAnswers: [
       "juice",
@@ -1376,7 +1376,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the best bird?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "According to <PLAYER>, what is the best bird?",
     fakeAnswers: [
       "im the biggest bird",
@@ -1387,7 +1387,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you had vanity license plates, what would they say?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> had vanity license plates, what would they say?",
     fakeAnswers: [
       "IM GR8",
@@ -1398,7 +1398,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's something you think is underrated?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's something <PLAYER> thinks is underrated?",
     fakeAnswers: [
       "Marvel Movies",
@@ -1409,7 +1409,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's something you think is overrated?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What's something <PLAYER> thinks is overrated?",
     fakeAnswers: [
       "Marvel Movies",
@@ -1420,7 +1420,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What makes you feel grateful?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What makes <PLAYER> feel grateful?",
     fakeAnswers: [
       "my family",
@@ -1431,7 +1431,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What has made you smile recently?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What has made <PLAYER> smile recently?",
     fakeAnswers: [
       "Pizza",
@@ -1442,7 +1442,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What possession is the most valuable to you?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What possession is the most valuable to <PLAYER>?",
     fakeAnswers: [
       "my phone",
@@ -1453,7 +1453,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's the worst advice you could ever give?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What's the worst advice <PLAYER> could ever give?",
     fakeAnswers: [
       "Don't quit your day job",
@@ -1464,7 +1464,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What subject could you teach as a college professor?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What subject could <PLAYER> teach as a college professor?",
     fakeAnswers: [
       "the office trivia",
@@ -1475,7 +1475,7 @@ const gptQuestions2 = [
   },
   { 
     text: "Where do you feel the most at home?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "Where does <PLAYER> feel the most at home?",
     fakeAnswers: [
       "at home",
@@ -1486,7 +1486,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the first concert you ever attended?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What is the first concert <PLAYER> ever attended?",
     fakeAnswers: [
       "Bruce Springsteen",
@@ -1497,7 +1497,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the best concert you ever attended?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What is the best concert <PLAYER> ever attended?",
     fakeAnswers: [
       "Bruce Springsteen",
@@ -1508,7 +1508,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What popular thing do you dislike the most?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What popular thing does <PLAYER> dislike the most?",
     fakeAnswers: [
       "MCU",
@@ -1519,7 +1519,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's an unpopular opinion you hold?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What's an unpopular opinion <PLAYER> holds?",
     fakeAnswers: [
       "life is good",
@@ -1530,7 +1530,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you did not have to sleep, how would you spend the extra eight hours?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> did not have to sleep, how would they spend the extra eight hours?",
     fakeAnswers: [
       "sleeping anyway",
@@ -1541,7 +1541,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you could describe your life as a movie, what genre would it be?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> could describe your life as a movie, what genre would it be?",
     fakeAnswers: [
       "horror",
@@ -1552,7 +1552,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the least healthy thing you do?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What is the least healthy thing <PLAYER> does?",
     fakeAnswers: [
       "eat bad food",
@@ -1563,7 +1563,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the most healthy thing you do?",
-    tags: ["fun"],
+    tags: ["fun", "corporate", "frp"],
     quizText: "What is the most healthy thing <PLAYER> does?",
     fakeAnswers: [
       "Run",
@@ -1574,7 +1574,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What current fact about you would most impress your five-year-old self?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What current fact about <PLAYER> would most impress their five-year-old self?",
     fakeAnswers: [
       "I have a job",
@@ -1585,7 +1585,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is your favorite condiment or sauce?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What is <PLAYER>'s favorite condiment or sauce?",
     fakeAnswers: [
       "ketchup",
@@ -1596,8 +1596,8 @@ const gptQuestions2 = [
   },
   { 
     text: "How would other people describe you?",
-    tags: ["corporate"],
-    quizText: "How would other people describe <PLAYER>?",
+    tags: ["corporate", "frp"],
+    quizText: "How does <PLAYER> think other people would describe them?",
     fakeAnswers: [
       "i do not know",
       "quiet",
@@ -1607,7 +1607,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What question would you ask a psychic?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "What question would <PLAYER> ask a psychic?",
     fakeAnswers: [
       "no question",
@@ -1618,7 +1618,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What question would you ask someone to get to know them?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What question would <PLAYER> ask someone to get to know them?",
     fakeAnswers: [
       "How are you?",
@@ -1629,7 +1629,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is the best present someone could bring you for a housewarming?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What is the best present someone could bring <PLAYER> for a housewarming?",
     fakeAnswers: [
       "an armani suit",
@@ -1640,7 +1640,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What is something that never fails to bring you joy?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What is something that never fails to bring <PLAYER> joy?",
     fakeAnswers: [
       "nothing",
@@ -1651,7 +1651,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you were a kitchen utensil, which one would you be?",
-    tags: ["classic", "fun"],
+    tags: ["classic", "fun", "frp"],
     quizText: "If <PLAYER> were a kitchen utensil, which one would they be?",
     fakeAnswers: [
       "fork",
@@ -1662,7 +1662,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you wrote an autobiography, what would be the title?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "If <PLAYER> wrote an autobiography, what would be the title?",
     fakeAnswers: [
       "The Alan Partridge Story",
@@ -1673,7 +1673,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What new habit would you most like to start?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "fun", "frp"],
     quizText: "What new habit would <PLAYER> most like to start?",
     fakeAnswers: [
       "daily meditation",
@@ -1684,7 +1684,7 @@ const gptQuestions2 = [
   },
   { 
     text: "How are you feeling right now?",
-    tags: ["fun"],
+    tags: ["fun", "frp"],
     quizText: "How is <PLAYER> feeling right now?",
     fakeAnswers: [
       "idk",
@@ -1695,7 +1695,7 @@ const gptQuestions2 = [
   },
   { 
     text: "If you walked into a room with everyone you've ever met in it, who would you try to find?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "If <PLAYER> walked into a room with everyone they'd ever met in it, who would they try to find?",
     fakeAnswers: [
       "my mom",
@@ -1706,7 +1706,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What was your favorite breakfast as a kid?",
-    tags: ["corporate"],
+    tags: ["corporate", "frp"],
     quizText: "What was <PLAYER>'s favorite breakfast as a kid?",
     fakeAnswers: [
       "Cocoa puffs",
@@ -1717,7 +1717,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What interests did you have as a child that you still have today?",
-    tags: ["corporate", "fun"],
+    tags: ["corporate", "fun", "frp"],
     quizText: "What interests did <PLAYER> have as a child that they still have today?",
     fakeAnswers: [
       "music",
@@ -1728,7 +1728,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What interests did you have as a child that you no longer have?",
-    tags: ["fun"],
+    tags: ["frp"],
     quizText: "What interests did <PLAYER> have as a child that they no longer have?",
     fakeAnswers: [
       "idk",
@@ -1739,7 +1739,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What cartoon would you most want to watch on a Saturday morning?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What cartoon would <PLAYER> most want to watch on a Saturday morning?",
     fakeAnswers: [
       "Batman",
@@ -1750,7 +1750,7 @@ const gptQuestions2 = [
   },
   { 
     text: "What's a subject you think they should teach in school?",
-    tags: ["classic", "classroom", "corporate", "fun"],
+    tags: ["classic", "classroom", "corporate", "fun", "frp"],
     quizText: "What's a subject <PLAYER> thinks they should teach in school?",
     fakeAnswers: [
       "doing taxes",
@@ -1761,7 +1761,7 @@ const gptQuestions2 = [
   },
   {
     text: "What accomplishment makes you feel the most pride?",
-    tags: ["classic", "corporate", "fun"],
+    tags: ["classic", "corporate", "frp"],
     quizText: "What accomplishment makes <PLAYER> feel the most pride?",
     fakeAnswers: [
       "My family",
@@ -1849,6 +1849,476 @@ const gptQuestions2 = [
       "vote",
       "go to college",
     ]
+  },
+  {
+    text: "How do you think life came to be?",
+    tags: ["frp"],
+    quizText: "How does <PLAYER> think life came to be?",
+    fakeAnswers: ["The big bang", "evolution", "God created it", "i have literally no idea", "We are living in a simulation"]
+  },
+  {
+    text: "What do you think happens when we die?",
+    tags: ["frp"],
+    quizText: "What does <PLAYER> think happens when we die?",
+    fakeAnswers: ["depends", "nothing", "Reincarnation", "We become one with the universe"]
+  },
+  {
+    text: "What separates art from entertainment?",
+    tags: ["frp"],
+    quizText: "According to <PLAYER>, what separates art from entertainment?",
+    fakeAnswers: ["Nothing, all entertainment is art", "Intentionality", "entertainment focuses on profit", "art is meaningful"], 
+  },
+  {
+    text: "What is the meaning of art?",
+    tags: ["frp"],
+    quizText: "According to <PLAYER>, what is the meaning of art?",
+    fakeAnswers: [
+      "to express emotions and evoke feelings",
+      "Art is a reflection of society and culture",
+      "there is no single meaning, it's subjective",
+      "Exploration of the human experience",
+    ],
+  },
+  
+  {
+    text: "What's one thing you wish you could say to someone, but haven't found the right moment?",
+    tags: ["frp"],
+    quizText: "What's one thing <PLAYER> wishes they could say to someone, but haven't found the right moment?",
+    fakeAnswers: [
+      "I love you",
+      "I'm sorry for hurting you",
+      "You inspire me",
+      "Thank you for being there for me",
+    ],
+  },
+  {
+    text: "What's one thing that's troubling you right now?",
+    tags: ["frp"],
+    quizText: "What's one thing that's troubling <PLAYER> right now?",
+    fakeAnswers: [
+      "my career",
+      "my self-esteem",
+      "money",
+      "if i will ever be happy",
+    ],
+  },
+  {
+    text: "If you could change the past, what would you alter?",
+    tags: ["frp"],
+    quizText: "If <PLAYER> could change the past, what would they alter?",
+    fakeAnswers: ["No more WWII", "nothing", "invest in Nike", "remove colonialism"],
+  }, 
+  {
+    text: "What has been the biggest turning point in your life?",
+    tags: ["frp"],
+    quizText: "What has been the biggest turning point in <PLAYER>'s life?",
+    fakeAnswers: [
+      "When I started high school",
+      "when i moved away",
+      "college graduation"
+    ]
+  },
+  {
+    text: "What is your mother's maiden name?",
+    tags: ["frp"],
+    quizText: "What is <PLAYER>'s mother's maiden name?",
+    fakeAnswers: [
+      "not telling",
+      "idk",
+      "n/a"
+    ]
+  },
+  {
+    text: "What is your social security number?",
+    tags: ["frp"],
+    quizText: "What is <PLAYER>'s social security number?",
+    fakeAnswers: [
+      "925-94-2039",
+      "no",
+      "not telling"
+    ]
+  },
+  {
+    text: "Which fruit best represents you as a person?",
+    tags: ["frp", "fun"],
+    quizText: "Which fruit best represents <PLAYER> as a person?",
+    fakeAnswers: [
+      "Pineapple",
+      "banana",
+      "Starfruit (im a star)",
+      "Cocomelon"
+    ]
+  },
+  {
+    text: "a/s/l",
+    tags: ["frp"],
+    quizText: "How did <PLAYER> answer this question? 'a/s/l'",
+    fakeAnswers: [
+      "29,m,cleveland",
+      "14/f/usa",
+      "19 nb phillipines",
+      "50000000000/nb/non-dimensional"
+    ]
+  },
+  {
+    text: "What would you say if you were trying to make someone laugh?",
+    tags: ["frp", "fun"],
+    quizText: "What would <PLAYER> say if they were trying to make someone laugh?",
+    fakeAnswers: [
+      "nothing",
+      "idk",
+      "i would just start laughing"
+    ]
+  },
+  {
+    text: "What is God?",
+    tags: ["frp"],
+    quizText: "According to <PLAYER>, what is God?",
+    fakeAnswers: [
+      "nothing",
+      "idk",
+      "everything"
+    ]
+  },
+  {
+    text: "If you found out you were living in a simulation, how would you try to escape?",
+    tags: ["frp", "fun"],
+    quizText: "If <PLAYER> found out they were living in a simulation, how would they try to escape?",
+    fakeAnswers: [
+      "i wouldnt'",
+      "No",
+      "Leave"
+    ]
+  },
+  {
+    text: "What's the weirdest movie you've ever seen?",
+    quizText: "What's the weirdest movie <PLAYER> has ever seen?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "holy mountain",
+      "never saw one"
+    ],
+  },
+  {
+    text: "What would be your elevator pitch to aliens for why they should abduct you?",
+    quizText: "What would be <PLAYER>'s elevator pitch to aliens for why they should abduct them?",
+    tags: ["frp", "fun"],
+    fakeAnswers: [
+      "idk",
+      "nutrients",
+      "please take me"
+    ],
+  },
+  {
+    text: "In your opinion, what's the funniest word in the English language?",
+    quizText: "In <PLAYER>'s opinion, what's the funniest word in the English language?",
+    tags: ["frp", "fun"],
+    fakeAnswers: [
+      "idk",
+      "lol",
+      "sop"
+    ],
+  },
+  {
+    text: "What's your hottest take?",
+    quizText: "What's <PLAYER>'s hottest take?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "babies should vote",
+      "over the garden wall? more like over the rated show"
+    ],
+  },
+  {
+    text: "If you were a sitcom character, what would be your catchphrase?",
+    quizText: "If <PLAYER> were a sitcom character, what would be their catchphrase?",
+    tags: ["frp", "fun"],
+    fakeAnswers: [
+      "idk",
+      "ayyyy (fonz)",
+      "If anyone needs me, i'll be in my room"
+    ],
+  },
+  {
+    text: "What's the most embarrassing thing you've ever done?",
+    quizText: "What's the most embarrassing thing <PLAYER> has ever done?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "every school dance"
+    ],
+  },
+  {
+    text: "How was your week?",
+    quizText: "How was <PLAYER>'s week?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "fine",
+      "not bad"
+    ],
+  },
+  {
+    text: "What's your least favorite shape of pasta?",
+    quizText: "What's <PLAYER>'s least favorite shape of pasta?",
+    tags: ["fun"],
+    fakeAnswers: [
+      "idk",
+      "fusili",
+      "spaghetti"
+    ],
+  },
+  {
+    text: "What was your last Halloween costume?",
+    quizText: "What was <PLAYER>'s last Halloween costume?",
+    tags: ["frp", "classroom", "classic", "fun"],
+    fakeAnswers: [
+      "none",
+      "the bear",
+      "barbarella"
+    ],
+  },
+  {
+    text: "How long can you hold your breath?",
+    quizText: "How long can <PLAYER> hold their breath?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "0",
+      "one second"
+    ],
+  },
+  {
+    text: "What is the biggest lie you have ever told?",
+    quizText: "What is the biggest lie <PLAYER> has ever told?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "im actually italian",
+      "never lied"
+    ],
+  },
+  {
+    text: "What matters?",
+    quizText: "According to <PLAYER>, what matters?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "everything"
+    ],
+  },
+  {
+    text: "What do you think about meditation?",
+    quizText: "What does <PLAYER> think about meditation?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "it is cool"
+    ],
+  },
+  {
+    text: "What is the last thing you lied about?",
+    quizText: "What is the last thing <PLAYER> lied about?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "NOTOHING",
+      "being happy"
+    ],
+  },
+  {
+    text: "What have you been hiding all those years?",
+    quizText: "What has <PLAYER> been hiding all those years?",
+    tags: ["deep"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "my shameful obsession with donuts"
+    ],
+  },
+  {
+    text: "What is the last thing you lied to your mom about?",
+    quizText: "What is the last thing <PLAYER> lied to their mom about?",
+    tags: ["deep"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "i brushed my teeth"
+    ],
+  },
+  {
+    text: "What's the biggest mistake you've made?",
+    quizText: "What's the biggest mistake <PLAYER> has made?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "moving away",
+      "going to college"
+    ],
+  },
+  {
+    text: "What is the worst pain you have ever been in?",
+    quizText: "What is the worst pain <PLAYER> has ever been in?",
+    tags: ["deep"],
+    fakeAnswers: [
+      "idk",
+      "childbirth",
+      "i hit my tooth on a rail"
+    ],
+  },
+  {
+    text: "What are you still trying to prove to yourself?",
+    quizText: "What is <PLAYER> still trying to prove to themselves?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "i deserve love",
+      "nothing"
+    ],
+  },
+  {
+    text: "What is your most defining personality trait?",
+    quizText: "What is <PLAYER>'s most defining personality trait?",
+    tags: ["frp", "corporate"],
+    fakeAnswers: [
+      "idk",
+      "glasses",
+      "coffee"
+    ],
+  },
+  {
+    text: "What is the hardest part about dating you?",
+    quizText: "What does <PLAYER> think is the hardest part about dating them?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "im emotionally unavailable!!"
+    ],
+  },
+  {
+    text: "What question are you trying to answer in your life right now?",
+    quizText: "What question is <PLAYER> trying to answer in their life right now?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "where do i go",
+      "what should i do"
+    ],
+  },
+  {
+    text: "What would you tell your younger self?",
+    quizText: "What would <PLAYER> tell their younger self?",
+    tags: ["frp", "corporate"],
+    fakeAnswers: [
+      "idk",
+      "hi",
+      "you will be happy"
+    ],
+  },
+  {
+    text: "When was the last time you cried?",
+    quizText: "When was the last time <PLAYER> cried?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "neva cried",
+      "two days ago"
+    ],
+  },
+  {
+    text: "What are you better at than most people you know?",
+    quizText: "What is <PLAYER> better at than most people they know?",
+    tags: ["frp", "fun"],
+    fakeAnswers: [
+      "idk",
+      "guitar",
+      "eating a lot of cookies"
+    ],
+  },
+  {
+    text: "What do you want to change in your personality right now?",
+    quizText: "What does <PLAYER> want to change in their personality right now?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "my emotional issues"
+    ],
+  },
+  {
+    text: "What are you afraid to admit?",
+    quizText: "What is <PLAYER> afraid to admit?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "i don't like th ebeach boys"
+    ],
+  },
+  {
+    text: "What is a skill or strength you possess that you feel is underutilized in your current role?",
+    quizText: "What is a skill or strength <PLAYER> possesses that they feel is underutilized in their current role?",
+    tags: ["corporate"],
+    fakeAnswers: [
+      "My attention to detail",
+      "presentation skills",
+      "Technical skills"
+    ],
+  },
+  {
+    text: "Reflecting on your career, what has been the most valuable lesson you've learned so far?",
+    quizText: "Reflecting on their career, what has been the most valuable lesson <PLAYER> has learned so far?",
+    tags: ["corporate"],
+    fakeAnswers: [
+      "Failure is a step to success",
+      "Accept change",
+      "Nothing"
+    ],
+  },
+  {
+    text: "What do you do to handle work-life balance and maintain well-being?",
+    quizText: "What does <PLAYER> do to handle work-life balance and maintain well-being?",
+    tags: ["corporate"],
+    fakeAnswers: [
+      "I don't",
+      "Family always comes first",
+      "I set boundaries"
+    ],
+  },
+  {
+    text: "What excites you most about the future?",
+    quizText: "What excites <PLAYER> most about the future?",
+    tags: ["frp", "corporate", "fun"],
+    fakeAnswers: [
+      "idk",
+      "life",
+      "my friends"
+    ],
+  },
+  {
+    text: "What is the most fun you've ever had?",
+    quizText: "What is the most fun <PLAYER> has ever had?",
+    tags: ["frp", "classroom", "classic"],
+    fakeAnswers: [
+      "idk",
+      "being a kid at the beach",
+      "cedar point 1998"
+    ],
+  },
+  {
+    text: "What do you think about all the time?",
+    quizText: "What does <PLAYER> think about all the time?",
+    tags: ["frp"],
+    fakeAnswers: [
+      "idk",
+      "nothing",
+      "everybody loves raymond"
+    ],
   },
 ];
 

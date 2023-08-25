@@ -28,6 +28,15 @@ export default function HostOpen(props: IOpenProps) {
     setShowCustom(false);
   }
 
+  async function onCustomSet() {
+    const mode = prompt("Enter the name of a question set to play:");
+    if (mode) {
+      onHost(mode);
+    } else {
+      alert(":( ok");
+    }
+  }
+
   const openButtons = (
     <>
       <HostOpenButton
@@ -74,14 +83,27 @@ export default function HostOpen(props: IOpenProps) {
         disabled={false}
         bgImage={"radial-gradient(circle, var(--main-super-light), var(--main-light))"}
       />
-      <HostOpenButton
-        symbol={"🥳"}
-        title={"party"}
-        description={"Just wanna chill? This is the set for you."}
-        onClick={() => onHost("fun")}
-        disabled={false}
-        bgImage={"radial-gradient(circle, var(--right-super-light), var(--right-light))"}
-      />
+      <div style={{display: "flex", flexDirection: "column", height: "100%", gap: "40px", width: "30vw"}}>
+        <HostOpenButton
+          size="sm"
+          symbol={"🥳"}
+          title={"party"}
+          description={"Just wanna chill? This is the set for you."}
+          onClick={() => onHost("fun")}
+          disabled={false}
+          bgImage={"radial-gradient(circle, var(--right-super-light), var(--right-light))"}
+        />
+        <HostOpenButton
+          size="sm"
+          symbol={"❓"}
+          title={"other"}
+          description={"Is there another question set you'd like to try? Enter it here."}
+          onClick={onCustomSet}
+          disabled={false}
+          bgImage={"radial-gradient(circle, #FFF, #FFB)"}
+        />
+      </div>
+
     </>
   );
 
@@ -117,7 +139,8 @@ export default function HostOpen(props: IOpenProps) {
         alignItems: "center",
         justifyContent: "center",
         verticalAlign: "middle",
-        margin: "auto",
+        margin: "0 10px",
+        width: "100vw",
       }}
     >
       <div
@@ -125,7 +148,11 @@ export default function HostOpen(props: IOpenProps) {
           display: "flex",
           justifyContent: "center",
           verticalAlign: "middle",
-          margin: "auto",
+          margin: "5vh auto 2vh auto",
+          maxWidth: "1400px",
+          gap: "40px",
+          height: "65vh",
+
         }}
       >
         {showCustom ? customButtons : openButtons}
