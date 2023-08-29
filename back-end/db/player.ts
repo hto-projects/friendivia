@@ -4,6 +4,9 @@ import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import Player from '../models/Player.ts'
 import IGame from '../interfaces/IGame.ts';
 import IGuess from '../interfaces/IGuess.ts';
+import Game from '../models/Game.ts';
+import hostDb from './host.ts';
+import { PlayerQuestionnaire, PlayerQuestionnaireQuestion } from '../interfaces/IQuestionnaireQuestion.ts';
 
 type Score = { name: string, score: number };
 
@@ -54,7 +57,7 @@ export default {
     }
   },
 
-  getPlayer: async (playerId: string): Promise<any> => {
+  getPlayer: async (playerId: string): Promise<IPlayer | null> => {
     try {
       const player = await Player.findOne({id: playerId});
       return player;
@@ -116,13 +119,33 @@ export default {
       console.error(`Issue updating player state: ${e}`);
     }},
 
-  playerCompleteQuestionnaire: async (playerId: string, questionnaireAnswers: string[]): Promise<any> => {
+  playerCompleteQuestionnaire: async (player: IPlayer, questionnaireAnswers: string[]): Promise<any> => {
     try {
+      const game: IGame | null = await hostDb.getGameData(player.gameId);
+      if (!game) {
+        return;
+      }
+
+      const questionnaireForPlayer: PlayerQuestionnaire | undefined = game.playerQuestionnaires.find(pq => pq.playerId === player.id);
+      if (!questionnaireForPlayer) {
+        return;
+      }
+
+      for (let i = 0; i < questionnaireForPlayer.questions.length; i++) {
+        const pqq: PlayerQuestionnaireQuestion = questionnaireForPlayer.questions[i];
+        pqq.answer = questionnaireAnswers[i];
+      }
+
+      await Game.updateOne({
+        id: player.gameId, 'playerQuestionnaires.playerId': player.id
+      }, {
+        $set: { 'playerQuestionnaires.$': questionnaireForPlayer }
+      });
+
       await Player.updateOne({
-        id: playerId
+        id: player.id
       }, { 
-        $set: { 
-          'questionnaireAnswers': questionnaireAnswers,
+        $set: {
           'playerState.state': 'submitted-questionnaire-waiting' 
         }
       });

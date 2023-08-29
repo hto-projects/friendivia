@@ -1,7 +1,8 @@
 import Question from "../models/Question.ts";
-import IQuestionnaireQuestion from "../interfaces/IQuestionnaireQuestion";
-import baseQuestions from "../db/basequestions.ts";
-import question from "../db/question.ts";
+import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestion } from "../interfaces/IQuestionnaireQuestion";
+import questionDb from "../db/question.ts";
+import { shuffle } from './utils.ts';
+import { ObjectId } from "mongoose";
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -11,6 +12,15 @@ export default {
         } catch (e) {
             console.error(`Issue getting questions: ${e}`);
             return [];
+        }
+    },
+    getQuestionById: async (questionId: ObjectId): Promise<IQuestionnaireQuestion | null> => {
+        try {
+            const question: IQuestionnaireQuestion | null = await Question.findById(questionId);
+            return question;
+        } catch (e) {
+            console.error(`Issue getting question: ${e}`);
+            return null;
         }
     },
     addQuestion: async (question: IQuestionnaireQuestion): Promise<any> => {
@@ -41,6 +51,20 @@ export default {
             return [];
         }
     },
+    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<any> => {
+        let questions = [];
+        if (customMode) {
+            questions = await Question.find({ tags: customMode });
+            if (questions.length < numQuestions) {
+                questions = await Question.find();
+            }
+        } else {
+            questions = await Question.find();
+        }
+        
+        shuffle(questions);
+        return questions.slice(0, numQuestions);
+    },
     getRandomQuestions: async (numQuestions: number, customQuestions: IQuestionnaireQuestion[], prioritizeCustomQs: boolean): Promise<any> => {
         try {
             var questions;
@@ -48,9 +72,9 @@ export default {
             if (prioritizeCustomQs === true) {
                 const length = numQuestions - customQuestions.length;
                 if (customQuestions.length >= numQuestions){
-                    questions = await question.getRandomCustomQuestions(numQuestions, customQuestions);
+                    questions = await questionDb.getRandomCustomQuestions(numQuestions, customQuestions);
                 } else if (customQuestions.length != 0) {
-                    questions = await question.getRandomCustomQuestions(customQuestions.length, customQuestions);
+                    questions = await questionDb.getRandomCustomQuestions(customQuestions.length, customQuestions);
                     const additionalQuestions = await Question.aggregate([{ $sample: { size: length } }]);
                     additionalQuestions.forEach(question => {
                         questions.push(question);
@@ -64,7 +88,7 @@ export default {
                 customQuestions.forEach(question => {
                     allQuestions.push(question);
                 });
-                questions = await question.getRandomCustomQuestions(numQuestions, allQuestions);
+                questions = await questionDb.getRandomCustomQuestions(numQuestions, allQuestions);
             }
             
             for (var i = 0; i < questions.length; i++) {
@@ -80,25 +104,25 @@ export default {
             return [];
         }
     },
-    addBaseQuestions: async (): Promise<any> => {      
-            baseQuestions.forEach(async (thisQuestion) => {
-                var formattedQuestion: IQuestionnaireQuestion = {
-                    text: thisQuestion.text,
-                    quizText: thisQuestion.quizText,
-                    fakeAnswers: thisQuestion.fakeAnswers
-                  }
-                question.addQuestion(formattedQuestion);
-            });
-    },
     deleteAllQuestions: async (): Promise<any> => {
         try {
           await Question.deleteMany({});
         } catch (e) {
           console.error(`Issue deleting all games: ${e}`);
         }
-      }
+      },
+    getQuestionnaireQuestionsText: async function(questionnaire: PlayerQuestionnaire): Promise<string[]> {
+        const questionnaireQuestionsText: Array<string> = [];
+        for (let j = 0; j < questionnaire.questions.length; j++) {
+          const pqq: PlayerQuestionnaireQuestion = questionnaire.questions[j];
+          const question: IQuestionnaireQuestion | null = await questionDb.getQuestionById(pqq.questionId);
+          if (!question) {
+            continue;
+          }
+
+          questionnaireQuestionsText.push(question.text);
+        }
+
+        return questionnaireQuestionsText;
+    }
 };
-
-
-
-

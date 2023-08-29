@@ -20,7 +20,7 @@ import lobbyMusic from "../assets/audio/theme.mp3";
 import PlayAudio from "../PlayAudio";
 import musicOn from "../assets/musicon.png";
 import musicOff from "../assets/musicoff.png";
-import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import { IQuestionnaireQuestion } from "back-end/interfaces/IQuestionnaireQuestion";
 import {
   HostAnnouncementQueue,
   AddAnnouncementContext,
@@ -41,6 +41,7 @@ export default function HostApp(props: IHostProps) {
     settingsIdFromStorage
   );
   const [gameState, setGameState] = React.useState<string>("init");
+  const [customMode, setCustomMode] = React.useState<string>("classic");
   const [settingsState, setSettingsState] = React.useState<boolean>(false);
   const [quizQuestions, setQuizQuestions] = React.useState<IQuizQuestion[]>([]);
   const [
@@ -114,6 +115,7 @@ export default function HostApp(props: IHostProps) {
       setLoaded(true);
       setGameId(data.id);
       setGameState(data.gameState.state);
+      setCustomMode(data.customMode);
       setQuizQuestions(data.quizQuestions);
       setCurrentQuizQuestionIndex(data.currentQuestionIndex);
       setQuizQuestionGuesses(data.quizQuestionGuesses);
@@ -179,9 +181,18 @@ export default function HostApp(props: IHostProps) {
   }, [gameId, setGameId, gameState, setGameState]);
 
   function getElementForState(state: string, settingsState: boolean) {
+    if (state === "pre-questionnaire") {
+      return (
+        <>
+          <Speak text="Get ready..." />
+          <p style={{ fontSize: "1.5em" }}>Get ready...</p>
+        </>
+      );
+    }
+
     if (state === "lobby") {
       socket.emit("reload-players");
-      return <HostLobby socket={socket} gameId={gameId} />;
+      return <HostLobby socket={socket} gameId={gameId} classroomGame={customMode === "classroom"} />;
     } else if (state === "questionnaire") {
       return (
         <HostQuestionnaire

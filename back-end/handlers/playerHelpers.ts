@@ -31,6 +31,10 @@ export default {
         }
       });      
       const updatedPlayer = await playerDb.getPlayer(player.id);
+      if (!updatedPlayer) {
+        return;
+      }
+
       io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}   
   },
      
@@ -54,7 +58,11 @@ export default {
             'playerState.state': state
           }
         });
+
         const updatedPlayer = await playerDb.getPlayer(player.id);
+        if (!updatedPlayer) {
+          return;
+        }
 
         io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
       }

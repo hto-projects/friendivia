@@ -5,7 +5,7 @@ import { Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
-import IQuestionnaireQuestion from "back-end/interfaces/IQuestionnaireQuestion";
+import { IQuestionnaireQuestion } from "back-end/interfaces/IQuestionnaireQuestion";
 import IPlayer from "back-end/interfaces/IPlayer";
 
 interface ISettingsProps {
@@ -85,10 +85,9 @@ export default function HostSettings(props: ISettingsProps) {
   }, [timePerLeaderboard, setTimePerLeaderboard]);
 
   const addCustomQuestion = () => {
-    setAddedQuestions((prevQuestions) => [
-      { text: "", quizText: "", fakeAnswers: ["", "", "", ""] }, 
-      ...prevQuestions
-    ]);
+    setAddedQuestions((prevQuestions: IQuestionnaireQuestion[]) =>
+      [{ id: "", text: "", quizText: "", fakeAnswers: [], tags: [] }, ...prevQuestions]
+    );
   };
 
   const removeCustomQuestion = (index: number) => {

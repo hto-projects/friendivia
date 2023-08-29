@@ -3,12 +3,14 @@ import IPreGameSettings from '../interfaces/IPreGameSettings.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import Game from '../models/Game.ts';
 import PreGameSettings from '../models/PreGameSettings.ts';
-import utilDb from '../db/utils.ts';
+import * as utilDb from '../db/utils.ts';
 import IQuizQuestion from '../interfaces/IQuizQuestion.ts';
 import playerDb from '../db/player.ts';
 import * as uuid from 'uuid';
 import Player from '../models/Player.ts';
 import friendsQuestions from './friendsTriviaQuestions.ts';
+import IPlayer from '../interfaces/IPlayer.ts';
+import { PlayerQuestionnaire } from '../interfaces/IQuestionnaireQuestion.ts';
 
 export default {
   getAllGameIds: async (): Promise<number[]> => {
@@ -31,7 +33,7 @@ export default {
     }
   },
 
-  hostOpenGame: async function(socketId: string): Promise<number> {
+  hostOpenGame: async function(socketId: string, customMode: string): Promise<number> {
     try {
       const timePerQuestion = 15;
       const numQuestionnaireQuestions = 5;
@@ -59,7 +61,7 @@ export default {
           message: ''
         },
         hostSocketId: socketId,
-        questionnaireQuestions: [],
+        playerQuestionnaires: [],
         quizQuestions: [],
         currentQuestionIndex: -1,
         settings: {
@@ -71,7 +73,8 @@ export default {
           timePerLeaderboard: timePerLeaderboard,
           prioritizeCustomQs: prioritizeCustomQs,
           customQuestions: customQuestions
-        }
+        },
+        customMode: customMode
       };
 
       const newGame = new Game(newGameObject);
@@ -114,30 +117,45 @@ export default {
     }
   },
 
-  moveGameToQuestionnaire: async function(gameId: number, questions?: number): Promise<any> {
+  moveGameToQuestionnaire: async function(gameId: number): Promise<PlayerQuestionnaire[]> {
     try {
-      const data: IGame | null = await this.getGameData(gameId);
-      const players = await playerDb.getPlayers(gameId);
-      const prioritizeCustomQs = data?.settings.prioritizeCustomQs;
-      const customQuestions = data?.settings.customQuestions;
-      const questionsWithOptions = await utilDb.createQuestionnaireQuestionsWithOptions(players, prioritizeCustomQs, questions, customQuestions);
-      const questionnaireQuestionsText = await questionsWithOptions.map(q => q.text);
+      const players: IPlayer[] = await playerDb.getPlayers(gameId);
+      const game: IGame | null = await this.getGameData(gameId);
+      if (!game) {
+        return [];
+      }
+
+      const questionnaires: PlayerQuestionnaire[] = await utilDb.createQuestionnairesForPlayers(players, game.customMode);
       await this.setGameState(gameId, GameStates.Questionnaire);
+
       await Game.updateOne({id: gameId}, {
-        $set: { 'questionnaireQuestions': questionsWithOptions }
+        $set: { 'playerQuestionnaires': questionnaires }
       });
 
-      
-      return questionnaireQuestionsText;
+      return questionnaires;
     } catch (e) {
       console.error(`Issue moving game to questionnaire: ${e}`);
+      return [];
     }
   },
 
-  buildQuiz: async (gameId: number, questionnaireQuestions: any, numQuizQuestions: number): Promise<IQuizQuestion[]> => {
-    const players = await playerDb.getPlayersWithQuestionnairesCompleted(gameId, questionnaireQuestions.length);
-    const quizQuestions = await utilDb.generateQuiz(players, questionnaireQuestions, numQuizQuestions);
-    await Game.updateOne({ id: gameId }, {
+  getPlayerQuestionnaires: async function(gameId: number): Promise<PlayerQuestionnaire[]> {
+    try {
+      const game: IGame | null = await this.getGameData(gameId);
+      if (!game) {
+        return [];
+      }
+
+      return game.playerQuestionnaires;
+    } catch (e) {
+      console.error(`Issue retrieving player questionnaires: ${e}`);
+      return [];
+    }
+  },
+
+  buildQuiz: async (game: IGame): Promise<IQuizQuestion[]> => {
+    const quizQuestions: IQuizQuestion[] = await utilDb.createQuiz(game.playerQuestionnaires);
+    await Game.updateOne({ id: game.id }, {
       $set: { 'quizQuestions': quizQuestions }
     });
 

@@ -7,18 +7,16 @@ import { GameStates } from '../interfaces/IGameState.ts';
 import IGame from '../interfaces/IGame.ts';
 import IPreGameSettings from '../interfaces/IPreGameSettings.ts';
 import Game from '../models/Game.ts';
-import q from '../db/question.ts';
-import hostHelpers from './hostHelpers.ts';
+import * as hostHelpers from './hostHelpers.ts';
 import Player from '../models/Player.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
 import PreGameSettings from '../models/PreGameSettings.ts';
 
 var PreSettingsId;
 export default (io, socket: Socket) => {
-  const onHostOpen = async () => {
+  const onHostOpen = async (customMode: string) => {
     try {
-      const newGameId = await hostDb.hostOpenGame(socket.id);
-      await q.addBaseQuestions();
+      const newGameId = await hostDb.hostOpenGame(socket.id, customMode);
       socket.emit('host-open-success', newGameId);
     } catch (e) {
       socket.emit('host-open-error', e);
@@ -92,17 +90,9 @@ export default (io, socket: Socket) => {
 
   const onHostStart = async (gameId) => {
     try {
-      if ((await playerDb.getPlayers(gameId)).length >= 2) {
-        const data: IGame | null = await hostDb.getGameData(gameId);
-        const numQuestionnaireQuestions = data?.settings.numQuestionnaireQuestions || 5;
-        const questionnaireQuestionsText = await hostDb.moveGameToQuestionnaire(gameId, numQuestionnaireQuestions);
-        await playerDb.updateAllPlayerStates(gameId, PlayerStates.FillingQuestionnaire, io, { questionnaireQuestionsText });
-        const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-        let playersInGame = await playerDb.getPlayers(gameId);
-        io.to(currentGameData?.hostSocketId).emit('host-next', {...currentGameData, playersInGame});
-      } else{console.log("Need at least two players")}
+      await hostHelpers.hostGoPreQuestionnaire(gameId, io);
     } catch (e) {
-      console.error(`Failed to go to questionnaire: ${e}`)
+      console.error('failed to start');
     }
   }
 

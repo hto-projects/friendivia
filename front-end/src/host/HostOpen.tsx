@@ -2,6 +2,7 @@ import * as React from "react";
 import "../style.css";
 import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
+import HostOpenButton from "../extra/HostOpenButton";
 
 interface IOpenProps {
   socket: Socket;
@@ -9,14 +10,128 @@ interface IOpenProps {
 
 export default function HostOpen(props: IOpenProps) {
   const { socket } = props;
+  const [showCustom, setShowCustom] = React.useState<boolean>(false);
 
-  async function onHost() {
-    socket.emit("host-open");
+  async function onHost(customGame: string) {
+    socket.emit("host-open", customGame);
   }
 
   async function onPreSettings() {
     socket.emit("host-pre-settings");
   }
+
+  async function onCustomGames() {
+    setShowCustom(true);
+  }
+
+  async function backToMain() {
+    setShowCustom(false);
+  }
+
+  async function onCustomSet() {
+    const mode = prompt("Enter the name of a question set to play:");
+    if (mode) {
+      onHost(mode);
+    } else {
+      alert(":( ok");
+    }
+  }
+
+  const openButtons = (
+    <>
+      <HostOpenButton
+        symbol={"⚙️"}
+        title={"custom"}
+        description={"Unique question sets for every occasion. Find the perfect game for you!"}
+        onClick={onCustomGames}
+        disabled={false}
+        bgImage={"radial-gradient(circle, var(--left-super-light), var(--left-light))"}
+      />
+      <HostOpenButton
+        symbol={"⚡"}
+        title={"classic"}
+        description={"Classic fun Friendivia gameplay. Let's start the game!"}
+        onClick={() => { onHost("classic") }}
+        disabled={false}
+        bgImage={"radial-gradient(circle, var(--main-super-light), var(--main-light))"}
+      />
+      <HostOpenButton
+        symbol={"🤖"}
+        title={"ai"}
+        description={"Coming Soon. Pick a theme and get unique questions powered by OpenAI!"}
+        disabled={true}
+        bgImage={"radial-gradient(circle, var(--right-super-light), var(--right-light))"}
+      />
+    </>
+  );
+
+  const customButtons = (
+    <>
+      <HostOpenButton
+        symbol={"🏫"}
+        title={"classroom"}
+        description={"School is in session! This is the perfect question set to engage a younger audience in a classroom setting."}
+        onClick={() => onHost("classroom")}
+        disabled={false}
+        bgImage={"radial-gradient(circle, var(--left-super-light), var(--left-light))"}
+      />
+      <HostOpenButton
+        symbol={"🏢"}
+        title={"corporate"}
+        description={"Ready for some team building? This question set is designed for optimal use in corporate environments."}
+        onClick={() => onHost("corporate")}
+        disabled={false}
+        bgImage={"radial-gradient(circle, var(--main-super-light), var(--main-light))"}
+      />
+      <div style={{display: "flex", flexDirection: "column", height: "100%", gap: "40px", width: "30vw"}}>
+        <HostOpenButton
+          size="sm"
+          symbol={"🥳"}
+          title={"party"}
+          description={"Just wanna chill? This is the set for you."}
+          onClick={() => onHost("fun")}
+          disabled={false}
+          bgImage={"radial-gradient(circle, var(--right-super-light), var(--right-light))"}
+        />
+        <HostOpenButton
+          size="sm"
+          symbol={"❓"}
+          title={"other"}
+          description={"Is there another question set you'd like to try? Enter it here."}
+          onClick={onCustomSet}
+          disabled={false}
+          bgImage={"radial-gradient(circle, #FFF, #FFB)"}
+        />
+      </div>
+
+    </>
+  );
+
+  const aboutButton = (
+    <Button
+      variant="contained"
+      className="about-button"
+      href="/about"
+      sx={{
+        marginTop: "3vh",
+      }}
+    >
+      about
+    </Button>
+  );
+
+  const backButton = (
+    <Button
+      variant="contained"
+      className="about-button"
+      onClick={backToMain}
+      sx={{
+        marginTop: "3vh",
+      }}
+    >
+      back
+    </Button>
+  )
 
   return (
     <div
@@ -24,173 +139,26 @@ export default function HostOpen(props: IOpenProps) {
         alignItems: "center",
         justifyContent: "center",
         verticalAlign: "middle",
-        margin: "auto",
+        margin: "0 10px",
+        width: "100vw",
       }}
     >
-      <p></p>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           verticalAlign: "middle",
-          margin: "auto",
+          margin: "5vh auto 2vh auto",
+          maxWidth: "1400px",
+          gap: "40px",
+          height: "65vh",
+
         }}
       >
-        <div
-          style={{
-            height: "68vh",
-            width: "27vw",
-            backgroundImage:
-              "linear-gradient(-45deg, var(--left-light), var(--right-light))",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "center",
-            verticalAlign: "middle",
-            justifyContent: "center",
-            alignItems: "center",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            margin: "auto",
-            marginTop: "5vh",
-            filter: "grayscale(100%)",
-            cursor: "not-allowed",
-            pointerEvents: "none"
-          }}
-          // onClick={onPreSettings}
-        >
-          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚙️</p>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.8)",
-              fontSize: "3em",
-              fontWeight: "bold",
-              fontFamily: "var(--action-font)",
-            }}
-          >
-            custom
-          </h1>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.9)",
-              fontSize: "1.5em",
-              fontWeight: "normal",
-              paddingLeft: "2vw",
-              paddingRight: "2vw",
-              textAlign: "left",
-            }}
-          >
-            Coming Soon. Add custom questions, change time settings, and more!
-          </h1>
-        </div>
-        <div
-          style={{
-            height: "68vh",
-            width: "27vw",
-            backgroundImage:
-              "radial-gradient(circle, var(--main-super-light), var(--main-light))",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "center",
-            verticalAlign: "middle",
-            justifyContent: "center",
-            alignItems: "center",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            margin: "auto",
-            marginTop: "5vh",
-            cursor: "pointer",
-          }}
-          onClick={onHost}
-        >
-          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>⚡</p>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.8)",
-              fontSize: "3em",
-              fontWeight: "bold",
-              fontFamily: "Concert One",
-            }}
-          >
-            classic
-          </h1>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.9)",
-              fontSize: "1.5em",
-              fontWeight: "normal",
-              paddingLeft: "2vw",
-              paddingRight: "2vw",
-              textAlign: "left",
-            }}
-          >
-            Classic fun friendivia gameplay. Let's start the game!
-          </h1>
-        </div>
-        <div
-          style={{
-            position: "relative",
-            height: "68vh",
-            width: "27vw",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            margin: "auto",
-            marginTop: "5vh",
-            cursor: "not-allowed",
-            filter: "grayscale(100%)",
-            pointerEvents: "none",
-          }}
-        >
-          <div
-            style={{
-              backgroundImage:
-                "linear-gradient(-45deg, var(--left-light), var(--right-light))",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              borderRadius: "10px",
-              zIndex: -1,
-            }}
-          ></div>
-          <p style={{ fontSize: "12em", margin: "0px", padding: "0px" }}>🤖</p>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.8)",
-              fontSize: "3em",
-              fontWeight: "bold",
-              fontFamily: "Concert One",
-            }}
-          >
-            ai
-          </h1>
-          <h1
-            style={{
-              color: "rgba(0,0,0,0.9)",
-              fontSize: "1.4em",
-              fontWeight: "normal",
-              paddingLeft: "2vw",
-              paddingRight: "2vw",
-              textAlign: "left",
-            }}
-          >
-            Coming Soon. Pick a theme and get unique questions powered by
-            OpenAI!
-          </h1>
-        </div>
+        {showCustom ? customButtons : openButtons}
       </div>
       <div>
-        <Button variant="contained" className="about-button" href="/about"
-          sx={{
-            marginTop: "3vh",
-          }}
-          >
-            about
-          </Button>
+        {showCustom ? backButton : aboutButton}
       </div>
     </div>
   );
