@@ -3,7 +3,7 @@ import MuiButton from "@mui/material/Button";
 
 export const Button = styled(MuiButton)((props) => ({
   background: "var(--main)",
-  textTransform: "lowercase",
+  textTransform: "none",
   fontFamily: "var(--action-font)",
   "&:hover": {
     background: "var(--main-dark)"
