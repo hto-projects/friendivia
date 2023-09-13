@@ -47,7 +47,7 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[]): P
     }
 
     const playerQuestion: PlayerQuestionnaireQuestion | undefined = playerQuestionnaire.questions.find(q => q.subjectQuestion);
-    if (!playerQuestion) {
+    if (!playerQuestion || !playerQuestion.answer) {
       continue;
     }
 
@@ -56,7 +56,7 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[]): P
       continue;
     }
 
-    const correctAnswer: string = playerQuestion.answer || "<NO ANSWER>";
+    const correctAnswer: string = playerQuestion.answer;
     const options: string[] = [correctAnswer];
     const otherPlayerOptions: string[] = [];
 
