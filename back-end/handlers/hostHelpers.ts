@@ -20,7 +20,7 @@ let nextQuestionTimer;
 
 export const hostGoNext = async (gameId: number, io: Server): Promise<void> => {
   const currentGameData: IGame | null = await hostDb.getGameData(gameId);
-  if (currentGameData === null) {
+  if (!currentGameData) {
     return;
   }
 

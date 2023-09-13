@@ -3,6 +3,7 @@ import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestio
 import IQuizQuestion from "../interfaces/IQuizQuestion";
 import questionDb from "../db/question.ts";
 import playerDb from "../db/player.ts";
+import { Schema } from "mongoose";
 
 function getNumberOfQuestions(players) {
   return Math.max(4, players.length);
@@ -18,9 +19,9 @@ export async function createQuestionnairesForPlayers(players: IPlayer[], customM
     const questionIds: PlayerQuestionnaireQuestion[] = [];
     
     for (let j = 0; j < 4; j++) {
-      const questionForPlayer = allQuestionsForQuiz[(i + j) % totalQuestions];
+      const questionForPlayer: PlayerQuestionnaireQuestion & { _id: Schema.Types.ObjectId } = allQuestionsForQuiz[(i + j) % totalQuestions];
       questionIds.push({
-        questionId: questionForPlayer,
+        questionId: questionForPlayer._id,
         subjectQuestion: j === 0,
         answer: ""
       });

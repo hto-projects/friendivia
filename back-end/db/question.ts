@@ -2,7 +2,7 @@ import Question from "../models/Question.ts";
 import { IQuestionnaireQuestion, PlayerQuestionnaire, PlayerQuestionnaireQuestion } from "../interfaces/IQuestionnaireQuestion";
 import questionDb from "../db/question.ts";
 import { shuffle } from './utils.ts';
-import { ObjectId } from "mongoose";
+import { ObjectId, Schema } from "mongoose";
 
 export default {
     getQuestions: async (): Promise<any> => {
@@ -51,8 +51,8 @@ export default {
             return [];
         }
     },
-    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<any> => {
-        let questions = [];
+    getQuestionsForQuiz: async (numQuestions: number, customMode: string): Promise<Array<PlayerQuestionnaireQuestion & { _id: Schema.Types.ObjectId }>> => {
+        let questions: Array<PlayerQuestionnaireQuestion & { _id: Schema.Types.ObjectId }> = [];
         if (customMode) {
             questions = await Question.find({ tags: customMode });
             if (questions.length < numQuestions) {
