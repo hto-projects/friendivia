@@ -15,6 +15,8 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
   const playerScores = props.playerScores;
   playerScores.sort((p1, p2) => p2.score - p1.score);
 
+  const [numPlayersToShow, setNumPlayersToShow] = React.useState<number>(5);
+
   function onPlayAgain() {
     socket.emit("play-again");
   }
@@ -27,6 +29,10 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
     const winnerScore = playerScores[0].score;
     const winnerName = playerScores[0].name;
     return `The winner is "${winnerName}" with a score of "${winnerScore}"! Great job!`;
+  }
+
+  function showAllPlayers() {
+    setNumPlayersToShow(playerScores.length);
   }
 
   return (
@@ -47,7 +53,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
           style={{ width: "8vw", paddingBottom: "1vh", paddingTop: "1vh" }}
         />
         <div className="leaderboard">
-          {playerScores.slice(0, 5).map((ps, i) => (
+          {playerScores.slice(0, numPlayersToShow).map((ps, i) => (
             <div
               key={i}
               style={{
@@ -105,6 +111,7 @@ export default function HostLeaderBoard(props: ILeaderBoardProps) {
             </div>
           ))}
         </div>
+        <Button onClick={showAllPlayers} variant="contained" sx={{display: numPlayersToShow < playerScores.length ? "block" : "none"}}>show all players</Button>
       </div>
     </>
   );
