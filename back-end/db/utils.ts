@@ -37,10 +37,15 @@ export async function createQuestionnairesForPlayers(players: IPlayer[], customM
   return playerQuestionnaires;
 }
 
-export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[]): Promise<IQuizQuestion[]> {
+export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[], customMode): Promise<IQuizQuestion[]> {
   const quizQuestions: IQuizQuestion[] = [];
 
-  for (let i = 0; i < playerQuestionnaires.length; i++) {
+  let numQuizQuestions = playerQuestionnaires.length;
+  if (customMode == "classroom") {
+    numQuizQuestions = Math.min(numQuizQuestions, 12);
+  }
+
+  for (let i = 0; i < numQuizQuestions; i++) {
     const playerQuestionnaire: PlayerQuestionnaire = playerQuestionnaires[i];
     const player: IPlayer | null = await playerDb.getPlayer(playerQuestionnaire.playerId);
     if (!player) {
