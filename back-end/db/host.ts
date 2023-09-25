@@ -154,7 +154,7 @@ export default {
   },
 
   buildQuiz: async (game: IGame): Promise<IQuizQuestion[]> => {
-    const quizQuestions: IQuizQuestion[] = await utilDb.createQuiz(game.playerQuestionnaires);
+    const quizQuestions: IQuizQuestion[] = await utilDb.createQuiz(game.playerQuestionnaires, game.customMode);
     await Game.updateOne({ id: game.id }, {
       $set: { 'quizQuestions': quizQuestions }
     });
