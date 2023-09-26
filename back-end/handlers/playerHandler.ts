@@ -1,12 +1,15 @@
 import { Server, Socket } from 'socket.io';
 import playerDb from '../db/player.ts';
 import hostDb from '../db/host.ts';
+import questionDb from '../db/question.ts';
 import IPlayer from '../interfaces/IPlayer.ts';
 import IGame from '../interfaces/IGame.ts';
 import { GameStates } from '../interfaces/IGameState.ts';
 import Game from '../models/Game.ts'
-import hostHelpers from './hostHelpers.ts';
+import * as hostHelpers from './hostHelpers.ts';
 import Player from '../models/Player.ts';
+import { PlayerStates } from '../interfaces/IPlayerState.ts';
+import { PlayerQuestionnaire } from '../interfaces/IQuestionnaireQuestion.ts';
 
 export default (io: Server, socket: Socket) => {
   const onPlayerSubmitJoin = async (data) => {
@@ -34,6 +37,10 @@ export default (io: Server, socket: Socket) => {
           }
 
           const updatedPlayer = await playerDb.getPlayer(newPlayerId);
+          if (!updatedPlayer) {
+            return;
+          }
+
           io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
 
           io.to(currentGameData.hostSocketId).emit('players-updated', {
@@ -55,15 +62,25 @@ export default (io: Server, socket: Socket) => {
     }
 
     try {
-      const player: IPlayer = await playerDb.getPlayer(playerId);
+      const player: IPlayer | null = await playerDb.getPlayer(playerId);
+      if (!player) {
+        return;
+      }
+
       const gameData: IGame | null = await hostDb.getGameData(player.gameId);
       if (gameData === null) {
         return;
       }
 
+      const playerQuestionnaire: PlayerQuestionnaire | undefined = gameData.playerQuestionnaires.find(pq => pq.playerId === playerId);
+      let questionnaireText: Array<string> = ["Something went wrong..."];
+      if (playerQuestionnaire) {
+        questionnaireText = await questionDb.getQuestionnaireQuestionsText(playerQuestionnaire);
+      }
+
       const currentQuizQuestionIndex = gameData.currentQuestionIndex;
       const extraData = {
-        questionnaireQuestionsText: gameData.questionnaireQuestions.map(q => q.text),
+        questionnaireQuestionsText: questionnaireText,
         quizQuestionOptionsText: currentQuizQuestionIndex >= 0 ? gameData.quizQuestions[currentQuizQuestionIndex].optionsList : [],
         playerScores: await playerDb.getPlayerScores(gameData.id)
       };
@@ -89,7 +106,7 @@ export default (io: Server, socket: Socket) => {
     try {
       const player: IPlayer = await playerDb.getPlayerBySocketId(socket.id);
       const gameId = player.gameId;
-      await playerDb.playerCompleteQuestionnaire(player.id, answers);
+      await playerDb.playerCompleteQuestionnaire(player, answers);
       socket.emit('player-submit-questionnaire-success');
 
       const allPlayersDone = await playerDb.checkAllPlayersDoneWithQuestionnaire(gameId);
@@ -121,27 +138,48 @@ export default (io: Server, socket: Socket) => {
 
   const onHostKickPlayer = async (playerName: string) => {
     try {
-      const player: IPlayer = await playerDb.getPlayerByName(playerName);
-      const gameId = player.gameId;
-      await playerDb.kickPlayer(playerName, gameId);
-      const allPlayersInGame = await playerDb.getPlayers(gameId);
-      const currentGameData = await hostDb.getGameData(gameId);
+      const currentGameData: IGame | null = await hostDb.getGameDataFromSocketId(socket.id);
       if (currentGameData === null) {
         return;
       }
 
-      io.to(currentGameData.hostSocketId).emit('players-updated', {
+      const gameId = currentGameData.id;
+      const player: IPlayer = await playerDb.getPlayerByName(playerName, gameId);
+      await playerDb.updatePlayerState(player.id, PlayerStates.PlayerKicked, io, {});
+      await playerDb.kickPlayer(playerName, gameId);
+      const allPlayersInGame = await playerDb.getPlayers(gameId);
+
+      await io.to(currentGameData.hostSocketId).emit('players-updated', {
         gameId: gameId,
         players: allPlayersInGame
       });
-      hostHelpers.onHostViewUpdate(gameId, io);
+      
+      await hostHelpers.onHostViewUpdate(gameId, io);
     } catch (e) {
       console.error("Failed to kick player: " + e);
-    }}
+    }
+  };
+
+  const onPlayerQuit = async () => {
+    const player: IPlayer | null = await playerDb.getPlayerBySocketId(socket.id);
+    if (!player) {
+      socket.emit('player-game-ended');
+      return;
+    }
+
+    const game: IGame | null = await hostDb.getGameData(player.gameId);
+    if (!game) {
+      return;
+    }
+
+    await hostHelpers.handlePlayerQuit(player, game, io);
+    socket.emit('player-game-ended');
+  }
   
   socket.on('host-kick-player', onHostKickPlayer);
   socket.on('player-submit-join', onPlayerSubmitJoin);
   socket.on('player-load', onPlayerLoad);
   socket.on('player-submit-questionnaire', onPlayerSubmitQuestionnaire);
   socket.on('player-answer-question', onPlayerAnswerQuestion);
+  socket.on('player-quit', onPlayerQuit);
 }

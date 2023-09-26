@@ -2,8 +2,13 @@ import * as React from "react";
 import { ttsApiKey } from "./environment";
 import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
+function replaceFriendivia(text: string) {
+  return text.replace("friendivia", " friend divvy-uh ");
+}
+
 export default function Speak(props) {
-  const textToSpeak = props.text;
+  const textToSpeak = replaceFriendivia(props.text);
+  const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
 
@@ -12,6 +17,7 @@ export default function Speak(props) {
     msg.text = textToSpeak;
     msg.rate = 0.9;
     window.speechSynthesis.speak(msg);
+    callback();
   }
 
   async function createAnnouncementAudioTikTok() {
@@ -35,6 +41,7 @@ export default function Speak(props) {
       const responseJson = await response.json();
       const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
       const audio = new Audio(audioUrl);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing TikTok audio:", error);
@@ -72,6 +79,7 @@ export default function Speak(props) {
       const audioBlob = await response.blob();
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);

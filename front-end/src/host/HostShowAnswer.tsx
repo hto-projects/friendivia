@@ -1,10 +1,11 @@
 import * as React from "react";
 import "../style.css";
 import { Paper, Stack } from "@mui/material";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
+import PlayerBadge from "./PlayerBadge";
 
 interface IShowAnswerProps {
   playerName: string;
@@ -18,7 +19,6 @@ interface IShowAnswerProps {
   handsFreeMode: boolean;
 }
 
-var currentQuizLength = 1;
 export default function HostShowAnswer(props: IShowAnswerProps) {
   const {
     options,
@@ -29,8 +29,14 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
     socket,
     gameId,
     quizLength,
-    handsFreeMode
+    handsFreeMode,
   } = props;
+
+  const totalGuesses = playerGuesses.length - 1;
+  const correctPlayers = playerGuesses.filter(g => g && g.guess === correctAnswerIndex);
+  const numCorrect = correctPlayers.length;
+  const pctCorrect = Math.floor(100 * (numCorrect / totalGuesses));
+  const subjectBonus = Math.floor(300 * (numCorrect / totalGuesses));
 
   function interpolatePlayerNameInQuestionText() {
     const [part1, part2] = questionText.split("<PLAYER>");
@@ -41,38 +47,29 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
         {part2}
       </p>
     );
-    }
-
-    socket.on("reset-quiz-length", resetQuizLength);
-
-    function resetQuizLength(){
-      currentQuizLength = 1;
-    }
-
-  function onNext() {
-    if (currentQuizLength < quizLength) {
-      currentQuizLength++;
-      socket.emit("go-to-int-leaderboard", gameId);
-    } else {
-      socket.emit("next-question", gameId);
-    }
   }
 
-  function buttonText() {
-    if (currentQuizLength < quizLength) return "Next Question";
-    else return "Show Leaderboard";
+  function onNext() {
+    socket.emit("next-from-quiz-answer");
   }
 
   function correctText() {
     var res = `The correct answer was "${options[correctAnswerIndex]}".`;
-    var correctPlayers = playerGuesses.filter(
-      (g) => g.guess === correctAnswerIndex
-    );
     if (correctPlayers.length != 0) {
-      const encourage = pickOne(["Nice guessing", "Good job", "Way to go", "Congrats"]);
+      const encourage = pickOne([
+        "Nice guessing",
+        "Good job",
+        "Way to go",
+        "Congrats",
+      ]);
       res += `! ${encourage} `;
     } else {
-      const sad = pickOne(["No points, no one got it", "I'm disappointed in all of you.", "I love you, but you're all terrible.", "Try again next time, everybody. No points for anyone this round."]);
+      const sad = pickOne([
+        "Unfortunately, no one got it. Luckily, you still get points for failing.",
+        "I'm sorry, this is sad. No one won, but guessers get consolation points for fast answers.",
+        `No points for ${playerName}. Please try to do better next time.`,
+        `Looks like no one knows ${playerName} at all. But if you were wrong faster, you get more points.`
+      ]);
       res += `! ${sad}`;
     }
 
@@ -92,158 +89,117 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   return (
     <>
       <Speak text={correctText()} cloud={true} />
-      <div>
+      <div className="hostAnswerScroll">
         {interpolatePlayerNameInQuestionText()}
-        <div
-          style={{
-            display: "flex",
-            alignContent: "center",
+
+        <Paper
+          sx={{
+            width: "50%",
             alignSelf: "center",
-            marginBottom: "4vh",
-          }}
-        >
-          <Paper
-            style={{
-              width: "auto",
-              height: "5vh",
-              margin: "auto",
-              paddingLeft: "1vw",
-              paddingRight: "1vw",
-              display: "flex",
-              alignContent: "center",
-            }}
-          >
-            <p style={{ alignSelf: "center" }}>
-              {playerGuesses.filter((g) => g.guess === correctAnswerIndex)
-                .length *
-                100 +
-                " "}
-              points for {playerName}
-            </p>
-          </Paper>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            width: "80vw",
-            alignContent: "center",
-            alignSelf: "center",
+            justifyContent: "center",
             margin: "auto",
+            marginBottom: "2vh",
+            fontSize: "1.6em",
+            paddingTop: "1vh",
+            paddingBottom: "1vh",
+            maxWidth: "600px"
           }}
         >
-          {options.map((o: String, i: number) => (
-            <>
-              <div className="guesses">
-                <Paper
+          {numCorrect > 0 ?
+            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>{pctCorrect}% correct = <span style={{fontWeight: "bold", color: "var(--main)"}}>{subjectBonus} points</span> for {playerName}!</p> :
+            <p style={{margin: 0, fontFamily: `"Concert One", sans-serif`}}>0% correct ☹ = consolation points based on speed</p>
+          }
+
+        </Paper>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "1rem",
+            width: "100%",
+            alignContent: "center",
+            justifyContent: "center",
+            justifyItems: "center",
+            alignItems: "center",
+          }}
+        >
+          {options.map((o: string, i: number) => (
+            <div
+              className="guesses"
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Paper
+                elevation={3}
+                sx={{
+                  width: "95%",
+                  height: "20vh",
+                  padding: "1.5rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background:
+                    i === correctAnswerIndex
+                      ? "var(--main-gradient-rev)"
+                      : "white",
+                  border: "2px solid purple",
+                  borderRadius: "20px",
+                }}
+                key={i}
+              >
+                <p
                   style={{
-                    background:
-                      i === correctAnswerIndex
-                        ? "linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147))"
-                        : "white",
-                    boxShadow: i === correctAnswerIndex ? "0 0 10px green" : "",
                     color: i === correctAnswerIndex ? "white" : "black",
-                    width: "30vw",
-                    margin: "auto",
-                    paddingTop: "0.1vh",
-                    paddingBottom: "0.1vh",
-                    height: "11vh",
+                    fontFamily: "Concert One",
+                    fontSize: "2em",
+                    paddingLeft: "0.5em",
+                    paddingRight: "0.5em",
+                    textAlign: "center",
                   }}
                 >
-                  <p
-                    style={{
-                      color: i === correctAnswerIndex ? "white" : "black",
-                      fontWeight:
-                        i === correctAnswerIndex ? "bolder" : "normal",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    {o}
-                  </p>
-                  {i === correctAnswerIndex ? (
-                    <Paper
-                      style={{
-                        width: "20%",
-                        padding: "0px",
-                        marginLeft: "23.5vw",
-                        marginTop: "-2.5vh",
-                      }}
-                    >
-                      <p style={{ padding: "0px" }}>+200</p>
-                    </Paper>
-                  ) : (
-                    <></>
-                  )}
-                </Paper>
-                <Stack
-                  style={{
-                    backgroundColor:
-                      getComputedStyle(document.body).getPropertyValue(
-                        "--accent"
-                      ) + ";",
-                  }}
-                >
-                  {playerGuesses
-                    .filter((g) => g.guess === i)
-                    .map((g, j) => (
-                      <>
-                        <Paper
-                          sx={{
-                            backgroundColor:
-                              getComputedStyle(document.body).getPropertyValue(
-                                "--accent"
-                              ) + ";",
-                            width: "10vw",
-                            paddingTop: "0.1vh",
-                            paddingBottom: "0.1vh",
-                            margin: "auto",
-                          }}
-                        >
-                          <p
-                            style={{
-                              background:
-                                getComputedStyle(
-                                  document.body
-                                ).getPropertyValue("--accent") + ";",
-                              color: "white",
-                              fontWeight: "bolder",
-                              alignSelf: "center",
-                              verticalAlign: "middle",
-                              margin: "auto",
-                            }}
-                            key={j}
-                          >
-                            {g.name}
-                          </p>
-                        </Paper>
-                        <div style={{ height: "0.4vh" }} />
-                      </>
-                    ))}
-                </Stack>
-                <br />
-              </div>
-            </>
+                  {o}
+                </p>
+              </Paper>
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  marginTop: "5px",
+                }}
+              >
+                {playerGuesses
+                  .filter((g) => g && g.guess === i)
+                  .map((g, j) => (
+                    <>
+                      <PlayerBadge name={g.name} />
+                      <div style={{ height: "0.4vh" }} />
+                    </>
+                  ))}
+              </Stack>
+            </div>
           ))}
         </div>
         <div>
-          {!handsFreeMode? 
+          {!handsFreeMode && (
             <Button
               className="button"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
                 m: 2,
+                margin: "auto",
+                marginTop: "2rem",
               }}
               onClick={onNext}
             >
-              {buttonText() == "Next Question"
-                ? "Next Question"
-                : "Show Leaderboard"}
-            </Button> : ''
-          }
+              next
+            </Button>
+          )}
         </div>
       </div>
     </>

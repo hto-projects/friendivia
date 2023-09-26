@@ -46,7 +46,6 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     socket.on("update-host-view", onStatusReceived);
 
     function onPlayersUpdated(playersObject: any) {
-      console.log("players updated");
       const updatedDonePlayers = getPlayerNamesForState(
         playersObject.players,
         "submitted-questionnaire-waiting"
@@ -65,10 +64,12 @@ export default function HostQuestionnaire(props: IQuestionnaireProps) {
     };
   }, [socket]);
 
-
   return (
     <>
-      <Speak text={"Fill out your questionnaires please."} cloud={true} />
+      <Speak
+        text={"Fill out your questionnaires on your devices now."}
+        cloud={true}
+      />
       <PlayAudio src={theme} loop={true} />
       <HostQuestionnaireView
         donePlayers={donePlayers}

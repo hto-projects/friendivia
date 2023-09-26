@@ -1,19 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=DynaPuff&family=Inter&display=swap');
 
 :root {
-  /*Screen background color, button text color*/
-  --bg: #ffffff;
-  /*All text color except button text*/
-  --text: #000000;
-  /*Button background colors*/
-  --accent: #757de8;
-  color: var(--text);
-  background-color: var(--bg);
+  --bg: #FFFFFF;
+  --main-rgb: 255, 128, 0;
+  --main: rgb(var(--main-rgb));
+  --main-light: color-mix(in lch, var(--main) 50%, #FFFFFF);
+  --main-super-light: color-mix(in lch, var(--main) 5%, #FFFFFF);
+  --main-dark: color-mix(in lch, var(--main) 80%, #000000);
+  --left-rgb: 255, 0, 170;
+  --left-rgb-subtle: 255, 120, 170;
+  --left: rgb(var(--left-rgb));
+  --left-subtle: rgb(var(--left-rgb-subtle));
+  --left-light: rgba(var(--left-rgb), 35%);
+  --left-super-light: color-mix(in lch, var(--left) 5%, #FFFFFF);
+  --left-dark: color-mix(in lch, var(--left) 80%, #000000);
+  --right-rgb: 0, 255, 170;
+  --right-rgb-subtle: 170, 255, 120;
+  --right: rgb(var(--right-rgb));
+  --right-subtle: rgb(var(--right-rgb-subtle));
+  --right-light: rgba(var(--right-rgb), 35%);
+  --right-super-light: color-mix(in lch, var(--right) 5%, #FFFFFF);
+  --right-dark: color-mix(in lch, var(--right) 80%, #000000);
+  --main-gradient: linear-gradient(45deg, var(--left) 0%, var(--main) 50%, var(--right) 100%);
+  --main-gradient-rev: linear-gradient(45deg, var(--right-subtle) 0%, var(--main) 50%, var(--left-subtle) 100%);
+  --main-gradient-light: linear-gradient(45deg, var(--left-light) 0%, var(--main-light) 50%, var(--right-light) 100%);
+  --main-gradient-dark: linear-gradient(215deg, var(--left-dark) 0%, var(--main-dark) 50%, var(--right-dark) 100%);
+  --title-font: "DynaPuff", sans-serif;
+  --action-font: "Concert One", sans-serif;
+  --legible-font: "Inter", sans-serif;
 }
 
 h1, h2, p {
   font-family: Inter, sans-serif;
-  color: var(--text);
+  color: black;
 }
 
 html, body {
@@ -78,6 +97,10 @@ body {
     height: 78%;
     margin: 0px;
   }
+
+  div.about-body {
+    font-size: 1.1em;
+  }
 }
 
 /* Styles for desktop screens */
@@ -124,6 +147,8 @@ body {
   .element{
     height: 64%;
     margin: 0px;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 
@@ -151,14 +176,55 @@ body {
   margin-right: 10%;
 }
 
-.about{
-  background-repeat: repeat;
-  background-size: 60% auto;
-  background-clip: cover;
-  size: 100%;
-  justify-content: center;
+.about {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff10;
+}
+
+.about-text {
+  padding: 10px;
+}
+
+.friendivia {
+  font-family: "Concert One", sans-serif;
+  font-size: 1.4em;
+  background: var(--main);
+  background: var(--main-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-text h1 {
+  font-size: 2em;
+  font-family: "Concert One", sans-serif;
+}
+
+.about-body {
+  margin: 0 auto;
+  max-width: 800px;
+  font-size: 1.5em;
   text-align: center;
-  margin: 10% auto;
+}
+
+.banner-text {
+  font-size: 4.5em;
+  color: white;
+  font-family: var(--title-font);
+  text-shadow: 0px 0px 10px #FFFFFF80;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+  margin: 0;
+}
+
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
 }
 
 .hostFormat{
@@ -225,17 +291,38 @@ body {
   height: 100%;
 }
 
-.host-lobby {
-  background: rgb(229,184,237);
-  background: linear-gradient(0deg, rgba(229,184,237,1) 0%, rgba(191,120,213,1) 100%);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
 .host-content {
   text-align: center;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
+  height: 100%;
+}
+
+.clearDataButton{
+  text-align: left;
   height: 100%;
 }
 
@@ -270,19 +357,15 @@ body {
 }
 
 .join-instructions {
-  padding-top: 20px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  height: 100%;
 }
 
 .join-instruction-edge {
-  width: 30vw;
-}
-
-.gameid {
-  padding: 10px 120px;
-  border-radius: 10px;
+  width: 35vw;
+  height: 100%;
 }
 
 .gameid p.id {
@@ -296,9 +379,8 @@ body {
 
 .horizontal{
   display: flex;
-  justify-content: center;
-  margin: 5% auto;
-  padding: auto;
+  justify-content: space-between;
+  margin: 0 20px;
 }
 
 .players{
@@ -410,34 +492,20 @@ body {
 .player_join {
   text-align: center;
   height: 100%;
-  margin-top: 10px;
 }
 
 .banner {
-  background: rgb(169,101,203);
-  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
-  font-weight: bold;
+  background: var(--main);
+  background: var(--main-gradient);
+  box-shadow: var(--main-light) 0px 1px 20px 0px;
   margin-bottom: 1vw;
-  border-bottom-style: outset;
-  border-color: var(--accent);
-  border-width: 10px;
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: -1px;
 }
 
-#host-banner {
-  background: rgb(169,101,203);
-  background: radial-gradient(circle, rgba(169,101,203,0.7259278711484594) 27%, rgba(79,19,198,1) 100%);
-  border-bottom-style: outset;
-  border-color: var(--accent);
-  border-width: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
+.player-banner-text {
+  font-size: 2.5em;
 }
 
 .bannerEdge {
@@ -448,6 +516,10 @@ body {
   margin:0;
 }
 
+.hostAnswerScroll{
+  overflow-y: auto;
+  height: calc(100vh - (4.5em + 50px));
+}
 
 .participant{
   font-family: Inter, sans-serif;
@@ -519,7 +591,7 @@ body {
   align-items: center;
   height: 7vw;
   width: 7vw;
-  background-color: var(--accent);
+  background-color: var(--main);
   border-radius: 50%;
   margin-top: 50%;
   margin: auto;
@@ -568,6 +640,7 @@ body {
   justify-content: center;
   align-content: center;
   align-self: center;
+  align-items: center;
   font-family: Inter, sans-serif;
   font-size: 1em;
   margin:auto;
@@ -587,6 +660,7 @@ body {
   justify-content: center;
   align-content: center;
   align-self: center;
+  align-items: center;
   font-family: Inter, sans-serif;
   font-size: 1em;
   text-align: center;
@@ -605,6 +679,7 @@ body {
   justify-content: center;
   align-content: center;
   align-self: center;
+  align-items: center;
   font-family: Inter, sans-serif;
   font-size: 1em;
   margin:auto;
@@ -619,11 +694,12 @@ body {
 
 .correctImg{
   width: auto;
-  height: 50vw;
+  height: auto;
   align-self: center;
   -webkit-animation:grow 2s ease-in-out infinite;
   -moz-animation:grow 2s ease-in-out infinite;
   animation:grow 2s ease-in-out infinite;
+  margin-top: -8vh;
 }
 
 .correctTxt{
@@ -645,7 +721,7 @@ body {
 .subjectTxt{
   font-family: Inter, sans-serif;
   color:var(--bg);
-  font-size: 1.5em;
+  font-size: 2.5em;
   font-weight: bold;
 }
 
@@ -655,6 +731,7 @@ body {
   justify-content: center;
   align-content: center;
   align-self: center;
+  align-items: center;
   font-family: Inter, sans-serif;
   font-size: 1em;
   margin:auto;
@@ -690,8 +767,7 @@ body {
   padding-left: 1vw;
   padding-right: 1vw;
   min-width: 100px;
-  font-weight: bold;
-  font-size: 2em;
+  font-size: 1.5em;
   margin-bottom: 5px;
 }
 
@@ -702,16 +778,6 @@ body {
   margin-top: -40px !important;
 }
 
-.hourglass {
-  width: auto;
-  height: 50vw;
-  margin: auto;
-  margin-top: -10vh;
-  margin-bottom: -10px;
-  -webkit-animation:spin 10s ease-in-out infinite;
-  -moz-animation:spin 10s ease-in-out infinite;
-  animation:spin 10s ease-in-out infinite;
-}
 @-moz-keyframes spin { 
   100% { -moz-transform: rotate(360deg); } 
 }
@@ -725,33 +791,87 @@ body {
   } 
 }
 
-.eyesImg{
-  -webkit-animation:bounce 4s ease-in-out infinite;
-  -moz-animation:bounce 4s ease-in-out infinite;
-  animation:bounce 4s ease-in-out infinite;
-}
-
 .niceTryImg{
   width: auto;
-  height: 50vw;
+  height: auto;
   align-self: center;
   -webkit-animation:grow 2s ease-in-out infinite;
   -moz-animation:grow 2s ease-in-out infinite;
   animation:grow 2s ease-in-out infinite;
+  margin-top: -8vh;
 }
 
-@keyframes grow {
-  0% {
-    height: 50vw;
+@media (min-aspect-ratio: 1) {
+  .eyesImg{
+    height: 50vh;
+    width: auto;
+    margin-top: -8vh;
+    -webkit-animation:bounce 4s ease-in-out infinite;
+    -moz-animation:bounce 4s ease-in-out infinite;
+    animation:bounce 4s ease-in-out infinite;
   }
-  25% {
-    height: 55vw;
+
+  .hourglass {
+    width: auto;
+    height: 50vh;
+    margin: auto;
+    margin-top: -18vh;
+    margin-bottom: -10px;
+    -webkit-animation:spin 10s ease-in-out infinite;
+    -moz-animation:spin 10s ease-in-out infinite;
+    animation:spin 10s ease-in-out infinite;
   }
-  50% {
-    height: 50vw;
+  
+  @keyframes grow {
+    0% {
+      height: 50vh;
+    }
+    25% {
+      height: 55vh;
+    }
+    50% {
+      height: 50vh;
+    }
+    100%{
+      height: 50vh;
+    }
   }
-  100%{
-    height: 50vw;
+}
+
+@media (max-aspect-ratio: 1) {
+  .eyesImg{
+    width: 100vw;
+    height: auto;
+    margin-top: -8vh;
+    -webkit-animation:bounce 4s ease-in-out infinite;
+    -moz-animation:bounce 4s ease-in-out infinite;
+    animation:bounce 4s ease-in-out infinite;
+  }
+
+  .hourglass {
+    width: 50vw;
+    height: auto;
+    margin: auto;
+    margin-top: -18vh;
+    margin-bottom: -10px;
+    -webkit-animation:spin 10s ease-in-out infinite;
+    -moz-animation:spin 10s ease-in-out infinite;
+    animation:spin 10s ease-in-out infinite;
+  }
+  
+  @keyframes grow {
+    0% {
+      height: 50vw;
+    }
+    25% {
+      height: 55vw;
+    }
+    50% {
+      height: 50vw;
+    }
+    100%{
+      height: 50vw;
+    }
   }
 }
 
@@ -801,4 +921,22 @@ body {
 
 .css-k4qjio-MuiFormHelperText-root {
   color: #d32f2f !important;
+}
+
+#fixScreen {
+  height: 101vh !important;
+}
+
+.host-screen {
+  background: var(--main-super-light);
+}
+
+.host-footer {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 5px;
+}
+
+.leaderboard > div:first-child > .MuiPaper-root {
+  box-shadow: 0 0 10px var(--main-light);
 }

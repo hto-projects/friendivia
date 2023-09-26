@@ -21,7 +21,7 @@ export default {
       var state = "";
       if (allPlayersInGame[i].id === currentGameData.quizQuestions[currentQuestionIndex].playerId) {
         state = PlayerStates.QuestionAboutMe;
-      } else {state = PlayerStates.SeeingQuestion;}
+      } else {state = PlayerStates.QuestionBeingRead;}
 
       await Player.updateOne({
         id: player.id
@@ -31,6 +31,10 @@ export default {
         }
       });      
       const updatedPlayer = await playerDb.getPlayer(player.id);
+      if (!updatedPlayer) {
+        return;
+      }
+
       io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer, extraData: {quizQuestionOptionsText}});}   
   },
      
@@ -54,11 +58,34 @@ export default {
             'playerState.state': state
           }
         });
+
         const updatedPlayer = await playerDb.getPlayer(player.id);
+        if (!updatedPlayer) {
+          return;
+        }
 
         io.to(updatedPlayer.playerSocketId).emit('player-next', { player: updatedPlayer });
       }
-    }   
+    }
+  },
+
+  allPlayersQuizTimerStarted: async (gameId: number, io: Server): Promise<void> => {
+    const allPlayersInGame = await playerDb.getPlayers(gameId);
+    for (let i = 0; i < allPlayersInGame.length; i++) {
+      const player = allPlayersInGame[i];
+      if (player.playerState.state === PlayerStates.QuestionBeingRead) {
+        await Player.updateOne({
+          id: player.id
+        }, { 
+          $set: { 
+            'playerState.state': PlayerStates.SeeingQuestion
+          }
+        });
+      }
+      const updatedPlayer = await playerDb.getPlayer(player.id);
+
+      io.to(player.playerSocketId).emit('player-next', { player: updatedPlayer});
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../style.css";
-import { Button } from "@mui/material";
+import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerWait";
 
@@ -18,7 +18,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
 
   const guessReceivedMessage = `Guess received! Hang tight...`;
 
-  function goTo(answerIndex: number){
+  function goTo(answerIndex: number) {
     answerQuestion(answerIndex);
     allPlayersAnswerQuestion(answerIndex);
   }
@@ -27,8 +27,10 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
     socket.emit("player-answer-question", answerIndex);
   };
 
-  const allPlayersAnswerQuestion = async (answerIndex: number): Promise<void> => {
-    socket.emit('check-all-players-answered', answerIndex);
+  const allPlayersAnswerQuestion = async (
+    answerIndex: number
+  ): Promise<void> => {
+    socket.emit("check-all-players-answered", answerIndex);
   };
 
   const optionsForm = (
@@ -37,13 +39,14 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
         {optionsList.map((o: String, i: number) => (
           <>
             <br />
-            <Button style={{textTransform: 'none'}}
+            <Button
               className="answerButton"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
+                fontSize: "1.5em",
+                width: "90%",
+                height: "15vh",
+                border: "2px solid black",
               }}
               key={i}
               onClick={() => goTo(i)}
@@ -60,6 +63,8 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
 
   if (playerState.state === "answered-quiz-question-waiting") {
     return <PlayerWait message={guessReceivedMessage} />;
+  } else if (playerState.state === "question-being-read") {
+    return <PlayerWait message="Get ready to answer..." />;
   } else {
     return optionsForm;
   }

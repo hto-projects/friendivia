@@ -6,13 +6,26 @@ import Speak from '../Speak';
 import { pickOne } from '../util';
 
 interface ILobbyProps {
-  socket: Socket,
-  gameId: number
+  socket: Socket;
+  gameId: number;
+  classroomGame: boolean;
 }
 
 export default function HostLobby(props: ILobbyProps) {
   const [playerNames, setPlayerNames] = React.useState<string[]>([]);
-  const { socket, gameId } = props;
+  const { socket, gameId, classroomGame } = props;
+
+  const welcomeMessages = [
+    "Welcome to the game, ",
+    "Nice to see you, ",
+    "Good to have you here, ",
+    "Thanks for joining, ",
+    "Watch out! It's ",
+    "Welcome, ",
+    "Hey! It's ",
+    "Hey there ",
+    "So happy to have you, "
+  ];
 
   React.useEffect(() => {
     function onPlayersUpdated(playersObject: any) {
@@ -31,7 +44,7 @@ export default function HostLobby(props: ILobbyProps) {
   return (
     <>
       <div>
-        {playerNames.map(p => <Speak text={`${pickOne(["Welcome to the game,", "Nice to see you,", "Good to have you here,", "Look out, it's"])} "${p}"!`} />)}
+        {!classroomGame && playerNames.map(p => <Speak text={`${pickOne(welcomeMessages)} "${p}"`} />)}
       </div>
       <HostLobbyView playerNames={playerNames} gameId={gameId} socket={socket} />
     </>

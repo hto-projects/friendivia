@@ -4,19 +4,16 @@ import { Socket } from "socket.io-client";
 import PlayerQuestionnaire from "./PlayerQuestionnaire";
 import PlayerQuizQuestion from "./PlayerQuizQuestion";
 import PlayerWait from "./PlayerWait";
-import logo from "../assets/friendpardylogo.png";
-import { Chip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+import { Chip, Menu, MenuItem } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import PlayerCorrect from "./PlayerCorrect";
 import PlayerIncorrect from "./PlayerIncorrect";
 import PlayerIsSubject from "./PlayerIsSubject";
 import PlayerRanOutOfTime from "./PlayerRanOutOfTime";
 import PlayerOver from "./PlayerOver";
-import Button from "@mui/material/Button";
-import PlayerNewRanking from "./PlayerNewRanking"
+import { Button } from "../extra/FrdvButton";
+import PlayerNewRanking from "./PlayerNewRanking";
+import PlayerKicked from "./PlayerKicked";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -27,6 +24,8 @@ export default function PlayerApp(props: PlayerAppProps) {
   const [playerState, setPlayerState] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [playerScore, setPlayerScore] = React.useState(0);
+  const [scoreDiff, setScoreDiff] = React.useState(0);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const [allPlayerScores, setAllPlayerScores] = React.useState([]);
   const [
     questionnaireQuestionsText,
@@ -50,6 +49,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       setLoaded(true);
       setPlayerState(data.player.playerState.state);
       setPlayerName(data.player.name);
+
+      setScoreDiff(data.player.score - playerScore);
       setPlayerScore(data.player.score);
 
       if (data && data.extraData && data.extraData.playerScores) {
@@ -67,6 +68,12 @@ export default function PlayerApp(props: PlayerAppProps) {
       }
     }
 
+    function onPlayerGameEnded() {
+      localStorage.setItem("player-id", "");
+      window.location.reload();
+    }
+
+    socket.on("player-game-ended", onPlayerGameEnded)
     socket.on("player-load-success", onLoadSuccess);
     socket.on("player-next", onLoadSuccess);
 
@@ -91,7 +98,8 @@ export default function PlayerApp(props: PlayerAppProps) {
       );
     } else if (
       playerState === "seeing-question" ||
-      playerState === "answered-quiz-question-waiting"
+      playerState === "answered-quiz-question-waiting" ||
+      playerState === "question-being-read"
     ) {
       bottomButtons = false;
       return (
@@ -109,16 +117,21 @@ export default function PlayerApp(props: PlayerAppProps) {
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-answer-correct") {
       bottomButtons = false;
-      return <PlayerCorrect />;
+      return <PlayerCorrect pts={scoreDiff} />;
     } else if (playerState === "seeing-answer-incorrect") {
       bottomButtons = false;
-      return <PlayerIncorrect />;
+      return <PlayerIncorrect consolationPts={scoreDiff} />;
     } else if (playerState === "seeing-answer") {
       bottomButtons = false;
       return <PlayerIsSubject />;
     } else if (playerState === "seeing-rank") {
       bottomButtons = false;
-      return <PlayerNewRanking playerScores={allPlayerScores} currentPlayerName={playerName} />
+      return (
+        <PlayerNewRanking
+          playerScores={allPlayerScores}
+          currentPlayerName={playerName}
+        />
+      );
     } else if (playerState === "pre-leader-board") {
       bottomButtons = false;
       return <PlayerWait message={`Calculating final scores...`} />;
@@ -134,9 +147,12 @@ export default function PlayerApp(props: PlayerAppProps) {
     } else if (playerState === "rank-three") {
       bottomButtons = false;
       return <PlayerOver rank={3} />;
-    } else if (playerState === "") {
+    } else if (playerState === "" || playerState === "init") {
       bottomButtons = true;
       return <PlayerJoin socket={socket} playerState={playerState} />;
+    } else if (playerState === "kicked") {
+      bottomButtons = true;
+      return <PlayerKicked socket={socket} />;
     } else {
       bottomButtons = false;
       return <PlayerJoin socket={socket} playerState={playerState} />;
@@ -144,7 +160,12 @@ export default function PlayerApp(props: PlayerAppProps) {
   }
 
   function getButtonsForState() {
-    if (playerState === "init" || playerState === null || playerState === "") {
+    if (
+      playerState === "init" ||
+      playerState === null ||
+      playerState === "" ||
+      playerState === "kicked"
+    ) {
       return (
         <div className="bottomContainer" id="btmContainPlayerApp">
           <p>
@@ -153,42 +174,54 @@ export default function PlayerApp(props: PlayerAppProps) {
               id="HostPlayerApp"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
                 m: 2,
+                position: "absolute",
+                bottom: "10px",
+                left: "10px",
               }}
               href="/host"
             >
-              Host A Game
+              host
             </Button>
             <Button
               className="button"
               id="AboutPlayerApp"
               variant="contained"
               sx={{
-                bgcolor:
-                  getComputedStyle(document.body).getPropertyValue("--accent") +
-                  ";",
                 m: 2,
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
               }}
               href="/about"
             >
-              About
+              about
             </Button>
           </p>
         </div>
       );
     } else {
-      return <></>;
+      return <div className="bottomContainer" id="btmContainPlayerApp"></div>;
     }
   }
 
   function getScreenForState() {
-    if (playerState === "init" || playerState === null || playerState === "") {
+    if (
+      playerState === "init" ||
+      playerState === null ||
+      playerState === "" ||
+      playerState === "kicked"
+    ) {
       return "element";
     } else {
       return "noBtnElement";
+    }
+  }
+
+  function playerQuit() {
+    if (confirm("Are you sure you want to quit?")) {
+      localStorage.setItem("player-id", "");
+      socket.emit("player-quit");
     }
   }
 
@@ -197,76 +230,95 @@ export default function PlayerApp(props: PlayerAppProps) {
       className={
         playerState != "filling-questionnaire" ? "fillScreen" : "scroll"
       }
+      id={
+        playerState === "question-about-me" ||
+        "answered-quiz-question-waiting" ||
+        "did-not-answer-question-waiting" ||
+        "seeing-answer" ||
+        "seeing-answer-correct" ||
+        "seeing-answer-incorrect"
+          ? "fixScreen"
+          : ""
+      }
     >
       <div className="player_join">
-        <div className="banner">
-          <Grid container spacing={2}>
+        <div
+          className="banner"
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Menu
+            id="player-menu"
+            open={menuOpen}
+            anchorEl={document.querySelector("#player-chip")}
+            onClose={() => setMenuOpen(false)}
+            MenuListProps={{
+              'aria-labelledby': 'player-chip'
+            }}
+          >
+            <MenuItem onClick={playerQuit}>Quit</MenuItem>
+          </Menu>
+
+          <Grid container spacing={0}>
             <Grid item xs={3}>
-              {playerState!="init" ? (<div className="align_center">
-                {/*if player name has not been inputted do not display username chip*/}
-                {playerName != "" ? <Chip style={{backgroundColor: "white"}} label={playerName} /> : ""}
-              </div>) : ("")}
+              {playerState != "init" && playerState != "kicked" ? (
+                <div className="align_center">
+                  {/*if player name has not been inputted do not display username chip*/}
+                  {playerName != "" ? (
+                    <Chip
+                      style={{
+                        backgroundColor: "white",
+                        marginTop: "1.8em",
+                      }}
+                      onClick={() => setMenuOpen(!menuOpen)}
+                      label={playerName}
+                      id="player-chip"
+                      aria-controls={menuOpen ? 'player-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={menuOpen ? 'true' : undefined}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </Grid>
             <Grid item xs={6}>
-              <div className="align_center">
-                <img className="logo" src={logo} />
-              </div>
+              <div className="align_center banner-text player-banner-text">friendivia</div>
             </Grid>
             <Grid item xs={3}>
               {/*if player name has not been inputted do not display score chip*/}
-              {playerState!="init" ? (<div className="align_center">
-                {playerState != "filling-questionnaire" ? (
-                  playerName != "" ? (
-                    <Chip style={{backgroundColor: "white"}} label={playerScore} />
+              {playerState != "init" ? (
+                <div className="align_center">
+                  {playerState != "filling-questionnaire" &&
+                  playerState != "kicked" ? (
+                    playerName != "" ? (
+                      <Chip
+                        style={{
+                          backgroundColor: "white",
+                          marginTop: "1.8em",
+                        }}
+                        label={playerScore}
+                      />
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}
-              </div>) : ("")}
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </Grid>
           </Grid>
         </div>
         <div className={getScreenForState()}>{getElementForState()}</div>
-        {bottomButtons ? (
-          <div className="bottomContainer">
-            <p>
-              <Button
-                className="button"
-                variant="contained"
-                sx={{
-                  bgcolor:
-                    getComputedStyle(document.body).getPropertyValue(
-                      "--accent"
-                    ) + ";",
-                  m: 2,
-                }}
-                style={{ marginBottom: 0 }}
-                href="/host"
-              >
-                Host A Game
-              </Button>
-              <Button
-                className="button"
-                variant="contained"
-                sx={{
-                  bgcolor:
-                    getComputedStyle(document.body).getPropertyValue(
-                      "--accent"
-                    ) + ";",
-                  m: 2,
-                }}
-                style={{ marginBottom: 0 }}
-                href="/about"
-              >
-                About
-              </Button>
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
+        {getButtonsForState()}
       </div>
     </div>
   );

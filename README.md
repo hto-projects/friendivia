@@ -1,4 +1,4 @@
-# Friendpardy!
+# Friendivia
 An online party game where participants have to answer questions about themselves, and then try to guess their friends' answers to the same questions.
 
 ## Gameplay
@@ -17,7 +17,7 @@ Create a new file named **.env** in the **back-end** folder with these contents:
 
 ```
 MONGO_URI="<SECRET>"
-DB_NAME="friendpardy-test"
+DB_NAME="friendivia-test"
 FRONT_END_URL="http://localhost:3000"
 ```
 
@@ -49,7 +49,7 @@ The output should hopefully end up looking something like this:
 ```
 $ npm run start
 
-> friendpardy-back-end@1.0.0 start
+> friendivia-back-end@1.0.0 start
 > nodemon --exec ts-node-esm index.ts
 
 [nodemon] 2.0.22
@@ -101,7 +101,7 @@ After a while, the output should hopefully end up looking something like this:
 ```
 Compiled successfully!
 
-You can now view friendpardy-front-end in the browser.
+You can now view friendivia-front-end in the browser.
 
   Local:            http://localhost:3000/
   On Your Network:  http://10.10.21.235:3000/

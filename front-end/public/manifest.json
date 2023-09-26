@@ -1,6 +1,6 @@
 {
-  "short_name": "Friendpardy",
-  "name": "Friendpardy Front-End",
+  "short_name": "Friendivia",
+  "name": "Friendivia Front-End",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +10,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#FF8000",
+  "background_color": "#FF8000"
 }
