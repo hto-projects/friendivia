@@ -68,7 +68,7 @@ export default function HostQuestionnaireView(
     }, 20000);
   
     return () => clearInterval(intervalId); // cleanup on unmount
-  }, [spokenWarnings]);
+  }, [spokenWarnings, waitingPlayers]);
 
   return (
     <>

@@ -5,10 +5,10 @@ export default [
     playerName: "Joey",
     playerId: "friends",
     optionsList: [
-      "Pet Sematary",
-      "The Shining",
-      "Carrie",
-      "It"
+      { answerText: "Pet Sematary", answerer: "FRIENDS" },
+      { answerText: "The Shining", answerer: "FRIENDS" },
+      { answerText: "Carrie", answerer: "FRIENDS" },
+      { answerText: "It", answerer: "FRIENDS" }
     ]
   },
   {
@@ -17,10 +17,10 @@ export default [
     playerName: "Joey",
     playerId: "friends",
     optionsList: [
-      "7",
-      "5",
-      "2",
-      "None"
+      { answerText: "7", answerer: "FRIENDS" },
+      { answerText: "5", answerer: "FRIENDS" },
+      { answerText: "2", answerer: "FRIENDS" },
+      { answerText: "None", answerer: "FRIENDS" }
     ]
   },
   {
@@ -29,10 +29,10 @@ export default [
     playerName: "Joey",
     playerId: "friends",
     optionsList: [
-      "Ken Adams",
-      "Maurice",
-      "Hugsy",
-      "Alicia May Emory"
+      { answerText: "Ken Adams", answerer: "FRIENDS" },
+      { answerText: "Maurice", answerer: "FRIENDS" },
+      { answerText: "Hugsy", answerer: "FRIENDS" },
+      { answerText: "Alicia May Emory", answerer: "FRIENDS" }
     ]
   },
   {
@@ -41,10 +41,10 @@ export default [
     playerName: "Ross",
     playerId: "friends",
     optionsList: [
-      "Geologist",
-      "Astronomer",
-      "Paleontologist",
-      "Museum tour guide"
+      { answerText: "Geologist", answerer: "FRIENDS" },
+      { answerText: "Astronomer", answerer: "FRIENDS" },
+      { answerText: "Paleontologist", answerer: "FRIENDS" },
+      { answerText: "Museum tour guide", answerer: "FRIENDS" }
     ]
   },
   {
@@ -53,10 +53,10 @@ export default [
     playerName: "Chandler",
     playerId: "friends",
     optionsList: [
-      "Muriel",
-      "Miriam",
-      "Marion",
-      "Marmalade"
+      { answerText: "Muriel", answerer: "FRIENDS" },
+      { answerText: "Miriam", answerer: "FRIENDS" },
+      { answerText: "Marion", answerer: "FRIENDS" },
+      { answerText: "Marmalade", answerer: "FRIENDS" }
     ]
   },
   {
@@ -65,10 +65,10 @@ export default [
     playerName: "Rachel",
     playerId: "friends",
     optionsList: [
-      "Bruce Willis",
-      "Ben Stiller",
-      "Jean-Claude van Damme",
-      "Brad Pitt"
+      { answerText: "Bruce Willis", answerer: "FRIENDS" },
+      { answerText: "Ben Stiller", answerer: "FRIENDS" },
+      { answerText: "Jean-Claude van Damme", answerer: "FRIENDS" },
+      { answerText: "Brad Pitt", answerer: "FRIENDS" }
     ]
   },
   {
@@ -77,10 +77,10 @@ export default [
     playerId: "friends",
     playerName: "Rachel",
     optionsList: [
-      "Fluffy",
-      "Mrs Whiskerson",
-      "Chi Chi",
-      "Mozzarella"
+      { answerText: "Fluffy", answerer: "FRIENDS" },
+      { answerText: "Mrs Whiskerson", answerer: "FRIENDS" },
+      { answerText: "Chi Chi", answerer: "FRIENDS" },
+      { answerText: "Mozzarella", answerer: "FRIENDS" }
     ]
   },
   {
@@ -89,10 +89,10 @@ export default [
     playerId: "friends",
     playerName: "Phoebe",
     optionsList: [
-      "Duncan",
-      "Mike",
-      "Gary",
-      "Charlie"
+      { answerText: "Duncan", answerer: "FRIENDS" },
+      { answerText: "Mike", answerer: "FRIENDS" },
+      { answerText: "Gary", answerer: "FRIENDS" },
+      { answerText: "Charlie", answerer: "FRIENDS" }
     ]
   },
   {
@@ -101,10 +101,10 @@ export default [
     playerId: "friends",
     playerName: "Monica",
     optionsList: [
-      "Chandler",
-      "Pete",
-      "Richard",
-      "Ross"
+      { answerText: "Chandler", answerer: "FRIENDS" },
+      { answerText: "Pete", answerer: "FRIENDS" },
+      { answerText: "Richard", answerer: "FRIENDS" },
+      { answerText: "Ross", answerer: "FRIENDS" }
     ]
   },
   {
@@ -113,10 +113,10 @@ export default [
     playerId: "friends",
     playerName: "Rachel",
     optionsList: [
-      "Account Manager",
-      "Data Analyst",
-      "Computer Salesman",
-      "Transponster"
+      { answerText: "Account Manager", answerer: "FRIENDS" },
+      { answerText: "Data Analyst", answerer: "FRIENDS" },
+      { answerText: "Computer Salesman", answerer: "FRIENDS" },
+      { answerText: "Transponster", answerer: "FRIENDS" }
     ]
   },
   {
@@ -125,10 +125,10 @@ export default [
     playerId: "friends",
     playerName: "Chandler",
     optionsList: [
-      "Miss Chanandler Bong",
-      "Ms. Chanandler Bong",
-      "Mrs. Chanandler Bong",
-      "Mr. Chanandler Bong"
+      { answerText: "Miss Chanandler Bong", answerer: "FRIENDS" },
+      { answerText: "Ms. Chanandler Bong", answerer: "FRIENDS" },
+      { answerText: "Mrs. Chanandler Bong", answerer: "FRIENDS" },
+      { answerText: "Mr. Chanandler Bong", answerer: "FRIENDS" }
     ]
   },
   {
@@ -137,10 +137,10 @@ export default [
     playerId: "friends",
     playerName: "Kramer",
     optionsList: [
-      "Cosmo",
-      "Jerry",
-      "Kozmo",
-      "Kenny"
+      { answerText: "Cosmo", answerer: "FRIENDS" },
+      { answerText: "Jerry", answerer: "FRIENDS" },
+      { answerText: "Kozmo", answerer: "FRIENDS" },
+      { answerText: "Kenny", answerer: "FRIENDS" }
     ]
   },
 ];
