@@ -4,6 +4,7 @@ import IGame from '../interfaces/IGame.ts';
 import Player from '../models/Player.ts';
 import { PlayerStates } from '../interfaces/IPlayerState.ts';
 import { Server } from 'socket.io';
+import IQuizOption from '../interfaces/IQuizOption.ts';
 
 export default {
   allPlayersGoToNextQuestion: async (gameId: number, io: Server): Promise<void> => {
@@ -14,7 +15,7 @@ export default {
     }
 
     const currentQuestionIndex = currentGameData.currentQuestionIndex;
-    const quizQuestionOptionsText: string[] = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
+    const quizQuestionOptionsText: IQuizOption[] = currentGameData.quizQuestions[currentQuestionIndex].optionsList || [];
     const allPlayersInGame = await playerDb.getPlayers(gameId);
     for (let i = 0; i < allPlayersInGame.length; i++) {
       const player = allPlayersInGame[i]

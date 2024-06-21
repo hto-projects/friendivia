@@ -27,7 +27,7 @@ export default function PlayerQuestionnaire(props: IQuestionnaireProps) {
     function onSubmitQuestionnaireError(errorMsg: string) {
       setQuestionnairePlayerState({
         state: 'filling-questionnaire',
-        message: errorMsg
+        message: errorMsg.toString()
       });
     }
 

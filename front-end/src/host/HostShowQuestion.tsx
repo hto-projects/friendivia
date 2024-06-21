@@ -5,11 +5,12 @@ import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
+import IQuizOption from "back-end/interfaces/IQuizOption";
 
 interface IShowQuestionProps {
   playerName: string;
   questionText: string;
-  options: string[];
+  options: IQuizOption[];
   socket: Socket;
   gameId: number;
   timePerQuestion: number;
@@ -60,12 +61,12 @@ function HostShowQuestion(props: IShowQuestionProps) {
   function quizText() {
     const [part1, part2] = questionText.split("<PLAYER>");
     var res = "";
-    res += part1 + `${playerName}` + part2 + " .... is it ";
+    res += part1 + `${playerName}` + part2 + "? is it ";
     for (var i = 0; i < options.length; i++) {
       if (i == options.length - 1) {
-        res += `or "${options[i]}"?`;
+        res += `or "${options[i].answerText}"?`;
       } else {
-        res += `"${options[i]}", `;
+        res += `"${options[i].answerText}", `;
       }
     }
 
@@ -111,7 +112,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
           alignItems: "center",
         }}
       >
-        {options.map((o: string, i: number) => (
+        {options.map((o: IQuizOption, i: number) => (
           <Paper
             elevation={3}
             style={{
@@ -137,7 +138,7 @@ function HostShowQuestion(props: IShowQuestionProps) {
                 textAlign: "center",
               }}
             >
-              {o}
+              {o.answerText}
             </p>
           </Paper>
         ))}

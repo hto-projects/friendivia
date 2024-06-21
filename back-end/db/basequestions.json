@@ -2,7 +2,7 @@
   {
     "text": "What is your favorite movie?",
     "quizText": "What is <PLAYER>'s favorite movie?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "fakeAnswers": [
       "The Godfather",
       "Despicable Me",
@@ -13,7 +13,7 @@
   {
     "text": "What do you do for fun?",
     "quizText": "What does <PLAYER> do for fun?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "fakeAnswers": ["Nothing", "watch tv", "play music", "Minecraft"]
   },
   {
@@ -25,18 +25,18 @@
   {
     "text": "What is your favorite animal?",
     "quizText": "What is <PLAYER>'s favorite animal?",
-    "tags": ["classic", "classroom", "fun"],
+    "tags": ["classic", "classroom", "fun", "peeke-2024"],
     "fakeAnswers": ["dog", "Tiger", "Grey Wolf", "Felis catus"]
   },
   {
     "text": "What's your greatest fear?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "What's <PLAYER>'s greatest fear?",
     "fakeAnswers": ["spiders", "no fears", "Worms", "DEATH"]
   },
   {
     "text": "What's your favorite food?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "What's <PLAYER>'s favorite food?",
     "fakeAnswers": ["pizza", "Pasta", "sushi", "Taco"]
   },
@@ -44,18 +44,18 @@
     "text": "If you could go anywhere in the world, where would you go?",
     "quizText":
       "If <PLAYER> could go anywhere in the world, where would they go?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "fakeAnswers": ["Eiffel Tower", "dubai", "Japan", "Home"]
   },
   {
     "text": "Who is your favorite musical artist?",
     "quizText": "Who is <PLAYER>'s favorite musical artist?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "fakeAnswers": ["harry styles", "Taylor Swift", "weeknd", "Journey"]
   },
   {
     "text": "What is your favorite ice cream flavor?",
-    "tags": ["classic", "classroom"],
+    "tags": ["classic", "classroom", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite ice cream flavor?",
     "fakeAnswers": [
       "chocolate fudge brownie",
@@ -66,20 +66,20 @@
   },
   {
     "text": "If you could spend $5000 only at one place, where would you spend it?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText":
       "If <PLAYER> could spend $5000 only at one place, where would they spend it?",
     "fakeAnswers": ["kohl's", "target", "amazon", "Apple Store"]
   },
   {
     "text": "If you could have any one superpower, what would it be?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "If <PLAYER> could have any one superpower, what would it be?",
     "fakeAnswers": ["invisibility", "FLYYYY", "teleportation", "omniscient"]
   },
   {
     "text": "What is your favorite book genre?",
-    "tags": ["classic", "classroom", "corporate"],
+    "tags": ["classic", "classroom", "corporate", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite book genre?",
     "fakeAnswers": ["fantasy", "thriller", "Romance", "historical-fiction"]
   },
@@ -97,26 +97,26 @@
   },
   {
     "text": "If you could remain the same age forever, what would it be?",
-    "tags": ["classic", "fun", "frp"],
+    "tags": ["classic", "fun", "frp", "peeke-2024"],
     "quizText":
       "If <PLAYER> could remain the same age forever, what would it be?",
     "fakeAnswers": ["8", "25", "two", "21"]
   },
   {
     "text": "What did you dream of becoming when you were little?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "What did <PLAYER> dream of becoming when they were little?",
     "fakeAnswers": ["truck driver", "gangster", "royalty", "Astronaut"]
   },
   {
     "text": "If you were a vegetable, which one would you be?",
-    "tags": ["classic", "classroom", "fun"],
+    "tags": ["classic", "classroom", "fun", "peeke-2024"],
     "quizText": "If <PLAYER> were a vegetable, which one would they be?",
     "fakeAnswers": ["Broccoli", "Cucumber", "Carrot", "Zucchini"]
   },
   {
     "text": "What food represents you best?",
-    "tags": ["classic", "corporate", "fun"],
+    "tags": ["classic", "corporate", "fun", "peeke-2024"],
     "quizText": "What food represents <PLAYER> the best?",
     "fakeAnswers": [
       "Chocolate covered peppers",
@@ -127,31 +127,31 @@
   },
   {
     "text": "What is your favorite word?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What do you think is <PLAYER>'s favorite word?",
     "fakeAnswers": ["Indubitably", "Flabbergasted!", "Friendivia", "asymmetry"]
   },
   {
     "text": "What genre of music do you listen to the most?",
-    "tags": ["classic", "classroom", "corporate"],
+    "tags": ["classic", "classroom", "corporate", "peeke-2024"],
     "quizText": "What genre of music does <PLAYER> listen to the most?",
     "fakeAnswers": ["Pop", "rap", "country", "Idk"]
   },
   {
     "text": "What is your favorite place that you have ever been?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite place that they have ever been?",
     "fakeAnswers": ["Home", "Niagara Falls", "Chipotle", "Kauai Hawaii"]
   },
   {
     "text": "What is one adjective that you would use to describe yourself?",
-    "tags": ["classic", "corporate", "fun"],
+    "tags": ["classic", "corporate", "fun", "peeke-2024"],
     "quizText": "What adjective does <PLAYER> use to describe themselves?",
     "fakeAnswers": ["Empathetic", "humble", "perfect", "perfectionist"]
   },
   {
     "text": "What is one career field that interests you?",
-    "tags": ["classic", "classroom"],
+    "tags": ["classic", "classroom", "peeke-2024"],
     "quizText":
       "What is one career field that interests <PLAYER>?",
     "fakeAnswers": ["Computer science", "Law", "biology", "Automotive"]
@@ -182,43 +182,43 @@
   },
   {
     "text": "If you were president, what executive order would you enact?",
-    "tags": ["classic", "classroom", "fun", "frp"],
+    "tags": ["classic", "classroom", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> were president, what executive order would they enact?",
     "fakeAnswers": ["Universal healthcare", "climate change legislation", "UBI", "free pizza for everyone"]
   },
   {
     "text": "What's one topic you could do a 15-minute presentation about without any preparation?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's one topic <PLAYER> could do a 15-minute presentation about without any preparation?",
     "fakeAnswers": ["The power of meditation", "The history of Nintendo", "90s cartoons", "local wildlife"]
   },
   {
     "text": "If aliens visited earth, what would you show them to best represent humanity?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "If aliens visited earth, what would <PLAYER> show them to best represent humanity?",
     "fakeAnswers": ["works of art", "classical music", "live music, movies, art", "Paris then Tokyo then New Zealand"]
   },
   {
     "text": "Where do you feel most comfortable?",
-    "tags": ["classic", "corporate", "fun"],
+    "tags": ["classic", "corporate", "fun", "peeke-2024"],
     "quizText": "Where does <PLAYER> feel most comfortable?",
     "fakeAnswers": ["at home with family", "In nature", "with friends", "on stage"]
   },
   {
     "text": "If you had to flee the country, where would you go?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "If <PLAYER> had to flee the country, where would they go?",
     "fakeAnswers": ["Canada", "New Zealand", "Sweden", "Costa Rica"]
   },
   {
     "text": "What are you thinking about right now?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER> thinking about right now?",
     "fakeAnswers": ["food", "Weekend plans", "Work", "this question"]
   },
   {
     "text": "What's a slang word you think will be big in the 2040s?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's a slang word <PLAYER> thinks will be big in the 2040s?",
     "fakeAnswers": ["zinko", "Fluzzled", "Ziggity", "Glimpse"]
   },
@@ -236,7 +236,7 @@
   },
   {
     "text": "What would your walk-up song be?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What would <PLAYER>'s walk-up song be?",
     "fakeAnswers": [
       "bad guy by Billie Eilish",
@@ -247,7 +247,7 @@
   },
   {
     "text": "What is your favorite quote?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite quote?",
     "fakeAnswers": [
       "To be or not to be, that is the question",
@@ -271,7 +271,7 @@
   },
   {
     "text": "What three things would you bring if you were stuck on a deserted island?",
-    "tags": ["classic", "corporate"],
+    "tags": ["classic", "corporate", "peeke-2024"],
     "quizText": "What three things would <PLAYER> bring if they were stuck on a deserted island?",
     "fakeAnswers": [
       "A knife, a fishing net, and a good book",
@@ -284,7 +284,7 @@
   },
   {
     "text": "How do you like to start your day?",
-    "tags": ["classic", "corporate", "fun"],
+    "tags": ["classic", "corporate", "fun", "peeke-2024"],
     "quizText": "How does <PLAYER> like to start their day?",
     "fakeAnswers": [
       "with a strong coffee and some good music",
@@ -296,7 +296,7 @@
   },
   {
     "text": "In which fictional place would you most like to live?",
-    "tags": ["classic", "classroom", "corporate"],
+    "tags": ["classic", "classroom", "corporate", "peeke-2024"],
     "quizText": "In which fictional place would <PLAYER> most like to live?",
     "fakeAnswers": [
       "hogwarts",
@@ -309,7 +309,7 @@
   },
   {
     "text": "What trend do you hope makes a comeback?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What trend does <PLAYER> hope makes a comeback?",
     "fakeAnswers": [
       "flared jeans",
@@ -331,19 +331,19 @@
   },
   {
     "text": "What's your most used app on your phone?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's <PLAYER>'s most used app on their phone?",
     "fakeAnswers": ["insta", "snapchat", "TikTok", "the calculator application"]
   },
   {
     "text": "How will society be different in 50 years?",
-    "tags": ["classic", "corporate", "frp"],
+    "tags": ["classic", "corporate", "frp", "peeke-2024"],
     "quizText": "According to <PLAYER>, how will society be different in 50 years?",
     "fakeAnswers": ["hopefully there will be a better healthcare", "AI is taking over", "Climate change will escalate", "faster phones"]
   },
   {
     "text": "If you could swap lives with anyone, who would you want to be?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> could swap lives with anyone, who would they want to be?",
     "fakeAnswers": ["LeBron James", "Taylor swift", "Joe Biden", "anyone else"]
   },
@@ -371,7 +371,7 @@
   },
   {
     "text": "What animal would you want as a companion?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "What animal would <PLAYER> want as a companion?",
     "fakeAnswers": [
       "my dog",
@@ -404,7 +404,7 @@
   },
   {
     "text": "What is your favorite dessert?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite dessert?",
     "fakeAnswers": [
       "ice cream",
@@ -426,7 +426,7 @@
   },
   {
     "text": "What do you think about artificial intelligence?",
-    "tags": ["corporate", "frp"],
+    "tags": ["corporate", "frp", "peeke-2024"],
     "quizText": "What does <PLAYER> think about artificial intelligence?",
     "fakeAnswers": [
       "Its power is overblown",
@@ -437,7 +437,7 @@
   },
   {
     "text": "What do you think about aliens?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What does <PLAYER> think about aliens?",
     "fakeAnswers": [
       "they are definitely real",
@@ -448,7 +448,7 @@
   },
   {
     "text": "What do you think about time travel?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What does <PLAYER> think about time travel?",
     "fakeAnswers": [
       "it can never be possible",
@@ -459,7 +459,7 @@
   },
   {
     "text": "What are your thoughts on parallel universes?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What does <PLAYER> think about parallel universes?",
     "fakeAnswers": [
       "they're just a fun theory",
@@ -470,7 +470,7 @@
   },
   {
     "text": "What's your favorite conspiracy theory?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What's <PLAYER>'s favorite conspiracy theory?",
     "fakeAnswers": [
       "aliens built the pyramids",
@@ -483,7 +483,7 @@
   },
   {
     "text": "What's your favorite urban legend or cryptid?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What's <PLAYER>'s favorite urban legend or cryptid?",
     "fakeAnswers": [
       "slenderman",
@@ -494,7 +494,7 @@
   },
   {
     "text": "If you could time travel to any era, where would you go?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> could time travel to any era, where would they go?",
     "fakeAnswers": [
       "the roaring twenties",
@@ -505,7 +505,7 @@
   },
   {
     "text": "What's one feature you would want for your dream home?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's one feature <PLAYER> would want for their dream home?",
     "fakeAnswers": [
       "mid-century modern appointments",
@@ -517,7 +517,7 @@
   },
   {
     "text": "If you were to design an amusement park, what theme would you choose for it?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> were to design an amusement park, what theme would they choose for it?",
     "fakeAnswers": [
       "Horror / haunted house",
@@ -528,7 +528,7 @@
   },
   {
     "text": "If you had unlimited resources, what would you be for a costume party?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> had unlimited resources, what would they be for a costume party?",
     "fakeAnswers": [
       "a ghost",
@@ -539,7 +539,7 @@
   },
   {
     "text": "If you were to start your own business, what kind of business would it be?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> were to start their own business, what kind of business would it be?",
     "fakeAnswers": [
       "A software company",
@@ -550,7 +550,7 @@
   },
   {
     "text": "What's one thing you predict will happen in the next ten years?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's one thing <PLAYER> predicts will happen in the next ten years?",
     "fakeAnswers": [
       "the end of the world",
@@ -561,7 +561,7 @@
   },
   {
     "text": "What's your favorite meme?",
-    "tags": ["classic", "corporate"],
+    "tags": ["classic", "corporate", "peeke-2024"],
     "quizText": "What's <PLAYER>'s favorite meme?",
     "fakeAnswers": [
       "distracted boyfriend",
@@ -573,7 +573,7 @@
   },
   {
     "text": "If you could have any fictional character as your best friend, who would it be?",
-    "tags": ["classic", "corporate"],
+    "tags": ["classic", "corporate", "peeke-2024"],
     "quizText": "If <PLAYER> could have any fictional character as their best friend, who would it be?",
     "fakeAnswers": [
       "harry potter",
@@ -628,7 +628,7 @@
   },
   {
     "text": "If you could have dinner with any historical figure, who would it be?",
-    "tags": ["classic", "classroom", "corporate"],
+    "tags": ["classic", "classroom", "corporate", "peeke-2024"],
     "quizText": "If <PLAYER> could have dinner with any historical figure, who would it be?",
     "fakeAnswers": [
       "Albert Einstein",
@@ -650,7 +650,7 @@
   },
   {
     "text": "If you could instantly become fluent in a new language, which one would you choose?",
-    "tags": ["classic", "corporate"],
+    "tags": ["classic", "corporate", "peeke-2024"],
     "quizText": "If <PLAYER> could instantly become fluent in a new language, which one would they choose?",
     "fakeAnswers": [
       "spanish",
@@ -661,7 +661,7 @@
   },
   {
     "text": "What is your favorite outdoor activity?",
-    "tags": ["classic", "classroom", "corporate"],
+    "tags": ["classic", "classroom", "corporate", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite outdoor activity?",
     "fakeAnswers": [
       "hiking",
@@ -671,8 +671,8 @@
     ]
   },
   {
-    "text": "Wat is your dream vacation destination?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "text": "What is your dream vacation destination?",
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What's <PLAYER>'s dream vacation destination?",
     "fakeAnswers": [
       "Bora Bora",
@@ -694,7 +694,7 @@
   },
   {
     "text": "If you could meet any fictional character, who would it be?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "If <PLAYER> could meet any fictional character, who would it be?",
     "fakeAnswers": [
       "Harry Potter",
@@ -705,7 +705,7 @@
   },
   {
     "text": "How do you like to spend a rainy day?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "How does <PLAYER> like to spend a rainy day?",
     "fakeAnswers": [
       "reading a book",
@@ -750,7 +750,7 @@
   },
   {
     "text": "If you could be a character in a video game, who would it be?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "If <PLAYER> could be a character in a video game, who would they choose?",
     "fakeAnswers": [
       "Mario",
@@ -762,7 +762,7 @@
   },
   {
     "text": "What type of weather do you enjoy most?",
-    "tags": ["classic", "classroom", "corporate", "fun"],
+    "tags": ["classic", "classroom", "corporate", "fun", "peeke-2024"],
     "quizText": "What type of weather does <PLAYER> enjoy most?",
     "fakeAnswers": [
       "sun",
@@ -784,7 +784,7 @@
   },
   {
     "text": "What is a famous landmark you'd love to visit?",
-    "tags": ["classic", "corporate", "fun"],
+    "tags": ["classic", "corporate", "fun", "peeke-2024"],
     "quizText": "What is a famous landmark <PLAYER> would love to visit?",
     "fakeAnswers": [
       "the Great Wall of China",
@@ -842,7 +842,7 @@
   },
   {
     "text": "What's one piece of advice you would give to your younger self?",
-    "tags": ["classic", "corporate", "frp"],
+    "tags": ["classic", "corporate", "frp", "peeke-2024"],
     "quizText": "What's one piece of advice <PLAYER> would give to their younger self?",
     "fakeAnswers": [
       "don't be afraid to take risks",
@@ -919,7 +919,7 @@
   },
   { 
     "text": "What is your favorite form of exercise?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite form of exercise?",
     "fakeAnswers": [
       "running",
@@ -930,7 +930,7 @@
   },
   { 
     "text": "What did you eat for breakfast this morning?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What did <PLAYER> eat for breakfast this morning?",
     "fakeAnswers": [
       "a banana",
@@ -941,7 +941,7 @@
   },
   { 
     "text": "If you had a podcast, who would you want as a guest?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> had a podcast, who would they want as a guest?",
     "fakeAnswers": [
       "Joe BRiggs",
@@ -963,7 +963,7 @@
   },
   { 
     "text": "Which class did you enjoy the most in your life?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "Which class did <PLAYER> enjoy the most in their life?",
     "fakeAnswers": [
       "english",
@@ -985,7 +985,7 @@
   },
   { 
     "text": "If you had to perform in a talent show tonight, what would you do for it?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> had to perform in a talent show tonight, what would they do for it?",
     "fakeAnswers": [
       "probably sing",
@@ -996,7 +996,7 @@
   },
   { 
     "text": "What would you wear if you had to wear the same thing for the rest of your life?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What would <PLAYER> wear if they had to wear the same thing for the rest of their life?",
     "fakeAnswers": [
       "a hat",
@@ -1007,7 +1007,7 @@
   },
   { 
     "text": "Who would you add to Mount Rushmore?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "Who would <PLAYER> add to Mount Rushmore?",
     "fakeAnswers": [
       "George Washington",
@@ -1029,7 +1029,7 @@
   },
   { 
     "text": "What is your favorite time of day?",
-    "tags": ["classic", "classroom", "corporate", "frp"],
+    "tags": ["classic", "classroom", "corporate", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s favorite time of day?",
     "fakeAnswers": [
       "morning",
@@ -1062,7 +1062,7 @@
   },
   { 
     "text": "What is your phone wallpaper?",
-    "tags": ["corporate", "fun", "frp"],
+    "tags": ["corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s phone wallpaper?",
     "fakeAnswers": [
       "my wife",
@@ -1073,7 +1073,7 @@
   },
   { 
     "text": "If you could have an unlimited supply of one thing, what would it be?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> could have an unlimited supply of one thing, what would it be?",
     "fakeAnswers": [
       "money",
@@ -1084,7 +1084,7 @@
   },
   { 
     "text": "If you were immortal, what would you do?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> were immortal, what would they do?",
     "fakeAnswers": [
       "wait",
@@ -1095,7 +1095,7 @@
   },
   { 
     "text": "If you could teleport anywhere right now, where would you go?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> could teleport anywhere right now, where would they go?",
     "fakeAnswers": [
       "not sure",
@@ -1172,7 +1172,7 @@
   },
   { 
     "text": "If you had a million dollars, what unconventional thing would you buy?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> had a million dollars, what unconventional thing would they buy?",
     "fakeAnswers": [
       "an unconventional house",
@@ -1205,7 +1205,7 @@
   },
   { 
     "text": "What's something you've learned about yourself in the past three months?",
-    "tags": ["corporate", "frp"],
+    "tags": ["corporate", "frp", "peeke-2024"],
     "quizText": "What's something <PLAYER> has learned about themselves in the past three months?",
     "fakeAnswers": [
       "nothing",
@@ -1216,7 +1216,7 @@
   },
   { 
     "text": "What is your most impressive skill?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s most impressive skill?",
     "fakeAnswers": [
       "Beatboxing",
@@ -1248,8 +1248,8 @@
     ]
   },
   { 
-    "text": "What mobile game do you play the most?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "text": "What mobile game have you played the most?",
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What mobile game does <PLAYER> play the most?",
     "fakeAnswers": [
       "Candy Crush",
@@ -1271,7 +1271,7 @@
   },
   { 
     "text": "What game did you play the most as a kid?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What game did <PLAYER> play the most as a kid?",
     "fakeAnswers": [
       "Monopoly",
@@ -1326,7 +1326,7 @@
   },
   { 
     "text": "What trivia category could you absolutely crush?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What trivia category could <PLAYER> absolutely crush?",
     "fakeAnswers": [
       "US History",
@@ -1337,7 +1337,7 @@
   },
   { 
     "text": "What are you planning to eat next?",
-    "tags": ["classic", "fun", "frp"],
+    "tags": ["classic", "fun", "frp", "peeke-2024"],
     "quizText": "What is <PLAYER> planning to eat next?",
     "fakeAnswers": [
       "dinner",
@@ -1370,7 +1370,7 @@
   },
   { 
     "text": "What is the best bird?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "According to <PLAYER>, what is the best bird?",
     "fakeAnswers": [
       "im the biggest bird",
@@ -1381,7 +1381,7 @@
   },
   { 
     "text": "If you had vanity license plates, what would they say?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> had vanity license plates, what would they say?",
     "fakeAnswers": [
       "IM GR8",
@@ -1425,7 +1425,7 @@
   },
   { 
     "text": "What has made you smile recently?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What has made <PLAYER> smile recently?",
     "fakeAnswers": [
       "Pizza",
@@ -1447,7 +1447,7 @@
   },
   { 
     "text": "What's the worst advice you could ever give?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What's the worst advice <PLAYER> could ever give?",
     "fakeAnswers": [
       "Don't quit your day job",
@@ -1524,7 +1524,7 @@
   },
   { 
     "text": "If you did not have to sleep, how would you spend the extra eight hours?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> did not have to sleep, how would they spend the extra eight hours?",
     "fakeAnswers": [
       "sleeping anyway",
@@ -1535,7 +1535,7 @@
   },
   { 
     "text": "If you could describe your life as a movie, what genre would it be?",
-    "tags": ["classic", "corporate", "fun", "frp"],
+    "tags": ["classic", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> could describe your life as a movie, what genre would it be?",
     "fakeAnswers": [
       "horror",
@@ -1568,7 +1568,7 @@
   },
   { 
     "text": "What current fact about you would most impress your five-year-old self?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "What current fact about <PLAYER> would most impress their five-year-old self?",
     "fakeAnswers": [
       "I have a job",
@@ -1590,7 +1590,7 @@
   },
   { 
     "text": "How would other people describe you?",
-    "tags": ["corporate", "frp"],
+    "tags": ["corporate", "frp", "peeke-2024"],
     "quizText": "How does <PLAYER> think other people would describe them?",
     "fakeAnswers": [
       "i do not know",
@@ -1601,7 +1601,7 @@
   },
   { 
     "text": "What question would you ask a psychic?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "What question would <PLAYER> ask a psychic?",
     "fakeAnswers": [
       "no question",
@@ -1656,7 +1656,7 @@
   },
   { 
     "text": "If you wrote an autobiography, what would be the title?",
-    "tags": ["classic", "classroom", "corporate", "fun", "frp"],
+    "tags": ["classic", "classroom", "corporate", "fun", "frp", "peeke-2024"],
     "quizText": "If <PLAYER> wrote an autobiography, what would be the title?",
     "fakeAnswers": [
       "The Alan Partridge Story",
@@ -1678,7 +1678,7 @@
   },
   { 
     "text": "How are you feeling right now?",
-    "tags": ["fun", "frp"],
+    "tags": ["fun", "frp", "peeke-2024"],
     "quizText": "How is <PLAYER> feeling right now?",
     "fakeAnswers": [
       "idk",
@@ -1700,7 +1700,7 @@
   },
   { 
     "text": "What was your favorite breakfast as a kid?",
-    "tags": ["corporate", "frp"],
+    "tags": ["corporate", "frp", "peeke-2024"],
     "quizText": "What was <PLAYER>'s favorite breakfast as a kid?",
     "fakeAnswers": [
       "Cocoa puffs",
@@ -1786,7 +1786,7 @@
   },
   {
     "text": "What would you do if you didn't have to go to school?",
-    "tags": ["classroom"],
+    "tags": ["classroom", "peeke-2024"],
     "quizText": "What would <PLAYER> do if they didn't have to go to school?",
     "fakeAnswers": [
       "nothing",
@@ -1796,7 +1796,7 @@
   },
   {
     "text": "If you could choose the uniform for your school, what would it be?",
-    "tags": ["classroom"],
+    "tags": ["classroom", "peeke-2024"],
     "quizText": "If <PLAYER> could choose the uniform for their school, what would it be?",
     "fakeAnswers": [
       "green shirt",
@@ -1806,7 +1806,7 @@
   },
   {
     "text": "What's your favorite extra-curricular activity?",
-    "tags": ["classroom"],
+    "tags": ["classroom", "peeke-2024"],
     "quizText": "What's <PLAYER>'s favorite extra-curricular activity?",
     "fakeAnswers": [
       "soccer",
@@ -1816,7 +1816,7 @@
   },
   {
     "text": "What did you do for your last birthday?",
-    "tags": ["classroom"],
+    "tags": ["classroom", "peeke-2024"],
     "quizText": "What did <PLAYER> do for their last birthday?",
     "fakeAnswers": [
       "soccer",
@@ -1887,7 +1887,7 @@
   },
   {
     "text": "What's one thing that's troubling you right now?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "What's one thing that's troubling <PLAYER> right now?",
     "fakeAnswers": [
       "my career",
@@ -1898,7 +1898,7 @@
   },
   {
     "text": "If you could change the past, what would you alter?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "If <PLAYER> could change the past, what would they alter?",
     "fakeAnswers": ["No more WWII", "nothing", "invest in Nike", "remove colonialism"]
   }, 
@@ -1924,7 +1924,7 @@
   },
   {
     "text": "What is your social security number?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "quizText": "What is <PLAYER>'s social security number?",
     "fakeAnswers": [
       "925-94-2039",
@@ -1956,7 +1956,7 @@
   },
   {
     "text": "What would you say if you were trying to make someone laugh?",
-    "tags": ["frp", "fun"],
+    "tags": ["frp", "fun", "peeke-2024"],
     "quizText": "What would <PLAYER> say if they were trying to make someone laugh?",
     "fakeAnswers": [
       "nothing",
@@ -2007,7 +2007,7 @@
   {
     "text": "In your opinion, what's the funniest word in the English language?",
     "quizText": "In <PLAYER>'s opinion, what's the funniest word in the English language?",
-    "tags": ["frp", "fun"],
+    "tags": ["frp", "fun", "peeke-2024"],
     "fakeAnswers": [
       "idk",
       "lol",
@@ -2047,7 +2047,7 @@
   {
     "text": "How was your week?",
     "quizText": "How was <PLAYER>'s week?",
-    "tags": ["frp"],
+    "tags": ["frp", "peeke-2024"],
     "fakeAnswers": [
       "idk",
       "fine",
@@ -2067,7 +2067,7 @@
   {
     "text": "What was your last Halloween costume?",
     "quizText": "What was <PLAYER>'s last Halloween costume?",
-    "tags": ["frp", "classroom", "classic", "fun"],
+    "tags": ["frp", "classroom", "classic", "fun", "peeke-2024"],
     "fakeAnswers": [
       "none",
       "the bear",
@@ -2287,7 +2287,7 @@
   {
     "text": "What excites you most about the future?",
     "quizText": "What excites <PLAYER> most about the future?",
-    "tags": ["frp", "corporate", "fun"],
+    "tags": ["frp", "corporate", "fun", "peeke-2024"],
     "fakeAnswers": [
       "idk",
       "life",
@@ -2297,7 +2297,7 @@
   {
     "text": "What is the most fun you've ever had?",
     "quizText": "What is the most fun <PLAYER> has ever had?",
-    "tags": ["frp", "classroom", "classic"],
+    "tags": ["frp", "classroom", "classic", "peeke-2024"],
     "fakeAnswers": [
       "idk",
       "being a kid at the beach",
@@ -2312,6 +2312,66 @@
       "idk",
       "nothing",
       "everybody loves raymond"
+    ]
+  },
+  {
+    "text": "What do you want to make the host of this game say?",
+    "quizText": "Ugh. What does <PLAYER> want me to say?",
+    "tags": ["frp", "peeke-2024"],
+    "fakeAnswers": [
+      "idk",
+      "nothing",
+      "everybody loves raymond"
+    ]
+  },
+  {
+    "text": "What has been the worst part of this internship?",
+    "quizText": "What does <PLAYER> think the worst part of this internship has been?",
+    "tags": ["peeke-2024"],
+    "fakeAnswers": [
+      "idk",
+      "nothing",
+      "all good"
+    ]
+  },
+  {
+    "text": "What has been the best part of this internship?",
+    "quizText": "What does <PLAYER> think the best part of this internship has been?",
+    "tags": ["peeke-2024"],
+    "fakeAnswers": [
+      "idk",
+      "nothing",
+      "all good"
+    ]
+  },
+  {
+    "text": "What have you learned this summer?",
+    "quizText": "What has <PLAYER> learned this summer?",
+    "tags": ["peeke-2024"],
+    "fakeAnswers": [
+      "idk",
+      "nothing",
+      "all good"
+    ]
+  },
+  {
+    "text": "What would be a bad name for a dog?",
+    "quizText": "According to <PLAYER>, what would be a bad name for a dog?",
+    "tags": ["frp", "peeke-2024"],
+    "fakeAnswers": [
+      "Lucas",
+      "Jeryr",
+      "God"
+    ]
+  },
+  {
+    "text": "What's the best fast food?",
+    "quizText": "According to <PLAYER>, what's the best fast food?",
+    "tags": ["frp", "peeke-2024"],
+    "fakeAnswers": [
+      "MCd",
+      "wendys",
+      "God"
     ]
   }
 ]

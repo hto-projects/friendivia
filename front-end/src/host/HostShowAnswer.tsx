@@ -6,11 +6,12 @@ import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { pickOne } from "../util";
 import PlayerBadge from "./PlayerBadge";
+import IQuizOption from "back-end/interfaces/IQuizOption";
 
 interface IShowAnswerProps {
   playerName: string;
   questionText: string;
-  options: string[];
+  options: IQuizOption[];
   correctAnswerIndex: number;
   playerGuesses: Array<any>;
   socket: Socket;
@@ -54,7 +55,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function correctText() {
-    var res = `The correct answer was "${options[correctAnswerIndex]}".`;
+    var res = `The correct answer was "${options[correctAnswerIndex].answerText}".`;
     if (correctPlayers.length != 0) {
       const encourage = pickOne([
         "Nice guessing",
@@ -73,16 +74,21 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
       res += `! ${sad}`;
     }
 
-    correctPlayers.forEach((e) => {
-      if (
-        e.name === correctPlayers[correctPlayers.length - 1].name &&
-        e.name !== correctPlayers[0].name
-      ) {
-        res += "and " + e.name + ".";
-      } else {
-        res += e.name + ", ";
-      }
-    });
+    if (correctPlayers.length < 4) {
+      correctPlayers.forEach((e) => {
+        if (
+          e.name === correctPlayers[correctPlayers.length - 1].name &&
+          e.name !== correctPlayers[0].name
+        ) {
+          res += "and " + e.name + ".";
+        } else {
+          res += e.name + ", ";
+        }
+      });
+    } else {
+      res += "- lots of people got this one.";
+    }
+
     return res;
   }
 
@@ -123,7 +129,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
             alignItems: "center",
           }}
         >
-          {options.map((o: string, i: number) => (
+          {options.map((op: IQuizOption, i: number) => (
             <div
               className="guesses"
               style={{
@@ -141,6 +147,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                   padding: "1.5rem",
                   display: "flex",
                   alignItems: "center",
+                  flexDirection: "column",
                   justifyContent: "center",
                   background:
                     i === correctAnswerIndex
@@ -161,8 +168,9 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
                     textAlign: "center",
                   }}
                 >
-                  {o}
+                  {op.answerText}
                 </p>
+                {i !== correctAnswerIndex && <p>(from <b>{op.answerer}</b>)</p>}
               </Paper>
               <Stack
                 sx={{
