@@ -8,7 +8,7 @@ export default function PlayAudio(props) {
             return;
         }
 
-        audio.volume = 0.42;
+        audio.volume = 0.25;
         let playing:boolean = (localStorage.getItem('Music-Playing') !== 'false' ? true : false);
         if (audio && playing) {
                 audio.play();

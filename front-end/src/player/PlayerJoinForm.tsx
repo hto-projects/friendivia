@@ -55,7 +55,7 @@ export default function PlayerJoinForm(props: IJoinFormProps) {
             variant="outlined"
             size="medium"
             value={name}
-            inputProps={{ maxLength: 10 }}
+            inputProps={{ maxLength: 15 }}
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
             sx={{
