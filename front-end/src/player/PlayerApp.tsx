@@ -14,6 +14,7 @@ import PlayerOver from "./PlayerOver";
 import { Button } from "../extra/FrdvButton";
 import PlayerNewRanking from "./PlayerNewRanking";
 import PlayerKicked from "./PlayerKicked";
+import IQuizOption from "back-end/interfaces/IQuizOption";
 
 interface PlayerAppProps {
   socket: Socket;
@@ -32,7 +33,7 @@ export default function PlayerApp(props: PlayerAppProps) {
     setQuestionnaireQuestionsText,
   ] = React.useState<string[]>([]);
   const [quizQuestionOptionsText, setQuizQuestionOptionsText] = React.useState<
-    string[]
+    IQuizOption[]
   >([]);
   const [loaded, setLoaded] = React.useState<boolean>(false);
 

@@ -3,9 +3,10 @@ import "../style.css";
 import { Button } from "../extra/FrdvButton";
 import { Socket } from "socket.io-client";
 import PlayerWait from "./PlayerWait";
+import IQuizOption from "back-end/interfaces/IQuizOption";
 
 interface IQuizQuestionViewProps {
-  optionsList: string[];
+  optionsList: IQuizOption[];
   socket: Socket;
   playerState: {
     state: string;
@@ -36,7 +37,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
   const optionsForm = (
     <div>
       <div className="answerOptions">
-        {optionsList.map((o: String, i: number) => (
+        {optionsList.map((o: IQuizOption, i: number) => (
           <>
             <br />
             <Button
@@ -51,7 +52,7 @@ export default function PlayerQuizQuestionView(props: IQuizQuestionViewProps) {
               key={i}
               onClick={() => goTo(i)}
             >
-              {o}
+              {o.answerText}
             </Button>
           </>
         ))}

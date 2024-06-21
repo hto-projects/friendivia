@@ -116,6 +116,7 @@ export default (io: Server, socket: Socket) => {
         hostHelpers.onHostViewUpdate(gameId, io);
       }
     } catch (e) {
+      console.log(e);
       socket.emit('player-submit-questionnaire-error', e);
     }
   };

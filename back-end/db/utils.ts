@@ -4,6 +4,7 @@ import IQuizQuestion from "../interfaces/IQuizQuestion";
 import questionDb from "../db/question.ts";
 import playerDb from "../db/player.ts";
 import { Schema } from "mongoose";
+import IQuizOption from "../interfaces/IQuizOption.ts";
 
 function getNumberOfQuestions(players) {
   return Math.max(4, players.length);
@@ -63,8 +64,12 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[], cu
     }
 
     const correctAnswer: string = playerQuestion.answer;
-    const options: string[] = [correctAnswer];
-    const otherPlayerOptions: string[] = [];
+    const options: IQuizOption[] = [{
+      answerText: playerQuestion.answer,
+      answerer: player.name
+    }];
+
+    const otherPlayerOptions: IQuizOption[] = [];
 
     for (let j = 0; j < playerQuestionnaires.length; j++) {
       if (j === i) continue;
@@ -72,12 +77,27 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[], cu
       const optionPlayerQp = playerQuestionnaires[j];
       const optionPlayerQ: PlayerQuestionnaireQuestion | undefined = optionPlayerQp.questions.find(q => q.questionId.toString() === playerQuestion.questionId.toString());
       if (optionPlayerQ && optionPlayerQ.answer) {
-        otherPlayerOptions.push(optionPlayerQ.answer);
+        const optionPlayer: IPlayer | null = await playerDb.getPlayer(optionPlayerQp.playerId);
+        if (!optionPlayer) {
+          continue;
+        }
+
+        otherPlayerOptions.push({
+          answerText: optionPlayerQ.answer,
+          answerer: optionPlayer.name
+        });
       }
     }
 
-    const optionsWithOtherPlayers = selectRandom(options, otherPlayerOptions, 4);
-    const optionsWithFakes = selectRandom(optionsWithOtherPlayers, questionnaireQuestion.fakeAnswers, 4);
+    const optionsWithOtherPlayers: IQuizOption[] = selectRandomQuizOptions(options, otherPlayerOptions, 4);
+    const fakeAnswers: IQuizOption[] = questionnaireQuestion.fakeAnswers.map(fakeText => {
+      return {
+        answerText: fakeText,
+        answerer: "FAKE ANSWERER"
+      };
+    });
+
+    const optionsWithFakes: IQuizOption[] = selectRandomQuizOptions(optionsWithOtherPlayers, fakeAnswers, 4);
 
     shuffle(optionsWithFakes);
     quizQuestions.push({
@@ -85,7 +105,7 @@ export async function createQuiz(playerQuestionnaires: PlayerQuestionnaire[], cu
       playerId: playerQuestionnaire.playerId,
       playerName: player.name,
       optionsList: optionsWithFakes,
-      correctAnswerIndex: optionsWithFakes.indexOf(correctAnswer),
+      correctAnswerIndex: optionsWithFakes.findIndex(option => option.answerText === correctAnswer)
     });
   }
 
@@ -114,6 +134,19 @@ const selectRandom = (mainList, newList, count) => {
   while (mainListCopy.length < count && newListCopy.length > 0) {
     let newValue = chooseRandomFromList(newListCopy);
     if (!mainListCopy.some(s => s.toLowerCase() === newValue.toLowerCase())) {
+      mainListCopy.push(newValue);
+    }
+  }
+
+  return mainListCopy;
+}
+
+const selectRandomQuizOptions = (mainList: IQuizOption[], newList: IQuizOption[], count: number): IQuizOption[] => {
+  let newListCopy: IQuizOption[] = [...newList];
+  let mainListCopy: IQuizOption[] = [...mainList];
+  while (mainListCopy.length < count && newListCopy.length > 0) {
+    let newValue: IQuizOption = chooseRandomFromList(newListCopy);
+    if (!mainListCopy.some(qo => qo.answerText.toLowerCase() === newValue.answerText.toLowerCase())) {
       mainListCopy.push(newValue);
     }
   }
@@ -188,7 +221,7 @@ export const generateQuiz = (players: IPlayer[], questionnaireQs: IQuestionnaire
       text: text,
       playerId: currentPlayerId,
       playerName: currentPlayer.name,
-      optionsList: options
+      optionsList: []
     }
     
     questionsList.push(currentQuestion);

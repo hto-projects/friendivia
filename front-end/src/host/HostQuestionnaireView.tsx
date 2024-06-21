@@ -6,6 +6,7 @@ import { Socket } from "socket.io-client";
 import Speak from "../Speak";
 import { Button } from "../extra/FrdvButton";
 import PlayerBadge from "./PlayerBadge";
+import { pickOneAndInterp, pickOne } from "../util";
 
 interface HostQuestionnaireViewProps {
   donePlayers: any;
@@ -20,32 +21,6 @@ export default function HostQuestionnaireView(
   let waitingPlayers = props.waitingPlayers;
   let donePlayers = props.donePlayers;
   let socket = props.socket;
-  const [warningReached, setWarningReached] = React.useState(false);
-  let spokenText = "";
-
-  const [warning2Reached, setWarning2Reached] = React.useState(false);
-  let spokenText2 = "";
-
-  const [warning3Reached, setWarning3Reached] = React.useState(false);
-  let spokenText3= "";
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setWarningReached(true);
-    }, 20000);
-  }, [warningReached, setWarningReached]);
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setWarning2Reached(true);
-    }, 40000);
-  }, [warning2Reached, setWarning2Reached]);
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setWarning3Reached(true);
-    }, 60000);
-  }, [warning3Reached, setWarning3Reached]);
 
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
@@ -55,23 +30,51 @@ export default function HostQuestionnaireView(
     }
   }
 
-  if (warningReached && waitingPlayers.length > 0) {
-    spokenText = `Hurry up, "${waitingPlayers[0]}"!`;
-  }
+  const doneMessages = [
+    "Thank you, {{name}}.",
+    "You did it, {{name}}!",
+    "Good, {{name}}!",
+    "Yay, {{name}} is done!",
+    "{{name}} is finished!",
+    "{{name}} is ready to go!",
+    "Great job, {{name}}!",
+    "You're all set, {{name}}!",
+    "You're done, {{name}}!",
+    "You're all finished, {{name}}!",
+    "{{name}} is all set.",
+    "{{name}} has completed their questionnaire.",
+    "I knew you could do it, {{name}}.",
+  ];
 
-  if (warning2Reached && waitingPlayers.length > 1) {
-    spokenText2 = `Don't worry, "${waitingPlayers[1]}". You still have time.`;
-  }
+  const warningMessages = [
+    "Let's go, {{name}}.",
+    "Hurry it up, {{name}}",
+    "What's taking {{name}} so long?",
+    "Don't worry, {{name}}. You still have time.",
+    "Ok seriously, let's go {{name}}.",
+    "Come on, {{name}}. We don't have all day.",
+    "Seriously, {{name}}. Let's get moving.",
+    "{{name}} has gotta pick up the pace.",
+    "I'm waiting, {{name}}."
+  ];
 
-  if (warning3Reached && waitingPlayers.length > 0) {
-    spokenText3 = `Ok seriously, let's go "${waitingPlayers[0]}". I have places to be.`;
-  }
+  const [spokenWarnings, setSpokenWarnings] = React.useState([] as string[]);
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (waitingPlayers.length > 0) {
+        setSpokenWarnings([...spokenWarnings, pickOneAndInterp(warningMessages, pickOne(waitingPlayers))]);
+      }
+    }, 20000);
+  
+    return () => clearInterval(intervalId); // cleanup on unmount
+  }, [spokenWarnings]);
 
   return (
     <>
-      {spokenText && <Speak text={spokenText} />}
-      {spokenText2 && <Speak text={spokenText2} />}
-      {spokenText3 && <Speak text={spokenText3} />}
+      {spokenWarnings.map((text: string, i: number) => (
+        <Speak key={i} text={text} />
+      ))}
       {waitingPlayers.length === 1 && (
         <Speak text={`It all comes down to you, ${waitingPlayers[0]}.`} />
       )}
@@ -166,7 +169,7 @@ export default function HostQuestionnaireView(
             >
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
-                  {i === 0 && <Speak text={`Thank you, ${name}.`} />}
+                  {waitingPlayers.length > 1 && <Speak text={pickOneAndInterp(doneMessages, name)} />}
                   <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
               ))}

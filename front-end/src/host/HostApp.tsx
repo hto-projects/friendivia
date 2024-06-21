@@ -6,6 +6,7 @@ import HostQuestionnaire from "./HostQuestionnaire";
 import HostPreQuiz from "./HostPreQuiz";
 import HostShowQuestion from "./HostShowQuestion";
 import IQuizQuestion from "back-end/interfaces/IQuizQuestion";
+import IQuizOption from "back-end/interfaces/IQuizOption";
 import IGame from "back-end/interfaces/IGame";
 import IPreGameSettings from "back-end/interfaces/IPreGameSettings";
 import HostShowAnswer from "./HostShowAnswer";
@@ -206,7 +207,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "showing-question") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
-      const quizQuestionOptions = currentQuizQuestion.optionsList;
+      const quizQuestionOptions: IQuizOption[] = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
 
@@ -231,7 +232,7 @@ export default function HostApp(props: IHostProps) {
     } else if (state === "showing-answer") {
       const currentQuizQuestion: IQuizQuestion =
         quizQuestions[currentQuizQuestionIndex];
-      const quizQuestionOptions = currentQuizQuestion.optionsList;
+      const quizQuestionOptions: IQuizOption[] = currentQuizQuestion.optionsList;
       const quizQuestionText = currentQuizQuestion.text;
       const quizQuestionPlayerName = currentQuizQuestion.playerName;
       const correctAnswerIndex = currentQuizQuestion.correctAnswerIndex;

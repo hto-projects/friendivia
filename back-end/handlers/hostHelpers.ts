@@ -13,7 +13,7 @@ import IGuess from '../interfaces/IGuess.ts';
 import { PlayerQuestionnaire } from '../interfaces/IQuestionnaireQuestion.ts';
 
 const PRE_QUIZ_MS = 5000;
-const PRE_ANSWER_MS = 5000;
+const PRE_ANSWER_MS = 3000;
 const PRE_LEADER_BOARD_MS = 5000;
 const PRE_QUESTIONNAIRE_MS = 3000;
 let nextQuestionTimer;

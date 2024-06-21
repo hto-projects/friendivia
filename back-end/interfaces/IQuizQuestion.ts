@@ -1,7 +1,9 @@
+import IQuizOption from "./IQuizOption";
+
 export default interface IQuizQuestion {
 	text: string,
 	playerId: string,
 	playerName: string,
-	optionsList: string[],
+	optionsList: IQuizOption[],
 	correctAnswerIndex: number,
 }
