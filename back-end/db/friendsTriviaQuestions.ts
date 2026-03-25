@@ -37,7 +37,7 @@ export default [
   },
   {
     correctAnswerIndex: 2,
-    text: "W<PLAYER> is employed at which profession?",
+    text: "<PLAYER> is employed at which profession?",
     playerName: "Ross",
     playerId: "friends",
     optionsList: [

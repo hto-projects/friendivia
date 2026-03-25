@@ -23,6 +23,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "back-end/interfaces/*": ["../back-end/interfaces/*"]
+    },
   },
   "include": [
     "./src"

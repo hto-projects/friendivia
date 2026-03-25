@@ -6,6 +6,19 @@ function replaceFriendivia(text: string) {
   return text.replace("friendivia", " friend divvy-uh ");
 }
 
+let voices: any = [];
+
+function populateBrowserVoiceList() {
+  if (typeof speechSynthesis === "undefined") {
+    return;
+  }
+
+  voices = speechSynthesis.getVoices().filter((voice) => voice.lang.startsWith("en"));
+}
+
+window.speechSynthesis.onvoiceschanged = populateBrowserVoiceList;
+populateBrowserVoiceList();
+
 export default function Speak(props) {
   const textToSpeak = replaceFriendivia(props.text);
   const callback = props.callback;
@@ -15,9 +28,11 @@ export default function Speak(props) {
   function speakFromBrowser() {
     const msg = new SpeechSynthesisUtterance();
     msg.text = textToSpeak;
-    msg.rate = 0.9;
+    msg.rate = 1.2;
+    msg.pitch = .7;
+    msg.voice = voices.length > 3 ? voices[3] : null;
+    msg.onend = callback;
     window.speechSynthesis.speak(msg);
-    callback();
   }
 
   async function createAnnouncementAudioTikTok() {
