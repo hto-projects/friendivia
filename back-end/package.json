@@ -1,11 +1,10 @@
 {
   "name": "friendpardy-back-end",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node-esm index.ts"
+    "start": "nodemon --exec tsx index.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +21,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/node": "^20.2.5"
+    "@types/node": "^20.2.5",
+    "tsx": "^4.15.7"
   }
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./style.css";
-import logo from "./assets/friendpardymocklogo.png";
 
 export default function LoadingPage(props) {
   return (
@@ -11,7 +10,7 @@ export default function LoadingPage(props) {
         alignItems: "center",
       }}
     >
-      <img className="logo" src={logo} alt="Logo" />
+      <h1>Friendivia</h1>
       <p style={{ margin: "auto", textAlign: "center" }}>{props.msg}</p>
     </div>
   );

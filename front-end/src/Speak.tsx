@@ -2,15 +2,38 @@ import * as React from "react";
 import { ttsApiKey } from "./environment";
 import { AddAnnouncementContext } from "./host/HostAnnouncementQueue";
 
+function replaceFriendivia(text: string) {
+  return text.replace("friendivia", " friend divvy-uh ");
+}
+
+let voices: any = [];
+let voice: any = null;
+
+function populateBrowserVoiceList() {
+  if (typeof speechSynthesis === "undefined") {
+    return;
+  }
+
+  voices = speechSynthesis.getVoices().filter((voice) => voice.lang.startsWith("en"));
+  voice = voices.find(v => v.name.includes("Connor")) || (voices.length > 3 && voices[3]) || null;
+}
+
+window.speechSynthesis.onvoiceschanged = populateBrowserVoiceList;
+populateBrowserVoiceList();
+
 export default function Speak(props) {
-  const textToSpeak = props.text;
+  const textToSpeak = replaceFriendivia(props.text);
+  const callback = props.callback;
   const textHasBeenSpoken = React.useRef(false);
   const addAnnouncement = React.useContext(AddAnnouncementContext);
 
   function speakFromBrowser() {
     const msg = new SpeechSynthesisUtterance();
     msg.text = textToSpeak;
-    msg.rate = 0.9;
+    msg.rate = 1.2;
+    msg.pitch = .5;
+    msg.voice = voice;
+    msg.onend = callback;
     window.speechSynthesis.speak(msg);
   }
 
@@ -35,6 +58,7 @@ export default function Speak(props) {
       const responseJson = await response.json();
       const audioUrl = `data:audio/wav;base64,${responseJson.data}`;
       const audio = new Audio(audioUrl);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing TikTok audio:", error);
@@ -72,6 +96,7 @@ export default function Speak(props) {
       const audioBlob = await response.blob();
       const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
+      audio.addEventListener("ended", callback);
       addAnnouncement(audio);
     } catch (error) {
       console.error("Error fetching or playing audio:", error);
