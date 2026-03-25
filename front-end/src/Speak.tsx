@@ -7,6 +7,7 @@ function replaceFriendivia(text: string) {
 }
 
 let voices: any = [];
+let voice: any = null;
 
 function populateBrowserVoiceList() {
   if (typeof speechSynthesis === "undefined") {
@@ -14,6 +15,7 @@ function populateBrowserVoiceList() {
   }
 
   voices = speechSynthesis.getVoices().filter((voice) => voice.lang.startsWith("en"));
+  voice = voices.find(v => v.name.includes("Connor")) || (voices.length > 3 && voices[3]) || null;
 }
 
 window.speechSynthesis.onvoiceschanged = populateBrowserVoiceList;
@@ -29,8 +31,8 @@ export default function Speak(props) {
     const msg = new SpeechSynthesisUtterance();
     msg.text = textToSpeak;
     msg.rate = 1.2;
-    msg.pitch = .7;
-    msg.voice = voices.length > 3 ? voices[3] : null;
+    msg.pitch = .5;
+    msg.voice = voice;
     msg.onend = callback;
     window.speechSynthesis.speak(msg);
   }
