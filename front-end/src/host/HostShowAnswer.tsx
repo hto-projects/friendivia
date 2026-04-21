@@ -55,7 +55,7 @@ export default function HostShowAnswer(props: IShowAnswerProps) {
   }
 
   function correctText() {
-    var res = `The correct answer was "${options[correctAnswerIndex].answerText}".`;
+    var res = `The correct answer was "${options[correctAnswerIndex].answerText}"`;
     if (correctPlayers.length != 0) {
       const encourage = pickOne([
         "Nice guessing",

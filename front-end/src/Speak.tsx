@@ -113,7 +113,7 @@ export default function Speak(props) {
     if (ttsApiKey) {
       createAnnouncementAudio();
     } else {
-      createAnnouncementAudioTikTok();
+      speakFromBrowser();
     }
   }, [textToSpeak]);
 

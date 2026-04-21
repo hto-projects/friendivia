@@ -22,6 +22,23 @@ export default function HostQuestionnaireView(
   let donePlayers = props.donePlayers;
   let socket = props.socket;
 
+  const [doneMessageSpeaks, setDoneMessageSpeaks] = React.useState([] as any[]);
+
+  React.useEffect(() => {
+    if (waitingPlayers.length < 2) return;
+    for (let i = 0; i < donePlayers.length; i++) {
+      const playerDone = donePlayers[i];
+      if (!doneMessageSpeaks.some(dms => dms.name === playerDone)) {
+        const newDoneMessageSpeak = {
+          name: playerDone,
+          message: pickOneAndInterp(doneMessages, playerDone)
+        };
+
+        setDoneMessageSpeaks([...doneMessageSpeaks, newDoneMessageSpeak]);
+      }
+    }
+  }, [donePlayers]);
+
   async function onPlayerKick(name: string) {
     if (waitingPlayers.length + donePlayers.length > 2) {
       socket.emit("host-kick-player", name);
@@ -169,9 +186,11 @@ export default function HostQuestionnaireView(
             >
               {donePlayers.map((name: string, i: number) => (
                 <li className="li" key={i}>
-                  {waitingPlayers.length > 1 && <Speak text={pickOneAndInterp(doneMessages, name)} />}
                   <PlayerBadge name={name} onClick={() => onPlayerKick(name)} />
                 </li>
+              ))}
+              {doneMessageSpeaks.map((dms: any, i: number) => (
+                <Speak key={i} text={dms.message} />
               ))}
             </div>
           </Paper>
